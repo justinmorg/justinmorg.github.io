@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Conversion drills</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Drills">
+<meta name="theme-color" content="#16180F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spectral:ital,wght@0,400;0,600;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="./icon.png">
+<style>
+:root{
+  --ink:#16180F; --board:#7C8F5A; --cream:#E9E5CE; --paper:#F4F2E6;
+  --flag:#B3372A; --muted:#6E7059; --rule:#CFCBB0;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Spectral,Georgia,serif; font-size:17px; line-height:1.5;
+  padding-bottom:4rem;
+}
+.wrap{max-width:44rem;margin:0 auto;padding:0 1.1rem}
+
+/* masthead */
+.mast{padding:2.4rem 0 1.2rem}
+.eyebrow{
+  font-family:'Roboto Mono',monospace;font-size:.7rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 .5rem
+}
+h1{
+  font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(2.4rem,11vw,3.6rem);
+  line-height:.92;letter-spacing:-.01em;margin:0 0 .7rem;text-transform:uppercase
+}
+.lede{margin:0;font-size:1.02rem;color:#3A3D2E}
+.lede em{color:var(--flag);font-style:italic}
+
+/* progress */
+.prog{
+  display:flex;align-items:baseline;gap:.6rem;margin:1.4rem 0 0;
+  font-family:'Roboto Mono',monospace;font-size:.78rem;color:var(--muted)
+}
+.bar{flex:1;height:3px;background:var(--rule);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--board);transition:width .3s}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+
+/* protocol */
+details.how{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:1.5rem 0 0;padding:.2rem 0}
+details.how summary{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;font-size:.95rem;padding:.8rem 0;cursor:pointer;list-style:none
+}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:'+';float:right;font-family:'Roboto Mono',monospace}
+details.how[open] summary::after{content:'\2212'}
+details.how ol{margin:0 0 .9rem;padding-left:1.2rem}
+details.how li{margin:.35rem 0}
+details.how .warn{
+  border-left:3px solid var(--flag);padding:.1rem 0 .1rem .8rem;margin:.9rem 0;
+  font-size:.94rem
+}
+
+/* nav */
+nav.jump{
+  position:sticky;top:0;z-index:5;display:flex;gap:.4rem;
+  background:var(--paper);border-bottom:1px solid var(--rule);
+  padding:.55rem 0;margin-top:1.6rem
+}
+nav.jump a{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:.95rem;
+  text-decoration:none;color:var(--ink);border:1px solid var(--rule);
+  width:2.1rem;height:2.1rem;display:grid;place-items:center
+}
+nav.jump a:hover,nav.jump a:focus-visible{background:var(--board);color:var(--paper);border-color:var(--board)}
+
+/* groups */
+.group{margin:2.6rem 0 0;scroll-margin-top:3.4rem}
+.ghead{display:flex;align-items:center;gap:.7rem}
+.gletter{
+  font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.15rem;
+  background:var(--ink);color:var(--paper);width:1.9rem;height:1.9rem;
+  display:grid;place-items:center;flex:none
+}
+.ghead h2{
+  font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;
+  font-size:1.3rem;letter-spacing:.01em;margin:0;line-height:1.1
+}
+.blurb{margin:.6rem 0 1.4rem;color:#3A3D2E;font-size:.98rem}
+
+/* drill card */
+.drill{display:flex;gap:.85rem;padding:1.1rem 0;border-top:1px solid var(--rule)}
+.sq{width:2.6rem;height:2.6rem;flex:none;display:grid;place-items:center;position:relative}
+.sq.light{background:var(--cream)}
+.sq.dark{background:var(--board)}
+.num{font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.25rem}
+.sq.dark .num{color:var(--paper)}
+.drill.done .sq::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top right,transparent 46%,var(--ink) 46%,var(--ink) 54%,transparent 54%)
+}
+.drill.done .body{opacity:.42}
+.body{flex:1;min-width:0}
+.body h3{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:1.12rem;
+  margin:.1rem 0 .25rem;line-height:1.2
+}
+.ev{font-family:'Roboto Mono',monospace;font-size:.95rem;color:var(--flag);font-weight:500}
+.meta{margin:0;font-size:.88rem;color:#4A4D3B}
+.meta.dim{color:var(--muted);font-size:.82rem;margin-top:.15rem}
+.flag{
+  font-family:'Roboto Mono',monospace;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--flag);border:1px solid var(--flag);
+  padding:.05rem .3rem;margin-left:.3rem;white-space:nowrap
+}
+.acts{display:flex;flex-wrap:wrap;gap:.45rem;margin:.75rem 0 .55rem}
+.btn{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:.95rem;
+  text-decoration:none;padding:.5rem .8rem;display:inline-block;line-height:1.15
+}
+.btn.play{background:var(--ink);color:var(--paper)}
+.btn.play:hover,.btn.play:focus-visible{background:var(--board)}
+.btn.ghost{border:1px solid var(--rule);color:var(--ink)}
+.btn.ghost:hover,.btn.ghost:focus-visible{border-color:var(--ink)}
+.fen{
+  display:block;width:100%;text-align:left;font-family:'Roboto Mono',monospace;
+  font-size:.66rem;color:var(--muted);background:none;border:0;border-top:1px dotted var(--rule);
+  padding:.45rem 0 0;cursor:pointer;word-break:break-all;line-height:1.35
+}
+.fen:hover{color:var(--ink)}
+.fen.copied{color:var(--board)}
+.done{display:flex;align-items:center;gap:.45rem;margin-top:.5rem;font-size:.86rem;color:var(--muted);cursor:pointer}
+.done input{accent-color:var(--board);width:1rem;height:1rem}
+
+footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);
+  font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer button{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="mast">
+  <p class="eyebrow">jamorgan &middot; blitz 2026 &middot; 1,431 games</p>
+  <h1>Conversion<br>drills</h1>
+  <p class="lede">Twenty-one positions you were winning and <em>lost anyway</em>. Two or three before your first game of the day.</p>
+  <div class="prog"><span id="ptext">0 / 21</span><span class="bar"><i id="pbar"></i></span></div>
+</div>
+
+<details class="how">
+  <summary>How to run one</summary>
+  <ol>
+    <li>Tap <strong>Play it out</strong>. The Lichess board opens with the position loaded, oriented your way, you to move.</li>
+    <li>Board menu (&#9776; under the board) &rarr; <strong>Continue from here</strong> &rarr; <strong>Play with the computer</strong>.</li>
+    <li>Set the level listed and convert it.</li>
+    <li>Won it clearly twice? Tick it off. Lost it twice? Tap <strong>Review the real game</strong> &mdash; you'll usually find you played your original move again.</li>
+  </ol>
+  <p class="warn"><strong>Put a clock on it &mdash; 5+0, same as your real games.</strong> Your conversion problem and your clock problem are the same problem, and an untimed drill trains only half of it.</p>
+  <p class="warn">Level 3 (&#8776;1400) is your mirror. Level 4 (&#8776;1700) is the stretch. Levels are set per position &mdash; don't go higher; you'd lose for reasons that have nothing to do with technique.</p>
+  <p style="font-size:.9rem;color:var(--muted);margin:.9rem 0">Order is <strong>C &rarr; B &rarr; A &rarr; D</strong>, top to bottom. Group D last, and read its note first.</p>
+</details>
+
+<nav class="jump"><a href="#gC">C</a><a href="#gB">B</a><a href="#gA">A</a><a href="#gD">D</a></nav>
+
+
+<section class="group" id="gC">
+  <header class="ghead">
+    <span class="gletter">C</span>
+    <h2>Simplified — pure technique</h2>
+  </header>
+  <p class="blurb">You&#x27;re ahead and the position is already stripped down. Nothing to find here; you win these by knowing how. Five quick ones, and they tell you fast whether your gap is knowledge or judgement. If you drop these, go do Lichess Practice before running the rest.</p>
+  
+<article class="drill" id="d1" data-n="1">
+  <div class="sq dark"><span class="num">1</span></div>
+  <div class="body">
+    <h3>Move 30 &middot; you're White &middot; <span class="ev">+2.2</span></h3>
+    <p class="meta">up a pawn &middot; 19 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game &middot; vs mario953 (1396) &middot; 2026-04-17</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/8/pp4kp/6p1/2p1b3/8/5P1P/B2K2P1/1N6_w_-_-_0_30?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/abqdV6Eq#58" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="8/pp4kp/6p1/2p1b3/8/5P1P/B2K2P1/1N6 w - - 0 30" title="Copy FEN">8/pp4kp/6p1/2p1b3/8/5P1P/B2K2P1/1N6 w - - 0 30</button>
+    <label class="done"><input type="checkbox" data-n="1"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d2" data-n="2">
+  <div class="sq light"><span class="num">2</span></div>
+  <div class="body">
+    <h3>Move 24 &middot; you're White &middot; <span class="ev">+5.2</span></h3>
+    <p class="meta">up two pawns &middot; 45 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Dhanuakula2012 (1303) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/3r2k1/p4p1p/8/8/4p3/1P2P3/P3KPPP/2R5_w_-_-_0_24?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/Quz4RrV8#46" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="3r2k1/p4p1p/8/8/4p3/1P2P3/P3KPPP/2R5 w - - 0 24" title="Copy FEN">3r2k1/p4p1p/8/8/4p3/1P2P3/P3KPPP/2R5 w - - 0 24</button>
+    <label class="done"><input type="checkbox" data-n="2"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d3" data-n="3">
+  <div class="sq dark"><span class="num">3</span></div>
+  <div class="body">
+    <h3>Move 45 &middot; you're Black &middot; <span class="ev">+4.6</span></h3>
+    <p class="meta">up a pawn &middot; 18 of your moves left </p>
+    <p class="meta dim">Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense &middot; vs sasumba (1412) &middot; 2026-04-05</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/8/P5pp/8/3r4/1k1pp3/7P/2R3P1/7K_b_-_-_0_45?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/FRffTsAL#89" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="8/P5pp/8/3r4/1k1pp3/7P/2R3P1/7K b - - 0 45" title="Copy FEN">8/P5pp/8/3r4/1k1pp3/7P/2R3P1/7K b - - 0 45</button>
+    <label class="done"><input type="checkbox" data-n="3"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d4" data-n="4">
+  <div class="sq light"><span class="num">4</span></div>
+  <div class="body">
+    <h3>Move 35 &middot; you're White &middot; <span class="ev">+3.4</span></h3>
+    <p class="meta">up a pawn &middot; 17 of your moves left </p>
+    <p class="meta dim">Horwitz Defense &middot; vs Tayronantonio (1335) &middot; 2026-08-13</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/5r2/1k6/4p3/4K3/8/1P2Pp2/P2R4/8_w_-_-_1_35?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/ceHC6FeN#68" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="5r2/1k6/4p3/4K3/8/1P2Pp2/P2R4/8 w - - 1 35" title="Copy FEN">5r2/1k6/4p3/4K3/8/1P2Pp2/P2R4/8 w - - 1 35</button>
+    <label class="done"><input type="checkbox" data-n="4"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d5" data-n="5">
+  <div class="sq dark"><span class="num">5</span></div>
+  <div class="body">
+    <h3>Move 51 &middot; you're White &middot; <span class="ev">+5.8</span></h3>
+    <p class="meta">up a rook &middot; 45 of your moves left </p>
+    <p class="meta dim">Horwitz Defense &middot; vs kvuick (1487) &middot; 2026-01-28</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/8/4nk2/p1p2b1p/2P3p1/6P1/4R2P/P4PK1/3R4_w_-_-_4_51?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/vwtqL5De#100" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="8/4nk2/p1p2b1p/2P3p1/6P1/4R2P/P4PK1/3R4 w - - 4 51" title="Copy FEN">8/4nk2/p1p2b1p/2P3p1/6P1/4R2P/P4PK1/3R4 w - - 4 51</button>
+    <label class="done"><input type="checkbox" data-n="5"> Converted it twice</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gB">
+  <header class="ghead">
+    <span class="gletter">B</span>
+    <h2>Winning, but the clock is the enemy</h2>
+  </header>
+  <p class="blurb">You were winning and lost on time, or nearly did. The skill is picking a safe move fast, not the best move slowly. Run these with the clock going and don&#x27;t let yourself think past 15 seconds.</p>
+  
+<article class="drill" id="d6" data-n="6">
+  <div class="sq light"><span class="num">6</span></div>
+  <div class="body">
+    <h3>Move 22 &middot; you're White &middot; <span class="ev">+7.6</span></h3>
+    <p class="meta">up 10 points &middot; 45 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">London System &middot; vs DenisK1979 (1456) &middot; 2026-05-26</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1r3k1/5pbp/4b1p1/8/3P2n1/P1N1PN2/1P2QPPP/R4RK1_w_-_-_5_22?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/FqCgbeKd#42" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1r3k1/5pbp/4b1p1/8/3P2n1/P1N1PN2/1P2QPPP/R4RK1 w - - 5 22" title="Copy FEN">r1r3k1/5pbp/4b1p1/8/3P2n1/P1N1PN2/1P2QPPP/R4RK1 w - - 5 22</button>
+    <label class="done"><input type="checkbox" data-n="6"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d7" data-n="7">
+  <div class="sq dark"><span class="num">7</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+4.7</span></h3>
+    <p class="meta">material level &middot; 40 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs wwm1958 (1353) &middot; 2026-05-15</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r2q1rk1/pb1n1ppp/1p1bpn2/2pp4/2PP4/2NBPNB1/PP3PPP/R2Q1RK1_w_-_-_0_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/vvoJl3Ii#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r2q1rk1/pb1n1ppp/1p1bpn2/2pp4/2PP4/2NBPNB1/PP3PPP/R2Q1RK1 w - - 0 10" title="Copy FEN">r2q1rk1/pb1n1ppp/1p1bpn2/2pp4/2PP4/2NBPNB1/PP3PPP/R2Q1RK1 w - - 0 10</button>
+    <label class="done"><input type="checkbox" data-n="7"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d8" data-n="8">
+  <div class="sq light"><span class="num">8</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're Black &middot; <span class="ev">+3.3</span></h3>
+    <p class="meta">material level &middot; 20 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense &middot; vs tarasov101288 (1617) &middot; 2026-02-07</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/2rq1rk1/pp2bppp/2n1p3/3pPn2/3P4/P1N1BB1P/1P2QPP1/R4RK1_b_-_-_2_14?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/LTxNQ13l#27" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="2rq1rk1/pp2bppp/2n1p3/3pPn2/3P4/P1N1BB1P/1P2QPP1/R4RK1 b - - 2 14" title="Copy FEN">2rq1rk1/pp2bppp/2n1p3/3pPn2/3P4/P1N1BB1P/1P2QPP1/R4RK1 b - - 2 14</button>
+    <label class="done"><input type="checkbox" data-n="8"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d9" data-n="9">
+  <div class="sq dark"><span class="num">9</span></div>
+  <div class="body">
+    <h3>Move 11 &middot; you're White &middot; <span class="ev">+2.7</span></h3>
+    <p class="meta">material level &middot; 24 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">London System &middot; vs krish199426 (1334) &middot; 2026-04-29</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/rn1q1rk1/ppp2pbp/6p1/3p1b2/3P1B2/1QP1PN2/P3BPPP/R3K2R_w_KQ_-_1_11?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/YJ8da4dy#20" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="rn1q1rk1/ppp2pbp/6p1/3p1b2/3P1B2/1QP1PN2/P3BPPP/R3K2R w KQ - 1 11" title="Copy FEN">rn1q1rk1/ppp2pbp/6p1/3p1b2/3P1B2/1QP1PN2/P3BPPP/R3K2R w KQ - 1 11</button>
+    <label class="done"><input type="checkbox" data-n="9"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d10" data-n="10">
+  <div class="sq light"><span class="num">10</span></div>
+  <div class="body">
+    <h3>Move 36 &middot; you're Black &middot; <span class="ev">+2.4</span></h3>
+    <p class="meta">down two pawns &middot; 20 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">Caro-Kann Defense: Hillbilly Attack &middot; vs RadicalFuns (1308) &middot; 2026-05-14</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/6qk/5pp1/Q3pn1p/1p6/1P1p3B/P2P4/4nPPP/2R2K2_b_-_-_2_36?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/upLz9e4l#71" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="6qk/5pp1/Q3pn1p/1p6/1P1p3B/P2P4/4nPPP/2R2K2 b - - 2 36" title="Copy FEN">6qk/5pp1/Q3pn1p/1p6/1P1p3B/P2P4/4nPPP/2R2K2 b - - 2 36</button>
+    <label class="done"><input type="checkbox" data-n="10"> Converted it twice</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gA">
+  <header class="ghead">
+    <span class="gletter">A</span>
+    <h2>Material up — the trade decision</h2>
+  </header>
+  <p class="blurb">You&#x27;re ahead in material with pieces still on the board. Every trade brings you closer to a won ending; every trade you dodge hands the position back.</p>
+  
+<article class="drill" id="d11" data-n="11">
+  <div class="sq dark"><span class="num">11</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+7.5</span></h3>
+    <p class="meta">up a queen &middot; 39 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs hsnthsin41 (1252) &middot; 2026-05-22</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1b5/pppkq1Q1/2n1ppp1/3p4/3P1B2/4P3/PPP2PPP/RN2K1NR_w_KQ_-_1_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/Ea24bBkA#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1b5/pppkq1Q1/2n1ppp1/3p4/3P1B2/4P3/PPP2PPP/RN2K1NR w KQ - 1 10" title="Copy FEN">r1b5/pppkq1Q1/2n1ppp1/3p4/3P1B2/4P3/PPP2PPP/RN2K1NR w KQ - 1 10</button>
+    <label class="done"><input type="checkbox" data-n="11"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d12" data-n="12">
+  <div class="sq light"><span class="num">12</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+4.2</span></h3>
+    <p class="meta">up a pawn &middot; 21 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Sek123 (1230) &middot; 2026-04-28</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bq1bnr/ppp1k3/5nBp/3pp1BQ/8/2N1P3/PPP2PPP/R3K1NR_w_KQ_-_0_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/J0Pm3xkQ#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bq1bnr/ppp1k3/5nBp/3pp1BQ/8/2N1P3/PPP2PPP/R3K1NR w KQ - 0 10" title="Copy FEN">r1bq1bnr/ppp1k3/5nBp/3pp1BQ/8/2N1P3/PPP2PPP/R3K1NR w KQ - 0 10</button>
+    <label class="done"><input type="checkbox" data-n="12"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d13" data-n="13">
+  <div class="sq dark"><span class="num">13</span></div>
+  <div class="body">
+    <h3>Move 16 &middot; you're White &middot; <span class="ev">+3.1</span></h3>
+    <p class="meta">up a pawn &middot; 37 of your moves left </p>
+    <p class="meta dim">Indian Defense: Accelerated London System &middot; vs AlexcnetoBr2020 (1352) &middot; 2026-08-15</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r4rk1/3nbppp/1q1p1n2/1BpPp3/P7/4PN1P/1P3PPB/R2Q1RK1_w_-_-_1_16?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/L18JxK5o#30" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r4rk1/3nbppp/1q1p1n2/1BpPp3/P7/4PN1P/1P3PPB/R2Q1RK1 w - - 1 16" title="Copy FEN">r4rk1/3nbppp/1q1p1n2/1BpPp3/P7/4PN1P/1P3PPB/R2Q1RK1 w - - 1 16</button>
+    <label class="done"><input type="checkbox" data-n="13"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d14" data-n="14">
+  <div class="sq light"><span class="num">14</span></div>
+  <div class="body">
+    <h3>Move 13 &middot; you're Black &middot; <span class="ev">+2.5</span></h3>
+    <p class="meta">up a pawn &middot; 38 of your moves left </p>
+    <p class="meta dim">Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense &middot; vs oguenaydin (1378) &middot; 2026-08-04</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r2qkb1r/pp3ppp/2n1p3/1N1pP3/8/3Q3P/PP3PP1/R1B2RK1_b_kq_-_0_13?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/ksbnfLHy#25" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r2qkb1r/pp3ppp/2n1p3/1N1pP3/8/3Q3P/PP3PP1/R1B2RK1 b kq - 0 13" title="Copy FEN">r2qkb1r/pp3ppp/2n1p3/1N1pP3/8/3Q3P/PP3PP1/R1B2RK1 b kq - 0 13</button>
+    <label class="done"><input type="checkbox" data-n="14"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d15" data-n="15">
+  <div class="sq dark"><span class="num">15</span></div>
+  <div class="body">
+    <h3>Move 22 &middot; you're White &middot; <span class="ev">+2.2</span></h3>
+    <p class="meta">up a pawn &middot; 16 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Aaron77 (1417) &middot; 2026-07-25</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r4r1k/p4ppp/2q5/2Pp1p1n/P2P1P2/5P2/4B1PP/R2Q1RK1_w_-_-_1_22?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/5cCywAbN#42" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r4r1k/p4ppp/2q5/2Pp1p1n/P2P1P2/5P2/4B1PP/R2Q1RK1 w - - 1 22" title="Copy FEN">r4r1k/p4ppp/2q5/2Pp1p1n/P2P1P2/5P2/4B1PP/R2Q1RK1 w - - 1 22</button>
+    <label class="done"><input type="checkbox" data-n="15"> Converted it twice</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gD">
+  <header class="ghead">
+    <span class="gletter">D</span>
+    <h2>Material level, big positional edge</h2>
+  </header>
+  <p class="blurb">Your most common winning position by a wide margin — 98 of the 204 I found. No extra material; the engine likes you for structural reasons or because something is about to drop. Here &quot;trade into a won endgame&quot; is usually the WRONG instinct. Keep pieces on and increase the pressure. Do these last, and treat them as the opposite lesson to Group A.</p>
+  
+<article class="drill" id="d16" data-n="16">
+  <div class="sq light"><span class="num">16</span></div>
+  <div class="body">
+    <h3>Move 13 &middot; you're White &middot; <span class="ev">mate</span></h3>
+    <p class="meta">material level &middot; 21 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs dado9922 (1396) &middot; 2026-03-29</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bqk2r/1p4p1/p1nbpp1p/4N3/3PpB2/1NP5/PP3PPP/R2Q1RK1_w_kq_-_0_13?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/91Fq3Ywc#24" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bqk2r/1p4p1/p1nbpp1p/4N3/3PpB2/1NP5/PP3PPP/R2Q1RK1 w kq - 0 13" title="Copy FEN">r1bqk2r/1p4p1/p1nbpp1p/4N3/3PpB2/1NP5/PP3PPP/R2Q1RK1 w kq - 0 13</button>
+    <label class="done"><input type="checkbox" data-n="16"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d17" data-n="17">
+  <div class="sq dark"><span class="num">17</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+4.0</span></h3>
+    <p class="meta">material level &middot; 24 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs FloLimbani (1351) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/2kr3r/pppqnppp/4p3/1P6/2PPpB2/4P3/P2Q1PPP/1R3RK1_w_-_-_1_14?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/0okez6Oo#26" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="2kr3r/pppqnppp/4p3/1P6/2PPpB2/4P3/P2Q1PPP/1R3RK1 w - - 1 14" title="Copy FEN">2kr3r/pppqnppp/4p3/1P6/2PPpB2/4P3/P2Q1PPP/1R3RK1 w - - 1 14</button>
+    <label class="done"><input type="checkbox" data-n="17"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d18" data-n="18">
+  <div class="sq light"><span class="num">18</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+3.2</span></h3>
+    <p class="meta">material level &middot; 39 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game &middot; vs dagallo (1402) &middot; 2026-08-13</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r4rk1/2pqbppp/p1nppnb1/1p1P4/Q1P2B2/2N1PN1P/PP2BPP1/R3K2R_w_KQ_-_0_14?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/2HffPMHp#26" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r4rk1/2pqbppp/p1nppnb1/1p1P4/Q1P2B2/2N1PN1P/PP2BPP1/R3K2R w KQ - 0 14" title="Copy FEN">r4rk1/2pqbppp/p1nppnb1/1p1P4/Q1P2B2/2N1PN1P/PP2BPP1/R3K2R w KQ - 0 14</button>
+    <label class="done"><input type="checkbox" data-n="18"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d19" data-n="19">
+  <div class="sq dark"><span class="num">19</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+2.6</span></h3>
+    <p class="meta">down a pawn &middot; 23 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Kadu2022 (1339) &middot; 2026-05-16</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bq1rk1/1pp2p1p/p3p1p1/n3N3/3P1BQ1/2nBP3/P4PPP/R4RK1_w_-_-_0_14?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/29f8yPkI#26" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bq1rk1/1pp2p1p/p3p1p1/n3N3/3P1BQ1/2nBP3/P4PPP/R4RK1 w - - 0 14" title="Copy FEN">r1bq1rk1/1pp2p1p/p3p1p1/n3N3/3P1BQ1/2nBP3/P4PPP/R4RK1 w - - 0 14</button>
+    <label class="done"><input type="checkbox" data-n="19"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d20" data-n="20">
+  <div class="sq light"><span class="num">20</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+2.3</span></h3>
+    <p class="meta">material level &middot; 18 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs vizzzi (1332) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/rn1qk1nr/ppp1bppp/4p1b1/4P3/2BP1B2/1QN3P1/PP3P1P/R3K1NR_w_KQkq_-_1_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/B7j9RO7t#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="rn1qk1nr/ppp1bppp/4p1b1/4P3/2BP1B2/1QN3P1/PP3P1P/R3K1NR w KQkq - 1 10" title="Copy FEN">rn1qk1nr/ppp1bppp/4p1b1/4P3/2BP1B2/1QN3P1/PP3P1P/R3K1NR w KQkq - 1 10</button>
+    <label class="done"><input type="checkbox" data-n="20"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d21" data-n="21">
+  <div class="sq dark"><span class="num">21</span></div>
+  <div class="body">
+    <h3>Move 11 &middot; you're White &middot; <span class="ev">+2.2</span></h3>
+    <p class="meta">material level &middot; 18 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs BorvStogov (1340) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bq1rk1/ppp3pp/2n1p3/5p2/2BPnB2/1QP1PN2/P4PPP/R4RK1_w_-_-_0_11?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/YgPfyRUG#20" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bq1rk1/ppp3pp/2n1p3/5p2/2BPnB2/1QP1PN2/P4PPP/R4RK1 w - - 0 11" title="Copy FEN">r1bq1rk1/ppp3pp/2n1p3/5p2/2BPnB2/1QP1PN2/P4PPP/R4RK1 w - - 0 11</button>
+    <label class="done"><input type="checkbox" data-n="21"> Converted it twice</label>
+  </div>
+</article>
+</section>
+
+<footer>
+  <span>Positions found by engine review at depth 12, filtered to hold above +1.5 for two more of your moves.</span>
+  <button id="reset">Clear progress</button>
+</footer>
+
+</div>
+<script>
+(function(){
+  var KEY='drills.done.v1', total=21;
+  function get(){ try{return JSON.parse(localStorage.getItem(KEY))||{} }catch(e){return {} } }
+  function set(s){ try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){} }
+  function paint(){
+    var s=get(),c=0;
+    document.querySelectorAll('.drill').forEach(function(el){
+      var n=el.dataset.n, on=!!s[n];
+      el.classList.toggle('done',on);
+      el.querySelector('input[type=checkbox]').checked=on;
+      if(on)c++;
+    });
+    document.getElementById('ptext').textContent=c+' / '+total;
+    document.getElementById('pbar').style.width=(total?c/total*100:0)+'%';
+  }
+  document.addEventListener('change',function(e){
+    var cb=e.target.closest('input[type=checkbox][data-n]'); if(!cb)return;
+    var s=get(); if(cb.checked)s[cb.dataset.n]=1; else delete s[cb.dataset.n];
+    set(s); paint();
+  });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.fen'); if(!b)return;
+    var t=b.textContent;
+    navigator.clipboard&&navigator.clipboard.writeText(b.dataset.fen).then(function(){
+      b.textContent='FEN copied'; b.classList.add('copied');
+      setTimeout(function(){b.textContent=t;b.classList.remove('copied')},1200);
+    });
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    if(confirm('Clear all 21 ticks?')){ set({}); paint(); }
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
