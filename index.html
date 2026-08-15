@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workshop — justinmorg.github.io</title>
+<meta name="description" content="An index of small self-built web tools, one folder each.">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23A07424'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%231B2A33' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B2A33;
+    --ink-soft: #5C6E77;
+    --paper: #E8EAE5;
+    --raised: #F3F4F0;
+    --brass: #A07424;
+    --lake: #2C6A70;
+    --rule: #C9CEC7;
+
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --display: "Newsreader", Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 10vw, 6.5rem) clamp(1.25rem, 5vw, 2.5rem) 4rem;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 1.75rem;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 9vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.9rem;
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 32rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- shelf ---------- */
+
+  .shelf {
+    list-style: none;
+    margin: clamp(2.5rem, 8vw, 4rem) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .shelf li { border-bottom: 1px solid var(--rule); }
+
+  .shelf a {
+    display: block;
+    position: relative;
+    padding: 1.4rem 2rem 1.5rem 1.15rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 140ms ease, padding-left 140ms ease;
+  }
+
+  /* the drawer pull: a brass edge that widens as you reach for it */
+  .shelf a::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--brass);
+    transition: width 140ms ease;
+  }
+
+  .shelf a::after {
+    content: "\2192";
+    position: absolute;
+    right: 0.9rem;
+    top: 1.35rem;
+    color: var(--brass);
+    opacity: 0;
+    transform: translateX(-0.35rem);
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+
+  .shelf a:hover,
+  .shelf a:focus-visible {
+    background: var(--raised);
+    padding-left: 1.6rem;
+  }
+
+  .shelf a:hover::before,
+  .shelf a:focus-visible::before { width: 6px; }
+
+  .shelf a:hover::after,
+  .shelf a:focus-visible::after { opacity: 1; transform: translateX(0); }
+
+  .shelf a:focus-visible {
+    outline: 2px solid var(--lake);
+    outline-offset: -2px;
+  }
+
+  .path {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .desc {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+
+  .desc em {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  /* ---------- empty state ---------- */
+
+  .empty {
+    border: 1px dashed var(--rule);
+    padding: 1.6rem 1.4rem;
+    margin-top: clamp(2.5rem, 8vw, 4rem);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .empty p { margin: 0 0 0.9rem; }
+  .empty p:last-child { margin-bottom: 0; }
+  .empty code {
+    color: var(--ink);
+    background: var(--raised);
+    padding: 0.1rem 0.35rem;
+  }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+
+  footer a { color: var(--lake); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    .shelf a:hover, .shelf a:focus-visible { padding-left: 1.15rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">justinmorg.github.io</p>
+
+  <h1>Workshop</h1>
+
+  <p class="lede">Small things built for one job each. Every folder in this repo is its own site; the folder name is the address.</p>
+
+  <!-- ================= SITE LIST =================
+       Add a site: create a folder at the repo root with an index.html
+       inside it, then copy the block below and fill it in.
+
+  <li>
+    <a href="./FOLDER-NAME/">
+      <span class="path">/FOLDER-NAME</span>
+      <span class="desc"><em>Readable Name</em> — one line on what it does.</span>
+    </a>
+  </li>
+
+  Then delete the .empty block further down once the first one is in.
+  ============================================== -->
+
+  <ul class="shelf">
+  </ul>
+
+  <div class="empty">
+    <p>Nothing on the shelf yet.</p>
+    <p>The first site goes in a folder at the root of this repo — <code>coin-log/index.html</code> publishes to <code>/coin-log/</code>. Keep links inside each folder relative (<code>./style.css</code>) so a site still works if it moves out later.</p>
+    <p>Add its row to the list above, then delete this box.</p>
+  </div>
+
+  <footer>
+    Built and served from <a href="https://github.com/justinmorg/justinmorg.github.io">the repo</a> by GitHub Pages, from <code>main</code> at root.
+  </footer>
+
+</div>
+</body>
+</html>
