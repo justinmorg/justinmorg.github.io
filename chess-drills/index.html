@@ -149,7 +149,7 @@ details.spoil summary::-webkit-details-marker{display:none}
 details.spoil summary::before{content:'\25B8 ';}
 details.spoil[open] summary::before{content:'\25BE ';}
 details.spoil p{margin:.2rem 0 .4rem;font-size:.9rem;color:#3A3D2E}
-.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(300px,78vw);aspect-ratio:1;
+.board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);width:min(300px,78vw);aspect-ratio:1;
 margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;font-size:min(34px,8.6vw);line-height:1}
 .board i{display:flex;align-items:center;justify-content:center;font-style:normal;color:#111}
 .board i.d{background:var(--board)} .board i.l{background:var(--cream)}

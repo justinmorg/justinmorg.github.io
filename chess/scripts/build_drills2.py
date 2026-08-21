@@ -176,7 +176,7 @@ src = re.sub(r'<a href="#gP">P</a>(<a href="#gP\d">P\d</a>)+', f'<a href="#gP">P
 
 # board renderer + styles, injected once
 if "renderBoards" not in src:
-    css = """.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(300px,78vw);aspect-ratio:1;
+    css = """.board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);width:min(300px,78vw);aspect-ratio:1;
 margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;font-size:min(34px,8.6vw);line-height:1}
 .board i{display:flex;align-items:center;justify-content:center;font-style:normal;color:#111}
 .board i.d{background:var(--board)} .board i.l{background:var(--cream)}
