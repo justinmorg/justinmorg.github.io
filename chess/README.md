@@ -17,7 +17,9 @@ chess/
 │   └── jamorgan_blitz_2026_analyzed.pgn.gz   canonical corpus (gzipped)
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
-    └── merge.py                              fold new games into the corpus
+    ├── merge.py                              fold new games into the corpus
+    ├── hanging.py                            find winning positions where material hung
+    └── build_drills.py                       inject those into /chess-drills
 ```
 
 ## The corpus
@@ -129,6 +131,44 @@ apt-get download stockfish && dpkg-deb -x stockfish*.deb x
 
 Annotation is the slow step — it's a full depth-12 search per ply, parallelised
 across cores by `--workers`. A few hundred new games is minutes, not seconds.
+
+## Hanging-material extraction
+
+`hanging.py` finds the largest single source of thrown-away wins: middlegame
+moves played while already winning, with material hanging.
+
+```bash
+python3 chess/scripts/hanging.py corpus.pgn light   # -> /home/claude/hits_light.json
+python3 chess/scripts/build_drills.py               # -> chess-drills/index.html
+```
+
+Selection, for `jamorgan`'s moves only:
+
+- middlegame — `fullmove > 12` and non-pawn material `> 14` on the **light**
+  scale (N/B=1, R=2, Q=4, so 24 at the start). The 3/3/5/9 scale is *not* the
+  right reading of that threshold: 14 there would admit R+N vs R+N endings.
+- eval before the move `>= +150cp` from jamorgan's POV
+- the opponent has a capture with SEE `>= +150`, either already available
+  (`missed their threat`) or created by the move (`hung it myself`)
+
+Two things that are easy to get wrong and are handled explicitly:
+
+- **Recaptures are netted.** After a capture, the opponent's recapture scores a
+  big raw SEE even for a dead-even trade. For the square the move captured on,
+  the whole swap is scored by `see(before, move)` instead. Without this the hit
+  count roughly triples and self-inflicted hangs are massively overcounted.
+- **The null-move threat probe runs even when in check.** A piece can hang
+  *and* the king be attacked; skipping the probe there silently relabels every
+  such position as self-inflicted.
+
+### Why this survives the depth-12 caveat
+
+Selection is pure SEE — static move arithmetic, independent of search depth.
+Only the win-probability ranking uses evals, and the Lichess logistic saturates
+exactly where depth 12 is unreliable: 200cp of error is worth 17.6 win% points
+at 0.00 but only 3.6 at +7.0. Re-ranking with every eval clamped to ±5 leaves
+the top 50 **98% unchanged** and the full ordered set identical. So the +5
+noise the caveat warns about does not move this finding.
 
 ## What this is for
 
