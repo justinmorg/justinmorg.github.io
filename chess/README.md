@@ -19,7 +19,8 @@ chess/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
-    ├── build_drills.py                       inject those into /chess-drills
+    ├── build_drills2.py                      rebuild the /chess-drills P set
+    ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
 
@@ -140,8 +141,14 @@ moves played while already winning, with material hanging.
 
 ```bash
 python3 chess/scripts/hanging.py corpus.pgn light   # -> /home/claude/hits_light.json
-python3 chess/scripts/build_drills.py               # -> chess-drills/index.html
+python3 chess/scripts/build_drills2.py              # -> chess-drills/index.html
 ```
+
+`build_drills2.py` takes `hits_light.json` and the page path as optional
+arguments, both defaulting relative to its own location in the repo, so it runs
+from any clone directory. It applies the 0.02 floor itself. Verified: running it
+against a freshly regenerated `hits_light.json` reproduces the committed
+`index.html` byte for byte.
 
 Selection, for `jamorgan`'s moves only:
 
@@ -189,8 +196,35 @@ to the old 82/18 to suggest the same phenomenon, but treat the current numbers
 as canonical and don't tune filters to hit the old one.
 
 Counts are baked into `chess-drills/index.html` (drill totals, game count, the
-localStorage total). Regenerate with `build_drills.py` rather than hand-editing;
-priority drills key off `P1`…`Pn` so the original 1–21 ticks survive a rebuild.
+localStorage total). Regenerate with `build_drills2.py` rather than
+hand-editing.
+
+### Tick keys, and why `build_drills.py` must not be run
+
+Progress lives in `localStorage` under `drills.done.v1`, one key per drill.
+
+- Endgame drills are `1`…`21`. Unchanged since the page was created.
+- Priority drills are `{mode}-{gid}-{ply}` — e.g. `A-xTjfTJRD-26`. **Stable
+  ids**, derived from the game and the move, so reordering, refiltering or
+  re-splitting the set leaves ticks attached to the right positions.
+
+They were originally positional (`P1`…`Pn`), which meant any rebuild silently
+shifted what each tick referred to. That changeover orphaned the existing `P`
+ticks once — they're inert entries in the stored object now, harmless but
+never matched. There should be no second reset.
+
+The counter denominator is `260` = 239 priority + 21 endgame, set in
+`build_drills2.py`'s output and in the reset confirmation string.
+
+`build_drills.py` built the *first* version of the priority set (single P
+group, positional keys, no on-page boards) by string-patching a pre-priority
+`index.html`. Against the current page most of its anchors no longer exist and
+would no-op, but the `id="gC"` section anchor still matches, so it would paste
+a second complete priority block in with the old keys — ~500 cards, duplicate
+element ids, counter still reading 260, and no error. It now hard-exits if the
+page already contains `id="gP"`. It's kept for reference only; `build_drills2.py`
+replaces the whole P block rather than mutating what's there, and is safe to run
+repeatedly.
 
 ### Why this survives the depth-12 caveat
 

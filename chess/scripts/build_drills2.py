@@ -14,14 +14,27 @@ no eval bar and no state from a previous Lichess session.
 Tick keys are stable ids derived from (gid, ply), so future rebuilds preserve
 progress even if the ordering or the split changes.
 
-Usage:  python3 build_drills2.py <motifs.json> <index.html>
+Input is the hits file written by hanging.py:
+
+    python3 chess/scripts/hanging.py corpus.pgn light   # -> /home/claude/hits_light.json
+    python3 chess/scripts/build_drills2.py              # -> chess-drills/index.html
+
+(An earlier session called this file motifs.json. Same thing, same schema -
+it is hanging.py's output. Nothing in this repo produces a "motifs.json".)
+
+Usage:  python3 build_drills2.py [hits_light.json] [index.html]
+
+Both arguments default relative to this script's location in the repo, so it
+works from any clone directory without editing.
 """
-import json, html, sys, re, chess
-sys.path.insert(0, "/home/claude/jm/chess/scripts")
+import json, html, os, sys, re, chess
+HERE = os.path.dirname(os.path.abspath(__file__))          # <repo>/chess/scripts
+REPO = os.path.dirname(os.path.dirname(HERE))              # <repo>
+sys.path.insert(0, HERE)
 from hanging import see
 
-MOTIFS = sys.argv[1] if len(sys.argv) > 1 else "/home/claude/motifs.json"
-PAGE   = sys.argv[2] if len(sys.argv) > 2 else "/home/claude/jm/chess-drills/index.html"
+HITS = sys.argv[1] if len(sys.argv) > 1 else "/home/claude/hits_light.json"
+PAGE = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "chess-drills/index.html")
 
 NAME = {chess.PAWN:"pawn", chess.KNIGHT:"knight", chess.BISHOP:"bishop",
         chess.ROOK:"rook", chess.QUEEN:"queen"}
@@ -100,7 +113,15 @@ def card(r, mode, key):
 
 
 # ---------------------------------------------------------------- build
-rows = json.load(open(MOTIFS))
+rows = json.load(open(HITS))
+
+# The 0.02 win%-error floor. hanging.py's raw output includes hits where SEE
+# finds material but the eval doesn't move (compensation elsewhere), and the
+# correct answer in those is "ignore it" - the opposite of the reflex being
+# drilled. TIERS below start at 0.02, so unfiltered input would render the
+# right cards under the wrong headline counts. Filter here so they agree.
+rows = [r for r in rows if r["wp_error"] > 0.02]
+
 A = sorted([r for r in rows if r["label"] == "missed their threat"], key=lambda r: -r["wp_error"])
 B = sorted([r for r in rows if r["label"] == "hung it myself"],      key=lambda r: -r["wp_error"])
 

@@ -1,8 +1,25 @@
 #!/usr/bin/env python3
-"""Inject the hanging-material priority set into chess-drills/index.html."""
-import json, html, re
+"""SUPERSEDED by build_drills2.py. Kept for reference only.
+
+This injected the first version of the hanging-material priority set: a single
+P group, tick keys P1..Pn, no on-page boards. It works by string-patching a
+*pre-priority* index.html, so it is not safe to re-run against the current page.
+Most of its anchors no longer exist and would silently no-op, but the section
+anchor (id="gC") still matches, so it would paste a second complete priority
+block in with the old positional keys.
+
+Use build_drills2.py instead. It replaces the P block wholesale rather than
+mutating whatever is there, so it is safe to run repeatedly.
+"""
+import json, html, re, sys
 
 PAGE = "/home/claude/justinmorg.github.io/chess-drills/index.html"
+
+if 'id="gP"' in open(PAGE).read():
+    sys.exit(
+        "build_drills.py: refusing to run - the page already has a priority "
+        "section. This script would duplicate it. Use build_drills2.py.")
+
 rows = json.load(open("/home/claude/hits_light.json"))
 rows = [r for r in rows if r["wp_error"] > 0.02]
 rows.sort(key=lambda r: -r["wp_error"])
