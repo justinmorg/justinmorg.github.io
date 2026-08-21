@@ -19,7 +19,8 @@ chess/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
-    └── build_drills.py                       inject those into /chess-drills
+    ├── build_drills.py                       inject those into /chess-drills
+    └── test_see.py                            sanity checks for the SEE routine
 ```
 
 ## The corpus
@@ -160,6 +161,36 @@ Two things that are easy to get wrong and are handled explicitly:
 - **The null-move threat probe runs even when in check.** A piece can hang
   *and* the king be attacked; skipping the probe there silently relabels every
   such position as self-inflicted.
+
+### Rerunning this in a fresh sandbox
+
+- **`python-chess` is not preinstalled:** `pip install chess --break-system-packages`
+  (1.11.2 as used here). Separate from the Stockfish install below — `hanging.py`
+  needs no engine at all, only the PGN's existing evals.
+- **`attackers_mask(color, square, occupied)` is public and takes an occupancy
+  bitboard.** There is no `_attackers_mask`. SEE needs the occupancy argument to
+  see through x-rays; without it, batteries score wrong.
+- **Unit-test SEE before trusting a run.** `test_see.py`-style hand-built FENs
+  are the likeliest thing to be wrong, not the algorithm — check which squares a
+  pawn actually defends before calling a mismatch a bug.
+- **Apply the 0.02 win%-error floor for drill sets.** 129 of the 368 hits cost
+  essentially nothing: SEE finds material, the eval doesn't move, because there
+  was compensation (a bigger capture elsewhere, a check, a counter-threat). They
+  meet the criteria but the correct answer in them is "ignore it," which is the
+  opposite of the reflex the drills train.
+
+### Don't chase the older "264" figure
+
+An earlier session reported 264 such moves (217 missed / 47 self-inflicted) on a
+1,431-game corpus. That number is not reproducible from this pipeline and its
+script wasn't kept. The current pipeline gives **368** on 1,515 games (290/78),
+of which **239** clear the 0.02 floor (184/55). The 79/21 split is close enough
+to the old 82/18 to suggest the same phenomenon, but treat the current numbers
+as canonical and don't tune filters to hit the old one.
+
+Counts are baked into `chess-drills/index.html` (drill totals, game count, the
+localStorage total). Regenerate with `build_drills.py` rather than hand-editing;
+priority drills key off `P1`…`Pn` so the original 1–21 ticks survive a rebuild.
 
 ### Why this survives the depth-12 caveat
 
