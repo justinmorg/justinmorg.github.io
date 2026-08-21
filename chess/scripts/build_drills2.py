@@ -178,14 +178,14 @@ src = re.sub(r'<a href="#gP">P</a>(<a href="#gP\d">P\d</a>)+', f'<a href="#gP">P
 if "renderBoards" not in src:
     css = """.board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);width:min(300px,78vw);aspect-ratio:1;
 margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;font-size:min(34px,8.6vw);line-height:1}
-.board i{display:flex;align-items:center;justify-content:center;font-style:normal;color:#111}
+.board i{display:flex;align-items:center;justify-content:center;font-style:normal;color:#111;font-family:'Apple Symbols','Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif}
 .board i.d{background:var(--board)} .board i.l{background:var(--cream)}
 .board i.w{color:#fff;text-shadow:0 0 1px #000,0 0 2px #000}
 .ask{font-size:.95rem;margin:.5rem 0 .3rem}
 .ask .dim{font-size:.82rem}
 """
     js = """
-  var GL={p:'\\u265F',n:'\\u265E',b:'\\u265D',r:'\\u265C',q:'\\u265B',k:'\\u265A'};
+  var GL={p:'\\u265F\\uFE0E',n:'\\u265E\\uFE0E',b:'\\u265D\\uFE0E',r:'\\u265C\\uFE0E',q:'\\u265B\\uFE0E',k:'\\u265A\\uFE0E'};
   function renderBoards(){
     document.querySelectorAll('.board:not([data-done])').forEach(function(el){
       var rows=el.dataset.fen.split(' ')[0].split('/'), flip=el.dataset.flip==='1', cells=[];
