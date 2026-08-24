@@ -15,7 +15,9 @@ either.)
 chess/
 ├── data/
 │   ├── jamorgan_blitz_2026_analyzed.pgn.gz   canonical corpus (gzipped)
-│   └── jamorgan_blitz_2025_raw.pgn.gz        2025 games, clocks only, NO evals
+│   ├── jamorgan_blitz_2025_raw.pgn.gz        2025 games, clocks only, NO evals
+│   ├── jamorgan_blitz_2025q1_analyzed.pgn.gz Q1 2025 slice, depth-12 annotated
+│   └── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── merge.py                              fold new games into the corpus
@@ -83,6 +85,63 @@ started before the 2026 corpus begins. Anything asking "what changed" needs
 Annotating all 2,529 games is ~170k plies at depth 12 — hours, not minutes.
 Prefer annotating a dated slice into its own `_analyzed` file over converting
 the whole thing.
+
+### The two annotated 2025 slices
+
+`jamorgan_blitz_2025q1_analyzed.pgn.gz` (375 games, 25,610 plies, 2025-01-02 →
+2025-03-31) and `jamorgan_blitz_2025q3_analyzed.pgn.gz` (363 games, 25,019
+plies, 2025-07-01 → 2025-09-30) are depth-12 annotations of two slices of the
+raw 2025 file, committed so the longitudinal comparison below is reproducible
+without redoing ~40 minutes of engine work. Full eval and clock coverage, no
+duplicate GameIds. Q1 is the pre-climb baseline (mean rating 1317, mean
+opponent 1317); Q3 is the plateau onset (1399 / 1396).
+
+`hanging.py` on the 2026 corpus reproduces 368 hits (290/78) exactly from these
+scripts, so the three blocks are directly comparable.
+
+### What 20 months actually changed
+
+Three-block comparison — Q1 2025 / Q3 2025 / 2026 — all restricted to **3+2
+only**, because the one real effect lands in the move band where formats
+diverge. Blunder = own move drops the eval ≥200cp. Rates per own move:
+
+| move band | Q1 2025 | Q3 2025 | 2026 |
+|---|---|---|---|
+| 1–12 | 3.70% [3.15, 4.27] | 3.53% [3.00, 4.10] | 3.27% [2.90, 3.64] |
+| 13–25 | 11.43% [10.42, 12.41] | 11.00% [10.04, 11.97] | 9.85% [9.20, 10.52] |
+| 26+ | 12.76% [11.78, 13.71] | 11.52% [10.56, 12.47] | 9.68% [9.00, 10.36] |
+
+**Move 26+ is the only established improvement** — monotonic, ~24% relative,
+non-overlapping intervals end to end, against opponents who got stronger (mean
+opponent Elo 1317 → 1396 → 1375). Moves 13–25 improved marginally (intervals
+touch at 10.42/10.52 — suggestive, not established). The opening did not move.
+
+Not a format artifact: within 2026, band 26+ is 9.68% in 3+2 vs 10.43% in 5+0,
+so the format with *less* clock scores better.
+
+Everything the project actually targets stayed flat. Per eligible winning-
+middlegame move (the `hanging.py` denominator: `fullmove > 12`, light npm > 14,
+eval ≥ +150):
+
+| | Q1 2025 | Q3 2025 | 2026 |
+|---|---|---|---|
+| Hanging material (0.02 floor) | 5.21% [3.99, 6.51] | 4.31% [3.23, 5.46] | 4.32% [3.80, 4.87] |
+| — missed their threat | 4.15% | 3.23% | 3.33% |
+| — hung it myself | 1.06% | 1.08% | 0.99% |
+| Reached ≥+200 in middlegame | 54.7% | 52.1% | 54.1% |
+| Score from won positions | 64.1% [57.6, 70.7] | 63.2% [56.6, 70.1] | 65.5% [62.4, 68.6] |
+| Eval after own move 12 | +5cp | +9cp | −14cp |
+
+All statistically indistinguishable across 20 months. The rating climb of
+Jan–Jul 2025 tracks the late-game accuracy gain; the plateau since then tracks a
+middlegame hanging-material rate that has never responded to anything. That is
+the argument for group P being deliberate practice rather than more games — two
+years of play did not move it.
+
+Caveat on all of the above: score rate sits at ~50% in every block by
+construction, since Lichess matchmaking is self-correcting. Rating *level* is
+the improvement metric; score rate is not, and neither is anything measured
+against opponents whose strength tracks yours.
 
 ### Time control changed mid-2026
 
