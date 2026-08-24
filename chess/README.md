@@ -17,6 +17,7 @@ chess/
 │   ├── jamorgan_blitz_2026_analyzed.pgn.gz   canonical corpus (gzipped)
 │   ├── jamorgan_blitz_2025_raw.pgn.gz        2025 games, clocks only, NO evals
 │   ├── jamorgan_blitz_2023_2024_raw.pgn.gz   2023-24 games, clocks only, NO evals
+│   ├── jamorgan_blitz_2024h2_analyzed.pgn.gz Aug-Dec 2024 slice, depth-12
 │   ├── jamorgan_blitz_2025q1_analyzed.pgn.gz Q1 2025 slice, depth-12 annotated
 │   └── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 └── scripts/
@@ -89,7 +90,7 @@ Annotating all 2,529 games is ~170k plies at depth 12 — hours, not minutes.
 Prefer annotating a dated slice into its own `_analyzed` file over converting
 the whole thing.
 
-### The two annotated 2025 slices
+### The three annotated slices
 
 `jamorgan_blitz_2025q1_analyzed.pgn.gz` (375 games, 25,610 plies, 2025-01-02 →
 2025-03-31) and `jamorgan_blitz_2025q3_analyzed.pgn.gz` (363 games, 25,019
@@ -99,35 +100,44 @@ without redoing ~40 minutes of engine work. Full eval and clock coverage, no
 duplicate GameIds. Q1 is the pre-climb baseline (mean rating 1317, mean
 opponent 1317); Q3 is the plateau onset (1399 / 1396).
 
-`hanging.py` on the 2026 corpus reproduces 368 hits (290/78) exactly from these
-scripts, so the three blocks are directly comparable.
+`jamorgan_blitz_2024h2_analyzed.pgn.gz` (651 games, 42,112 plies, 2024-08-09 →
+2024-12-30) is the filtered 2024 block — 3+2 only, non-arena, well clear of the
+calibration period (mean rating 1270, mean opponent 1257). It is the earliest
+block worth annotating; see the 2023–2024 caveats above for why 2023 was
+skipped.
 
-### What 20 months actually changed
+`hanging.py` on the 2026 corpus reproduces 368 hits (290/78) exactly from these
+scripts, so all four blocks are directly comparable.
+
+### What two years actually changed
 
 Reproduce any of this with:
 
 ```bash
 python3 chess/scripts/longitudinal.py \
-  Q1-2025=q1.pgn Q3-2025=q3.pgn 2026=corpus.pgn --tc 180+2
+  2024H2=h2.pgn Q1-2025=q1.pgn Q3-2025=q3.pgn 2026=corpus.pgn --tc 180+2
 ```
 
 Drop `--tc` to check whether a finding is a time-control artifact — the script
 then also prints band 26+ split by `TimeControl`.
 
-Three-block comparison — Q1 2025 / Q3 2025 / 2026 — all restricted to **3+2
-only**, because the one real effect lands in the move band where formats
+Four-block comparison — 2024 H2 / Q1 2025 / Q3 2025 / 2026 — all restricted to
+**3+2 only**, because the one real effect lands in the move band where formats
 diverge. Blunder = own move drops the eval ≥200cp. Rates per own move:
 
-| move band | Q1 2025 | Q3 2025 | 2026 |
-|---|---|---|---|
-| 1–12 | 3.70% [3.15, 4.27] | 3.53% [3.00, 4.10] | 3.27% [2.90, 3.64] |
-| 13–25 | 11.43% [10.42, 12.41] | 11.00% [10.04, 11.97] | 9.85% [9.20, 10.52] |
-| 26+ | 12.76% [11.78, 13.71] | 11.52% [10.56, 12.47] | 9.68% [9.00, 10.36] |
+| move band | 2024 H2 | Q1 2025 | Q3 2025 | 2026 |
+|---|---|---|---|---|
+| 1–12 | 3.58% [3.16, 4.00] | 3.70% [3.15, 4.24] | 3.53% [3.00, 4.12] | 3.27% [2.92, 3.64] |
+| 13–25 | 10.74% [10.00, 11.49] | 11.43% [10.47, 12.41] | 11.00% [10.02, 12.02] | 9.85% [9.18, 10.52] |
+| 26+ | 13.15% [12.34, 13.96] | 12.76% [11.80, 13.76] | 11.52% [10.56, 12.47] | 9.68% [9.04, 10.32] |
 
-**Move 26+ is the only established improvement** — monotonic, ~24% relative,
-non-overlapping intervals end to end, against opponents who got stronger (mean
-opponent Elo 1317 → 1396 → 1375). Moves 13–25 improved marginally (intervals
-touch at 10.42/10.52 — suggestive, not established). The opening did not move.
+**Move 26+ is the only established improvement** — monotonic across all four
+blocks, ~26% relative, non-overlapping intervals end to end, against opponents
+who got stronger (mean opponent Elo 1257 → 1317 → 1396 → 1379).
+
+Moves 13–25 do **not** trend. A three-block read (Q1 2025 / Q3 2025 / 2026)
+made this look marginally improving; adding 2024 H2 kills that, since it is
+*lower* than Q1 2025. Treat 13–25 as flat. The opening never moved.
 
 Not a format artifact: within 2026, band 26+ is 9.68% in 3+2 vs 10.43% in 5+0,
 so the format with *less* clock scores better.
@@ -137,20 +147,28 @@ middlegame move (the `hanging.py` denominator: `fullmove > 12`, light npm > 14,
 eval ≥ +150). Unlike the blunder table above, these are **pooled across
 formats** — the effects sit at median move 20, inside the comparable window:
 
-| | Q1 2025 | Q3 2025 | 2026 |
-|---|---|---|---|
-| Hanging material (0.02 floor) | 5.21% [3.99, 6.51] | 4.31% [3.23, 5.46] | 4.32% [3.80, 4.87] |
-| — missed their threat | 4.15% | 3.23% | 3.33% |
-| — hung it myself | 1.06% | 1.08% | 0.99% |
-| Reached ≥+200 in middlegame | 54.7% | 52.1% | 54.1% |
-| Score from won positions | 64.1% [57.6, 70.7] | 63.2% [56.6, 70.1] | 65.5% [62.4, 68.6] |
-| Eval after own move 12 | +5cp | +9cp | −14cp |
+3+2 only, so it lines up with the blunder table:
 
-All statistically indistinguishable across 20 months. The rating climb of
-Jan–Jul 2025 tracks the late-game accuracy gain; the plateau since then tracks a
-middlegame hanging-material rate that has never responded to anything. That is
-the argument for group P being deliberate practice rather than more games — two
-years of play did not move it.
+| | 2024 H2 | Q1 2025 | Q3 2025 | 2026 |
+|---|---|---|---|---|
+| Hanging material (0.02 floor) | 5.02% [4.11, 5.93] | 5.23% [4.00, 6.54] | 4.31% [3.23, 5.46] | 4.73% [3.94, 5.57] |
+| — missed their threat | 4.02% | 4.17% | 3.23% | 3.67% |
+| — hung it myself | 1.00% | 1.06% | 1.08% | 1.06% |
+| Reached ≥+200 in middlegame | 54.2% | 54.4% | 52.1% | 53.3% |
+| Score from won positions | 62.5% [57.5, 67.4] | 64.3% [57.6, 70.7] | 63.2% [56.4, 69.8] | 63.2% [58.5, 67.9] |
+| Eval after own move 12 | +81cp | +6cp | +9cp | −36cp |
+
+All statistically indistinguishable across two years. `hung it myself` is
+especially striking — 1.00 / 1.06 / 1.08 / 1.06 across 24 months.
+
+The eval@mv12 row has intervals wide enough to be uninformative
+(2024 H2 is [−18, +187]); the apparent decline tracks opponent strength rising
+by ~120 Elo, not opening skill falling.
+
+The rating climb through mid-2025 tracks the late-game accuracy gain; the
+plateau since then tracks a middlegame hanging-material rate that has never
+responded to anything. That is the argument for group P being deliberate
+practice rather than more games — two years of play did not move it.
 
 Caveat on all of the above: score rate sits at ~50% in every block by
 construction, since Lichess matchmaking is self-correcting. Rating *level* is
