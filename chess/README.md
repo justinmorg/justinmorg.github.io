@@ -20,6 +20,8 @@ chess/
 │   └── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
+    ├── annot_inc.py                          resumable annotate — use for big jobs
+    ├── longitudinal.py                       compare annotated blocks over time
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
     ├── build_drills2.py                      rebuild the /chess-drills P set
@@ -101,6 +103,16 @@ scripts, so the three blocks are directly comparable.
 
 ### What 20 months actually changed
 
+Reproduce any of this with:
+
+```bash
+python3 chess/scripts/longitudinal.py \
+  Q1-2025=q1.pgn Q3-2025=q3.pgn 2026=corpus.pgn --tc 180+2
+```
+
+Drop `--tc` to check whether a finding is a time-control artifact — the script
+then also prints band 26+ split by `TimeControl`.
+
 Three-block comparison — Q1 2025 / Q3 2025 / 2026 — all restricted to **3+2
 only**, because the one real effect lands in the move band where formats
 diverge. Blunder = own move drops the eval ≥200cp. Rates per own move:
@@ -121,7 +133,8 @@ so the format with *less* clock scores better.
 
 Everything the project actually targets stayed flat. Per eligible winning-
 middlegame move (the `hanging.py` denominator: `fullmove > 12`, light npm > 14,
-eval ≥ +150):
+eval ≥ +150). Unlike the blunder table above, these are **pooled across
+formats** — the effects sit at median move 20, inside the comparable window:
 
 | | Q1 2025 | Q3 2025 | 2026 |
 |---|---|---|---|
@@ -245,6 +258,34 @@ apt-get download stockfish && dpkg-deb -x stockfish*.deb x
 
 Annotation is the slow step — it's a full depth-12 search per ply, parallelised
 across cores by `--workers`. A few hundred new games is minutes, not seconds.
+
+### Use `annot_inc.py` for anything over ~100 games
+
+`annotate.py` holds all output in memory and writes once at the end, so a run
+killed partway through loses everything. Sandboxes have a per-command time limit
+and background jobs do **not** survive between commands — `nohup` does not help.
+Two full annotation runs were lost this way before the wrapper existed.
+
+```bash
+python3 chess/scripts/annot_inc.py in.pgn out.pgn 240   # 240s budget, then exits
+```
+
+It annotates one game at a time, appends and `fsync`s after each, and resumes by
+GameId — so re-run it until it prints `DONE n/n`. Same depth-12 engine call and
+same output format as `annotate.py` (it imports `fmt_eval`/`ENGINE`/`CLK_RE`
+from it), so the two are interchangeable in the corpus.
+
+Measured throughput, single core: **~2.9 s/game, ~24 plies/s.** That's ~120
+games per 240s call. Budget accordingly — a full calendar year of this corpus is
+hours.
+
+### Don't commit `__pycache__`
+
+Importing `hanging.py` or `annotate.py` from a sibling script writes `.pyc`
+files into `chess/scripts/__pycache__/`. These are *untracked*, so a
+`git checkout` before pushing does not remove them and they get swept into the
+commit. `chess/.gitignore` now covers this; if bytecode still appears in
+`git status`, remove it rather than committing it.
 
 ## Hanging-material extraction
 
