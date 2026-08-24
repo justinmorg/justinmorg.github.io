@@ -16,6 +16,7 @@ chess/
 ├── data/
 │   ├── jamorgan_blitz_2026_analyzed.pgn.gz   canonical corpus (gzipped)
 │   ├── jamorgan_blitz_2025_raw.pgn.gz        2025 games, clocks only, NO evals
+│   ├── jamorgan_blitz_2023_2024_raw.pgn.gz   2023-24 games, clocks only, NO evals
 │   ├── jamorgan_blitz_2025q1_analyzed.pgn.gz Q1 2025 slice, depth-12 annotated
 │   └── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 └── scripts/
@@ -156,11 +157,55 @@ construction, since Lichess matchmaking is self-correcting. Rating *level* is
 the improvement metric; score rate is not, and neither is anything measured
 against opponents whose strength tracks yours.
 
+### The 2023–2024 file needs filtering before use
+
+`jamorgan_blitz_2023_2024_raw.pgn.gz` is every rated blitz game from
+2023-03-19 to 2024-12-30, pulled 2026-08-24. Raw — clocks on every ply, no
+evals. **Do not use it whole.** Four things have to be handled:
+
+| | |
+|---|---|
+| Games | 1,642 |
+| Date range | 2023-03-19 20:13:01 → 2024-12-30 17:54:29 UTC |
+| Plies | 101,388 |
+| Event type | 1,638 `rated blitz game` + 4 `≤1700 Blitz Arena` |
+| Results | 823 W / 747 L / 72 D (raw `Result` tag) |
+| Eval coverage | **0 / 101,388 plies** |
+| Clock coverage | 101,388 / 101,388 plies |
+| Duplicate GameIds | 0 |
+
+**1. The first ~60 games are rating calibration, not play.** The account opens
+at Lichess's default 1500 and falls to ~820 within 40 games. Mean absolute
+rating change per game: ±51.1 over games 1–20, ±13.6 over 21–40, ±7.8 over
+41–60, then ~±5–6 from game 61 on. Lichess does **not** mark these provisional
+in the PGN — no `?` on the Elo tags — so the only signal is the change
+magnitude. Including them makes April 2023 (mean 818) look like a collapse from
+March (mean 1137) when it is just the system converging.
+
+**2. Coverage is scattered, not continuous.** Zero games in Nov–Dec 2023 and
+Mar–May 2024; June 2024 has one. Roughly 17 months of activity inside a
+22-month window.
+
+**3. Four time controls, two of them absent from every later file.** 3+2
+(1,247), 3+0 (151), 5+0 (136), 5+3 (108). The pooling default documented below
+was verified for 3+2 vs 5+0 only. 3+0 is a harsher clock regime than anything in
+2025–2026 and is concentrated in Jan–Feb 2024.
+
+**4. Four arena games.** Both other files are 100% `rated blitz game`; filter
+`Event` to match.
+
+After filtering to 3+2, non-arena, post-calibration, two clean blocks remain:
+2023 Apr–Jul (~495 games, rating ~820 → 1000) and 2024 Aug–Dec (651 games,
+rating ~1234 → 1301). Only the second was annotated — see below. The 2023 block
+sits at 800–1000 Elo where falling error rates are just a beginner improving,
+which says little about the plateau.
+
 ### Time control changed mid-2026
 
-The two files span different time controls. 2025 is essentially all 3+2 (2,527
-of 2,529). 2026 is roughly half each — 3+2 through April, 5+0 from May onward,
-with the switch complete by August.
+The 2025 and 2026 files span different time controls. 2025 is essentially all
+3+2 (2,527 of 2,529). 2026 is roughly half each — 3+2 through April, 5+0 from
+May onward, with the switch complete by August. (2023–24 is messier still; see
+above.)
 
 **Default: pool them.** Verified on the 2026 corpus, where both formats have
 ~750 games:
