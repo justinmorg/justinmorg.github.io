@@ -14,7 +14,8 @@ either.)
 ```
 chess/
 ├── data/
-│   └── jamorgan_blitz_2026_analyzed.pgn.gz   canonical corpus (gzipped)
+│   ├── jamorgan_blitz_2026_analyzed.pgn.gz   canonical corpus (gzipped)
+│   └── jamorgan_blitz_2025_raw.pgn.gz        2025 games, clocks only, NO evals
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── merge.py                              fold new games into the corpus
@@ -54,6 +55,58 @@ It's stored gzipped to keep the repo small. Decompress before use:
 ```bash
 gunzip -c chess/data/jamorgan_blitz_2026_analyzed.pgn.gz > corpus.pgn
 ```
+
+### The 2025 file is a different kind of thing
+
+`jamorgan_blitz_2025_raw.pgn.gz` is every rated blitz game from calendar 2025,
+pulled 2026-08-24. It is **raw** — clocks on every ply, no evals anywhere — and
+the `_raw` suffix is load-bearing. Do not treat it as a second corpus or feed it
+to anything that assumes `[%eval]` is present.
+
+| | |
+|---|---|
+| Games | 2,529 |
+| Date range | 2025-01-02 04:12:44 → 2025-12-30 20:06:06 UTC |
+| Plies | 169,606 |
+| Event type | `rated blitz game` (all 2,529) |
+| Results | 1,266 W / 1,161 L / 102 D (raw `Result` tag, not per-colour) |
+| Eval coverage | **0 / 169,606 plies** |
+| Clock coverage | 169,606 / 169,606 plies |
+| Duplicate GameIds | 0 |
+
+It exists because the 2026 corpus alone shows no trend, and the longer view
+explains why: mean rating climbed from 1265 (Jan 2025) to 1408 (Jul 2025) and
+has been flat in a 1310–1455 band ever since. The plateau is ~13 months old and
+started before the 2026 corpus begins. Anything asking "what changed" needs
+2025 in frame.
+
+Annotating all 2,529 games is ~170k plies at depth 12 — hours, not minutes.
+Prefer annotating a dated slice into its own `_analyzed` file over converting
+the whole thing.
+
+### Time control changed mid-2026
+
+The two files span different time controls. 2025 is essentially all 3+2 (2,527
+of 2,529). 2026 is roughly half each — 3+2 through April, 5+0 from May onward,
+with the switch complete by August.
+
+**Default: pool them.** Verified on the 2026 corpus, where both formats have
+~750 games:
+
+- Opening-phase eval after move 12 is indistinguishable: +49cp [28, 71] in 3+2
+  vs +60cp [39, 81] in 5+0; share at ≤−100cp is 22.4% vs 19.8%. Fully
+  overlapping.
+- Seconds spent per move is near-identical through move 25 (peak 8.4s vs 7.8s
+  at moves 16–20). Clock *behaviour* is format-independent; only the budget
+  differs.
+- 75% of group P positions are at move ≤25, 90% at ≤30 — inside the comparable
+  window.
+
+**Exception: clock state past move ~25–30.** The 3+2 increment floors the median
+clock at ~18–20s from move 40 on; 5+0 keeps a larger cushion but has no floor
+(10th percentile at move 60 is 3s). Losses on time are similar in both (4.55%
+vs 4.99%) by different mechanisms. Split by `TimeControl` for anything
+clock-dependent late in the game, and check CI overlap before pooling.
 
 ## Every eval is local depth-12 Stockfish 16
 
