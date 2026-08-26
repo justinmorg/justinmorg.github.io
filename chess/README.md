@@ -36,6 +36,7 @@ chess/
     ├── clockstate.py                         clock state per outcome bucket
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
+    ├── features.py                            per-own-move feature tables for all blocks
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
@@ -234,11 +235,16 @@ chess.com at 300).
 | cc 2026 Feb–Apr | 137 | 51.1% | 62.9% | 38.8% |
 
 Pooled: **63.9% [62.2, 65.6]** from 2,865 games that reached a winning position,
-**35.2%** from the 2,539 that never did. Flat across blocks, and the two
+**35.0%** from the 2,539 that never did. Flat across blocks, and the two
 chess.com blocks land inside the Lichess spread on both columns — consistent
 with the pool-calibration result elsewhere in this README.
 
-#### Don't read the 34.9% as a middlegame result
+Earlier revisions of this section gave that second figure as both 35.2% and
+34.9%. The measured value is **34.95%** (887.5 points over 2,539 games),
+recomputed from `features.py`'s `games.csv`; every per-block row in the table
+above reproduces exactly. Use 35.0%.
+
+#### Don't read the 35.0% as a middlegame result
 
 It is a blend of three unrelated things, and 662 of those 2,113 games — 31% —
 have **no eligible middlegame moves at all**. Those are not a middlegame state.
@@ -259,7 +265,17 @@ middlegame **trough** — the mirror of peak, same eligibility window:
 | *(no eligible moves)* | *662* | *59.4% [55.8, 63.1]* | *381/25/256* |
 
 Excluding the no-eligible games, the real "played a middlegame and never got on
-top" figure is **23.9% [22.0, 25.9]** over 1,735 games, not 35.2%.
+top" figure is **23.9% [22.0, 25.9]** over 1,735 games, not 35.0%.
+
+**Scope changes between the two tables above, and it is not signposted.** The
+block table covers all seven annotated blocks (2,539 never-reached games); this
+trough table covers the five **Lichess** blocks only, which is why it sums to
+2,113. The 426-game gap is exactly the two chess.com blocks. Verified against
+`features.py`: restricting `games.csv` to `site == lichess` reproduces
+662 / 442 / 400 / 609 and 59.4 / 39.8 / 25.4 / 10.8% to the digit. Adding
+chess.com moves the rows to 804 / 529 / 466 / 740 at 58.8 / 40.5 / 25.4 / 11.0%
+— the even-middlegame leak is unchanged, so nothing here turns on it, but quote
+the row with its scope attached.
 
 The `lost (≤ −500)` row leans on evals below the depth-12 reliability line; read
 it as "clearly lost". The −200 boundary is at the −2 line and is safe.
@@ -1026,6 +1042,89 @@ exactly where depth 12 is unreliable: 200cp of error is worth 17.6 win% points
 at 0.00 but only 3.6 at +7.0. Re-ranking with every eval clamped to ±5 leaves
 the top 50 **98% unchanged** and the full ordered set identical. So the +5
 noise the caveat warns about does not move this finding.
+
+## Position-level feature tables
+
+`features.py` makes one pass over the annotated blocks and emits two flat
+tables, so questions that used to need a bespoke PGN walk become a groupby.
+
+```bash
+python3 chess/scripts/features.py \
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
+  CC-2024Q4=cc_2024q4_analyzed.pgn CC-2026=cc_2026febapr_analyzed.pgn \
+  --tc 180+2,300+0 --user-map CC-2024Q4=justinmorg CC-2026=justinmorg \
+  --out /home/claude/features
+```
+
+- `moves.csv.gz` — one row per **own** move; opponent moves appear as context
+  columns, not rows. 178,684 rows over the seven blocks.
+- `games.csv` — one row per game, 5,404 games.
+- `manifest.json` — per block: path, resolved user, games read / matched /
+  dropped and why, plies, eval coverage, date range, `--tc`, script SHA.
+
+Runtime is ~100 s single-core for the whole set, including SEE probes and
+complexity counts on every row. It regenerates faster than it can be
+meaningfully version-controlled, so **the tables are not committed**;
+`chess/.gitignore` covers `chess/data/features/`. Commit the script and the
+manifest, not the CSVs.
+
+Centipawns are player-POV throughout, matching `hanging.py`'s `cp_before_me`.
+`mate_flag` marks rows where either endpoint is a `#N` score (±10000) — without
+it a delivered mate reads as a ~9,800cp swing and destroys any mean it touches.
+
+Definitions are imported from `hanging.py` and `outcomes.py` rather than
+restated, so `elig_P`, peak/trough buckets and endgame-entry buckets agree by
+construction. **Import `outcomes.bucket_of` downstream too** — reimplementing it
+with `cp >= -100` instead of `-100 < cp` moves four games between `level` and
+`losing`, which is enough to make a validation run look broken.
+
+### It reproduces every published figure
+
+Confirmed on the seven-block run: reached 2,865 / 63.9%; endgame entry
+1,073 79.4% / 401 53.2% / 774 42.7% / 1,443 19.1%; flag wins 434 of 2,619 =
+16.6%; per-block hang rates 5.02 / 5.21 / 4.40 / 4.31 / 5.51 / 4.95%. Anything
+that disagrees is a bug in `features.py`, not a new finding.
+
+Two expected differences, both scope rather than error:
+
+- The 2026 hang rate reads **4.33%** here against **4.73%** in the table above,
+  because that table is 3+2-only and this run is 3+2 *and* 5+0 — eligible moves
+  go 2,640 → 5,517. Most tables in this README are narrower than the standing
+  3+2/5+0 default. Check the scope line before comparing.
+- Q1 2025 shows 1,228 eligible against 1,224, from a handful of 5+0 games the
+  wider filter admits.
+
+### The endgame-entry ply bug
+
+`features.py` initially scoped endgame-entry detection to own moves. It belongs
+**outside** the mover branch — `outcomes.py` has it there — because the endgame
+is frequently entered by the *opponent's* move. Scoping it to own moves detects
+entry one ply late, which shifts ~50 games between eval buckets and moved every
+row of the endgame-entry table by 1–1.5 pp: `winning` read 1,123 / 78.3%
+against the correct 1,073 / 79.4%.
+
+The failure mode is worth remembering because it is silent and small. Nothing
+errors, no count goes to zero, and the resulting table is plausible — the only
+signal was that it didn't reproduce a published figure exactly. Same class as
+the `CHESS_USER` and `Termination` failures: validate against a known number
+before trusting a new pipeline.
+
+### Guardrails
+
+Each hard-exits rather than emitting a plausible-looking table:
+
+1. Games read but none matching the user — the `CHESS_USER` silent zero.
+2. Eval coverage below 100% — catches a `_raw` file fed in by mistake.
+3. Zero flag games across all blocks — the chess.com free-text `Termination`
+   failure, per `outcomes.py`'s precedent.
+4. Duplicate `(gid, ply)` keys. A `gid` in more than one block warns rather than
+   exits.
+
+### Deliberately not columns
+
+First-major-deterioration ply, phase bands and trajectory typologies are
+groupbys on `moves.csv`, not stored fields. Their cutoffs will get argued over,
+and baking them in means re-running the pass each time.
 
 ## What this is for
 
