@@ -1274,6 +1274,26 @@ be a different annotation, not more depth on this one.
 The finding stands as a targeting fact and is now harder to explain away. It
 still does not license moving faster; see the paragraph above.
 
+### The annotations are committed
+
+`multipv.py` output for all 3,076 conditioned positions is stored at
+`chess/data/multipv_standing_threat_d16.jsonl.gz` — depth 16, `multipv 8`,
+178 saturated. Unlike the `features.py` tables, which regenerate in 100 s and
+are gitignored, this is ~75 minutes of engine time and does not come back
+cheaply. Use it rather than re-running:
+
+```bash
+gunzip -c chess/data/multipv_standing_threat_d16.jsonl.gz > mpv.jsonl
+```
+
+`multipv.py` resumes by `(gid, ply)`, so pointing it at this file as its output
+and passing a wider `--keys` extends the set rather than redoing it.
+
+`multipv_first_subsample_seed23.csv` records which 1,300 positions were
+analyzed *first*. The held-out replication below depends on that split, and
+regenerating it from the seed alone is fragile — it assumes the row order of an
+intermediate file. Keep the list.
+
 ### A resumability trap worth remembering
 
 `fens.csv.gz` is ordered by block, so a budgeted `multipv.py` run left partway
