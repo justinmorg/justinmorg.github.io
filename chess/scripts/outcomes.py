@@ -10,8 +10,17 @@ Two tables `longitudinal.py` doesn't print:
   1. Score from games that never reached >= +200 in the middlegame — the
      complement of longitudinal.py's "score from won positions" row. Same peak
      definition, so `reached` + `not reached` partitions the block exactly.
-  2. Wins by termination, and the eval at the moment an opponent flagged, which
+  2. That bucket split further by the middlegame *trough* — the mirror of peak,
+     same eligibility window — so "level all game" is separated from "was lost".
+  3. Score by eval on entry to the endgame (first position after move 12 with
+     light npm <= 14), over all games regardless of middlegame history.
+  4. Wins by termination, and the eval at the moment an opponent flagged, which
      separates "won on the board, clock ran out too" from "rescued by the clock".
+
+Read the never-reached bucket in (1) only alongside (2): about a third of it is
+games with no eligible middlegame moves at all, which are not a middlegame state
+and score very differently. See the README section for what that does to the
+pooled figure.
 
 --tc takes a comma-separated list, unlike longitudinal.py's single value, because
 the natural scope here is 3+2 *and* 5+0 together. Flag rates are clock-dependent
@@ -57,6 +66,7 @@ def boot(vals, B=6000):
 def scan(path, tcs=None):
     """One pass. Peak definition is longitudinal.py::scan verbatim."""
     d = dict(reached=[], notreached=[], games=0, matched=0,
+             trough_groups={}, eg_groups={},
              tc=Counter(), wins_tc=Counter(), flagwin_tc=Counter(),
              flagloss_tc=Counter(), flag_bucket=Counter(),
              flag_bucket_nr=Counter(), wins=0, flagwins=0, flagwins_nr=0,
@@ -92,17 +102,26 @@ def scan(path, tcs=None):
                 d["flagloss_tc"][tc] += 1
 
             board, prev, node = game.board(), 0, game
-            peak, last = -10 ** 9, 0
+            peak, trough, last = -10 ** 9, 10 ** 9, 0
+            n_elig, eg_entry = 0, None
             while node.variations:
                 node = node.variations[0]
                 mover, fm = board.turn, board.fullmove_number
                 cp_before = prev if me == chess.WHITE else -prev
                 ev = parse_eval(node.comment, mover == chess.WHITE)
-                if mover == me and fm > 12 and npm(board, "light") > 14:
+                light = npm(board, "light")
+                if mover == me and fm > 12 and light > 14:
                     peak = max(peak, cp_before)
+                    trough = min(trough, cp_before)
+                    n_elig += 1
+                if eg_entry is None and fm > 12 and light <= 14:
+                    eg_entry = cp_before
                 board.push(node.move)
                 prev = ev if ev is not None else prev
                 last = prev if me == chess.WHITE else -prev
+
+            if eg_entry is not None:
+                d["eg_groups"].setdefault(bucket_of(eg_entry), []).append(score)
 
             if peak >= 200:
                 d["reached"].append(score)
@@ -110,6 +129,10 @@ def scan(path, tcs=None):
                 d["notreached"].append(score)
                 if score == 1.0:
                     d["wins_nr"] += 1
+                k = ("no eligible middlegame moves" if n_elig == 0 else
+                     "even (trough > -200)" if trough > -200 else
+                     "losing (-200..-500)" if trough > -500 else "lost (<= -500)")
+                d["trough_groups"].setdefault(k, []).append(score)
 
             if flagged and score == 1.0:
                 d["flag_bucket"][bucket_of(last)] += 1
@@ -141,6 +164,7 @@ def main(argv):
           f"{'score|NOT':>10} {'n(NOT)':>7}")
 
     allr, alln = [], []
+    trough_all, eg_all = {}, {}
     tot = Counter()
     for key in ("tc", "wins_tc", "flagwin_tc", "flagloss_tc",
                 "flag_bucket", "flag_bucket_nr"):
@@ -159,6 +183,10 @@ def main(argv):
             tot[key] += d[key]
         for key in ("wins", "flagwins", "flagwins_nr", "wins_nr"):
             agg[key] += d[key]
+        for src_d, dst in ((d["trough_groups"], trough_all),
+                           (d["eg_groups"], eg_all)):
+            for k, v in src_d.items():
+                dst.setdefault(k, []).extend(v)
         print(f"{lab:10} {d['matched']:6d} "
               f"{100 * len(r) / d['matched']:6.1f}% "
               f"{100 * st.mean(r) if r else 0:13.1f}% "
@@ -172,6 +200,33 @@ def main(argv):
     print(f"pooled, never reached   : n={len(alln):5d}  "
           f"score {100 * m2:.1f}% [{100 * lo2:.1f}, {100 * hi2:.1f}]  "
           f"W{alln.count(1.0)}/D{alln.count(0.5)}/L{alln.count(0.0)}")
+
+    print("\nnever-reached, split by middlegame trough:")
+    for k in ("even (trough > -200)", "losing (-200..-500)", "lost (<= -500)",
+              "no eligible middlegame moves"):
+        v = trough_all.get(k, [])
+        if not v:
+            continue
+        m3, lo3, hi3 = boot(v)
+        print(f"  {k:30} n={len(v):5d}  score {100 * m3:5.1f}% "
+              f"[{100 * lo3:.1f}, {100 * hi3:.1f}]  "
+              f"W{v.count(1.0)}/D{v.count(0.5)}/L{v.count(0.0)}")
+    real = [s for k, v in trough_all.items() if k != "no eligible middlegame moves"
+            for s in v]
+    if real:
+        m4, lo4, hi4 = boot(real)
+        print(f"  {'(excluding no-eligible)':30} n={len(real):5d}  "
+              f"score {100 * m4:5.1f}% [{100 * lo4:.1f}, {100 * hi4:.1f}]")
+
+    print("\nscore by eval on entry to the endgame (all games, any history):")
+    for name, _, _ in reversed(BUCKETS):
+        v = eg_all.get(name, [])
+        if not v:
+            continue
+        m5, lo5, hi5 = boot(v)
+        print(f"  {name:22} n={len(v):5d}  score {100 * m5:5.1f}% "
+              f"[{100 * lo5:.1f}, {100 * hi5:.1f}]  "
+              f"W{v.count(1.0)}/D{v.count(0.5)}/L{v.count(0.0)}")
 
     print(f"\nwins by termination: {agg['wins']} wins, {agg['flagwins']} on time "
           f"({100 * agg['flagwins'] / max(1, agg['wins']):.1f}%)")

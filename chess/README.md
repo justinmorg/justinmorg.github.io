@@ -33,6 +33,7 @@ chess/
     ├── annot_inc.py                          resumable annotate — use for big jobs
     ├── longitudinal.py                       compare annotated blocks over time
     ├── outcomes.py                           score from non-winning games; flag wins
+    ├── clockstate.py                         clock state per outcome bucket
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
     ├── build_drills2.py                      rebuild the /chess-drills P set
@@ -209,6 +210,10 @@ block exactly:
 python3 chess/scripts/outcomes.py \
   2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
   --tc 180+2,300+0
+
+# clock state for the same buckets — takes bare paths, not LABEL=path
+python3 chess/scripts/clockstate.py h2.pgn q1.pgn q2.pgn q3.pgn corpus.pgn \
+  --tc 180+2,300+0
 ```
 
 Note `--tc` here takes a **comma-separated list**, unlike `longitudinal.py`'s
@@ -226,11 +231,85 @@ blocks — 4,459 games, which is every analyzed game bar four (3 at 5+3, 1 at
 
 Pooled: **64.0% [62.1, 65.9]** from 2,346 games that reached a winning position,
 **34.9% [32.8, 36.9]** from the 2,113 that never did (694 W / 86 D / 1,333 L).
-Flat across blocks like everything else here — 2026 is the lowest but not
-distinguishably so at that n.
+Flat across blocks — 2026 is the lowest but not distinguishably so at that n.
 
-The ~29 pp gap is the whole shape of the results: reaching +200 roughly doubles
-the score rate, and the two halves are close to a 50/50 split of games.
+#### Don't read the 34.9% as a middlegame result
+
+It is a blend of three unrelated things, and 662 of those 2,113 games — 31% —
+have **no eligible middlegame moves at all**. Those are not a middlegame state.
+They split exactly evenly between two causes, and the two score nothing alike:
+
+- 331 ended by move 13 — score **71.8%**, mostly fast wins
+- 331 dropped below light npm > 14 before move 13 — score **47.1%**, early queen
+  trades and mass simplification
+
+The quick wins pull the pooled figure *up*. Split the remainder by the
+middlegame **trough** — the mirror of peak, same eligibility window:
+
+| middlegame state | games | score | W/D/L |
+|---|---|---|---|
+| Even (trough > −200) | 442 | 39.8% [35.5, 44.3] | 161/30/251 |
+| Losing (−200 to −500) | 400 | 25.4% [21.4, 29.6] | 88/27/285 |
+| Lost (≤ −500) | 609 | 10.8% [8.4, 13.4] | 64/4/541 |
+| *(no eligible moves)* | *662* | *59.4% [55.8, 63.1]* | *381/25/256* |
+
+Excluding the no-eligible games, the real "played a middlegame and never got on
+top" figure is **23.7% [21.5, 25.8]** over 1,451 games, not 34.9%.
+
+The `lost (≤ −500)` row leans on evals below the depth-12 reliability line; read
+it as "clearly lost". The −200 boundary is at the −2 line and is safe.
+
+#### The even-middlegame row is a leak, and it is not a clock leak
+
+**442 games level all the way through the middlegame — never worse than −2,
+never better than +2 — score 39.8%.** Against a mean opponent Elo of 1360, with
+colour balanced (230 White at 38.9%, 212 Black at 40.8%), that should be nearer
+50%. It is stable across blocks: 42.6 / 43.8 / 40.1 / 42.1 / 36.7.
+
+Time is not the explanation. `clockstate.py` on the same buckets, 3+2, median
+seconds:
+
+| bucket | mv20 (mine/opp) | mv25 | mv30 | mv40 |
+|---|---|---|---|---|
+| reached +200 | 104 / 119 (−14) | 72 / 94 (−19) | 46 / 75 (−21) | 26 / 52 (−16) |
+| **even** | **115 / 124 (−11)** | **90 / 105 (−14)** | **71 / 89 (−15)** | **45 / 65 (−6)** |
+| losing | 101 / 118 (−19) | 74 / 94 (−17) | 48 / 70 (−18) | 25 / 37 (−11) |
+| lost | 101 / 121 (−18) | 72 / 94 (−19) | 51 / 70 (−14) | 28 / 46 (−6) |
+
+In even games there is *more* clock left than in any other bucket, the deficit
+against the opponent is the *smallest*, and per-move spend is *lower* (7.4s at
+moves 16–20 against 8.4s in reached games). Time forfeits are 11.1% of even
+games against 13.2% of reached games. The chronic ~15s deficit is a habit
+present in every bucket, not something specific to these games.
+
+#### Where they are actually lost: a level endgame
+
+Median length of an even-middlegame game is 37 fullmoves, and 263 of the 442
+enter the endgame dead level (median eval at entry −9cp), scoring 43.3%. That
+generalises past the never-reached bucket. Over **all** games that reach an
+endgame after move 12 (first position with light npm ≤ 14), regardless of
+middlegame history:
+
+| eval at endgame entry | games | score |
+|---|---|---|
+| winning (> +300) | 872 | 80.3% [77.8, 82.9] |
+| ahead (+100 to +300) | 334 | **52.2% [47.0, 57.3]** |
+| level (−100 to +100) | 641 | **43.1% [39.3, 46.9]** |
+| losing (< −100) | 1,194 | 18.8% [16.6, 20.9] |
+
+Two rows worth sitting with. A **level** endgame returns 43.1%, with the
+interval clearing 50%. And a **one-to-three-pawn advantage** entering an endgame
+returns 52.2% — barely better than a coin flip, and the interval covers 50%.
+
+This is the strongest direct evidence in the corpus for the endgame track
+(groups C/B/A/D), and unlike the hanging-material finding it is not capped:
+group P addresses ~24% of blunders in winning positions, whereas these two rows
+together are 975 games, 22% of everything in scope. Note it does not overlap the
+group P denominator — that gate requires eval ≥ +150 *and* npm > 14, so every
+game here is outside it by construction.
+
+The `> +300` row sits above the depth-12 reliable band. The other three are
+within it.
 
 #### Flag wins
 
