@@ -29,6 +29,7 @@ chess/
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── chesscom_filter.py                    raw chess.com export -> blitz PGN
+    ├── blockstats.py                         permutation tests across blocks
     ├── annot_inc.py                          resumable annotate — use for big jobs
     ├── longitudinal.py                       compare annotated blocks over time
     ├── merge.py                              fold new games into the corpus
@@ -246,6 +247,59 @@ myself` rate of 1.30% looked elevated against the 1.00/1.06/1.08/1.06 of the
 other blocks, and within Q2 it declined monthly (1.79 → 1.39 → 0.89). At p =
 0.91 across blocks, none of that is real. Two large blocks landing high is what
 noise looks like when most blocks are small.
+
+### Clock spend is a property of the player, not the site
+
+Both sites were 3+2 in the date-matched windows, so per-move time spend compares
+directly and needs no evals. Mean seconds per own move, Sept–Dec 2024:
+
+| moves | 1–5 | 6–10 | 11–15 | 16–20 | 21–25 | 26–30 | 31–35 |
+|---|---|---|---|---|---|---|---|
+| Lichess | 2.2 | 5.2 | 7.6 | 7.9 | 6.9 | 5.8 | 4.2 |
+| chess.com | 2.2 | 5.3 | 7.7 | 8.4 | 7.3 | 5.7 | 3.9 |
+
+Band for band, indistinguishable. The spend peak at moves 11–25 — the standing
+clock-management question — is a habit, not an artifact of one site's interface
+or pool. Reproduce with `blockstats.py clock`.
+
+### Reproducing the statistics
+
+`longitudinal.py` gives per-block rates with bootstrap CIs. It does not give
+significance, and reading it off overlapping CIs is unreliable. `blockstats.py`
+does the tests; every p-value in this README comes from it, with the seed noted:
+
+```bash
+# do any of the five Lichess blocks differ?  spread 0.92 pp, p = 0.71
+python3 chess/scripts/blockstats.py shuffle \
+    2024H2=h2.pgn Q1=q1.pgn Q2=q2.pgn Q3=q3.pgn 2026=corpus.pgn \
+    --tc 180+2 --metric hang --seed 23
+
+# was the June 2025 dip real?  minimum-block p = 0.13, spread p = 0.20
+python3 chess/scripts/blockstats.py shuffle \
+    Apr=li_202504.pgn May=li_202505.pgn Jun=li_202506.pgn \
+    --tc 180+2 --metric hang --seed 17
+
+# lichess vs chess.com, date-matched:  hungself +0.53 pp, p = 0.10
+python3 chess/scripts/blockstats.py pools \
+    '2024:li=h2_sepdec.pgn' '2024:cc=cc_2024q4_analyzed.pgn' \
+    '2026:li=li_2026febapr.pgn' '2026:cc=cc_2026febapr_analyzed.pgn' \
+    --tc 180+2 --metric hungself --seed 41 --user-map li=jamorgan cc=justinmorg
+```
+
+Two rules the subcommands encode, both learned the hard way here:
+
+- **`shuffle` reports two p-values.** Use the minimum-block one when a block was
+  singled out *because* it was extreme; use the spread one to ask whether any
+  block differs at all. Quoting the wrong one is how the June dip nearly became
+  a finding.
+- **`pools` shuffles within window.** Never compare a pooled multi-year baseline
+  against a date-specific block. Doing so absorbs between-block noise into the
+  contrast; it turned p = 0.10 into p = 0.031 once already.
+
+Eligibility mirrors `longitudinal.py` exactly, so block rates printed by the two
+scripts agree. Note the diversity tests in the chess.com section used
+rarefaction on top of permutation, since those metrics depend on sample size;
+`blockstats.py` does not implement that, and the rates it handles do not need it.
 
 ### A cross-pool difference that did not hold up
 
