@@ -389,6 +389,65 @@ resumes by it, `merge.py` dedupes by it, and the drill tick keys are
 a tick key; the `cc` prefix makes provenance visible at a glance in stored
 progress; 14 chars against Lichess's 8, so collision is impossible.
 
+### Two hypotheses this corpus tested and did not support
+
+Both were long-standing intuitions about chess.com vs Lichess. Neither survived.
+
+**"I play worse on chess.com."** Disproved for playing *strength*: the Sept–Dec
+2024 replication above shows identical error rates, blunder profile and
+conversion across the two pools. What that does not rule out is a difference in
+some period not yet measured — the test is date-matched to one window. The
+516-point rating gap is pool calibration, nothing more.
+
+**"chess.com players play more diverse positions."** Tested on 1,651
+date-matched games — Sept–Dec 2024 (273 Lichess / 808 chess.com) and Feb–Apr
+2026 (433 / 137), 3+2 only. Diversity was computed from the *moves*, not from
+`ECO`, because the two sites classify openings with different books and the tags
+are not comparable. Stratified permutation test, 400 permutations, rarefied to
+250 games per stratum, permuting within window so period cannot leak in:
+
+| metric | Lichess | chess.com | p | detectable at |
+|---|---|---|---|---|
+| distinct positions at ply 6 | 46.8% | 46.9% | 0.97 | ±5.1pp |
+| distinct positions at ply 10 | 78.3% | 78.4% | 0.98 | ±4.6pp |
+| distinct positions at ply 16 | 97.6% | 96.7% | 0.48 | ±2.2pp |
+| opponent's 1st move, distinct | 7.5 | 6.8 | 0.55 | ±2.2 |
+| opponent's 1st move, norm. entropy | 0.53 | 0.48 | 0.17 | ±0.07 |
+| median divergence ply | 8.0 | 8.4 | 0.29 | ±0.75 |
+
+Nothing significant; the last column is the point, since a null result is only
+worth anything with a stated resolution. A difference of ~11% relative in
+early-position variety would have surfaced. Every estimate that leans at all
+leans toward *Lichess* being marginally more varied.
+
+The other reading of "diverse" — messier positions rather than wider openings —
+was tested separately on eval volatility (cp per ply, moves 13–25), material
+imbalance at move 20, non-pawn material at move 20, queens-off-by-move-20 rate
+and game length. All null.
+
+**The intuition is real, but it is about `justinmorg`, not his opponents.**
+Repertoire adherence by era, both sites, 3+2 only:
+
+| block | London as White | Caro + Englund as Black |
+|---|---|---|
+| 2023 Jun–Jul | 79% cc / 84% li | **16% cc / 13% li** |
+| 2024 Sep–Dec | 88% / 92% | 91% / 87% |
+| 2026 Feb–Apr | 91% / 90% | 89% / 90% |
+
+In mid-2023 the Black repertoire was essentially absent — Englund appears once
+in 212 Lichess games. It locked in some time between mid-2023 and Sept 2024. The
+chess.com game set is weighted toward that unsettled era while the Lichess
+corpus is weighted toward 2025–26, so chess.com genuinely does hold more varied
+positions *in memory*. The near-identical 2023 figures on both sites are what
+rule out the opponent explanation.
+
+Methodological note for anyone re-running this: rarefaction CIs are useless when
+the subsample approaches the pool size. Drawing 263 games from a pool of 273
+returns nearly the same games every time, which produced spuriously tight
+Lichess intervals on the first pass and an apparent Lichess-is-more-diverse
+effect that vanished once a permutation test replaced it. Permute group labels;
+don't compare rarefaction intervals across unequal pools.
+
 ### `CHESS_USER` — read this before running anything on chess.com data
 
 `hanging.py` and `longitudinal.py` identify the player by username and **skip
@@ -502,7 +561,15 @@ python3 chess/scripts/annot_inc.py in.pgn out.pgn 240   # 240s budget, then exit
 ```
 
 It annotates one game at a time, appends and `fsync`s after each, and resumes by
-GameId — so re-run it until it prints `DONE n/n`. Same depth-12 engine call and
+GameId — so re-run it until it prints `DONE n/n`.
+
+It splits input with `annotate.split_games`, **not** on `'\n\n\n'`. Files here
+are inconsistent about blank lines between games: the analyzed slices use two,
+the canonical 2026 corpus uses one. A `'\n\n\n'` split returns the entire corpus
+as a *single* block with no error — it then fails to parse as one game and
+annotates nothing. It also exits with a clear message on a game with no
+`GameId`, since resuming is impossible without one, rather than raising an
+`AttributeError` from deep inside a lambda. Same depth-12 engine call and
 same output format as `annotate.py` (it imports `fmt_eval`/`ENGINE`/`CLK_RE`
 from it), so the two are interchangeable in the corpus.
 

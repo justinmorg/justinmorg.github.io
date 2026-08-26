@@ -7,17 +7,33 @@ Usage: annot_inc.py IN.pgn OUT.pgn [budget_seconds]
 import io, os, re, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import chess, chess.engine, chess.pgn
-from annotate import fmt_eval, ENGINE, CLK_RE
+from annotate import fmt_eval, ENGINE, CLK_RE, split_games
 
 inp, outp = sys.argv[1], sys.argv[2]
 budget = float(sys.argv[3]) if len(sys.argv) > 3 else 240.0
 
-blocks = [g for g in open(inp, errors='replace').read().split('\n\n\n') if g.strip()]
-gid = lambda g: re.search(r'\[GameId "([^"]+)"\]', g).group(1)
+# Use annotate.split_games rather than splitting on '\n\n\n'. Files in this
+# repo are not consistent about blank lines between games: the analyzed slices
+# use two, the canonical 2026 corpus uses one. Splitting on '\n\n\n' returns
+# the *entire corpus as a single block* with no error, which then fails to parse
+# as one game and silently annotates nothing.
+blocks = [g for g in split_games(open(inp, errors='replace').read()) if g.strip()]
+
+
+def gid(g):
+    m = re.search(r'\[GameId "([^"]+)"\]', g)
+    if m is None:
+        d = re.search(r'\[UTCDate "([^"]+)"\]', g)
+        sys.exit("ERROR: game with no GameId tag (UTCDate=%s). Resuming by "
+                 "GameId is impossible without it. Lichess exports carry one; "
+                 "for chess.com use chesscom_filter.py, which injects it."
+                 % (d.group(1) if d else "?"))
+    return m.group(1)
+
 
 done = set()
 if os.path.exists(outp):
-    done = {gid(g) for g in open(outp, errors='replace').read().split('\n\n\n')
+    done = {gid(g) for g in split_games(open(outp, errors='replace').read())
             if g.strip() and 'GameId' in g}
 
 todo = [g for g in blocks if gid(g) not in done]
