@@ -33,6 +33,7 @@ chess/
     ├── annot_inc.py                          resumable annotate — use for big jobs
     ├── longitudinal.py                       compare annotated blocks over time
     ├── outcomes.py                           score from non-winning games; flag wins
+    ├── phases.py                              phase map — where losses come from
     ├── clockstate.py                         clock state per outcome bucket
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
@@ -390,6 +391,164 @@ scope**. Flagging is not propping up the score rate.
 Depth-12 caveat applies to the last row of that table only: `> +300` sits above
 the reliable band, so read it as "clearly winning" rather than as an exact count.
 The +200 threshold defining `reached` is at the +2 line and is safe.
+
+### The phase map: where losses come from, end to end
+
+`outcomes.py` answers "what happened after a winning position." `phases.py`
+answers the prior question — *how are games lost at all* — by classifying every
+game on three axes and reporting each cell's share of the total loss budget.
+
+```bash
+python3 chess/scripts/phases.py \
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
+  CC-2024Q4=cc_2024q4_analyzed.pgn CC-2026=cc_2026febapr_analyzed.pgn \
+  --tc 180+2,300+0 --user-map CC-2024Q4=justinmorg CC-2026=justinmorg \
+  --out /home/claude/phases
+```
+
+Entry definitions are imported from `hanging.py`/`outcomes.py`, not restated, so
+they agree by construction. Both detections run on **every** ply — see the
+endgame-entry ply bug above. The script prints a self-check against the
+published endgame-entry table and says `MISMATCH` if it fails to reproduce it;
+that check passes on the seven-block run. It also hard-exits on the
+`CHESS_USER` silent zero.
+
+Scope below is the standing default: **5,404 games**, seven annotated blocks,
+3+2 and 5+0. Record 2,619 W / 200 D / 2,585 L, score **50.3% [49.0, 51.6]** —
+which is a matchmaking fact, not a skill measure, per the caveat above.
+
+#### Clock state here is a ratio, and formats are pooled on purpose
+
+This section's clock axis is **own clock against the opponent's in the same
+game**, banded at ±10%. That is a deliberate exception to the time-control rule
+above. The rule protects against comparing *absolute* late clocks across formats
+— 3+2 floors at ~18–20s via the increment, 5+0 has no floor. A ratio never does
+that, since it only ever compares two players on the same budget.
+
+Verified before use, not assumed. Score rate by clock state at each entry:
+
+| band | middlegame entry (up/even/down) | endgame entry (up/even/down) |
+|---|---|---|
+| ±5% | 53.3 / 50.7 / 43.6 | 52.7 / 48.3 / 40.2 |
+| **±10%** | **54.1 / 49.6 / 42.7** | **54.1 / 46.4 / 39.8** |
+| ±15% | 56.5 / 49.4 / 40.6 | 54.6 / 47.1 / 38.9 |
+| ±20% | 59.2 / 49.2 / 37.8 | 56.0 / 46.2 / 38.5 |
+| ±25% | 60.2 / 49.2 / 36.3 | 57.6 / 46.0 / 37.6 |
+
+Monotone at every band, and the gap widens as the tails tighten. Split by
+format at ±10%, endgame entry: 3+2 gives 53.4 / 45.2 / 39.4% (n = 893/714/1,568)
+and 5+0 gives 61.5 / 50.2 / 42.4% (n = 91/207/218) — same ordering, overlapping
+intervals, 5+0 a few points higher throughout on a thin sample. Nothing in this
+section turns on the choice of band. Use `--clock-band` to re-cut it.
+
+#### 1. Which phase the game ended in
+
+`opening` = no position past move 12; `middlegame` = reached move 13 but never
+light npm ≤ 14; `endgame` = an endgame entry occurred.
+
+| phase | games | % games | score | % of all losses |
+|---|---|---|---|---|
+| opening | 380 | 7.0% | 73.6% | 3.8% |
+| middlegame | 1,333 | 24.7% | 57.7% | 21.6% |
+| endgame | 3,691 | 68.3% | 45.3% | **74.6%** |
+
+Score falls monotonically with game length. The opening row is favourable
+because it is miniatures — a game decided by move 12 usually ended on someone's
+blunder and it was more often the opponent's. Do not read 73.6% as opening
+strength.
+
+**767 games have no middlegame entry**: 380 ended in the opening and 387 fell
+below npm > 14 before move 13 (early queen trades). The latter appear in the
+endgame tables with a blank middlegame state; `phases.csv` marks them.
+
+#### 2. State entering the middlegame (n = 4,637)
+
+| eval \ clock | up | even | down | **row** |
+|---|---|---|---|---|
+| **up** | 419 — 66.6% | 844 — 62.2% | 407 — 56.6% | **1,670 — 61.9%** |
+| **even** | 393 — 48.6% | 1,052 — 47.3% | 493 — 38.6% | **1,938 — 45.4%** |
+| **down** | 212 — 39.6% | 476 — 32.6% | 341 — 32.0% | **1,029 — 33.8%** |
+| **col** | 1,024 — 54.1% | 2,372 — 49.6% | 1,241 — 42.7% | |
+
+**63.0% of all losses started from a middlegame entered level or better**
+(1,629 of 2,585). Same conclusion as the opening-is-not-the-problem finding
+above, reached as a direct game count rather than from blunder rates.
+
+Eval dominates clock at this point — 28 points across the eval rows against 11
+across the clock columns — and the two are close to additive.
+
+#### 3. State entering the endgame (n = 3,691)
+
+| eval \ clock | up | even | down | **row** |
+|---|---|---|---|---|
+| **up** | 432 — 76.5% | 361 — 72.7% | 681 — 69.3% | **1,474 — 72.3%** |
+| **even** | 203 — 50.0% | 246 — 41.1% | 325 — 39.4% | **774 — 42.7%** |
+| **down** | 349 — 28.8% | 314 — 20.2% | 780 — 14.2% | **1,443 — 19.1%** |
+| **col** | 984 — 54.1% | 921 — 46.4% | 1,786 — 39.8% | |
+
+The eval rows are the published endgame-entry table with `>+300` and
+`+100..+300` merged (1,073 at 79.4% + 401 at 53.2% = 1,474 at 72.3%). Nothing
+new. The clock axis is the new information.
+
+**30.5% of all losses are endgames entered level or better** (789 games); 14.3%
+are endgames entered *ahead* (370). That is the endgame-technique case restated
+as a loss budget rather than a score rate.
+
+**A clock deficit is a conditional tax, not a flat one.** The up→down clock
+spread inside each eval row: 7 points when winning (76.5 → 69.3), 11 when level
+(50.0 → 39.4), 15 when losing (28.8 → 14.2). It costs little when the position
+is already won and roughly halves the recovery rate when it is not. The single
+largest cell in the loss budget is losing-eval-plus-losing-clock: 780 games,
+14.2%, **25.4% of all losses**.
+
+**It is not a flag artifact.** Flags are 5.8% of all losses (150 of 2,585), and
+9.0% even within the clock-down endgame column. Over 90% of those games were
+lost on the board. Consistent with the think-time result that clock pressure is
+the smaller of the two effects.
+
+#### 4. How the eval travels, middlegame entry → endgame entry
+
+Games reaching both, n = 3,304. Cell: games, score, share of all losses.
+
+| mg ↓ / eg → | up | even | down |
+|---|---|---|---|
+| **up** | 751 — 74.3% — L 6.8% | 161 — 40.7% — L 3.5% | 266 — 14.5% — L 8.7% |
+| **even** | 446 — 70.6% — L 4.5% | 375 — 42.0% — L 7.9% | 604 — 20.1% — L **18.2%** |
+| **down** | 140 — 75.7% — L 1.2% | 80 — 50.0% — L 1.4% | 481 — 18.8% — L 14.7% |
+
+**The largest single flow in the corpus is level middlegame → losing endgame:
+604 games, 471 losses, 18.2% of all losses.** The advantage-thrown-away path
+(up → down) is 266 games and 8.7% — real, but less than half as large. That is
+independent confirmation of the ~24% ceiling on group P from a different
+direction: the corpus does not mostly lose won games, it mostly loses level
+ones.
+
+The middlegame leaks both ways — 446 games went level → winning and 140 losing →
+winning — and only 375 of the 1,025 that entered level were still level at the
+endgame. The diagonal is not stable in either direction.
+
+#### 5. The permutation table is flat
+
+98 occupied (phase × mg state × eg state) cells. Top 20 hold 59.3% of losses,
+no single cell exceeds 5.8%, median occupied cell ~12 losses. **The marginals
+carry the signal; the joint cells are too thin to interpret.** The two largest
+are the same story — entered the middlegame level, entered the endgame losing
+and short of time — together 331 games, 274 losses, 10.6% of all losses.
+
+`permutations.csv` and the per-game `phases.csv` regenerate in ~90 s and are
+gitignored, same policy as the `features.py` tables. Commit the script, not the
+output.
+
+#### What it does not settle
+
+Clock state at endgame entry is measured *after* the middlegame that produced
+it, so "short of time" and "had a hard middlegame" are substantially the same
+event. This design cannot separate them, and the think-time section's warning
+applies unchanged: **nothing here licenses moving faster.** Whether the clock
+effect survives conditioning on position difficulty is untested and would need
+the same direct-standardization treatment used there. Whether the level→losing
+flow is a technique, time or judgment failure is open thread 2, which needs no
+new data.
 
 ### Q2 2025, and why the Q1→Q3 drop was not real
 
