@@ -26,7 +26,14 @@ pooled figure.
 the natural scope here is 3+2 *and* 5+0 together. Flag rates are clock-dependent
 by definition, so the per-TC split is always printed regardless of --tc.
 
-Respects CHESS_USER (via hanging.py) like the rest of the pipeline.
+Player identity: defaults to CHESS_USER (via hanging.py). For cross-site runs
+pass --user-map LABEL=username, matching block labels, e.g.
+
+    --user-map CC-2024=justinmorg CC-2026=justinmorg
+
+Unmapped blocks fall back to the default. Mixing Lichess and chess.com blocks in
+one call is the intended use; keep chess.com labelled separately in the output
+rather than relying on the pooled row, since it is an independent pool.
 """
 import os
 import random
@@ -49,6 +56,21 @@ BUCKETS = (("losing (<-100)", -10 ** 9, -100),
            ("winning (>+300)", 300, 10 ** 9))
 
 
+def is_flag(term):
+    """True if the game ended on the clock, on either site.
+
+    Lichess writes Termination "Time forfeit". chess.com writes free text —
+    "justinmorg won on time", "yossibk5 won on time" — so an equality test
+    against "Time forfeit" silently matches zero chess.com games. Same class of
+    failure as the CHESS_USER silent zero; see the README.
+
+    chess.com's "won - game abandoned" is a disconnect, not a flag, and is
+    deliberately excluded here.
+    """
+    t = (term or "").lower()
+    return t == "time forfeit" or "won on time" in t
+
+
 def bucket_of(cp):
     for name, lo, hi in BUCKETS:
         if lo < cp <= hi or (lo == -10 ** 9 and cp <= hi):
@@ -63,8 +85,9 @@ def boot(vals, B=6000):
     return st.mean(vals), s[int(0.025 * B)], s[int(0.975 * B)]
 
 
-def scan(path, tcs=None):
+def scan(path, tcs=None, user=None):
     """One pass. Peak definition is longitudinal.py::scan verbatim."""
+    user = user or USER
     d = dict(reached=[], notreached=[], games=0, matched=0,
              trough_groups={}, eg_groups={},
              tc=Counter(), wins_tc=Counter(), flagwin_tc=Counter(),
@@ -78,7 +101,7 @@ def scan(path, tcs=None):
                 break
             d["games"] += 1
             hw, hb = game.headers.get("White", ""), game.headers.get("Black", "")
-            me = chess.WHITE if USER == hw else (chess.BLACK if USER == hb else None)
+            me = chess.WHITE if user == hw else (chess.BLACK if user == hb else None)
             if me is None:
                 continue
             tc = game.headers.get("TimeControl", "")
@@ -91,7 +114,7 @@ def scan(path, tcs=None):
             score = 0.5 if res == "1/2-1/2" else (
                 1.0 if (res == "1-0") == (me == chess.WHITE) else 0.0)
             term = game.headers.get("Termination", "?")
-            flagged = term == "Time forfeit"
+            flagged = is_flag(term)
             if score == 1.0:
                 d["wins"] += 1
                 d["wins_tc"][tc] += 1
@@ -145,11 +168,19 @@ def scan(path, tcs=None):
 def main(argv):
     tcs = None
     blocks = []
+    umap = {}
     i = 0
     while i < len(argv):
         if argv[i] == "--tc":
             tcs = set(argv[i + 1].split(","))
             i += 2
+            continue
+        if argv[i] == "--user-map":
+            i += 1
+            while i < len(argv) and not argv[i].startswith("--") and "=" in argv[i]:
+                lab, who = argv[i].split("=", 1)
+                umap[lab] = who
+                i += 1
             continue
         if "=" not in argv[i]:
             sys.exit(f"expected LABEL=path, got {argv[i]!r}")
@@ -159,7 +190,9 @@ def main(argv):
     if not blocks:
         sys.exit(__doc__)
 
-    print(f"user: {USER}   time controls: {sorted(tcs) if tcs else 'ALL'}\n")
+    print(f"default user: {USER}   time controls: "
+          f"{sorted(tcs) if tcs else 'ALL'}"
+          + (f"   user map: {umap}" if umap else "") + "\n")
     print(f"{'block':10} {'games':>6} {'reach%':>7} {'score|reached':>14} "
           f"{'score|NOT':>10} {'n(NOT)':>7}")
 
@@ -172,10 +205,11 @@ def main(argv):
     agg = Counter()
 
     for lab, path in blocks:
-        d = scan(path, tcs)
+        who = umap.get(lab, USER)
+        d = scan(path, tcs, who)
         if d["matched"] == 0:
             sys.exit(f"{path}: {d['games']} games read, none matching user "
-                     f"{USER!r} / tc filter — check CHESS_USER and --tc")
+                     f"{who!r} / tc filter — check --user-map/CHESS_USER and --tc")
         r, n = d["reached"], d["notreached"]
         allr += r
         alln += n
@@ -228,6 +262,9 @@ def main(argv):
               f"[{100 * lo5:.1f}, {100 * hi5:.1f}]  "
               f"W{v.count(1.0)}/D{v.count(0.5)}/L{v.count(0.0)}")
 
+    if agg["flagwins"] == 0 and agg["wins"]:
+        sys.exit("no flag wins found across any block — Termination parsing is "
+                 "probably broken for one of these sites; see is_flag()")
     print(f"\nwins by termination: {agg['wins']} wins, {agg['flagwins']} on time "
           f"({100 * agg['flagwins'] / max(1, agg['wins']):.1f}%)")
     for tc in sorted(tot["tc"]):

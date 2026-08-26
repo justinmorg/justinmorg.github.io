@@ -209,17 +209,19 @@ block exactly:
 ```bash
 python3 chess/scripts/outcomes.py \
   2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
-  --tc 180+2,300+0
+  CC-2024Q4=cc_2024q4_analyzed.pgn CC-2026=cc_2026febapr_analyzed.pgn \
+  --tc 180+2,300+0 --user-map CC-2024Q4=justinmorg CC-2026=justinmorg
 
 # clock state for the same buckets — takes bare paths, not LABEL=path
 python3 chess/scripts/clockstate.py h2.pgn q1.pgn q2.pgn q3.pgn corpus.pgn \
   --tc 180+2,300+0
 ```
 
-Note `--tc` here takes a **comma-separated list**, unlike `longitudinal.py`'s
-single value. The scope below is 3+2 and 5+0 across all five annotated Lichess
-blocks — 4,459 games, which is every analyzed game bar four (3 at 5+3, 1 at
-3+0).
+Note `--tc` takes a **comma-separated list**, unlike `longitudinal.py`'s single
+value, and `--user-map` sets the player per block so Lichess and chess.com can
+go in one call. Scope below is 3+2 and 5+0 across all seven annotated blocks —
+**5,404 games**, every analyzed game bar seven (4 Lichess at 5+3/3+0, 3
+chess.com at 300).
 
 | block | games | reached ≥+200 | score \| reached | score \| never reached |
 |---|---|---|---|---|
@@ -228,10 +230,13 @@ blocks — 4,459 games, which is every analyzed game bar four (3 at 5+3, 1 at
 | Q2 2025 | 1,559 | 50.3% | 63.2% | 36.4% |
 | Q3 2025 | 363 | 52.1% | 63.2% | 36.5% |
 | 2026 | 1,511 | 53.9% | 65.6% | 32.0% |
+| cc 2024 Q4 | 808 | 55.6% | 63.7% | 34.7% |
+| cc 2026 Feb–Apr | 137 | 51.1% | 62.9% | 38.8% |
 
-Pooled: **64.0% [62.1, 65.9]** from 2,346 games that reached a winning position,
-**34.9% [32.8, 36.9]** from the 2,113 that never did (694 W / 86 D / 1,333 L).
-Flat across blocks — 2026 is the lowest but not distinguishably so at that n.
+Pooled: **63.9% [62.2, 65.6]** from 2,865 games that reached a winning position,
+**35.2%** from the 2,539 that never did. Flat across blocks, and the two
+chess.com blocks land inside the Lichess spread on both columns — consistent
+with the pool-calibration result elsewhere in this README.
 
 #### Don't read the 34.9% as a middlegame result
 
@@ -254,7 +259,7 @@ middlegame **trough** — the mirror of peak, same eligibility window:
 | *(no eligible moves)* | *662* | *59.4% [55.8, 63.1]* | *381/25/256* |
 
 Excluding the no-eligible games, the real "played a middlegame and never got on
-top" figure is **23.7% [21.5, 25.8]** over 1,451 games, not 34.9%.
+top" figure is **23.9% [22.0, 25.9]** over 1,735 games, not 35.2%.
 
 The `lost (≤ −500)` row leans on evals below the depth-12 reliability line; read
 it as "clearly lost". The −200 boundary is at the −2 line and is safe.
@@ -290,21 +295,33 @@ generalises past the never-reached bucket. Over **all** games that reach an
 endgame after move 12 (first position with light npm ≤ 14), regardless of
 middlegame history:
 
-| eval at endgame entry | games | score |
-|---|---|---|
-| winning (> +300) | 872 | 80.3% [77.8, 82.9] |
-| ahead (+100 to +300) | 334 | **52.2% [47.0, 57.3]** |
-| level (−100 to +100) | 641 | **43.1% [39.3, 46.9]** |
-| losing (< −100) | 1,194 | 18.8% [16.6, 20.9] |
+| eval at endgame entry | all | Lichess | chess.com |
+|---|---|---|---|
+| winning (> +300) | 1,073 — 79.4% [77.0, 81.6] | 872 — 80.3% | 201 — 75.1% [69.7, 80.6] |
+| ahead (+100 to +300) | 401 — **53.2% [48.6, 58.0]** | 334 — 52.2% | 67 — 58.2% [47.0, 69.4] |
+| level (−100 to +100) | 774 — **42.7% [39.4, 46.1]** | 641 — 43.1% | 133 — 41.0% [33.1, 49.2] |
+| losing (< −100) | 1,443 — 19.1% [17.1, 21.0] | 1,194 — 18.8% | 249 — 20.5% [15.9, 25.5] |
 
-Two rows worth sitting with. A **level** endgame returns 43.1%, with the
+Two rows worth sitting with. A **level** endgame returns 42.7%, with the
 interval clearing 50%. And a **one-to-three-pawn advantage** entering an endgame
-returns 52.2% — barely better than a coin flip, and the interval covers 50%.
+returns 53.2% — barely better than a coin flip, and the interval covers 50%.
+
+**It replicates across pools.** 650 of the 945 chess.com 3+2 games reach an
+endgame, and the level row comes in at 41.0% against 43.1% on Lichess, against
+opponents ~500 Elo lower on the nominal scale. Same relationship as the
+hanging-material replication in the chess.com section. The `ahead` row is 58.2%
+on chess.com against 52.2% on Lichess, but n=67 gives it a 22-point interval —
+overlapping, not a difference.
+
+Pooling formats is safe here: split by time control the level row is 42.1%
+[38.0, 46.0] at 3+2 (n=529) and 47.8% [38.4, 57.1] at 5+0 (n=112), overlapping
+heavily. The 5+0 estimate is too thin to rule out a format effect on its own,
+and 42.1% is the conservative figure if one is needed.
 
 This is the strongest direct evidence in the corpus for the endgame track
 (groups C/B/A/D), and unlike the hanging-material finding it is not capped:
 group P addresses ~24% of blunders in winning positions, whereas these two rows
-together are 975 games, 22% of everything in scope. Note it does not overlap the
+together are 1,175 games, 22% of everything in scope. Note it does not overlap the
 group P denominator — that gate requires eval ≥ +150 *and* npm > 14, so every
 game here is outside it by construction.
 
@@ -313,12 +330,21 @@ within it.
 
 #### Flag wins
 
-511 of the 4,459 games end in `Termination "Time forfeit"`. **361 of 2,157 wins
-— 16.7% — are flags.**
+**434 of 2,619 wins — 16.6% — are flags**, and the share is near-identical on
+both sites.
+
+`Termination` does not mean the same thing on the two sites, and getting this
+wrong is silent. Lichess writes `Time forfeit`; chess.com writes free text —
+`"justinmorg won on time"`, `"yossibk5 won on time"`. An equality test against
+`Time forfeit` matches **zero** chess.com games and reports a clean, wrong
+answer, exactly like the `CHESS_USER` failure documented below. `outcomes.py`
+normalises this in `is_flag()` and hard-exits if a run finds no flag wins at
+all. chess.com's `"won - game abandoned"` (27 games in the 2024 Q4 block) is a
+disconnect, not a flag, and is excluded.
 
 | | games | flag wins | as % of wins | flag losses | as % of games |
 |---|---|---|---|---|---|
-| 3+2 | 3,716 | 304 | 17.0% | 99 | 2.7% |
+| 3+2 | 4,661 | 377 | 16.7% | 112 | 2.4% |
 | 5+0 | 743 | 57 | 15.5% | 38 | 5.1% |
 
 Flag *wins* are nearly format-independent. Flag *losses* are not — 2.7% vs 5.1%
@@ -332,16 +358,16 @@ opponent flagged:
 
 | final eval | all flag wins | flag wins in never-reached games |
 |---|---|---|
-| losing (< −100) | 87 (24.1%) | 54 (38.6%) |
-| level (−100 to +100) | 59 (16.3%) | 29 (20.7%) |
-| ahead (+100 to +300) | 32 (8.9%) | 10 (7.1%) |
-| winning (> +300) | 183 (50.7%) | 47 (33.6%) |
-| **total** | **361** | **140** |
+| losing (< −100) | 111 (25.6%) | 63 (39.4%) |
+| level (−100 to +100) | 68 (15.7%) | 33 (20.6%) |
+| ahead (+100 to +300) | 41 (9.4%) | 13 (8.1%) |
+| winning (> +300) | 214 (49.3%) | 51 (31.9%) |
+| **total** | **434** | **160** |
 
 So about a quarter of flag wins overall are rescues; half are games where the
 clock and the board agreed. Inside the never-reached bucket the composition
 inverts — 59% of those 140 came from level or losing positions. That is ~83
-games: 12% of the 694 wins in that bucket, and **under 2% of all games in
+games: 12% of the wins in that bucket, and **under 2% of all games in
 scope**. Flagging is not propping up the score rate.
 
 Depth-12 caveat applies to the last row of that table only: `> +300` sits above

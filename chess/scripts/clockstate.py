@@ -87,7 +87,10 @@ for b in BLOCKS:
             else: bucket = "lost"
 
             ngames[bucket][tc] += 1
-            term[bucket][g.headers.get("Termination","?")] += 1
+            tm = (g.headers.get("Termination","?") or "").lower()
+            term[bucket]["Time forfeit" if (tm == "time forfeit" or
+                                            "won on time" in tm or
+                                            "on time" in tm) else "other"] += 1
 
             # clock at each probe move: last clk of each side at that fullmove
             at = {}
