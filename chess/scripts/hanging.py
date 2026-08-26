@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Extract middlegame positions where jamorgan was >= +150cp and material hung."""
-import chess, chess.pgn, re, math, json, sys
+import chess, chess.pgn, re, math, json, os, sys
 
-USER = "jamorgan"
+# Overridable so the same pipeline can run on non-Lichess exports (e.g. the
+# chess.com corpus, where the account name is "justinmorg"). Default keeps the
+# canonical Lichess behaviour byte-for-byte.
+USER = os.environ.get("CHESS_USER", "jamorgan")
 SEE_VAL = {chess.PAWN:100, chess.KNIGHT:300, chess.BISHOP:300,
            chess.ROOK:500, chess.QUEEN:900, chess.KING:10000}
 MATE_CP = 10000
@@ -131,7 +134,7 @@ def npm(board, scale):
 # ---------------------------------------------------------------- scan
 def scan(path, scale):
     rows = []
-    stats = {"games":0, "user_moves":0, "in_check":0}
+    stats = {"games":0, "user_moves":0, "in_check":0, "matched":0}
     with open(path) as fh:
         while True:
             game = chess.pgn.read_game(fh)
@@ -142,6 +145,7 @@ def scan(path, scale):
             if USER == hw:   me = chess.WHITE
             elif USER == hb: me = chess.BLACK
             else:            continue
+            stats["matched"] += 1
 
             board = game.board()
             prev_eval = 0          # eval of the start position, white POV
@@ -233,6 +237,11 @@ def probe(board, move, node, me, cp_before_me, game, ply, stats):
 if __name__ == "__main__":
     scale = sys.argv[2] if len(sys.argv) > 2 else "light"
     rows, stats = scan(sys.argv[1], scale)
+    if stats["games"] and not stats["matched"]:
+        sys.exit(f"ERROR: {stats['games']} games read but none have "
+                 f"USER={USER!r} as White or Black. Wrong account name for this "
+                 f"file? Set CHESS_USER (e.g. CHESS_USER=justinmorg for the "
+                 f"chess.com corpus). Refusing to emit an empty result.")
     rows.sort(key=lambda r: -r["wp_error"])
     json.dump(rows, open(f"/home/claude/hits_{scale}.json","w"), indent=1)
     from collections import Counter

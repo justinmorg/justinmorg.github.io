@@ -19,9 +19,12 @@ chess/
 │   ├── jamorgan_blitz_2023_2024_raw.pgn.gz   2023-24 games, clocks only, NO evals
 │   ├── jamorgan_blitz_2024h2_analyzed.pgn.gz Aug-Dec 2024 slice, depth-12
 │   ├── jamorgan_blitz_2025q1_analyzed.pgn.gz Q1 2025 slice, depth-12 annotated
-│   └── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
+│   ├── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
+│   └── chesscom_justinmorg_2024q4_analyzed.pgn.gz
+│                                          chess.com Sep-Dec 2024, depth-12
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
+    ├── chesscom_filter.py                    raw chess.com export -> blitz PGN
     ├── annot_inc.py                          resumable annotate — use for big jobs
     ├── longitudinal.py                       compare annotated blocks over time
     ├── merge.py                              fold new games into the corpus
@@ -106,6 +109,12 @@ calibration period (mean rating 1270, mean opponent 1257). It is the earliest
 block worth annotating; see the 2023–2024 caveats above for why 2023 was
 skipped.
 
+Note its Sept–Dec portion is only 273 games, against 808 played on chess.com
+over the same weeks. August is Lichess-heavy (378 games), but from September on
+chess.com was the primary site by roughly 3:1. So 2024 H2 is a *sample* of that
+period, not a census of it — which is exactly why the chess.com block below is
+worth having.
+
 `hanging.py` on the 2026 corpus reproduces 368 hits (290/78) exactly from these
 scripts, so all four blocks are directly comparable.
 
@@ -170,6 +179,11 @@ plateau since then tracks a middlegame hanging-material rate that has never
 responded to anything. That is the argument for group P being deliberate
 practice rather than more games — two years of play did not move it.
 
+That argument got stronger in Aug 2026: the same hanging-material rate was
+measured on 808 concurrent chess.com games (5.51% vs 5.48% on the date-matched
+Lichess games) against opponents 516 Elo lower on the nominal scale. See "The
+chess.com corpus" below — the plateau is not an artifact of one site's pool.
+
 Caveat on all of the above: score rate sits at ~50% in every block by
 construction, since Lichess matchmaking is self-correcting. Rating *level* is
 the improvement metric; score rate is not, and neither is anything measured
@@ -200,9 +214,14 @@ in the PGN — no `?` on the Elo tags — so the only signal is the change
 magnitude. Including them makes April 2023 (mean 818) look like a collapse from
 March (mean 1137) when it is just the system converging.
 
-**2. Coverage is scattered, not continuous.** Zero games in Nov–Dec 2023 and
-Mar–May 2024; June 2024 has one. Roughly 17 months of activity inside a
-22-month window.
+**2. Coverage is scattered, not continuous — but this is not inactivity.**
+Zero games in Nov–Dec 2023 and Mar–May 2024; June 2024 has one. It is tempting
+to read that as ~17 months of activity inside a 22-month window. That reading
+is **wrong**: the chess.com export (see below) shows 463 games in Nov 2023 and
+2,517 in Jan–May 2024, against 196 on Lichess over that same Jan–May stretch.
+The gaps are platform switches, not breaks in play. Treat every Lichess volume
+figure as a lower bound on what was actually played, and see the chess.com
+section for which windows are recoverable.
 
 **3. Four time controls, two of them absent from every later file.** 3+2
 (1,247), 3+0 (151), 5+0 (136), 5+3 (108). The pooling default documented below
@@ -242,6 +261,155 @@ clock at ~18–20s from move 40 on; 5+0 keeps a larger cushion but has no floor
 (10th percentile at move 60 is 3s). Losses on time are similar in both (4.55%
 vs 4.99%) by different mechanisms. Split by `TimeControl` for anything
 clock-dependent late in the game, and check CI overlap before pooling.
+
+## The chess.com corpus
+
+`justinmorg` on chess.com is the same player. The account predates nothing —
+Lichess starts 2023-03-19, chess.com 2023-06-14 — but it ran *concurrently* with
+Lichess for most of the project's history, and during several stretches it was
+the primary site. Any question of the form "what was he doing in <month>" needs
+both.
+
+Raw monthly exports are pulled from chess.com's archive endpoint and filtered
+with `chesscom_filter.py`:
+
+```bash
+python3 chess/scripts/chesscom_filter.py cc_blitz.pgn ChessCom_justinmorg_*.pgn
+```
+
+The raw exports mix everything the account played that month into one file, and
+three of those things will silently corrupt any analysis:
+
+1. **Time-control classes have separate rating pools.** Blitz, bullet and rapid
+   each carry their own chess.com rating. Pooling them makes the Elo tags
+   meaningless — including rapid made April 2024 read as Elo 972 when the blitz
+   rating that month was 686. The filter keeps blitz only, classed by
+   `base + 40*increment` (<180s bullet, 180–599s blitz, ≥600s rapid).
+2. **Within blitz, formats do share one pool.** Verified: in months mixing 3+0,
+   3+2 and 5+0, mean Elo per format sits within ~10–30 points, and the mean
+   absolute rating change between consecutive games is the same whether the
+   format switched or not (7.4 vs 7.9). So the blitz set is one continuous
+   rating series and can be treated as such — but see the 3+0 caveat below.
+3. **Variants and daily games are in there.** 29 variant games (Crazyhouse,
+   Three-Check, Chess960) and 4 correspondence games, all dropped by `Event`.
+
+### Verified contents of the filtered blitz set
+
+2,977 games, 184,408 plies, 2023-06-14 → 2026-04-01, deduped on game id.
+By block, with 3+2 counts:
+
+| block | games | plies | formats | notes |
+|---|---|---|---|---|
+| 2023 Jun–Nov | 362 | 21,312 | 351 at 3+2 | pre-repertoire — Englund absent entirely, Caro 16% in Jun–Jul |
+| 2024 Jan–Apr | 1,667 | 100,969 | 1,071 at 3+0, 525 at 5+0 | Lichess is near-silent here |
+| 2024 Sep–Dec | 811 | 52,097 | 808 at 3+2 | **annotated** — see below |
+| 2026 Feb–Apr | 137 | 10,030 | all 3+2 | concurrent with the 2026 corpus |
+
+Nothing between 2025-01 and 2026-01 was exported. A July 2025 file exists (~6
+games at Elo 754–827) but failed to transfer three times; it is not in this set.
+
+The Jan–Apr 2024 block is the largest single body of unanalysed play anywhere in
+this project, and it fills a genuine Lichess hole — but it is 1,071 games of
+**3+0**, the one clock regime this project has never verified as poolable. It
+needs its own comparison, not a row in the existing table.
+
+### `chesscom_justinmorg_2024q4_analyzed.pgn.gz`
+
+811 games, 52,097 plies, 2024-09-02 → 2024-12-27. Depth-12, same engine and
+output format as every other analyzed file.
+
+| | |
+|---|---|
+| Games | 811 |
+| Plies | 52,097 |
+| Event type | `Live Chess` (all 811) |
+| Time control | 808 at 180+2, 3 at 300 |
+| Results | 413 W / 371 L / 27 D (raw `Result` tag, not per-colour) |
+| Eval coverage | 52,097 / 52,097 plies |
+| Clock coverage | 52,097 / 52,097 plies |
+| Duplicate GameIds | 0 |
+| Mean rating / opponent | 774 / 774 |
+
+It was annotated because it is date-matched to the Sept–Dec portion of the
+2024 H2 Lichess block, at the same time control, in a different pool — making it
+a direct replication test of the finding this whole project rests on.
+
+**It replicates.** Restricted to 3+2, Sept–Dec 2024 both sides:
+
+| | Lichess | chess.com |
+|---|---|---|
+| games | 273 | 808 |
+| eligible winning-middlegame moves | 821 | 2,650 |
+| hanging material (0.02 floor) | 5.48% [4.02, 7.06] | 5.51% [4.64, 6.38] |
+| blunder rate, moves 1–12 | 3.80% | 3.79% |
+| blunder rate, moves 26+ | 12.65% | 13.51% |
+| reached ≥+200 in middlegame | 53.5% | 55.6% |
+| score from won positions | 61.3% | 63.7% |
+| mean opponent Elo | 1290 | 774 |
+
+A 516-point nominal rating gap and effectively identical error rates. Two
+consequences worth keeping:
+
+- The plateau is **not a Lichess matchmaking artifact**. It reproduces in an
+  independent pool.
+- The gap between the two account ratings is **pure pool calibration**. Do not
+  read a chess.com Elo as a weaker version of the player; read it as the same
+  player on a different scale.
+
+The chess.com blitz series independently shows the same shape over three years
+(≈616 mid-2023 → 825 end-2024 → 906 early-2026): a climb through 2024 and a much
+shallower stretch after. That is a second, independent sighting of the plateau.
+Treat the 2026 figures with care, though — the account was dormant for ~14
+months and the first ~20 games back are rating-deviation reconvergence (mean
+|delta| 15.8, settling to ~7.2), the same class of artifact as the 2023 Lichess
+calibration note above.
+
+**One thing that may not replicate.** `hung it myself` comes in at 1.66%
+[1.21, 2.19] on chess.com, against 1.00 / 1.06 / 1.08 / 1.06 across the four
+Lichess blocks — the stability the section above singles out. The chess.com
+interval's lower bound clears three of those four point estimates. But the
+date-matched Lichess figure is 1.22% [0.49, 2.07], which overlaps it, so this is
+a flag to watch as more chess.com blocks are annotated, not a finding.
+
+### Two format differences from the Lichess files
+
+**Clocks carry tenths.** chess.com emits `0:03:02.6` where Lichess emits
+`0:03:00`. These are kept as-is — no script in this pipeline parses `[%clk]`, and
+the precision is real information for clock work. So a comment in a chess.com
+file reads:
+
+```
+{ [%eval 0.34] [%clk 0:03:02.6] }
+```
+
+**`GameId` is injected.** chess.com does not emit one, but `annot_inc.py`
+resumes by it, `merge.py` dedupes by it, and the drill tick keys are
+`{mode}-{gid}-{ply}`. `chesscom_filter.py` writes `cc` + the numeric id from the
+`Link` tag, e.g. `cc109056146404`. Deliberately: no hyphen, so it cannot corrupt
+a tick key; the `cc` prefix makes provenance visible at a glance in stored
+progress; 14 chars against Lichess's 8, so collision is impossible.
+
+### `CHESS_USER` — read this before running anything on chess.com data
+
+`hanging.py` and `longitudinal.py` identify the player by username and **skip
+every game that doesn't match**. Both defaulted to a hardcoded `jamorgan`, so
+pointing either at chess.com data produced a clean, silent zero.
+
+Both now read the `CHESS_USER` environment variable, defaulting to `jamorgan`:
+
+```bash
+CHESS_USER=justinmorg python3 chess/scripts/hanging.py cc_2024q4.pgn light
+CHESS_USER=justinmorg python3 chess/scripts/longitudinal.py CC=cc_2024q4.pgn --tc 180+2
+```
+
+`hanging.py` additionally hard-exits if a file yields games but no matching ones,
+rather than reporting an empty result. Verified behaviour-neutral for the
+Lichess path: it still reproduces 368 hits (290/78) on the 2026 corpus exactly.
+
+Group P drills are still built from Lichess positions only. Mixing pools into
+the drill set is a live decision, not something the current
+`build_drills2.py` does — and it would change the counter denominator, so read
+the tick-key section before attempting it.
 
 ## Every eval is local depth-12 Stockfish 16
 
