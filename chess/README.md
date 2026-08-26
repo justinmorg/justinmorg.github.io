@@ -19,6 +19,7 @@ chess/
 │   ├── jamorgan_blitz_2023_2024_raw.pgn.gz   2023-24 games, clocks only, NO evals
 │   ├── jamorgan_blitz_2024h2_analyzed.pgn.gz Aug-Dec 2024 slice, depth-12
 │   ├── jamorgan_blitz_2025q1_analyzed.pgn.gz Q1 2025 slice, depth-12 annotated
+│   ├── jamorgan_blitz_2025q2_analyzed.pgn.gz Q2 2025 slice, depth-12 annotated
 │   ├── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 │   ├── chesscom_justinmorg_blitz_raw.pgn.gz  all chess.com blitz, unannotated
 │   └── chesscom_justinmorg_2024q4_analyzed.pgn.gz
