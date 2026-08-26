@@ -1126,6 +1126,117 @@ First-major-deterioration ply, phase bands and trajectory typologies are
 groupbys on `moves.csv`, not stored fields. Their cutoffs will get argued over,
 and baking them in means re-running the pass each time.
 
+## Think time and error rate
+
+The one crossing the corpus had never been run: seconds spent on a move against
+whether that move was a blunder. `features.py`'s `spend` column makes it a
+groupby. Scope throughout is own moves, `fullmove > 12`, non-mate,
+`0 <= spend <= 60` (8 negative and 55 over-60 rows are clock adjustments and
+lag, dropped exactly as `clockstate.py` does it).
+
+**Blunder rate rises monotonically with think time, in both formats.**
+
+| spend | 3+2 | 5+0 |
+|---|---|---|
+| 0 (premove) | 6.13% | 9.09% |
+| 0–1s | 7.19% | 6.07% |
+| 1–2s | 7.81% | 6.56% |
+| 2–4s | 8.78% | 7.98% |
+| 4–8s | 10.13% | 9.23% |
+| 8–16s | 12.55% | 10.74% |
+| 16s+ | 15.69% | 17.36% |
+
+It survives conditioning. Direct standardization across 594 strata — move band
+× legal-move quartile × captures available × eval bucket × in-check × format —
+puts fast (≤2s) at 7.29% and slow (≥8s) at 12.78%, a +5.50 pp gap against
++5.77 pp raw. The difficulty proxies absorb almost nothing. Stratified
+permutation, 2,000 shuffles: p < 0.0005.
+
+### The predicted pattern is absent
+
+The hypothesis worth testing was "fast move with plenty of clock → board vision
+or impulse failure." That cell is the *safest* on the board:
+
+| 3+2 | fast (≤2s) | slow (≥8s) |
+|---|---|---|
+| pressure (<30s) | 10.22% (n=11,653) | 16.92% (n=1,773) |
+| moderate | 6.52% (n=9,685) | 13.63% (n=8,721) |
+| comfortable (>90s) | 5.56% (n=11,686) | 12.44% (n=13,013) |
+
+Time pressure is real and roughly additive, but it is the smaller of the two
+effects. 5+0 shows the same layout.
+
+### It reaches group P
+
+Per eligible winning-middlegame move, floored hang rate by spend: 1.57% (≤1s),
+2.96%, 4.01%, 4.31%, 5.35%, **8.18%** (16s+). Median spend on a floored hit is
+8.0s against 6.0s across eligible moves. **Only 10% of floored hits occur on
+moves of ≤2s.**
+
+Holding the objective situation fixed — the 5,119 eligible positions where
+material was *already* hanging before the move, so the task is identical
+across rows — the failure rate still climbs:
+
+| spend | failed to address a standing threat |
+|---|---|
+| ≤2s | 6.8% [5.13, 8.40] (n=917) |
+| 2–4s | 10.4% [8.43, 12.32] |
+| 4–8s | 11.5% [9.83, 13.33] |
+| 8–16s | 13.4% [11.50, 15.31] |
+| 16s+ | 21.4% [18.28, 24.37] (n=673) |
+
+Self-inflicted hangs show the same gradient on a smaller base: 0.91% → 2.31%.
+
+### What this does and does not license
+
+**It does not license moving faster.** Think time is a *response* to difficulty,
+not an independent input, and difficulty is not measured here — `n_legal` and
+capture counts are weak proxies, and even the conditioned set above spans a
+loose knight and a piece that cannot cleanly be saved. Reverse causality is the
+leading explanation and this design cannot rule it out. Any reading of the form
+"spend less time and blunder less" is unsupported and would be acted on at real
+cost.
+
+What holds regardless of causality is a **targeting** fact: the error mass sits
+in positions that got real time. The plausible reframe is that hard positions
+are correctly identified and then failed at two to three times base rate, which
+is a resolution problem rather than a scanning one. That is consistent with the
+~76% of blunders in won positions that are judgment rather than hanging
+material, and it puts a question mark over the 15-second-scan drill protocol —
+that format trains the ≤2s slice, which is 10% of the hits.
+
+### Scoping the test that would settle it
+
+Separating difficulty-selection from a genuine time effect needs a difficulty
+measure the corpus lacks: **how many moves actually hold the advantage**. That
+is a multi-PV annotation, and it is new engine work on the 5,119 conditioned
+positions. Measured on this hardware, single core, `multipv 8`:
+
+| depth | s/position | full 5,119 set |
+|---|---|---|
+| 16 | 1.47 | **125 min** |
+| 20 | 7.36 | 628 min |
+
+Depth 20 is not worth 5× the time here. Two notes before running it:
+
+- **Bin the output coarsely** — `only move` (1 adequate) / `narrow` (2–3) /
+  `wide` (4+). On a 12-position spot check, depth 16 and depth 20 agreed on the
+  raw count in 7 of 12 but would agree far more often on coarse bins. The raw
+  count is noisier than the question needs.
+- **Subsample first.** ~2,000 positions (49 min) is enough to see whether the
+  fast/slow gap collapses inside difficulty strata; the full set is only needed
+  to estimate the *attenuation* precisely. At full size the fast-vs-slow
+  difference carries about ±3.5 pp against an observed 14.6 pp gap.
+
+Positions are recoverable from `moves.csv.gz` by `(gid, ply)` — `features.py`
+does not store FENs, since ~90 bytes × 178k rows would triple the file for a
+column almost every query ignores. A short re-walk of the source PGNs keyed on
+those pairs regenerates them in about a minute.
+
+Run it in a resumable wrapper on the `annot_inc.py` pattern: sandbox commands
+have a time limit and background jobs do not survive between them, so 125
+minutes is ~31 budgeted calls, not one.
+
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is
