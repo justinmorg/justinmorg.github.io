@@ -1208,31 +1208,51 @@ that format trains the ≤2s slice, which is 10% of the hits.
 
 ### The multi-PV test: solution narrowness does not explain it
 
-`multipv.py` annotated a seeded subsample (650 fast + 650 slow, seed 23, drawn
-from the 3,076 conditioned positions with a usable clock) at depth 16,
-`multipv 8`, recording how many moves come within 100cp of best. Coarse bins:
-only-move (1) / narrow (2–3) / wide (4+).
+`multipv.py` annotated the full contrast set — all 3,076 conditioned positions
+with a usable clock at ≤2s or ≥8s — at depth 16, `multipv 8`, recording how many
+moves come within 100cp of best. Coarse bins: only-move (1) / narrow (2–3) /
+wide (4+).
 
 **The selection runs backwards from the confound hypothesis.** Fast moves sit
 on positions with *fewer* adequate replies, not more:
 
-| | only move | narrow (2–3) | wide (4+) | median |
-|---|---|---|---|---|
-| fast (≤2s) | 51.2% | 29.5% | 19.2% | 1 |
-| slow (≥8s) | 30.3% | 35.1% | 34.6% | 2 |
+| | only move | narrow (2–3) | wide (4+) |
+|---|---|---|---|
+| fast (≤2s) | 51.0% | 29.7% | 19.3% |
+| slow (≥8s) | 31.4% | 33.8% | 34.9% |
 
 Failure to address a standing threat, within difficulty bin:
 
-| difficulty | fast (≤2s) | slow (≥8s) |
-|---|---|---|
-| only move (1) | 6.6% [4.2, 9.3] n=333 | 18.8% [13.7, 24.4] n=197 |
-| narrow (2–3) | 7.8% [4.2, 12.0] n=192 | 17.5% [12.7, 22.8] n=228 |
-| wide (4+) | 8.0% [3.2, 12.8] n=125 | 12.9% [8.9, 17.3] n=225 |
+| difficulty | fast (≤2s) | slow (≥8s) | gap |
+|---|---|---|---|
+| only move | 6.6% [4.5, 9.0] n=468 | 19.5% [16.4, 22.5] n=677 | +12.9 |
+| narrow (2–3) | 7.7% [4.8, 11.0] n=272 | 15.4% [12.8, 18.1] n=729 | +7.6 |
+| wide (4+) | 5.6% [2.3, 9.0] n=177 | 12.9% [10.5, 15.4] n=753 | +7.2 |
 
-Raw gap +9.1 pp; standardized across the three bins **+9.4 pp** — the
-conditioning does not attenuate it at all, it very slightly widens it.
-Stratified permutation, 4,000 shuffles: p < 0.00025. 4.5% of positions were
-saturated at `multipv 8`, so a handful of `wide` rows are undercounted.
+Standardized across the three bins: fast **6.7%**, slow **16.2%**, gap
+**+9.5 pp** — conditioning does not attenuate the raw gap at all.
+
+### The difficulty interaction did not replicate
+
+On the first 1,300 positions the gap ordered monotonically by difficulty
+(+12.2 / +9.7 / +4.9 pp), which fits an appealing mechanism: see it and play it
+fast, or fail to see it and grind. The only-move-minus-wide contrast was
++7.3 pp at p = 0.052, so the remaining 1,776 positions were annotated to settle
+it.
+
+**On the held-out 1,776 alone the interaction is +0.2 pp, p = 0.47.** The
+monotone ordering is gone — held-out gaps run +13.1 / +6.9 / +12.9. The
+pooled 3,076 figure of +5.6 pp at p = 0.027 is not a valid test, because the
+1,300 in which the pattern was spotted are inside it.
+
+Third instance of this failure mode here, after the June 2025 dip and the
+Q1→Q3 hanging-material drop. All three: a monotone ordering across small bins,
+a mechanism that explains it, and no replication. **Do not re-chase it.** The
+honest reading is that the fast/slow gap is roughly constant across solution
+narrowness.
+
+The main effect is unaffected — it rests on 3,076 positions and a standardized
++9.5 pp, not on the ordering.
 
 **What this closes and what it doesn't.** The natural confound — that long
 thinks select positions where only one move works — is refuted, and refuted in
