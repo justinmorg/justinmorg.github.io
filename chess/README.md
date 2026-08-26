@@ -181,8 +181,12 @@ plateau since then tracks a middlegame hanging-material rate that has never
 responded to anything. That is the argument for group P being deliberate
 practice rather than more games — two years of play did not move it.
 
-That argument got stronger in Aug 2026: the same hanging-material rate was
-measured on 808 concurrent chess.com games (5.51% vs 5.48% on the date-matched
+That argument got stronger in Aug 2026 in two ways. Q2 2025 was annotated
+(1,559 games) and a game-level label-shuffle across all five blocks — 12,259
+eligible moves — returns p = 0.71: no block differs from any other. The apparent
+Q1→Q3 2025 drop was noise; see "Q2 2025, and why the Q1→Q3 drop was not real".
+Second, the same hanging-material rate was measured on 808 concurrent chess.com
+games (5.51% vs 5.48% on the date-matched
 Lichess games) against opponents 516 Elo lower on the nominal scale. See "The
 chess.com corpus" below — the plateau is not an artifact of one site's pool.
 
@@ -190,6 +194,87 @@ Caveat on all of the above: score rate sits at ~50% in every block by
 construction, since Lichess matchmaking is self-correcting. Rating *level* is
 the improvement metric; score rate is not, and neither is anything measured
 against opponents whose strength tracks yours.
+
+### Q2 2025, and why the Q1→Q3 drop was not real
+
+Q1 2025 (5.23%) and Q3 2025 (4.31%) were annotated before Q2, and the apparent
+drop between them was the only movement in the hanging-material table. It looked
+like something had changed mid-2025, right where the rating plateau begins.
+Q2 was annotated (1,559 games — larger than Q1 and Q3 combined) to find out
+whether the change was gradual or stepped.
+
+It was neither. Monthly, per eligible winning-middlegame move, floored:
+
+| month | games | eligible | floored rate |
+|---|---|---|---|
+| Apr 2025 | 407 | 1,340 | 4.85% |
+| May 2025 | 477 | 1,653 | 4.96% |
+| Jun 2025 | 675 | 2,012 | 3.63% |
+| **Q2 total** | **1,559** | **5,005** | **4.40% [3.84, 4.96]** |
+
+June looks like a sharp dip. It is not one. Testing it requires correcting for
+the fact that June was chosen *because* it was the lowest of three months, so
+the test shuffles game-to-month labels and asks how often the **minimum** monthly
+rate falls that low by chance: p = 0.13. The spread across the three months
+gives p = 0.20. Both null.
+
+**With Q2 in place, the flatness result is much stronger than before.** Five
+blocks, 12,259 eligible moves:
+
+| block | eligible | floored rate | hung it myself |
+|---|---|---|---|
+| 2024 H2 | 2,090 | 5.02% | 1.00% |
+| Q1 2025 | 1,224 | 5.23% | 1.06% |
+| Q2 2025 | 5,005 | 4.40% | 1.30% |
+| Q3 2025 | 1,300 | 4.31% | 1.08% |
+| 2026 | 2,640 | 4.73% | 1.06% |
+
+Game-level label-shuffle across all five blocks, 20,000 shuffles:
+
+- hanging material: observed spread 0.92 pp, **p = 0.71**
+- hung it myself: observed spread 0.29 pp, **p = 0.91**
+
+No block differs from any other on either measure. The Q1→Q3 drop was sampling
+noise in two small blocks, and Q2's tight interval now anchors the middle of the
+series. Do not re-chase it — same category as the moves-13–25 block-selection
+artifact recorded above.
+
+This also **retracts a flag raised when Q2 was first measured**: Q2's `hung it
+myself` rate of 1.30% looked elevated against the 1.00/1.06/1.08/1.06 of the
+other blocks, and within Q2 it declined monthly (1.79 → 1.39 → 0.89). At p =
+0.91 across blocks, none of that is real. Two large blocks landing high is what
+noise looks like when most blocks are small.
+
+### One cross-pool difference that may be real
+
+Because the five Lichess blocks are homogeneous (above), pooling them is
+licensed. Against the chess.com Sep–Dec 2024 block:
+
+| | Lichess (pooled) | chess.com | diff | p |
+|---|---|---|---|---|
+| games | 3,716 | 808 | | |
+| hanging material, floored | 4.65% | 5.51% | +0.86 pp | 0.084 |
+| **hung it myself** | **1.15%** | **1.66%** | **+0.51 pp** | **0.031** |
+
+Overall hanging material does not differ. `hung it myself` — losing material
+with no opponent threat present, the pure board-scanning failure — does, at
+p = 0.031.
+
+Treat this as suggestive, not established:
+
+- Many tests were run in the session that produced it; this is the only one
+  under 0.05, and it would not survive a strict correction.
+- Pool is confounded with time. The chess.com block is Sep–Dec 2024 while the
+  pooled Lichess side spans 2024–2026. The homogeneity result is what makes
+  pooling defensible, but the date-matched comparison alone (273 Lichess games)
+  gives 1.66% vs 1.22% with overlapping intervals — underpowered either way.
+- If it is real, the mechanism is not obvious. An interface effect — different
+  board, piece set, premove behaviour on a less-familiar site — would fit a
+  scanning-specific failure that leaves every other metric untouched, but that
+  is a hypothesis, not a finding.
+
+Re-testable cheaply: annotating the 2026 Feb–Apr chess.com block (137 games,
+~7 min) adds a second, independent chess.com sample from a different year.
 
 ### The 2023–2024 file needs filtering before use
 
