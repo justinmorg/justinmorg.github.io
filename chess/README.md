@@ -1286,6 +1286,116 @@ random subset up front and run *that* to completion, rather than truncating a
 sorted queue — the same reasoning as the rarefaction and block-selection
 artifacts recorded elsewhere in this README.
 
+## Open threads
+
+Written to be picked up cold. Read this section plus `features.py`'s docstring
+and you have the state; nothing below depends on remembering a conversation.
+
+Setup for any of it:
+
+```bash
+pip install chess --break-system-packages
+python3 /mnt/skills/user/github-access/scripts/github.py clone justinmorg/justinmorg.github.io
+cd /home/claude && for f in justinmorg.github.io/chess/data/*_analyzed.pgn.gz; do
+  gunzip -c "$f" > "$(basename "${f%.gz}")"; done
+python3 justinmorg.github.io/chess/scripts/features.py \
+  2024H2=jamorgan_blitz_2024h2_analyzed.pgn Q1-2025=jamorgan_blitz_2025q1_analyzed.pgn \
+  Q2-2025=jamorgan_blitz_2025q2_analyzed.pgn Q3-2025=jamorgan_blitz_2025q3_analyzed.pgn \
+  2026=jamorgan_blitz_2026_analyzed.pgn CC-2024Q4=chesscom_justinmorg_2024q4_analyzed.pgn \
+  CC-2026=chesscom_justinmorg_2026febapr_analyzed.pgn \
+  --tc 180+2,300+0 --user-map CC-2024Q4=justinmorg CC-2026=justinmorg \
+  --out /home/claude/features
+```
+
+~100 s, and it should print 5,404 games / 178,684 own-move rows. If it doesn't,
+stop and find out why before running anything else.
+
+### 1. Opponent's previous move — controlled version
+
+The highest-priority open item, because it has an uncontrolled result sitting
+on it. Raw, from `moves.csv.gz` (own moves, `fullmove > 12`, non-mate):
+
+| opponent's previous move | freq | my blunder rate |
+|---|---|---|
+| check | 8.8% | 7.95% |
+| capture | 25.3% | 8.46% |
+| pawn_break | 2.3% | 10.44% |
+| quiet | 63.6% | 10.16% |
+| created a threat | 18.0% | 11.58% |
+| did not | 82.0% | 9.09% |
+
+Forcing moves look *safe* and quiet moves look dangerous, which is the reverse
+of the intuition. Two confounds have to die first: forcing moves shrink
+`n_legal`, and the created-threat row is partly built in, since a standing
+threat ≥150 guarantees the material exists to lose.
+
+Method is already worked out — copy the think-time treatment: direct
+standardization across strata (move band × `n_legal` quartile × `n_caps_avail`
+× eval bucket × `in_check` × `tc`), then a stratified permutation test. Report
+the standardized contrast, not the raw one.
+
+### 2. First major deterioration
+
+A groupby on `moves.csv.gz`, no new data. Per game, first ply where
+`drop_cp >= 100 / 200 / 300`; temporary vs permanent from whether `cp_before`
+recovers within N later own moves. Deliberately not a stored column — the
+thresholds and recovery window are the thing being chosen.
+
+Most useful against the `even` bucket in `games.csv`, which currently has no
+error-timing profile at all despite being 529 games scoring 40.5%.
+
+### 3. Manual review of level endgames
+
+The only item that ends in a training change rather than another table, and the
+one with the strongest evidence behind it: a level endgame returns 42.7% over
+774 games, a one-to-three-pawn edge 53.2% over 401.
+
+Pull 30–50 from `games.csv` where `eg_entry_cp` is in [−100, +100], play through
+them, and look for the human pattern. Not automatable, which is why it keeps
+slipping.
+
+### 4. Cheap groupbys, no new instrument
+
+Columns exist and are unused: `queens_on` (with the controls the queen question
+needs — phase, eval, complexity, material, clock), the complexity block as
+covariates rather than findings, and game-trajectory typologies. Low expected
+value individually; each is minutes of work.
+
+### 5. Middle of the spend curve
+
+`multipv.py` covers only ≤2s and ≥8s. The 2–8s band, ~1,000 positions and
+~25 min at depth 16, would fill in the curve. **Motivation is weak now** — it
+was going to test a bimodality prediction that died with the interaction. Do it
+only if some other question needs the middle.
+
+### 6. A real difficulty instrument
+
+The open question the corpus cannot currently answer: think time may be a
+*marker* of not having seen the threat rather than a cause of failing to handle
+it. `n_within_100` measures solution narrowness, which is not the same thing —
+a forced recapture is maximally narrow and trivially easy.
+
+Capturing human difficulty needs a different annotation, not more depth:
+whether the saving move is a capture or a quiet retreat, whether the threat is
+one or two moves deep, whether the correct reply is forward or backward. That's
+a design problem first. Don't start it by running an engine.
+
+### Do not re-chase
+
+- The gap-by-difficulty interaction. Held out at p = 0.47. Third instance of
+  monotone-ordering-plus-mechanism-plus-no-replication.
+- The June 2025 hanging-material dip, and the Q1→Q3 drop.
+- The moves 13–25 apparent improvement.
+- The chess.com `hung it myself` difference — open, but not cheaply resolvable;
+  see that section for what it would actually take.
+
+### Declined on purpose
+
+LLM classification of error types (step 10 of the source outline) was
+considered and rejected: it adds a measurement instrument with unknown error
+rate to a project whose main asset is that its numbers survive re-testing. If
+it's ever wanted, it needs a hand-labelled validation subset built first.
+
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is
