@@ -22,8 +22,10 @@ chess/
 │   ├── jamorgan_blitz_2025q2_analyzed.pgn.gz Q2 2025 slice, depth-12 annotated
 │   ├── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 │   ├── chesscom_justinmorg_blitz_raw.pgn.gz  all chess.com blitz, unannotated
-│   └── chesscom_justinmorg_2024q4_analyzed.pgn.gz
-│                                          chess.com Sep-Dec 2024, depth-12
+│   ├── chesscom_justinmorg_2024q4_analyzed.pgn.gz
+│   │                                      chess.com Sep-Dec 2024, depth-12
+│   └── chesscom_justinmorg_2026febapr_analyzed.pgn.gz
+│                                          chess.com Feb-Apr 2026, depth-12
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── chesscom_filter.py                    raw chess.com export -> blitz PGN
@@ -245,36 +247,53 @@ other blocks, and within Q2 it declined monthly (1.79 → 1.39 → 0.89). At p =
 0.91 across blocks, none of that is real. Two large blocks landing high is what
 noise looks like when most blocks are small.
 
-### One cross-pool difference that may be real
+### A cross-pool difference that did not hold up
 
-Because the five Lichess blocks are homogeneous (above), pooling them is
-licensed. Against the chess.com Sep–Dec 2024 block:
+Recorded because it was pushed as suggestive and then failed a better test.
 
-| | Lichess (pooled) | chess.com | diff | p |
-|---|---|---|---|---|
-| games | 3,716 | 808 | | |
-| hanging material, floored | 4.65% | 5.51% | +0.86 pp | 0.084 |
-| **hung it myself** | **1.15%** | **1.66%** | **+0.51 pp** | **0.031** |
+Pooling the five Lichess blocks (licensed by the homogeneity result above)
+against the chess.com Sep–Dec 2024 block gave `hung it myself` 1.15% vs 1.66%,
++0.51 pp, p = 0.031, while overall hanging material did not differ. The obvious
+follow-up was a second, independent chess.com sample, so Feb–Apr 2026 was
+annotated (137 games).
 
-Overall hanging material does not differ. `hung it myself` — losing material
-with no opponent threat present, the pure board-scanning failure — does, at
-p = 0.031.
+It came in *higher still* — 2.86% [1.52, 4.38] — which looked like confirmation.
+It isn't. Two date-matched windows, permuting pool labels **within** window so
+that time cannot stand in for pool:
 
-Treat this as suggestive, not established:
+| window | pool | games | eligible | hanging | hung it myself |
+|---|---|---|---|---|---|
+| 2024 Sep–Dec | Lichess | 273 | 821 | 5.48% | 1.22% |
+| 2024 Sep–Dec | chess.com | 808 | 2,650 | 5.51% | 1.66% |
+| 2026 Feb–Apr | Lichess | 433 | 1,506 | 5.25% | 1.39% |
+| 2026 Feb–Apr | chess.com | 137 | 525 | 4.95% | 2.86% |
 
-- Many tests were run in the session that produced it; this is the only one
-  under 0.05, and it would not survive a strict correction.
-- Pool is confounded with time. The chess.com block is Sep–Dec 2024 while the
-  pooled Lichess side spans 2024–2026. The homogeneity result is what makes
-  pooling defensible, but the date-matched comparison alone (273 Lichess games)
-  gives 1.66% vs 1.22% with overlapping intervals — underpowered either way.
-- If it is real, the mechanism is not obvious. An interface effect — different
-  board, piece set, premove behaviour on a less-familiar site — would fit a
-  scanning-specific failure that leaves every other metric untouched, but that
-  is a hypothesis, not a finding.
+- hanging material: cc − li = +0.09 pp, **p = 0.88**
+- hung it myself: cc − li = +0.53 pp, **p = 0.10**
 
-Re-testable cheaply: annotating the 2026 Feb–Apr chess.com block (137 games,
-~7 min) adds a second, independent chess.com sample from a different year.
+The direction is consistent across both windows (+0.44 and +1.47 pp), but it is
+not significant once time is controlled.
+
+**Why the pooled test overstated it.** Pooling the whole Lichess corpus put the
+baseline at 1.15%, but the two date-matched sub-windows sit at 1.22% and 1.39%.
+The homogeneity result says that spread is noise — which is exactly the point:
+it is noise the pooled comparison silently absorbed into the *contrast*.
+Homogeneity licenses pooling for comparisons *between* Lichess blocks. It does
+not license using a pooled Lichess baseline against a block drawn from specific
+weeks. Match the dates.
+
+**Status: unresolved, and not cheaply resolvable.** Detecting a ~0.5 pp
+difference on a ~1.2% base needs several times the current 3,175 chess.com
+eligible moves. The remaining un-annotated chess.com 3+2 games number only 422
+(351 from 2023, pre-repertoire; 71 from 2024). The only large block left is
+1,071 games at 3+0, which is not verified as poolable. Either accept this as
+open or generate new chess.com 3+2 games.
+
+One observation worth keeping, on small numbers: in the 2026 chess.com block the
+composition inverts — 15 of 26 floored hits are `hung it myself` against 11
+`missed their threat`. Every other block measured, on either site, is roughly
+3:1 the other way. On 26 hits that is not worth acting on, but it is the thing
+to look at first if more chess.com data ever arrives.
 
 ### The 2023–2024 file needs filtering before use
 
