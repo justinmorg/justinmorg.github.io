@@ -5,12 +5,20 @@ features.py — one pass over the annotated blocks, two flat tables.
 Usage:
     python3 features.py LABEL=block.pgn [LABEL=block.pgn ...] \
         [--tc 180+2,300+0] [--user-map LABEL=username ...] [--out DIR]
+        [--emit-fens all|elig_P|standing_threat]
 
 Emits, into --out (default /home/claude/features/):
 
     moves.csv.gz    one row per *own* move; opponent context as columns
     games.csv       one row per game
     manifest.json   per-block provenance: counts, date range, filters, sha
+    fens.csv.gz     only with --emit-fens; (gid, ply, block, fen)
+
+FENs are off by default: ~70 bytes x 178k rows would triple moves.csv.gz for a
+column almost every query ignores. When they are needed — multi-PV work, drill
+building, eyeballing a position — `--emit-fens` writes them from the same pass,
+so they cannot drift from the rows they describe. Do not reconstruct them with a
+separate re-walk.
 
 Everything downstream is a groupby on these. No engine required — the evals
 already in the PGN plus python-chess is the whole dependency set.
@@ -164,8 +172,8 @@ def opp_move_kind(board, move):
     return "quiet"
 
 
-def scan(path, label, user, tcs):
-    mrows, grows = [], []
+def scan(path, label, user, tcs, fen_sel=None):
+    mrows, grows, fens = [], [], []
     st = Counter()
     plies_total = plies_evald = 0
     dates = []
@@ -298,6 +306,18 @@ def scan(path, label, user, tcs):
                     prev_own_see_after = see_af
                     prev_own_to = move.to_square
                     pending_opp = None
+
+                    # FENs are emitted here rather than by a later re-walk: the
+                    # board is already in hand, so it costs nothing, and the
+                    # position is guaranteed to be the one the row describes.
+                    if fen_sel is not None:
+                        row = game_rows[-1]
+                        if (fen_sel == "all"
+                                or (fen_sel == "elig_P" and row["elig_P"])
+                                or (fen_sel == "standing_threat"
+                                    and row["elig_P"] and see_st >= 150)):
+                            fens.append({"gid": gid, "ply": ply, "block": label,
+                                         "fen": board.fen()})
                 else:
                     pending_opp = {
                         "san": board.san(move),
@@ -334,17 +354,22 @@ def scan(path, label, user, tcs):
                 "eco": game.headers.get("ECO", ""),
                 "bucket": bucket,
             })
-    return mrows, grows, st, plies_total, plies_evald, dates
+    return mrows, grows, fens, st, plies_total, plies_evald, dates
 
 
 def main(argv):
-    tcs, blocks, umap = None, [], {}
+    tcs, blocks, umap, fen_sel = None, [], {}, None
     out = "/home/claude/features"
     i = 0
     while i < len(argv):
         a = argv[i]
         if a == "--tc":
             tcs = set(argv[i + 1].split(",")); i += 2; continue
+        if a == "--emit-fens":
+            fen_sel = argv[i + 1]
+            if fen_sel not in ("all", "elig_P", "standing_threat"):
+                sys.exit("--emit-fens takes: all | elig_P | standing_threat")
+            i += 2; continue
         if a == "--out":
             out = argv[i + 1]; i += 2; continue
         if a == "--user-map":
@@ -367,10 +392,10 @@ def main(argv):
     except Exception:
         sha = ""
 
-    all_m, all_g, manifest = [], [], []
+    all_m, all_g, all_f, manifest = [], [], [], []
     for lab, path in blocks:
         user = umap.get(lab, USER)
-        m, g, st, pt, pe, dates = scan(path, lab, user, tcs)
+        m, g, f, st, pt, pe, dates = scan(path, lab, user, tcs, fen_sel)
 
         # Guardrail 1 — the CHESS_USER silent zero.
         if st["games"] and not st["matched"] and not st["dropped_tc"]:
@@ -382,7 +407,7 @@ def main(argv):
             sys.exit(f"ERROR [{lab}]: eval coverage {pe}/{pt} "
                      f"({100*pe/pt:.1f}%) — this looks like a _raw file. "
                      f"features.py requires a fully annotated block.")
-        all_m.extend(m); all_g.extend(g)
+        all_m.extend(m); all_g.extend(g); all_f.extend(f)
         manifest.append({
             "block": lab, "path": os.path.abspath(path), "user": user,
             "games_read": st["games"], "matched": st["matched"],
@@ -416,7 +441,13 @@ def main(argv):
         w = csv.DictWriter(fh, fieldnames=MOVE_COLS); w.writeheader(); w.writerows(all_m)
     with open(os.path.join(out, "games.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=GAME_COLS); w.writeheader(); w.writerows(all_g)
-    json.dump({"script_sha": sha, "tc_filter": sorted(tcs) if tcs else None,
+    if fen_sel is not None:
+        with gzip.open(os.path.join(out, "fens.csv.gz"), "wt", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=["gid", "ply", "block", "fen"])
+            w.writeheader(); w.writerows(all_f)
+        print(f"{len(all_f)} FENs ({fen_sel}) -> {out}/fens.csv.gz")
+
+    json.dump({"script_sha": sha, "fen_selector": fen_sel, "tc_filter": sorted(tcs) if tcs else None,
                "blocks": manifest,
                "totals": {"games": len(all_g), "own_moves": len(all_m),
                           "flag_games": sum(r["is_flag"] for r in all_g),

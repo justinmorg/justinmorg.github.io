@@ -37,6 +37,7 @@ chess/
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
     ├── features.py                            per-own-move feature tables for all blocks
+    ├── multipv.py                             resumable multi-PV — adequate-move counts
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
@@ -1205,37 +1206,65 @@ is a resolution problem rather than a scanning one. That is consistent with the
 material, and it puts a question mark over the 15-second-scan drill protocol —
 that format trains the ≤2s slice, which is 10% of the hits.
 
-### Scoping the test that would settle it
+### The multi-PV test: solution narrowness does not explain it
 
-Separating difficulty-selection from a genuine time effect needs a difficulty
-measure the corpus lacks: **how many moves actually hold the advantage**. That
-is a multi-PV annotation, and it is new engine work on the 5,119 conditioned
-positions. Measured on this hardware, single core, `multipv 8`:
+`multipv.py` annotated a seeded subsample (650 fast + 650 slow, seed 23, drawn
+from the 3,076 conditioned positions with a usable clock) at depth 16,
+`multipv 8`, recording how many moves come within 100cp of best. Coarse bins:
+only-move (1) / narrow (2–3) / wide (4+).
 
-| depth | s/position | full 5,119 set |
+**The selection runs backwards from the confound hypothesis.** Fast moves sit
+on positions with *fewer* adequate replies, not more:
+
+| | only move | narrow (2–3) | wide (4+) | median |
+|---|---|---|---|---|
+| fast (≤2s) | 51.2% | 29.5% | 19.2% | 1 |
+| slow (≥8s) | 30.3% | 35.1% | 34.6% | 2 |
+
+Failure to address a standing threat, within difficulty bin:
+
+| difficulty | fast (≤2s) | slow (≥8s) |
 |---|---|---|
-| 16 | 1.47 | **125 min** |
-| 20 | 7.36 | 628 min |
+| only move (1) | 6.6% [4.2, 9.3] n=333 | 18.8% [13.7, 24.4] n=197 |
+| narrow (2–3) | 7.8% [4.2, 12.0] n=192 | 17.5% [12.7, 22.8] n=228 |
+| wide (4+) | 8.0% [3.2, 12.8] n=125 | 12.9% [8.9, 17.3] n=225 |
 
-Depth 20 is not worth 5× the time here. Two notes before running it:
+Raw gap +9.1 pp; standardized across the three bins **+9.4 pp** — the
+conditioning does not attenuate it at all, it very slightly widens it.
+Stratified permutation, 4,000 shuffles: p < 0.00025. 4.5% of positions were
+saturated at `multipv 8`, so a handful of `wide` rows are undercounted.
 
-- **Bin the output coarsely** — `only move` (1 adequate) / `narrow` (2–3) /
-  `wide` (4+). On a 12-position spot check, depth 16 and depth 20 agreed on the
-  raw count in 7 of 12 but would agree far more often on coarse bins. The raw
-  count is noisier than the question needs.
-- **Subsample first.** ~2,000 positions (49 min) is enough to see whether the
-  fast/slow gap collapses inside difficulty strata; the full set is only needed
-  to estimate the *attenuation* precisely. At full size the fast-vs-slow
-  difference carries about ±3.5 pp against an observed 14.6 pp gap.
+**What this closes and what it doesn't.** The natural confound — that long
+thinks select positions where only one move works — is refuted, and refuted in
+the wrong direction to rescue it. Solution narrowness does not explain the
+think-time gradient.
 
-Positions are recoverable from `moves.csv.gz` by `(gid, ply)` — `features.py`
-does not store FENs, since ~90 bytes × 178k rows would triple the file for a
-column almost every query ignores. A short re-walk of the source PGNs keyed on
-those pairs regenerates them in about a minute.
+But `n_within_100` measures how *narrow* a solution is, not how *hard it is to
+find*, and here those come apart badly. When material is hanging and exactly one
+move holds, that move is frequently forced and obvious — a recapture, the single
+escape square — so it is played in two seconds and counted as maximally
+difficult. That is the likeliest reading of the 51.2% figure above, and it means
+this instrument is measuring something adjacent to what the question needs.
 
-Run it in a resumable wrapper on the `annot_inc.py` pattern: sandbox commands
-have a time limit and background jobs do not survive between them, so 125
-minutes is ~31 budgeted calls, not one.
+So: one door closed, not all of them. Human difficulty remains unmeasured, and
+a design that captured it — reply-move complexity, whether the saving move is a
+capture or a quiet retreat, whether the threat is one or two moves deep — would
+be a different annotation, not more depth on this one.
+
+The finding stands as a targeting fact and is now harder to explain away. It
+still does not license moving faster; see the paragraph above.
+
+### A resumability trap worth remembering
+
+`fens.csv.gz` is ordered by block, so a budgeted `multipv.py` run left partway
+through holds an all-2024-H2 sample. The first 171 positions computed here were
+exactly that. Analyzing a partial file would have produced a single-block result
+presented as corpus-wide, with nothing visibly wrong with it.
+
+Any resumable runner over a sorted input has this property. Draw a seeded
+random subset up front and run *that* to completion, rather than truncating a
+sorted queue — the same reasoning as the rarefaction and block-selection
+artifacts recorded elsewhere in this README.
 
 ## What this is for
 
