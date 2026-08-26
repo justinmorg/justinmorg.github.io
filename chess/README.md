@@ -32,6 +32,7 @@ chess/
     ├── blockstats.py                         permutation tests across blocks
     ├── annot_inc.py                          resumable annotate — use for big jobs
     ├── longitudinal.py                       compare annotated blocks over time
+    ├── outcomes.py                           score from non-winning games; flag wins
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
     ├── build_drills2.py                      rebuild the /chess-drills P set
@@ -197,6 +198,76 @@ Caveat on all of the above: score rate sits at ~50% in every block by
 construction, since Lichess matchmaking is self-correcting. Rating *level* is
 the improvement metric; score rate is not, and neither is anything measured
 against opponents whose strength tracks yours.
+
+### Where the other 47% of games go, and how many wins are flags
+
+`outcomes.py` prints the complement of the "score from won positions" row above,
+using the same peak definition, so `reached` and `never reached` partition each
+block exactly:
+
+```bash
+python3 chess/scripts/outcomes.py \
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
+  --tc 180+2,300+0
+```
+
+Note `--tc` here takes a **comma-separated list**, unlike `longitudinal.py`'s
+single value. The scope below is 3+2 and 5+0 across all five annotated Lichess
+blocks — 4,459 games, which is every analyzed game bar four (3 at 5+3, 1 at
+3+0).
+
+| block | games | reached ≥+200 | score \| reached | score \| never reached |
+|---|---|---|---|---|
+| 2024 H2 | 651 | 54.2% | 62.5% | 37.1% |
+| Q1 2025 | 375 | 54.7% | 64.1% | 34.1% |
+| Q2 2025 | 1,559 | 50.3% | 63.2% | 36.4% |
+| Q3 2025 | 363 | 52.1% | 63.2% | 36.5% |
+| 2026 | 1,511 | 53.9% | 65.6% | 32.0% |
+
+Pooled: **64.0% [62.1, 65.9]** from 2,346 games that reached a winning position,
+**34.9% [32.8, 36.9]** from the 2,113 that never did (694 W / 86 D / 1,333 L).
+Flat across blocks like everything else here — 2026 is the lowest but not
+distinguishably so at that n.
+
+The ~29 pp gap is the whole shape of the results: reaching +200 roughly doubles
+the score rate, and the two halves are close to a 50/50 split of games.
+
+#### Flag wins
+
+511 of the 4,459 games end in `Termination "Time forfeit"`. **361 of 2,157 wins
+— 16.7% — are flags.**
+
+| | games | flag wins | as % of wins | flag losses | as % of games |
+|---|---|---|---|---|---|
+| 3+2 | 3,716 | 304 | 17.0% | 99 | 2.7% |
+| 5+0 | 743 | 57 | 15.5% | 38 | 5.1% |
+
+Flag *wins* are nearly format-independent. Flag *losses* are not — 2.7% vs 5.1%
+is the increment doing its job. But do not read that as a clean format contrast:
+the 3+2 pool here is overwhelmingly 2024–25 and the 5+0 pool is entirely 2026,
+so format and era are confounded. The within-2026 split in the time-control
+section above (4.55% vs 4.99%) is the controlled version and shows much less.
+
+Most flag wins were already won. Eval from jamorgan's POV at the moment the
+opponent flagged:
+
+| final eval | all flag wins | flag wins in never-reached games |
+|---|---|---|
+| losing (< −100) | 87 (24.1%) | 54 (38.6%) |
+| level (−100 to +100) | 59 (16.3%) | 29 (20.7%) |
+| ahead (+100 to +300) | 32 (8.9%) | 10 (7.1%) |
+| winning (> +300) | 183 (50.7%) | 47 (33.6%) |
+| **total** | **361** | **140** |
+
+So about a quarter of flag wins overall are rescues; half are games where the
+clock and the board agreed. Inside the never-reached bucket the composition
+inverts — 59% of those 140 came from level or losing positions. That is ~83
+games: 12% of the 694 wins in that bucket, and **under 2% of all games in
+scope**. Flagging is not propping up the score rate.
+
+Depth-12 caveat applies to the last row of that table only: `> +300` sits above
+the reliable band, so read it as "clearly winning" rather than as an exact count.
+The +200 threshold defining `reached` is at the +2 line and is safe.
 
 ### Q2 2025, and why the Q1→Q3 drop was not real
 
