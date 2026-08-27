@@ -34,6 +34,7 @@ chess/
     ├── longitudinal.py                       compare annotated blocks over time
     ├── outcomes.py                           score from non-winning games; flag wins
     ├── phases.py                              phase map — where losses come from
+    ├── material.py                           outcome vs material on board (24..0)
     ├── clockstate.py                         clock state per outcome bucket
     ├── merge.py                              fold new games into the corpus
     ├── hanging.py                            find winning positions where material hung
@@ -549,6 +550,151 @@ effect survives conditioning on position difficulty is untested and would need
 the same direct-standardization treatment used there. Whether the level→losing
 flow is a technique, time or judgment failure is open thread 2, which needs no
 new data.
+
+### Outcome vs material on the board, and the benchmark trap
+
+`material.py` cuts the corpus on a third axis: `npm(board, "light")` — N=1, B=1,
+R=2, Q=4, both sides — which runs from **24 at the starting position to 0 at
+bare kings**, the same scale the endgame threshold (≤ 14) is defined on. For
+each game and each level M it takes the first position where npm ≤ M and asks
+how the game ended.
+
+```bash
+python3 chess/scripts/material.py \
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
+  CC-2024Q4=cc_2024q4_analyzed.pgn CC-2026=cc_2026febapr_analyzed.pgn \
+  --tc 180+2,300+0 --user-map CC-2024Q4=justinmorg CC-2026=justinmorg \
+  --out /home/claude/mat
+```
+
+**Correctness anchor:** M=24 is the starting position of every game at eval 0,
+so that row must hold all 5,404 games at exactly the corpus score rate. It does.
+If the left edge is anything else the pass is broken, and the script says so.
+
+#### The benchmark is not 50%. This is the whole point of the section.
+
+The first version of this analysis compared level-position score against 50% and
+reported a flat 7-point deficit at every material level. **That was wrong, and
+the error is instructive enough to keep on the record.**
+
+A level position scores 50% only within a *symmetrically selected* population,
+and "reached npm M" is not one. The phase map already established that wins end
+early and losses run long — opening 73.6%, middlegame 57.7%, endgame 45.3% — so
+conditioning on reaching low material selects a population scoring well below
+50% before the eval is mentioned at all. The correct benchmark is the score of
+**every** game reaching the same level, and the finding is the difference.
+
+| npm | reach | benchmark | level n | level | **diff** |
+|---|---|---|---|---|---|
+| 24 | 5,404 | 50.3% | 5,404 | 50.3% | +0.0 |
+| 22 | 5,242 | 49.5% | 3,011 | 47.8% | −1.7 |
+| 20 | 4,999 | 48.4% | 1,947 | 46.0% | −2.4 |
+| 19 | 4,790 | 47.8% | 1,330 | 43.5% | **−4.3** |
+| 18 | 4,620 | 47.8% | 1,326 | 44.1% | **−3.7** |
+| 17 | 4,394 | 47.1% | 942 | 43.9% | −3.1 |
+| 16 | 4,219 | 46.9% | 940 | 43.1% | **−3.8** |
+| 15 | 4,011 | 46.2% | 791 | 42.9% | −3.4 |
+| 14 | 3,858 | 46.0% | 800 | 43.1% | −2.9 |
+| 13 | 3,663 | 45.3% | 686 | 42.8% | −2.5 |
+| 12 | 3,477 | 45.1% | 692 | 43.0% | −2.1 |
+| 11 | 3,280 | 44.8% | 563 | 44.7% | **−0.1** |
+| 10 | 3,110 | 44.6% | 560 | 44.2% | **−0.4** |
+| 9 | 2,863 | 44.2% | 442 | 42.9% | −1.3 |
+| 8 | 2,655 | 44.3% | 438 | 42.4% | −1.9 |
+| 7 | 2,393 | 44.1% | 334 | 47.0% | +2.9 |
+| 6 | 2,167 | 43.2% | 334 | 45.1% | +1.9 |
+| 5 | 1,849 | 42.7% | 259 | 41.7% | −1.0 |
+| 4 | 1,571 | 42.4% | 287 | 41.8% | −0.6 |
+| 3 | 1,180 | 41.6% | 147 | 40.8% | −0.8 |
+| 2 | 965 | 41.9% | 134 | 40.3% | −1.6 |
+| 1 | 650 | 39.4% | 104 | 41.8% | +2.4 |
+| 0 | 418 | 38.3% | 76 | 46.7% | +8.4 |
+
+The level column is flat at ~43% because two things move oppositely: the
+benchmark falls steadily as material comes off, while the level score does not.
+Against 50% that reads as a uniform 7-point deficit at every level. Against the
+right benchmark it reads as **a 3–4 point deficit concentrated at npm 19–13 that
+closes to zero from npm 11 down.**
+
+#### What this changes
+
+1. **The level-position deficit is a middlegame effect.** Largest at npm 19, 18,
+   16 (−4.3, −3.7, −3.8); indistinguishable from zero at npm 11 and 10 (−0.1,
+   −0.4). From equality, you fall behind comparable games early and then hold par
+   for the rest of the game.
+
+2. **The published 42.7% at endgame entry is not a special endgame number, but
+   not for the reason first proposed.** It is the same absolute ~43% seen at npm
+   18 and 16 — however at endgame entry that is roughly *par* for the material
+   level, while at npm 18 the identical 43% is nearly 4 points *below* par. The
+   endgame-entry level bucket looks bad mostly because every game still alive at
+   that point looks bad.
+
+3. **The dominant effect on this axis is game length, not eval.** The benchmark
+   column falls monotonically 50.3% → 38.3%. That is the phase map's
+   win-fast-lose-slow finding restated on the material axis, and it is larger
+   than anything the eval conditioning produces.
+
+4. **This is a point against prioritising endgame technique** (groups C/B/A/D),
+   by a different argument than the one first given: from npm 11 down you already
+   score at par for the material on the board.
+
+#### The clock cut
+
+Level positions split by clock state (ratio, ±10%, the `phases.py` cut) at the
+first level crossing in npm 19–4, one observation per game:
+
+| clock | all games | all score | level n | level score |
+|---|---|---|---|---|
+| up | 1,211 | 56.8% | 337 | **51.6%** |
+| even | 1,811 | 48.7% | 581 | **43.7%** |
+| down | 1,768 | 40.9% | 412 | **36.7%** |
+
+A 15-point spread, stable at every material level from 23 down to 5 (clock-up
+level positions sit at 50–56% throughout, clock-down at 36–42%). Exposure is
+lopsided: clock-down at 36.9% of crossings against clock-up at 25.3%, the
+chronic deficit showing up as a volume problem.
+
+**But the clock does not explain the deficit away.** Tightening both bands
+together, the symmetric cell — level eval *and* level clock — does not close:
+
+| eval band | clock band | n | score |
+|---|---|---|---|
+| ±100 | ±10% | 581 | 43.7% |
+| ±50 | ±10% | 357 | 41.3% |
+| ±50 | ±5% | 211 | 41.5% |
+| ±25 | ±5% | 118 | 40.3% |
+| ±10 | ±10% | 105 | 39.0% |
+
+Mean clock ratio inside the "even" band is 0.9948 — half a percent, nowhere near
+enough to manufacture a gap. From a dead-level position with a dead-level clock
+the score is still ~41–43%. The clock reallocates the deficit rather than
+accounting for it.
+
+**Causal caution, unchanged and now more load-bearing.** Clock state at a
+material crossing is downstream of the middlegame that produced it; a long think
+means a hard position. The 15-point spread is equally compatible with "clock
+deficits cost games" and "hard positions cost both time and games," and this
+design cannot separate them. The multi-PV work already found the difficulty
+interaction did not replicate. Nothing here licenses moving faster.
+
+#### Reading the table honestly
+
+* **~12 independent points, not 25.** Material falls in jumps, so one position is
+  the first crossing for several adjacent M. Odd levels are mid-exchange, the
+  even level below is the completed trade; the pairing is visible throughout
+  (23/22 → 3,129 and 3,011 games at 48.0/47.8%; 21/20 → 45.7/46.0%). Local
+  wiggles are noise.
+* **Survivorship.** Only 29.1% of games are still present at npm 4. Different M
+  are different populations, not the same games followed down.
+* **Depth-12 at low material.** The ±100 band is inside the reliable range for
+  middlegames, but depth 12 is genuinely weak in endgames, where a position it
+  calls 0.00 can be theoretically won or lost. The npm ≤ 4 rows are the softest
+  in the table for that reason on top of their sample size — the +8.4 at npm 0
+  on 76 games is not a finding.
+* Replication of the absolute level curve: lichess (4,459 games) and chess.com
+  (945) agree within a point or two at every level; six of seven blocks fall
+  between 40.8% and 46.4%. Holds at bands from ±200 down to ±10cp.
 
 ### Q2 2025, and why the Q1→Q3 drop was not real
 
@@ -1523,11 +1669,28 @@ thresholds and recovery window are the thing being chosen.
 Most useful against the `even` bucket in `games.csv`, which currently has no
 error-timing profile at all despite being 529 games scoring 40.5%.
 
+**`material.py` sharpened this considerably.** The level-position deficit
+against comparable games is concentrated at npm 19–13 (−2.5 to −4.3) and is
+gone by npm 11. So the prediction is specific: in games level in the early
+middlegame, the first major deterioration should cluster in that material band.
+If it does, "loses the thread in the early middlegame" is the mechanism and the
+drill target follows. If the first drop is spread evenly across material, the
+deficit is not about a moment and the framing needs rethinking. Either answer is
+worth having, and it is still a groupby on data already in hand.
+
 ### 3. Manual review of level endgames
 
-The only item that ends in a training change rather than another table, and the
-one with the strongest evidence behind it: a level endgame returns 42.7% over
-774 games, a one-to-three-pawn edge 53.2% over 401.
+The only item that ends in a training change rather than another table. **Its
+priority has dropped since `material.py`.** The 42.7% over 774 games is real,
+but the material curve shows that is roughly *par* for games still alive at that
+material level — the level-position deficit against comparable games has closed
+to ~0 by npm 11. The 42.7% looks alarming next to 50%, and next to the right
+benchmark it is unremarkable. Level endgame technique is no longer the strongest
+evidence-backed item; thread 2 is.
+
+Still worth doing eventually, and the one-to-three-pawn edge at 53.2% over 401
+games remains a separate and better-motivated target, since converting a small
+edge is not the same skill as holding equality.
 
 Pull 30–50 from `games.csv` where `eg_entry_cp` is in [−100, +100], play through
 them, and look for the human pattern. Not automatable, which is why it keeps
