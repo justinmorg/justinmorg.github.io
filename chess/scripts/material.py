@@ -186,7 +186,8 @@ def main(argv):
 
     rows = []
     print(f"\n{'npm':>4} {'reach':>6} {'%reach':>7} {'BENCHMARK':>10} | {'level n':>8} "
-          f"{'level':>7} {'DIFF':>6} {'95% CI':>14} {'W':>5} {'D':>5} {'L':>5} {'draw%':>6}")
+          f"{'level':>7} {'DIFF':>6} {'95% CI':>14} | {'ahead n':>8} {'ahead':>7} "
+          f"{'behind n':>9} {'behind':>7} {'draw%':>6}")
     print("  (BENCHMARK = score of every game reaching this level. DIFF is the "
           "finding; the level column alone is not.)")
     for M in LEVELS:
@@ -194,15 +195,19 @@ def main(argv):
         lvl = [g for g in reach if abs(g["reached"][M][0]) <= band]
         if not lvl:
             continue
+        ah = [g["score"] for g in reach if g["reached"][M][0] > band]
+        bh = [g["score"] for g in reach if g["reached"][M][0] < -band]
         bm = st.mean([g["score"] for g in reach])
         sc = [g["score"] for g in lvl]
         m, lo, hi = boot(sc)
         w = sum(1 for x in sc if x == 1)
         d = sum(1 for x in sc if x == .5)
         ls = sum(1 for x in sc if x == 0)
+        fa = f"{100 * st.mean(ah):6.1f}%" if ah else f"{'-':>7}"
+        fb = f"{100 * st.mean(bh):6.1f}%" if bh else f"{'-':>7}"
         print(f"{M:4} {len(reach):6} {100 * len(reach) / N:6.1f}% {100 * bm:9.1f}% | "
               f"{len(lvl):8} {100 * m:6.1f}% {100 * (m - bm):+5.1f} "
-              f"[{100 * lo:5.1f},{100 * hi:5.1f}] {w:5} {d:5} {ls:5} "
+              f"[{100 * lo:5.1f},{100 * hi:5.1f}] | {len(ah):8} {fa} {len(bh):9} {fb} "
               f"{100 * d / len(lvl):5.1f}%")
         rows.append(dict(npm=M, games_reaching=len(reach),
                          pct_reaching=round(100 * len(reach) / N, 1),
@@ -210,6 +215,10 @@ def main(argv):
                          level_n=len(lvl), score_pct=round(100 * m, 1),
                          diff_vs_benchmark=round(100 * (m - bm), 1),
                          ci_lo=round(100 * lo, 1), ci_hi=round(100 * hi, 1),
+                         ahead_n=len(ah),
+                         ahead_score_pct=round(100 * st.mean(ah), 1) if ah else "",
+                         behind_n=len(bh),
+                         behind_score_pct=round(100 * st.mean(bh), 1) if bh else "",
                          wins=w, draws=d, losses=ls,
                          draw_pct=round(100 * d / len(lvl), 1)))
 
@@ -234,6 +243,27 @@ def main(argv):
             continue
         print(f"  {c:>6}{len(a):8}{100 * st.mean(a):10.1f}%{len(l):9}"
               f"{100 * st.mean(l):7.1f}%{100 * (st.mean(l) - st.mean(a)):+6.1f}")
+
+    print(f"\n  per level (level positions only, so the stability of the gradient "
+          f"is checkable):")
+    print(f"  {'npm':>4}{'up n':>7}{'up':>8}{'even n':>8}{'even':>8}"
+          f"{'down n':>8}{'down':>8}{'spread':>8}")
+    for M in LEVELS:
+        cell = defaultdict(list)
+        for g in games:
+            if M in g["reached"]:
+                cp, mine, opp = g["reached"][M]
+                if abs(cp) <= band:
+                    cell[cstate(mine, opp)].append(g["score"])
+        if sum(len(v) for v in cell.values()) < 40:
+            continue
+        u, e, dn = cell["up"], cell["even"], cell["down"]
+        if not (u and dn):
+            continue
+        su, sd = 100 * st.mean(u), 100 * st.mean(dn)
+        se = f"{100 * st.mean(e):7.1f}%" if e else f"{'-':>8}"
+        print(f"  {M:4}{len(u):7}{su:7.1f}%{len(e):8}{se}{len(dn):8}{sd:7.1f}%"
+              f"{su - sd:7.1f}")
 
     # ---- the symmetric cell: level eval AND level clock, both bands tightening
     print("\nSYMMETRIC CELL — level eval AND level clock. Under player symmetry "

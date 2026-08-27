@@ -639,6 +639,33 @@ closes to zero from npm 11 down.**
    by a different argument than the one first given: from npm 11 down you already
    score at par for the material on the board.
 
+#### The other half: what keeps the total at 50%
+
+The level column is only a third of each row. `material.py` also prints the
+`ahead` and `behind` columns, and they are where the compensation lives:
+
+| npm | ahead n | ahead score | behind n | behind score |
+|---|---|---|---|---|
+| 23 | 1,406 | 62.6% | 767 | 34.6% |
+| 19 | 1,918 | 68.6% | 1,542 | 25.7% |
+| 16 | 1,719 | 72.3% | 1,560 | 21.2% |
+| 12 | 1,379 | 74.5% | 1,406 | 17.2% |
+| 8 | 1,046 | 78.4% | 1,171 | 14.5% |
+| 4 | 556 | 82.1% | 728 | 12.3% |
+| 2 | 357 | 86.3% | 474 | 9.0% |
+
+Two things move monotonically as material comes off. **Conversion from ahead
+climbs from 62.6% to 86.3%** — simplification does what it should when you are
+the one with the edge. **Recovery from behind collapses from 34.6% to 9.0%** —
+once you are worse, every trade closes a door.
+
+You are also ahead more often than behind at most levels (1,918 vs 1,542 at npm
+19). So the corpus-wide 50.3% is not "average player": it is an above-par rate
+of acquiring advantages, decent conversion, and a small deficit from equality,
+netting out. The `behind` collapse is the strongest case in this table for
+endgame study, but note it is about *holding worse positions*, which is a
+different skill from the level-endgame technique in open thread 3.
+
 #### The clock cut
 
 Level positions split by clock state (ratio, ±10%, the `phases.py` cut) at the
@@ -651,7 +678,9 @@ first level crossing in npm 19–4, one observation per game:
 | down | 1,768 | 40.9% | 412 | **36.7%** |
 
 A 15-point spread, stable at every material level from 23 down to 5 (clock-up
-level positions sit at 50–56% throughout, clock-down at 36–42%). Exposure is
+level positions sit at 50–56% throughout, clock-down at 36–42%) — the script
+prints that per-level breakdown so the stability claim is checkable rather than
+asserted. Exposure is
 lopsided: clock-down at 36.9% of crossings against clock-up at 25.3%, the
 chronic deficit showing up as a volume problem.
 
@@ -695,6 +724,14 @@ interaction did not replicate. Nothing here licenses moving faster.
 * Replication of the absolute level curve: lichess (4,459 games) and chess.com
   (945) agree within a point or two at every level; six of seven blocks fall
   between 40.8% and 46.4%. Holds at bands from ±200 down to ±10cp.
+* Symmetry checks run before believing the deficit, all passed: side-to-move at
+  the crossing (42–48% either way), colour (White 42.1%, Black 45.8% pooled over
+  npm 20–4), mean eval inside the ±100 band (slightly *positive*, +12cp at npm
+  22 falling to ~0, so it would push score up not down), and eval annotation
+  coverage (100% of plies, so the eval at each crossing is that position's own
+  and never stale). None of these is large enough to manufacture the effect —
+  which is why the benchmark, not a measurement artifact, turned out to be the
+  problem.
 
 ### Q2 2025, and why the Q1→Q3 drop was not real
 
