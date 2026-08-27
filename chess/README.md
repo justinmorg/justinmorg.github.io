@@ -41,6 +41,7 @@ chess/
     ├── features.py                            per-own-move feature tables for all blocks
     ├── multipv.py                             resumable multi-PV — adequate-move counts
     ├── oppmove.py                             opponent's previous move vs my blunder rate
+    ├── firstdrop.py                           first major deterioration per game (thread 2)
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
@@ -1767,6 +1768,111 @@ different form: **check what a category guarantees before comparing rates
 across it.** `opp_created_threat` guaranteed the outcome was possible;
 `capture` guaranteed nothing consistent at all.
 
+## The first major deterioration: level games are decided early
+
+Thread 2, run Aug 2026. The question: in games entered level, is there a
+*moment* where the thread is lost — and does it sit in the npm 19–13 band where
+`material.py` located the level-position deficit?
+
+```bash
+python3 chess/scripts/firstdrop.py /home/claude/features
+```
+
+Validation-gated on the features.py precedent: it hard-exits unless the input
+is the 5,404-game / 178,684-row run, the published bucket counts reproduce, and
+the middlegame-entry buckets below reproduce. Every number in this section
+prints from that one command.
+
+### Middlegame entry has a POV trap
+
+Entry eval must be measured **side-aware** — White: `cp_before` of own move 13;
+Black: `cp_after` of own move 12. Reading `cp_before` of the first own move
+≥ 13 for both colours measures the position *after the opponent's move* when
+playing Black, and opponent errors systematically inflate that eval: it moved
+~280 games from `level` into `up` before the fix. The side-aware own-move proxy
+recovers the phase map's every-ply buckets to within 0.5–2%:
+**4,600 games = 1,662 up / 1,930 level / 1,008 down** against the phase map's
+4,637 = 1,670 / 1,938 / 1,029 (the 37-game gap is games with no own move at
+the entry ply). Same family as the endgame-entry ply bug — one ply of POV
+drift is enough to corrupt a bucket table while looking plausible.
+
+### Fate of the first drop decides the game
+
+First drop = first own move with `drop_cp >= 200`, non-mate. Recovered =
+`cp_after` back within 50cp of the pre-drop eval within 5 own moves. Level
+games, n = 1,930:
+
+| first-drop fate | n | score |
+|---|---|---|
+| no 200cp drop ever | 305 | 80.3% |
+| dropped, recovered | 545 | 58.2% |
+| dropped, permanent | 1,080 | 28.8% |
+
+The gradient is partly definitional — losing games contain drops — so do not
+quote it as a finding on its own. What is not definitional: **56% of level
+games contain a permanent drop, and that share is 55–57% in every one of the
+seven blocks**, both chess.com blocks included. Same replication shape as the
+hanging-material result. Median timing: **fullmove 16**, IQR 13–22. 59% of
+permanent first drops land in **moves 13–25 with npm ≥ 13** — the hot zone —
+and that share is 56–60% across every threshold (200/300) and recovery window
+(3/5/8) tested.
+
+### The npm 19–13 prediction: half right, wrong lens
+
+The marginal distribution does peak at npm 19–13 (hazard 8.4 per 100 at-risk
+moves vs 3.5 at 24–20). But the cross-tab reverses it. First-drop hazard per
+100 at-risk own moves, level games:
+
+| npm \ moves | 1–12 | 13–18 | 19–25 | 26+ |
+|---|---|---|---|---|
+| 24–20 | 1.65 | **9.87** | **12.01** | (n=22) |
+| 19–13 | 3.85 | 6.14 | 10.09 | 11.33 |
+| 12–8 | — | 5.76 | 7.14 | 7.05 |
+| 7–0 | — | — | 7.14 | 5.33 |
+
+**Conditional on move number, hazard is highest at full material and falls
+monotonically as pieces come off** — the opposite ordering from the prediction.
+The marginal 19–13 peak is composition: that band happens to span the dangerous
+moves. So there *is* a moment, and it is the early middlegame — but the
+dangerous state is piece-heavy positions at moves 13–25, not a material band.
+
+This also closes the loop on `material.py`. A game still level at an npm 19
+crossing is at ~move 15 with the whole hot zone ahead of it; a game still level
+at npm 11 has already survived it. The crossing deficit that peaked at npm
+19–13 and vanished by 11 was the hot zone seen through a material lens —
+selection, not a property of those material levels.
+
+### The mechanism: judgment on considered moves in quiet positions
+
+The 633 permanent hot-zone first drops:
+
+| | hot zone | baseline (all such moves) |
+|---|---|---|
+| hang_label `none` | **70%** (442) | — |
+| material already hanging (SEE ≥ 150) | 29% | 26% |
+| opponent had just created a threat | 27% | 22% |
+| opponent's previous move quiet | **71%** | — |
+| spend, median | **8.0s** | 6.0s |
+| played in ≤2s | 13% | — |
+| in check | 2% | — |
+
+The move that decides a level game is typically a *considered* move — more
+time than baseline, only 13% snap moves — in a quiet, piece-heavy position
+with nothing hanging and no fresh threat. A judgment failure after real
+thought. That is the think-time targeting fact localised: the error mass was
+already known to sit on moves that got real time; now it has an address —
+the early middlegame of level games. Standing threats are barely elevated
+(29% vs 26%), so this is *not* the group P phenomenon wearing a disguise;
+group P's ~24% ceiling is confirmed from yet another direction.
+
+### What it does not say
+
+Where and what kind, not *why*. Distinguishing "bad plan" from "missed a
+tactic two moves deep" needs eyes on positions — thread 6's
+difficulty-instrument gap, which no groupby closes. And the usual
+causal caution: spend at the drop is a response to the position; nothing here
+licenses moving faster.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -1824,7 +1930,21 @@ The prescribed stratum set included `in_check`, which turned out to be
 unusable — it is perfectly collinear with the check arm of the exposure. That
 is why the check row came back unanswerable rather than answered.
 
-### 2. First major deterioration
+### 2. First major deterioration — **DONE**
+
+Resolved; see "The first major deterioration: level games are decided early"
+above. Short version: there is a moment — median fullmove 16, 59% of permanent
+first drops in moves 13–25 at npm ≥ 13, and the permanent share is 55–57% in
+all seven blocks. But conditional on move number, hazard is highest at *full*
+material and declines as pieces come off, so the npm 19–13 prediction was a
+composition effect — the `material.py` crossing deficit was the hot zone seen
+through a material lens. Mechanism: 70% of permanent hot-zone drops involve no
+hanging material, 71% follow a quiet opponent move, and they get *more* time
+than baseline (median 8s vs 6s, only 13% snap moves) — judgment failures on
+considered moves. The manual-review question (thread 3) is now the
+highest-priority open item, re-pointed at these positions.
+
+The original spec, kept for the record:
 
 A groupby on `moves.csv.gz`, no new data. Per game, first ply where
 `drop_cp >= 100 / 200 / 300`; temporary vs permanent from whether `cp_before`
@@ -1843,10 +1963,18 @@ drill target follows. If the first drop is spread evenly across material, the
 deficit is not about a moment and the framing needs rethinking. Either answer is
 worth having, and it is still a groupby on data already in hand.
 
-### 3. Manual review of level endgames
+### 3. Manual review — re-pointed at the hot zone
 
-The only item that ends in a training change rather than another table. **Its
-priority has dropped since `material.py`.** The 42.7% over 774 games is real,
+The only item that ends in a training change rather than another table, and
+**now the highest-priority open item**. Thread 2 relocated the target: the
+review set is no longer level endgames but the 633 permanent hot-zone first
+drops — quiet, piece-heavy, level positions at moves 13–25 where the game was
+decided on a considered move. `firstdrop.py`'s output identifies them by
+`(gid, ply)`. The question a human review answers is the one no groupby can:
+bad plans, wrong pawn breaks, drifting pieces, or tactics two moves deep?
+
+The original endgame framing, kept for the record. **Its priority had already
+dropped since `material.py`.** The 42.7% over 774 games is real,
 but the material curve shows that is roughly *par* for games still alive at that
 material level — the level-position deficit against comparable games has closed
 to ~0 by npm 11. The 42.7% looks alarming next to 50%, and next to the right
@@ -1906,7 +2034,11 @@ it's ever wanted, it needs a hand-labelled validation subset built first.
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is
-the main identified weakness. Current focus is endgame technique, particularly
+the main identified weakness. Current focus (updated Aug 2026, after threads 1
+and 2) is early-middlegame judgment in level, piece-heavy positions — the
+largest loss flow — alongside the standing-threat re-scan and small-edge
+endgame conversion. The earlier focus statement, kept for the record: endgame
+technique, particularly
 king and pawn endings. That's why the `[%eval]`/`[%clk]` pairing matters: the
 questions being asked are about *where* an advantage evaporated and *how much
 clock was left when it did*, which needs both series aligned ply by ply.
