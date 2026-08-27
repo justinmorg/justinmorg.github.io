@@ -40,6 +40,7 @@ chess/
     ├── hanging.py                            find winning positions where material hung
     ├── features.py                            per-own-move feature tables for all blocks
     ├── multipv.py                             resumable multi-PV — adequate-move counts
+    ├── oppmove.py                             opponent's previous move vs my blunder rate
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
@@ -1648,6 +1649,124 @@ random subset up front and run *that* to completion, rather than truncating a
 sorted queue — the same reasoning as the rarefaction and block-selection
 artifacts recorded elsewhere in this README.
 
+## What the opponent's previous move predicts
+
+The raw crosstab said forcing moves are followed by *fewer* blunders than quiet
+ones — checks 7.95%, captures 8.46%, quiet 10.16% — which is backwards from the
+intuition and was sitting in the open threads as an uncontrolled result.
+
+All three rows are confounded, each in a different way. `oppmove.py` reports the
+controlled version:
+
+```bash
+python3 chess/scripts/oppmove.py /home/claude/features/moves.csv.gz
+```
+
+It hard-exits if the raw crosstab does not reproduce the four published rates,
+on the `features.py` precedent — validate against a known number before
+trusting a new pipeline.
+
+Scope: own moves, `fullmove > 12`, non-mate, 108,151 rows. Blunder =
+`drop_cp >= 200`, at the +2 line and inside the depth-12 reliable band. Method
+is the think-time treatment — direct standardization across move band ×
+`n_legal` quartile × `n_caps_avail` × eval bucket × `tc`, within-stratum
+permutation for p, game-clustered bootstrap for the interval. Row-level
+intervals would be too tight; moves inside one game share an opponent, a clock
+trajectory and a position.
+
+**`in_check` is not a stratum axis here, unlike the think-time run.** It is
+perfectly collinear with the exposure for the check arm — 0 disagreements in
+108,151 rows — so including it leaves zero usable strata rather than
+controlling anything.
+
+### The capture effect is a recapture effect
+
+| group | n | raw | standardized |
+|---|---|---|---|
+| quiet | 68,774 | 10.16% | 9.96% |
+| capture — recapture | 14,689 | 7.31% | **7.92%** |
+| capture — fresh | 12,691 | 9.79% | **10.72%** |
+| pawn_break | 2,462 | 10.44% | 10.24% |
+
+- quiet − recapture: **+2.02 pp** [+1.43, +2.66], p < 0.002
+- quiet − fresh capture: **−0.80 pp** [−1.44, −0.15], p = 0.024
+- pawn_break − quiet: +0.15 pp [−1.39, +2.57], p = 0.91
+
+The pooled capture row was two populations glued together. When the opponent
+takes something you can take straight back, the reply is close to automatic and
+the blunder rate is genuinely low. When the opponent takes something fresh, the
+rate is *above* quiet, not below. Splitting on `opp_prev_was_recapture` — a
+column `features.py` already carries — resolves the paradox entirely and
+reverses the sign of the part that was interesting.
+
+The surviving pooled contrast (quiet − capture, +1.03 pp [+0.55, +1.50]) is
+therefore not worth quoting on its own. It is a weighted average of a large
+real effect and a small opposite one.
+
+`pawn_break` is null against quiet and stays null. On 2,462 rows the interval is
+four points wide, so this is "not detected," not "not there."
+
+### The check row is not identifiable
+
+Not a null result — an unanswerable one, and worth recording as such rather
+than as an effect size.
+
+`in_check` is collinear with the exposure, and `n_legal` barely overlaps:
+median 3 legal moves after a check against 31 otherwise. Only 4,002 non-check
+rows have `n_legal <= 8` at all, against 9,522 check rows.
+
+Forcing the comparison into that overlap, exact-matched on `n_legal`, gives
+check −2.00 pp [−3.70, +0.15], p = 0.13 on 8,464 rows. Directionally safer,
+interval covers zero, and the comparison group — non-check positions with under
+nine legal moves — is itself unusual enough that a clean read was never
+available. **The published 7.95% is measuring the difficulty of picking the
+wrong move out of three, not anything about checks.**
+
+### Old threats are the dangerous ones
+
+The raw created-threat row is definitional. `opp_created_threat == 1` implies
+`see_standing >= 150` in every one of 19,486 rows — 0 exceptions — so half the
+raw comparison is positions where nothing can be hung, which guarantees a low
+rate for reasons unrelated to skill.
+
+Re-posed within the material-hanging set, where the arms are comparable, it
+**reverses**:
+
+| | n | raw | standardized |
+|---|---|---|---|
+| threat newly created | 19,486 | 11.58% | 11.46% |
+| threat already standing | 3,006 | 16.73% | **17.74%** |
+
+**−6.28 pp [−7.88, −4.70], p < 0.002**, over 4,631 games.
+
+The threat the opponent just created gets handled. The threat that has been
+sitting there — that already survived one of your own moves — is the one that
+costs material. Fresh danger draws a re-scan; a threat that persists through a
+quiet continuation becomes furniture.
+
+This agrees with the think-time section's standing-threat gradient rather than
+competing with it, and it sharpens the group P protocol: the reflex to train is
+not "look harder after a forcing move," it is "re-check the threats that were
+already on the board before this move."
+
+**The selection caveat is load-bearing.** For a threat to be "already
+standing," it must have survived a previous own move, so that arm is selected
+on having already been missed once. Some unknown share of the 17.74% is that
+selection rather than a fact about stale threats. This design cannot separate
+them — same shape as the reverse-causality caveat on think time, and it should
+be read with the same restraint. What holds regardless is the targeting fact:
+the error mass sits on threats that are not new.
+
+### What this closes
+
+Open thread 1 is resolved. Two of its three rows were artifacts of how the
+exposure was defined rather than findings about forcing moves, and the third
+is a real effect pointing the opposite way from the raw table. The general
+lesson is the one the `material.py` benchmark section already records in a
+different form: **check what a category guarantees before comparing rates
+across it.** `opp_created_threat` guaranteed the outcome was possible;
+`capture` guaranteed nothing consistent at all.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -1672,10 +1791,20 @@ python3 justinmorg.github.io/chess/scripts/features.py \
 ~100 s, and it should print 5,404 games / 178,684 own-move rows. If it doesn't,
 stop and find out why before running anything else.
 
-### 1. Opponent's previous move — controlled version
+### 1. Opponent's previous move — controlled version — **DONE**
 
-The highest-priority open item, because it has an uncontrolled result sitting
-on it. Raw, from `moves.csv.gz` (own moves, `fullmove > 12`, non-mate):
+Resolved; see "What the opponent's previous move predicts" above. Numbering is
+kept as-is because threads 2 and 3 are cross-referenced by number elsewhere in
+this README.
+
+Short version: the capture row split into recaptures (genuinely safe, −2.02 pp
+against quiet) and fresh captures (+0.80 pp against quiet); the check row is
+not identifiable under these controls; the created-threat row is definitional
+and reverses once re-posed within material-hanging positions, with standing
+threats **+6.28 pp** worse than newly created ones. Thread 2 is now the
+highest-priority open item.
+
+The raw table it started from, kept for the record:
 
 | opponent's previous move | freq | my blunder rate |
 |---|---|---|
@@ -1691,10 +1820,9 @@ of the intuition. Two confounds have to die first: forcing moves shrink
 `n_legal`, and the created-threat row is partly built in, since a standing
 threat ≥150 guarantees the material exists to lose.
 
-Method is already worked out — copy the think-time treatment: direct
-standardization across strata (move band × `n_legal` quartile × `n_caps_avail`
-× eval bucket × `in_check` × `tc`), then a stratified permutation test. Report
-the standardized contrast, not the raw one.
+The prescribed stratum set included `in_check`, which turned out to be
+unusable — it is perfectly collinear with the check arm of the exposure. That
+is why the check row came back unanswerable rather than answered.
 
 ### 2. First major deterioration
 
