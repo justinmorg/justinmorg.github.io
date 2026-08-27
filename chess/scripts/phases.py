@@ -68,6 +68,8 @@ random.seed(1729)
 CLK_RE = re.compile(r"\[%clk\s+([0-9:.]+)\]")
 
 # outcomes.py's endgame-entry table, for the self-check. (games, score%)
+# Valid only at the scope it was published at: seven blocks, 3+2 and 5+0.
+PUBLISHED_N = 5404
 PUBLISHED_EG = {"winning (>+300)": (1073, 79.4), "ahead (+100..+300)": (401, 53.2),
                 "level (-100..+100)": (774, 42.7), "losing (<-100)": (1443, 19.1)}
 
@@ -261,23 +263,33 @@ def main(argv):
     print(f"\n{N} games   {W}W / {D}D / {L}L   "
           f"score {100 * m:.1f}% [{100 * lo:.1f}, {100 * hi:.1f}]")
 
-    # ---- self-check against outcomes.py's published endgame-entry table
-    print("\nSELF-CHECK — endgame-entry buckets vs the README "
-          "(mismatch means a bug here, not a finding):")
+    # ---- self-check against outcomes.py's published endgame-entry table.
+    # Only meaningful at the scope those figures were published at: all seven
+    # annotated blocks, 3+2 and 5+0. On any narrower run the counts differ by
+    # construction, so assert nothing rather than report a false MISMATCH.
     g = defaultdict(list)
     for r in rows:
         if r["eg_cp"] != "":
             g[bucket_of(int(r["eg_cp"]))].append(r["score"])
-    ok = True
-    for k, (pn, ps) in PUBLISHED_EG.items():
-        v = g[k]
-        sc = 100 * sum(v) / len(v) if v else 0
-        match = (len(v) == pn and abs(sc - ps) < 0.05)
-        ok &= match
-        print(f"  {k:22}{len(v):6} {sc:5.1f}%   published {pn:5} {ps:5.1f}%  "
-              f"{'ok' if match else 'MISMATCH'}")
-    print("  " + ("all buckets reproduce" if ok else
-                  "DOES NOT REPRODUCE — do not trust anything below"))
+    if N == PUBLISHED_N:
+        print("\nSELF-CHECK — endgame-entry buckets vs the README "
+              "(mismatch means a bug here, not a finding):")
+        ok = True
+        for k, (pn, ps) in PUBLISHED_EG.items():
+            v = g[k]
+            sc = 100 * sum(v) / len(v) if v else 0
+            match = (len(v) == pn and abs(sc - ps) < 0.05)
+            ok &= match
+            print(f"  {k:22}{len(v):6} {sc:5.1f}%   published {pn:5} {ps:5.1f}%  "
+                  f"{'ok' if match else 'MISMATCH'}")
+        if not ok:
+            sys.exit("  DOES NOT REPRODUCE the published endgame-entry table — "
+                     "this is a bug here, not a finding. Refusing to emit tables.")
+        print("  all buckets reproduce")
+    else:
+        print(f"\nSELF-CHECK skipped: {N} games, not the {PUBLISHED_N} of the "
+              f"seven-block 3+2/5+0 scope the published figures use. Run the "
+              f"full scope to validate the pipeline.")
 
     # ---- 1. phase
     print(f"\nPHASE THE GAME ENDED IN")
