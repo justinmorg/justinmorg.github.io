@@ -42,6 +42,7 @@ chess/
     ├── multipv.py                             resumable multi-PV — adequate-move counts
     ├── oppmove.py                             opponent's previous move vs my blunder rate
     ├── firstdrop.py                           first major deterioration per game (thread 2)
+    ├── forcingtest.py                         missed forcing move, or move that loses to one?
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_drills.py                       superseded — see below, do not run
@@ -1904,6 +1905,56 @@ python3 chess/scripts/firstdrop.py /home/claude/features    # selection input
 python3 chess/scripts/build_reflect.py                      # -> chess-drills/index.html
 ```
 
+### The forcing layer: not what I miss, what I let happen
+
+The first nine group R notes produced a hypothesis, and seven of the nine
+contained some version of "I never saw that capture." Tested with
+`forcingtest.py`:
+
+```bash
+python3 chess/scripts/forcingtest.py /home/claude/features --depth16-check
+```
+
+Treatment = the 330 permanent hot-zone judgment drops (both sites). Control =
+positions passing the *same* filters from the *same* games where the move
+played was fine (`|drop_cp| <= 30`), one per game, n matched. Controls differ
+from treatment in the outcome only — not phase, material, opponent-move type
+or check state. Two depth-12 searches per position; forcing = capture or
+check; permutation on the group label, 10,000 draws.
+
+The hypothesis is ambiguous between two claims, and they come apart:
+
+| depth 12, n = 330 each | blunders | controls | Δ | p |
+|---|---|---|---|---|
+| **H1** best move in the position is forcing | 28% | 28% | −0.6 pp | 0.93 |
+| **H2** best *reply* to the move played is forcing | **57%** | 27% | +29.4 pp | <0.0001 |
+| the move actually played was forcing | 18% | 32% | −14.5 pp | <0.0001 |
+
+**H1 is null.** Blunder positions contain no more missed resources than
+positions played fine. And in controls where the best move *was* a capture or
+check, he played it **87%** of the time, against 48% when the best move was
+quiet. Finding his own forcing moves is a strength, not a weakness — the vivid
+"I never saw the hanging queen" moments in the R notes occur at base rate and
+are a hindsight artefact.
+
+**H2 is large.** The game-deciding move is a *quiet* move that loses to an
+*immediate* capture or check. Depth-16 replication on a 60/60 subsample holds
+both halves: 23%/33% on H1, 53%/27% on H2.
+
+Caveat, stated because the number invites over-reading: a ≥200cp drop usually
+has to cash out as material, so part of H2's 57% is mechanical. The finding is
+the **asymmetry**, not the level — own forcing layer handled at 87%, the
+opponent's not checked at all. Do not quote the 57% alone.
+
+This unifies three previously separate results, all of which are
+opponent-resource blindness and none of which is own-resource blindness:
+standing threats reading 6.3 pp more dangerous than fresh ones, group P's
+`missed_their_threat` class, and H2. The training rule that follows is
+one-sided and cheap: **move chosen, hand not yet moved — what are their checks
+and captures against the position this creates?** That layer accounts for 57%
+of these errors. The other 43% get punished quietly and no scan will catch
+them; they are what the rest of the R notes are for.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -2008,6 +2059,16 @@ The top 40 are now on the drill page as **group R** with a per-position
 reflection box and JSON export — see "Group R: the reflection set" above. The
 working form of this thread is: write notes there, export, read the batch
 together for the pattern.
+
+**First nine notes done (Aug 2026).** They generated a hypothesis that
+`forcingtest.py` then split into a null and a large effect — see "The forcing
+layer" above. Worth noting how that went: the notes' most *vivid* content
+("I never saw the hanging queen") was the half that tested null, and the
+half stated more flatly ("I didn't detect any threats here") was the half that
+held. Introspective salience is not evidence of frequency; the notes are
+valuable as a hypothesis source, and every hypothesis they raise gets tested
+against a matched control before it counts. Remaining 31 notes still worth
+writing — the quiet-punishment 43% has no explanation yet.
 
 The original endgame framing, kept for the record. **Its priority had already
 dropped since `material.py`.** The 42.7% over 774 games is real,
