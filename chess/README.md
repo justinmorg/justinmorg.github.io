@@ -43,6 +43,7 @@ chess/
     ├── oppmove.py                             opponent's previous move vs my blunder rate
     ├── firstdrop.py                           first major deterioration per game (thread 2)
     ├── build_drills2.py                      rebuild the /chess-drills P set
+    ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -1869,9 +1870,39 @@ group P's ~24% ceiling is confirmed from yet another direction.
 
 Where and what kind, not *why*. Distinguishing "bad plan" from "missed a
 tactic two moves deep" needs eyes on positions — thread 6's
-difficulty-instrument gap, which no groupby closes. And the usual
-causal caution: spend at the drop is a response to the position; nothing here
-licenses moving faster.
+difficulty-instrument gap, which no groupby closes. Group R below exists to
+collect exactly that evidence. And the usual causal caution: spend at the drop
+is a response to the position; nothing here licenses moving faster.
+
+### Group R: the reflection set
+
+`build_reflect.py` puts the top 40 of these positions (by win-probability
+cost, Lichess blocks only, matching group P's Lichess-only precedent) on the
+drill page as **group R** — not a drill but a notebook. Each card shows the
+position before the move, the opponent's quiet previous move, the move played
+and the time spent, then a free-text box: *why this move — what did you see,
+what was the plan, what were you worried about?* The spoiler holds the eval
+swing and a depth-16 "what was better" line (deeper than the corpus on
+purpose; these ~40 engine lines cache in `features/reflect_engine.json`).
+
+Selection: level at entry, permanent first drop, moves 13–25, npm ≥ 13,
+`hang_label == none`, quiet opponent move, not in check — the hot-zone
+judgment set, 274 candidates, top 40 taken.
+
+Notes persist in `localStorage` under `drills.reflect.v1`, keyed
+`R-{gid}-{ply}` on the stable-id precedent, so rebuilds keep notes attached to
+their positions. The **Copy my notes as JSON** button exports every non-empty
+note *with its position context* (FEN, move played, evals, spend) — the
+intended workflow is to write a batch, export, and read them back in a session
+to look for what is systematically seen and missed. Reflection cards carry no
+`class="drill"` and no tick checkbox, so the 260-drill counter and the reset
+button never touch them; running `build_reflect.py` twice is byte-identical,
+and it does not disturb the P/A/B/C/D blocks.
+
+```bash
+python3 chess/scripts/firstdrop.py /home/claude/features    # selection input
+python3 chess/scripts/build_reflect.py                      # -> chess-drills/index.html
+```
 
 ## Open threads
 
@@ -1972,6 +2003,11 @@ drops — quiet, piece-heavy, level positions at moves 13–25 where the game wa
 decided on a considered move. `firstdrop.py`'s output identifies them by
 `(gid, ply)`. The question a human review answers is the one no groupby can:
 bad plans, wrong pawn breaks, drifting pieces, or tactics two moves deep?
+
+The top 40 are now on the drill page as **group R** with a per-position
+reflection box and JSON export — see "Group R: the reflection set" above. The
+working form of this thread is: write notes there, export, read the batch
+together for the pattern.
 
 The original endgame framing, kept for the record. **Its priority had already
 dropped since `material.py`.** The 42.7% over 774 games is real,
