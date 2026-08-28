@@ -21,6 +21,7 @@ chess/
 │   ├── jamorgan_blitz_2025q1_analyzed.pgn.gz Q1 2025 slice, depth-12 annotated
 │   ├── jamorgan_blitz_2025q2_analyzed.pgn.gz Q2 2025 slice, depth-12 annotated
 │   ├── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
+│   ├── jamorgan_blitz_2025q4_analyzed.pgn.gz Q4 2025 slice, depth-12 annotated
 │   ├── chesscom_justinmorg_blitz_raw.pgn.gz  all chess.com blitz, unannotated
 │   ├── chesscom_justinmorg_2024q4_analyzed.pgn.gz
 │   │                                      chess.com Sep-Dec 2024, depth-12
@@ -108,7 +109,13 @@ Annotating all 2,529 games is ~170k plies at depth 12 — hours, not minutes.
 Prefer annotating a dated slice into its own `_analyzed` file over converting
 the whole thing.
 
-### The three annotated slices
+**As of Aug 2026 the raw file is fully covered by slices.** Q4 2025 was
+annotated last, and the arithmetic closes exactly: 375 (Q1) + 1,559 (Q2) +
+363 (Q3) + 232 (Q4) = 2,529. There is no un-annotated remainder in calendar
+2025. Keep the raw file anyway — it is the provenance record, and the slices
+are derived from it.
+
+### The four annotated slices
 
 `jamorgan_blitz_2025q1_analyzed.pgn.gz` (375 games, 25,610 plies, 2025-01-02 →
 2025-03-31) and `jamorgan_blitz_2025q3_analyzed.pgn.gz` (363 games, 25,019
@@ -117,6 +124,37 @@ raw 2025 file, committed so the longitudinal comparison below is reproducible
 without redoing ~40 minutes of engine work. Full eval and clock coverage, no
 duplicate GameIds. Q1 is the pre-climb baseline (mean rating 1317, mean
 opponent 1317); Q3 is the plateau onset (1399 / 1396).
+
+`jamorgan_blitz_2025q4_analyzed.pgn.gz` (232 games, 15,006 plies, 2025-10-05 →
+2025-12-30) closes the 2025 series. Verified contents as committed:
+
+| | |
+|---|---|
+| Games | 232 |
+| Date range | 2025-10-05 02:45:52 → 2025-12-30 20:06:06 UTC |
+| Plies | 15,006 |
+| Event type | `rated blitz game` (all 232) |
+| Time control | `180+2` (all 232) |
+| Results | 119 W / 105 L / 8 D (from the raw `Result` tag, not per-colour) |
+| Eval coverage | 15,006 / 15,006 plies |
+| Clock coverage | 15,006 / 15,006 plies |
+| Duplicate GameIds | 0 |
+| Mean rating / opponent | 1377 / 1377 |
+
+The corpus default filter is a **no-op** on this window — every game in
+Oct–Dec 2025 is already `rated blitz game` at 180+2, so there are no arena
+games, no 5+0 and no 3+0 to drop. Three checks beyond the table: zero GameId
+overlap with any other annotated block; ply count and the complete `[%clk]`
+series byte-identical to the raw slice, so annotation added evals and touched
+nothing else; and the source carried no server evals, so every eval here is
+local depth-12 by construction.
+
+It is the smallest block in the corpus (232 games against Q3's 363 and Q2's
+1,559) and the thinnest quarter of 2025 — October opens on the 5th, December
+stops on the 30th. Treat its intervals accordingly; see "Where Q4 2025 lands"
+below for what that does and does not support. No chess.com data was exported
+between 2025-01 and 2026-01, so 232 is a lower bound on games actually played
+that quarter, not a census.
 
 `jamorgan_blitz_2024h2_analyzed.pgn.gz` (651 games, 42,112 plies, 2024-08-09 →
 2024-12-30) is the filtered 2024 block — 3+2 only, non-arena, well clear of the
@@ -131,7 +169,9 @@ period, not a census of it — which is exactly why the chess.com block below is
 worth having.
 
 `hanging.py` on the 2026 corpus reproduces 368 hits (290/78) exactly from these
-scripts, so all four blocks are directly comparable.
+scripts, so all these blocks are directly comparable. That check is the cheapest
+tripwire in the repo — run it first in a fresh sandbox, before trusting anything
+else a new environment produces.
 
 ### What two years actually changed
 
@@ -139,25 +179,48 @@ Reproduce any of this with:
 
 ```bash
 python3 chess/scripts/longitudinal.py \
-  2024H2=h2.pgn Q1-2025=q1.pgn Q3-2025=q3.pgn 2026=corpus.pgn --tc 180+2
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn \
+  Q4-2025=q4.pgn 2026=corpus.pgn --tc 180+2
 ```
+
+`longitudinal.py`'s `--tc` takes a **single** value, not the comma-separated
+list `outcomes.py`/`features.py` accept. Passing `180+2,300+0` to it matches
+nothing and it reports `games=0` for every block — a clean, wrong answer of
+exactly the kind this README keeps warning about. The published 2026 figure of
+5,517 eligible / 4.33% is the **unfiltered** run (both formats, no `--tc`);
+3+2-only gives 2,640 / 4.73%.
 
 Drop `--tc` to check whether a finding is a time-control artifact — the script
 then also prints band 26+ split by `TimeControl`.
 
-Four-block comparison — 2024 H2 / Q1 2025 / Q3 2025 / 2026 — all restricted to
-**3+2 only**, because the one real effect lands in the move band where formats
-diverge. Blunder = own move drops the eval ≥200cp. Rates per own move:
+Full six-block series, all restricted to **3+2 only**, because the one real
+effect lands in the move band where formats diverge. Blunder = own move drops
+the eval ≥200cp. Rates per own move:
 
-| move band | 2024 H2 | Q1 2025 | Q3 2025 | 2026 |
-|---|---|---|---|---|
-| 1–12 | 3.58% [3.16, 4.00] | 3.70% [3.15, 4.24] | 3.53% [3.00, 4.12] | 3.27% [2.92, 3.64] |
-| 13–25 | 10.74% [10.00, 11.49] | 11.43% [10.47, 12.41] | 11.00% [10.02, 12.02] | 9.85% [9.18, 10.52] |
-| 26+ | 13.15% [12.34, 13.96] | 12.76% [11.80, 13.76] | 11.52% [10.56, 12.47] | 9.68% [9.04, 10.32] |
+| move band | 2024 H2 | Q1 2025 | Q2 2025 | Q3 2025 | Q4 2025 | 2026 |
+|---|---|---|---|---|---|---|
+| 1–12 | 3.58% [3.16, 4.00] | 3.70% [3.15, 4.24] | 3.58% [3.31, 3.85] | 3.53% [3.00, 4.10] | 3.28% [2.62, 3.99] | 3.27% [2.92, 3.63] |
+| 13–25 | 10.74% [10.00, 11.46] | 11.43% [10.44, 12.44] | 10.84% [10.37, 11.34] | 11.00% [10.04, 11.99] | 11.45% [10.17, 12.74] | 9.85% [9.19, 10.52] |
+| 26+ | 13.15% [12.34, 13.96] | 12.76% [11.78, 13.76] | 12.04% [11.56, 12.52] | 11.52% [10.61, 12.47] | 11.86% [10.56, 13.15] | 9.68% [9.02, 10.34] |
 
-**Move 26+ is the only established improvement** — monotonic across all four
-blocks, ~26% relative, non-overlapping intervals end to end, against opponents
-who got stronger (mean opponent Elo 1257 → 1317 → 1396 → 1379).
+Earlier revisions printed this as a four-block table (2024 H2 / Q1 / Q3 / 2026);
+Q2 and Q4 are now filled in. Every point estimate in the old table reproduces
+exactly. The interval bounds move by up to 0.03 pp between runs because
+`longitudinal.py`'s CIs are unseeded bootstraps — that wobble is the resampler,
+not the data.
+
+**Move 26+ is still the only established improvement** — ~26% relative from
+2024 H2 to 2026, non-overlapping intervals end to end, against opponents who
+got stronger (mean opponent Elo 1257 → 1317 → 1364 → 1396 → 1378 → 1379).
+
+**But it is no longer strictly monotone, and the four-block table overstated
+that.** The series runs 13.15 → 12.76 → 12.04 → 11.52 → **11.86** → 9.68: Q4
+2025 steps back up above Q3. The two intervals overlap almost completely
+([10.61, 12.47] against [10.56, 13.15]) on 4,402 and 2,387 moves, so this is
+noise, not a reversal — but it is a reminder that "monotonic across all N
+blocks" is a property of which blocks happened to be annotated, and the
+moves-13–25 artifact recorded below is the same lesson learned the hard way.
+**Quote the endpoint contrast, which is unchanged; do not quote the ordering.**
 
 Moves 13–25 do **not** trend. A three-block read (Q1 2025 / Q3 2025 / 2026)
 made this look marginally improving; adding 2024 H2 kills that, since it is
@@ -173,17 +236,23 @@ formats** — the effects sit at median move 20, inside the comparable window:
 
 3+2 only, so it lines up with the blunder table:
 
-| | 2024 H2 | Q1 2025 | Q3 2025 | 2026 |
-|---|---|---|---|---|
-| Hanging material (0.02 floor) | 5.02% [4.11, 5.93] | 5.23% [4.00, 6.54] | 4.31% [3.23, 5.46] | 4.73% [3.94, 5.57] |
-| — missed their threat | 4.02% | 4.17% | 3.23% | 3.67% |
-| — hung it myself | 1.00% | 1.06% | 1.08% | 1.06% |
-| Reached ≥+200 in middlegame | 54.2% | 54.4% | 52.1% | 53.3% |
-| Score from won positions | 62.5% [57.5, 67.4] | 64.3% [57.6, 70.7] | 63.2% [56.4, 69.8] | 63.2% [58.5, 67.9] |
-| Eval after own move 12 | +81cp | +6cp | +9cp | −36cp |
+| | 2024 H2 | Q1 2025 | Q2 2025 | Q3 2025 | Q4 2025 | 2026 |
+|---|---|---|---|---|---|---|
+| Eligible moves | 2,090 | 1,224 | 5,005 | 1,300 | 693 | 2,640 |
+| Hanging material (0.02 floor) | 5.02% [4.11, 6.03] | 5.23% [4.00, 6.54] | 4.40% [3.84, 4.98] | 4.31% [3.23, 5.46] | 4.33% [2.89, 5.92] | 4.73% [3.94, 5.57] |
+| — missed their threat | 4.02% | 4.17% | 3.10% | 3.23% | 2.89% | 3.67% |
+| — hung it myself | 1.00% | 1.06% | 1.30% | 1.08% | 1.44% | 1.06% |
+| Reached ≥+200 in middlegame | 54.2% | 54.4% | 50.3% | 52.1% | **43.5%** | 53.3% |
+| Score from won positions | 62.5% [57.5, 67.1] | 64.3% [57.6, 70.7] | 63.2% [59.8, 66.5] | 63.2% [56.6, 69.8] | 63.9% [54.5, 73.3] | 63.2% [58.5, 67.8] |
+| Eval after own move 12 | +81cp | +6cp | −19cp | +9cp | −76cp | −36cp |
 
 All statistically indistinguishable across two years. `hung it myself` is
-especially striking — 1.00 / 1.06 / 1.08 / 1.06 across 24 months.
+especially striking — 1.00 / 1.06 / 1.30 / 1.08 / 1.44 / 1.06 across 27 months,
+with a six-block label-shuffle at p = 0.86 (see below).
+
+The one cell that looks out of line is Q4 2025's **43.5%** reached. It is
+mostly a composition effect and does not survive the control; see "Where Q4
+2025 lands" below before quoting it.
 
 The eval@mv12 row has intervals wide enough to be uninformative
 (2024 H2 is [−18, +187]); the apparent decline tracks opponent strength rising
@@ -196,12 +265,16 @@ practice rather than more games — two years of play did not move it.
 
 That argument got stronger in Aug 2026 in two ways. Q2 2025 was annotated
 (1,559 games) and a game-level label-shuffle across all five blocks — 12,259
-eligible moves — returns p = 0.71: no block differs from any other. The apparent
+eligible moves — returned p = 0.71: no block differs from any other. The apparent
 Q1→Q3 2025 drop was noise; see "Q2 2025, and why the Q1→Q3 drop was not real".
 Second, the same hanging-material rate was measured on 808 concurrent chess.com
 games (5.51% vs 5.48% on the date-matched
 Lichess games) against opponents 516 Elo lower on the nominal scale. See "The
 chess.com corpus" below — the plateau is not an artifact of one site's pool.
+
+Q4 2025 was annotated in Aug 2026, completing the calendar-2025 series and
+taking that shuffle to six blocks and 12,952 eligible moves. It returns
+**p = 0.86** — the same answer on more data. See "Where Q4 2025 lands".
 
 Caveat on all of the above: score rate sits at ~50% in every block by
 construction, since Lichess matchmaking is self-correcting. Rating *level* is
@@ -216,20 +289,21 @@ block exactly:
 
 ```bash
 python3 chess/scripts/outcomes.py \
-  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn 2026=corpus.pgn \
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn Q4-2025=q4.pgn \
+  2026=corpus.pgn \
   CC-2024Q4=cc_2024q4_analyzed.pgn CC-2026=cc_2026febapr_analyzed.pgn \
   --tc 180+2,300+0 --user-map CC-2024Q4=justinmorg CC-2026=justinmorg
 
 # clock state for the same buckets — takes bare paths, not LABEL=path
-python3 chess/scripts/clockstate.py h2.pgn q1.pgn q2.pgn q3.pgn corpus.pgn \
+python3 chess/scripts/clockstate.py h2.pgn q1.pgn q2.pgn q3.pgn q4.pgn corpus.pgn \
   --tc 180+2,300+0
 ```
 
 Note `--tc` takes a **comma-separated list**, unlike `longitudinal.py`'s single
 value, and `--user-map` sets the player per block so Lichess and chess.com can
-go in one call. Scope below is 3+2 and 5+0 across all seven annotated blocks —
-**5,404 games**, every analyzed game bar seven (4 Lichess at 5+3/3+0, 3
-chess.com at 300).
+go in one call. Scope below is 3+2 and 5+0 across all **eight** annotated
+blocks — **5,636 games**, every analyzed game bar seven (4 Lichess at 5+3/3+0,
+3 chess.com at 300).
 
 | block | games | reached ≥+200 | score \| reached | score \| never reached |
 |---|---|---|---|---|
@@ -237,19 +311,35 @@ chess.com at 300).
 | Q1 2025 | 375 | 54.7% | 64.1% | 34.1% |
 | Q2 2025 | 1,559 | 50.3% | 63.2% | 36.4% |
 | Q3 2025 | 363 | 52.1% | 63.2% | 36.5% |
+| **Q4 2025** | **232** | **43.5%** | **63.9%** | **36.3%** |
 | 2026 | 1,511 | 53.9% | 65.6% | 32.0% |
 | cc 2024 Q4 | 808 | 55.6% | 63.7% | 34.7% |
 | cc 2026 Feb–Apr | 137 | 51.1% | 62.9% | 38.8% |
 
-Pooled: **63.9% [62.2, 65.6]** from 2,865 games that reached a winning position,
-**35.0%** from the 2,539 that never did. Flat across blocks, and the two
-chess.com blocks land inside the Lichess spread on both columns — consistent
-with the pool-calibration result elsewhere in this README.
+Pooled: **63.9% [62.2, 65.6]** from 2,966 games that reached a winning position,
+**35.0% [33.3, 36.8]** from the 2,670 that never did. Flat across blocks, and
+the two chess.com blocks land inside the Lichess spread on both columns —
+consistent with the pool-calibration result elsewhere in this README.
+
+Adding Q4 2025 left both pooled figures unchanged to the decimal (63.9% and
+35.0%) while adding 232 games. Its two score columns — 63.9% and 36.3% — are
+about as close to the pooled values as a 232-game block can land. Its
+**reached** column is the exception and is treated separately in "Where Q4 2025
+lands" below.
 
 Earlier revisions of this section gave that second figure as both 35.2% and
-34.9%. The measured value is **34.95%** (887.5 points over 2,539 games),
-recomputed from `features.py`'s `games.csv`; every per-block row in the table
-above reproduces exactly. Use 35.0%.
+34.9%. The seven-block measured value was **34.95%** (887.5 points over 2,539
+games), recomputed from `features.py`'s `games.csv`; every per-block row in the
+table above reproduces exactly, before and after Q4 was added. Use 35.0%.
+
+**Scope warning for everything below this section.** The `outcomes.py` table
+above is an eight-block run. The `phases.py`, `material.py`, `features.py`,
+think-time, `oppmove.py`, `firstdrop.py` and `forcingtest.py` sections that
+follow are all **seven-block runs at 5,404 games and have not been re-run with
+Q4 2025 in them.** Their numbers are correct as published for that scope. Do
+not mix a figure from one scope into a table built at the other — that is the
+same class of error as the 3+2-versus-pooled mismatch documented under
+`features.py`.
 
 #### Don't read the 35.0% as a middlegame result
 
@@ -769,23 +859,136 @@ blocks, 12,259 eligible moves:
 | Q1 2025 | 1,224 | 5.23% | 1.06% |
 | Q2 2025 | 5,005 | 4.40% | 1.30% |
 | Q3 2025 | 1,300 | 4.31% | 1.08% |
+| Q4 2025 | 693 | 4.33% | 1.44% |
 | 2026 | 2,640 | 4.73% | 1.06% |
 
-Game-level label-shuffle across all five blocks, 20,000 shuffles:
+Game-level label-shuffle, 20,000 shuffles, seed 23. Five blocks when this was
+first run, six now that Q4 2025 is in (12,952 eligible moves):
 
-- hanging material: observed spread 0.92 pp, **p = 0.71**
-- hung it myself: observed spread 0.29 pp, **p = 0.91**
+| | five blocks | six blocks (with Q4) |
+|---|---|---|
+| hanging material | spread 0.92 pp, **p = 0.71** | spread 0.92 pp, **p = 0.86** |
+| hung it myself | spread 0.29 pp, **p = 0.91** | spread 0.44 pp, **p = 0.86** |
 
-No block differs from any other on either measure. The Q1→Q3 drop was sampling
-noise in two small blocks, and Q2's tight interval now anchors the middle of the
-series. Do not re-chase it — same category as the moves-13–25 block-selection
-artifact recorded above.
+No block differs from any other on either measure, before or after Q4. The
+Q1→Q3 drop was sampling noise in two small blocks, and Q2's tight interval
+anchors the middle of the series. Do not re-chase it — same category as the
+moves-13–25 block-selection artifact recorded above.
+
+Adding Q4 does not move the hanging-material spread at all: at 4.33% it lands
+between Q3 (4.31%) and 2026 (4.73%), so the min and max blocks are unchanged
+and Q4 is not even the extreme. Its `hung it myself` of 1.44% is the highest
+of the six, which is precisely the shape of the flag Q2 raised and lost — 10
+floored hits on 693 eligible moves, at p = 0.86. Not a finding; do not raise
+it as one a third time.
 
 This also **retracts a flag raised when Q2 was first measured**: Q2's `hung it
 myself` rate of 1.30% looked elevated against the 1.00/1.06/1.08/1.06 of the
 other blocks, and within Q2 it declined monthly (1.79 → 1.39 → 0.89). At p =
 0.91 across blocks, none of that is real. Two large blocks landing high is what
 noise looks like when most blocks are small.
+
+### Where Q4 2025 lands
+
+Q4 2025 (232 games, Oct–Dec) was annotated in Aug 2026 to close the 2025
+series. It is the **smallest block in the corpus** and the thinnest quarter of
+2025, so the prior expectation was wide intervals and no resolving power. That
+is broadly what happened.
+
+**On everything the project actually targets, Q4 changed nothing.**
+
+| | Q4 2025 | six-block range | test |
+|---|---|---|---|
+| hanging material (floored) | 4.33% [2.89, 5.92] | 4.31 – 5.23% | spread p = 0.86 |
+| — hung it myself | 1.44% [0.58, 2.45] | 1.00 – 1.44% | spread p = 0.86 |
+| blunder 1–12 | 3.28% | 3.27 – 3.70% | — |
+| blunder 13–25 | 11.45% | 9.85 – 11.45% | — |
+| blunder 26+ | 11.86% | 9.68 – 13.15% | — |
+| score from won positions | 63.9% | 62.5 – 65.6% | — |
+
+Its hanging-material rate lands *between* Q3 and 2026, so the min and max
+blocks are unchanged and the observed spread is identical at 0.92 pp — adding
+a whole quarter of play moved the homogeneity result from p = 0.71 to p = 0.86
+and nothing else. Its conversion rate of 63.9% is the pooled corpus figure to
+the decimal. The pooled `outcomes.py` rows (63.9% / 35.0%) are unchanged with
+232 more games in them.
+
+Two things it did change, both small and both worth stating plainly:
+
+- It puts a **non-monotone step in the move-26+ series** (Q3 11.52% → Q4
+  11.86% → 2026 9.68%). The intervals overlap almost entirely; the endpoint
+  contrast that carries the finding is untouched. See the blunder table above.
+- Its **`hung it myself` of 1.44% is the highest of the six Lichess blocks.**
+  This is the third time a newly annotated block has come in high on that
+  measure, and the previous two were both retracted. Ten floored hits on 693
+  eligible moves, p = 0.86. It is noise.
+
+#### The one apparent difference, and why it is not a finding
+
+Q4's **reached ≥+200 rate is 43.5%**, against 50.3–55.6% in every other block —
+the only cell in any table where Q4 is visibly out of line. Tested the same way
+`blockstats.py shuffle` works (game-level label shuffle, 20,000 draws, seed 23),
+computed from `features.py`'s `games.csv`, since `blockstats.py` implements only
+`hang` and `hungself` — same situation as the rarefaction tests in the
+chess.com section, which it also does not implement.
+
+Q4 was singled out **because** it looked extreme, so the minimum-block p is the
+one that applies to it; the spread p is reported alongside for the "does any
+block differ" question:
+
+| metric | Q4 | others | spread p | Q4-block p |
+|---|---|---|---|---|
+| reached, **raw** | 43.5% | 50.3 – 55.6% | 0.020 | **0.0045** |
+| games with **no eligible middlegame** | 21.6% | 12.5 – 16.1% | 0.0075 | **0.0057** (max) |
+| reached, **games that had a middlegame** | 55.5% | 59.2 – 65.3% | 0.14 | **0.059** |
+
+*(six Lichess blocks; over all eight the same three rows give 0.061 / 0.018,
+0.045 / 0.026, and 0.24 / 0.12 — every one of them weaker.)*
+
+**The raw difference is mostly composition, not conversion.** A game with no
+eligible middlegame move cannot reach +200 by construction — the same
+definitional trap the `material.py` benchmark section and the
+`opp_created_threat` row both record. Q4 has 21.6% such games against 12.5–16.1%
+elsewhere, and that gap is where the signal sits. Condition on games that
+actually had a middlegame and Q4 rises from 43.5% to 55.5%, the spread test goes
+null (p = 0.14), and the block-level p degrades to 0.059. The composition
+difference is specifically the **early-simplification** cause, not the
+short-game one: 13.4% of Q4 games drop below light npm > 14 before move 13
+against 6.4–9.1% elsewhere, while games ending by move 13 are 8.2% against
+6.1–7.7% — in line.
+
+**This is not a finding, and it should not be written up as one.** Four reasons,
+in descending order of how much they should bother you:
+
+1. **It is post-hoc down two levels.** The reach% cell was spotted by eye, then
+   decomposed into composition, then into a cause. Each level multiplies the
+   forking paths, and none of it was pre-specified.
+2. **Roughly ten metrics were examined** across `longitudinal.py`,
+   `outcomes.py` and the shuffles before this one stood out. A nominal p =
+   0.0057 does not survive that honestly.
+3. **The controlled version is null.** The thing anyone would care about —
+   whether he converted fewer games into winning positions — comes back at
+   p = 0.059 / 0.12 once the mechanical part is removed.
+4. **232 games, and no replication anywhere.** This is the smallest block in
+   the corpus. The corpus already has three retracted findings and every one of
+   them was a suggestive pattern in a small block with a plausible mechanism
+   attached.
+
+What is mildly reassuring against a one-session artifact: the elevated
+no-eligible share is stable across all three months (23.8 / 20.7 / 20.8%), not
+a single burst. What that does *not* do is make it replicate.
+
+**Status: an untested flag, deliberately not added to the do-not-re-chase list
+below.** That list is for hypotheses that were chased and lost. This one has
+not been tested against anything independent, and the honest position is that
+nobody knows. If it ever matters, the cheap version is to check opening and
+early-queen-trade composition in Q4 against the adjacent quarters *from the raw
+2025 file*, which needs no new engine time. Adding a `reached` metric to
+`blockstats.py` would make the table above reproducible from the committed
+tooling rather than from an ad-hoc groupby, and is a few lines.
+
+Do not act on it, do not build a mechanism story around it, and do not let it
+into a summary as "Q4 2025 converted fewer games."
 
 ### Clock spend is a property of the player, not the site
 
@@ -808,9 +1011,10 @@ significance, and reading it off overlapping CIs is unreliable. `blockstats.py`
 does the tests; every p-value in this README comes from it, with the seed noted:
 
 ```bash
-# do any of the five Lichess blocks differ?  spread 0.92 pp, p = 0.71
+# do any of the six Lichess blocks differ?  spread 0.92 pp, p = 0.86
+# (five blocks, before Q4 2025 was annotated, gave the same spread at p = 0.71)
 python3 chess/scripts/blockstats.py shuffle \
-    2024H2=h2.pgn Q1=q1.pgn Q2=q2.pgn Q3=q3.pgn 2026=corpus.pgn \
+    2024H2=h2.pgn Q1=q1.pgn Q2=q2.pgn Q3=q3.pgn Q4=q4.pgn 2026=corpus.pgn \
     --tc 180+2 --metric hang --seed 23
 
 # was the June 2025 dip real?  minimum-block p = 0.13, spread p = 0.20
@@ -1068,12 +1272,19 @@ months and the first ~20 games back are rating-deviation reconvergence (mean
 |delta| 15.8, settling to ~7.2), the same class of artifact as the 2023 Lichess
 calibration note above.
 
-**One thing that may not replicate.** `hung it myself` comes in at 1.66%
-[1.21, 2.19] on chess.com, against 1.00 / 1.06 / 1.08 / 1.06 across the four
-Lichess blocks — the stability the section above singles out. The chess.com
-interval's lower bound clears three of those four point estimates. But the
-date-matched Lichess figure is 1.22% [0.49, 2.07], which overlaps it, so this is
-a flag to watch as more chess.com blocks are annotated, not a finding.
+**One thing that may not replicate, and it has weakened.** `hung it myself`
+comes in at 1.66% [1.21, 2.19] on chess.com. When this was written the Lichess
+comparison was 1.00 / 1.06 / 1.08 / 1.06 across four blocks and the chess.com
+interval's lower bound cleared three of those four point estimates. With Q2 and
+Q4 2025 annotated the Lichess series is **1.00 / 1.06 / 1.30 / 1.08 / 1.44 /
+1.06** and that lower bound now clears only four of six — Q2 (1.30%) and Q4
+(1.44%) sit above it. The date-matched Lichess figure of 1.22% [0.49, 2.07]
+overlapped it already. So this remains a flag to watch as more chess.com blocks
+are annotated, and it is a weaker one than it looked: the apparent Lichess
+"stability" it was contrasted against was partly an artifact of which four
+blocks existed at the time. A six-block shuffle on `hungself` returns p = 0.86,
+so the Lichess spread itself is noise — which cuts both ways, but it means the
+1.00–1.08 band was never the right thing to measure chess.com against.
 
 ### Two format differences from the Lichess files
 
@@ -1504,6 +1715,36 @@ Two expected differences, both scope rather than error:
   3+2/5+0 default. Check the scope line before comparing.
 - Q1 2025 shows 1,228 eligible against 1,224, from a handful of 5+0 games the
   wider filter admits.
+
+### The `block` column parses as an integer, and it corrupts exactly one block
+
+`2026` is a valid integer literal; `2024H2`, `Q1-2025` and the rest are not. So
+`pd.read_csv` on `moves.csv.gz` infers the `block` column's dtype **per chunk**
+and lands on a mix of `int64` and `object`. A filter written the obvious way:
+
+```python
+m[m.block == '2026']        # silently matches only part of the block
+```
+
+returns whichever rows happened to be parsed as strings and drops the rest. It
+emits a `DtypeWarning` about mixed types and nothing else. Read the column
+explicitly:
+
+```python
+pd.read_csv(path, dtype={"block": str, "gid": str})
+```
+
+Found Aug 2026 while validating the Q4 2025 run: six of seven per-block hang
+rates reproduced to the digit and **2026 alone** came back at 4.43% over 1,829
+eligible moves instead of 4.33% over 5,517 — a third of the block, missing, in
+the one block whose label is numeric. That looked exactly like a real
+pipeline bug for about twenty minutes. `gid` has the same hazard (chess.com ids
+are `cc`-prefixed and safe, Lichess ids are 8 chars and usually but not always
+non-numeric).
+
+Same family as the `CHESS_USER` and `Termination` failures: no error, a
+plausible-looking table, and the only signal was that a published figure did
+not reproduce. Validate against a known number.
 
 ### One row per game, without `groupby().apply()`
 
@@ -2073,8 +2314,19 @@ python3 justinmorg.github.io/chess/scripts/features.py \
   --out /home/claude/features
 ```
 
-~100 s, and it should print 5,404 games / 178,684 own-move rows. If it doesn't,
-stop and find out why before running anything else.
+~100–140 s, and it should print **5,404 games / 178,684 own-move rows**. If it
+doesn't, stop and find out why before running anything else.
+
+**There are now two valid scopes, and you must know which one you are in.**
+The seven-block invocation above is the tripwire the analysis sections below
+were built against — keep using it to validate a fresh environment. Adding
+`Q4-2025=jamorgan_blitz_2025q4_analyzed.pgn` gives **5,636 games / 186,191
+own-move rows**, and the seven old blocks reproduce inside it unchanged
+(verified: reached 2,865 / 63.9%; endgame entry 1,073 / 401 / 774 / 1,443; flag
+wins 434 of 2,619; all seven per-block hang rates identical). Q4 is folded into
+`longitudinal.py` and `outcomes.py` above; it is **not** folded into
+`phases.py`, `material.py`, think-time, `oppmove.py`, `firstdrop.py` or
+`forcingtest.py`, which remain seven-block results.
 
 ### 1. Opponent's previous move — controlled version — **DONE**
 
