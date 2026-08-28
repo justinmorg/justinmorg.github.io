@@ -1622,9 +1622,10 @@ months run 190–325) and **~3.3 eligible winning-middlegame moves per game.**
    play.** Below ~450 games (~1,500 eligible, ±0.9 pp) a new block cannot
    distinguish anything from the existing 4.3–5.2% band and should not be
    annotated as a separate block at all — fold it into the next one.
-2. **Rating regime change.** Trailing-200-game mean rating leaves the
-   **1310–1455** plateau band and stays out for another 200 games. This is the
-   one trigger that justifies a small block, because a regime change is worth
+2. **Rating regime change.** The rating leaves the **1310–1455** plateau band
+   and stays out. Stated so it can be checked by eye, without computing
+   anything — see "Checking the rating trigger by eye" below. This is the one
+   trigger that justifies a small block, because a regime change is worth
    measuring even at low precision.
 3. **A specific question needs it.** Not "let's see if anything changed" — an
    open thread that a new block would actually settle.
@@ -1634,6 +1635,59 @@ trailing-200 mean is **1370**, dead centre of the band, and 2026's monthly means
 run 1419 / 1454 / 1395 / 1353 / 1310 / 1362 / 1401 / 1368 — the full width of
 the band, oscillating, no trend. Movement inside that band is not a signal; the
 band *is* the signal, and it has been flat for ~13 months.
+
+### Checking the rating trigger by eye
+
+Trigger 2 was originally written as "trailing-200-game mean leaves the band,"
+which is correct and useless — nobody can compute a trailing-200 mean from
+the Lichess profile page, and no session of this project has network access to
+Lichess or chess.com to compute it either (both hosts are blocked by the
+environment's egress policy). Restated as something checkable in five seconds:
+
+> **If the rating is outside 1310–1455 every time you look, for three weeks
+> straight, it is worth a fresh batch. Otherwise ignore it.**
+>
+> **Override:** a single reading below **1250** or above **1520** is worth
+> flagging immediately, without waiting out the three weeks.
+
+**1310–1455 is a monthly-mean band and must not be read instantaneously.**
+Point-in-time rating swings far wider. Over the plateau (2025-07-01 →
+2026-08-19, 2,110 games) it ranged **1262 to 1508** and sat outside the band on
+**10.7% of games** — so a random glance at the profile has a better than 1-in-10
+chance of showing "out of band" with nothing having changed. The band is fine;
+the persistence requirement is what makes it usable.
+
+Why three weeks, calibrated on that same known-flat stretch — 33 separate
+excursions outside the band, of which:
+
+| excursion | days | games | direction | extreme |
+|---|---|---|---|---|
+| 2026-02-04 → 02-14 | 9 | 48 | high | 1508 |
+| 2026-05-16 → 05-25 | 8 | 36 | low | 1262 |
+| 2026-05-05 → 05-10 | 5 | 23 | low | 1272 |
+| all 30 others | ≤ 1 | | | |
+
+Nothing stayed out for 10 days. A **14-day** rule would have produced zero
+false alarms across the whole plateau; **21 days** is the recommendation because
+it gives better than 2× margin over the worst observed excursion, and because
+spot-checking is weaker evidence than the continuous game-by-game series these
+numbers come from — an excursion can dip back inside the band between two
+glances and never be seen.
+
+So **check weekly, not twice.** Three or four looks spread across the three
+weeks, all outside the band, all on the same side. The cadence supports it:
+5.1 games/day, play on 75% of days, and the longest no-play gap in 13 months
+was 6 days — so "it has been out for three weeks" can never just mean "I did
+not play." Three weeks is ~110 games.
+
+The override thresholds are set outside everything 2,110 plateau games
+produced (min 1262, max 1508). A reading past them is unprecedented rather
+than merely unusual, so there is nothing to wait for.
+
+Reproduce the calibration from the committed blocks — Q3 2025 onward, own Elo
+per game, runs of consecutive games outside the band measured in calendar days.
+Re-derive it if the band is ever revised; the 21 days is a property of this
+band and this rate of play, not a constant.
 
 The marginal value of another same-era block is now genuinely low. Flatness
 holds at p = 0.86 across six Lichess blocks, and the beginner-era blocks supply
