@@ -1316,6 +1316,43 @@ files into `chess/scripts/__pycache__/`. These are *untracked*, so a
 commit. `chess/.gitignore` now covers this; if bytecode still appears in
 `git status`, remove it rather than committing it.
 
+### When GitHub Pages won't deploy
+
+Symptom (hit Aug 2026): `actions/deploy-pages` polls forever printing an empty
+`Current status:`, and re-running the workflow just produces another failure.
+The Pages API tells the real story where the Actions log doesn't:
+
+```python
+GET /repos/justinmorg/justinmorg.github.io/pages          # -> "status": "errored"
+GET /repos/justinmorg/justinmorg.github.io/pages/builds   # -> per-build status + duration
+```
+
+**Duration 0 with a bare "Page build failed" means the build never started** —
+infrastructure, not content. A real Jekyll or content error takes seconds and
+names a file, and this repo has `.nojekyll` at root anyway, so files are copied
+verbatim and there is nothing for a build to choke on. Six consecutive builds
+failed this way while the page itself was fine.
+
+The wedge is bound to the **commit SHA**, not the repo: every failure was
+against the same two SHAs, whose deployment records were stuck from the moment
+the first one queued. Retrying either kept hitting the same dead record.
+
+Fix, cheapest first:
+
+```bash
+git commit --allow-empty -m "chore: fresh Pages deployment record" && git push
+```
+
+A new SHA gets a clean record. That worked immediately — 20s build, status back
+to `built`. Only if it doesn't: toggle Settings → Pages source off and back
+(this repo is `build_type: legacy`, branch `main`, root), or wait out GitHub's
+24-hour auto-cancel of stuck queued runs. **Don't keep pressing re-run** — each
+retry adds another run to the same jammed queue.
+
+Note that Pages publishes the *current state of the branch*, not a replay of
+each commit, so one successful deployment ships every commit behind it. Stale
+`queued` runs left in the Actions tab afterwards are inert.
+
 ## Hanging-material extraction
 
 `hanging.py` finds the largest single source of thrown-away wins: middlegame
@@ -1468,8 +1505,25 @@ Two expected differences, both scope rather than error:
 - Q1 2025 shows 1,228 eligible against 1,224, from a handful of 5+0 games the
   wider filter admits.
 
-### The endgame-entry ply bug
+### One row per game, without `groupby().apply()`
 
+Sampling one move per game — needed constantly, since move-level rows are not
+independent — fails in the pandas version here:
+
+```python
+pool.groupby('gid').apply(lambda d: d.sample(1))     # KeyError: ['gid'] not in index
+```
+
+The group key collides with the column of the same name, with or without
+`group_keys=False`. Use shuffle-then-dedupe instead; it is also faster:
+
+```python
+pool.sample(frac=1, random_state=1).drop_duplicates('gid')
+```
+
+`forcingtest.py` builds its control set this way.
+
+### The endgame-entry ply bug
 `features.py` initially scoped endgame-entry detection to own moves. It belongs
 **outside** the mover branch — `outcomes.py` has it there — because the endgame
 is frequently entered by the *opponent's* move. Scoping it to own moves detects
@@ -1982,6 +2036,22 @@ and captures against the position this creates?** That layer accounts for 57%
 of these errors. The other 43% get punished quietly and no scan will catch
 them; they are what the rest of the R notes are for.
 
+The mechanism, as he described it unprompted in a group R note (game
+`vQvOtLkI`, 15...Qg6) before any of this was analysed:
+
+> I am scanning these positions and seeing no immediate threats or one threat,
+> so I assume I can just play the move to respond to the one threat or play the
+> plan I had in mind already.
+
+That is H2 stated from the inside: the scan runs on the position *as it stands*,
+finds nothing or one thing, and never runs again on the position the chosen move
+would create. Worth keeping verbatim — it is the clearest statement of the
+failure in the project, and it came from the player, not the tables.
+
+Two documented members of the quiet-punishment 43%, for whoever picks this up:
+`7k30XvzG` 21...Qb8 and the queen trap after `vQvOtLkI` 15...Qg6 (16.Bc2). Both
+are positional and neither is caught by any forcing-move check.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -2139,8 +2209,29 @@ whether the saving move is a capture or a quiet retreat, whether the threat is
 one or two moves deep, whether the correct reply is forward or backward. That's
 a design problem first. Don't start it by running an engine.
 
+### 7. Does severity skew fast? — open, cheap, and to be handled carefully
+
+Thirteen group R notes in, several of the *costliest* drops were 1–3 second
+moves ("this one was just me moving too fast"), against a hot-zone median of 8s
+and only 13% at ≤2s. Possible that severity and spend run opposite to
+frequency: most hot-zone errors are considered moves, but the worst ones are
+snap moves. Testable with one groupby — `wp_error` against `spend` within the
+hot-zone set, game-level resampling for CIs.
+
+**Handle with the same caution as the rest of the think-time material.** The
+spend/error gradient is confounded by difficulty in both directions, and
+nothing here would license "move slower" any more than the earlier result
+licensed "move faster." At most this identifies a subset, not a remedy. n is
+also small: 13 notes, a handful of fast ones.
+
 ### Do not re-chase
 
+- **H1, missed own forcing moves.** Blunder positions contain no more available
+  captures/checks than matched controls (28% vs 28%, p = 0.93), and in controls
+  where the best move was forcing he played it 87% of the time. The mirror
+  claim (H2) is the real one. If a future reflection note says "I never saw
+  that capture" — and they will, it's the most memorable kind of miss — that
+  intuition has already been tested against controls and lost.
 - The gap-by-difficulty interaction. Held out at p = 0.47. Third instance of
   monotone-ordering-plus-mechanism-plus-no-replication.
 - The June 2025 hanging-material dip, and the Q1→Q3 drop.
