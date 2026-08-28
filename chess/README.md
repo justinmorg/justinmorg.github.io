@@ -22,11 +22,18 @@ chess/
 │   ├── jamorgan_blitz_2025q2_analyzed.pgn.gz Q2 2025 slice, depth-12 annotated
 │   ├── jamorgan_blitz_2025q3_analyzed.pgn.gz Q3 2025 slice, depth-12 annotated
 │   ├── jamorgan_blitz_2025q4_analyzed.pgn.gz Q4 2025 slice, depth-12 annotated
+│   ├── jamorgan_blitz_2023_analyzed.pgn.gz   2023 Lichess, depth-12 annotated
+│   ├── jamorgan_blitz_2024rest_analyzed.pgn.gz
+│   │                                      2024 Lichess not in the H2 block
 │   ├── chesscom_justinmorg_blitz_raw.pgn.gz  all chess.com blitz, unannotated
 │   ├── chesscom_justinmorg_2024q4_analyzed.pgn.gz
 │   │                                      chess.com Sep-Dec 2024, depth-12
-│   └── chesscom_justinmorg_2026febapr_analyzed.pgn.gz
-│                                          chess.com Feb-Apr 2026, depth-12
+│   ├── chesscom_justinmorg_2026febapr_analyzed.pgn.gz
+│   │                                      chess.com Feb-Apr 2026, depth-12
+│   ├── chesscom_justinmorg_2023_analyzed.pgn.gz
+│   │                                      chess.com Jun-Nov 2023, depth-12
+│   └── chesscom_justinmorg_2024janapr_analyzed.pgn.gz
+│                                          chess.com Jan-Apr 2024, depth-12
 └── scripts/
     ├── annotate.py                           add depth-12 [%eval] to a PGN
     ├── chesscom_filter.py                    raw chess.com export -> blitz PGN
@@ -990,6 +997,93 @@ tooling rather than from an ad-hoc groupby, and is a few lines.
 Do not act on it, do not build a mechanism story around it, and do not let it
 into a summary as "Q4 2025 converted fewer games."
 
+### Complete 3+2 / 5+0 coverage, and what the beginner era shows
+
+Aug 2026: every remaining game at **3+2 or 5+0** on both sites was annotated at
+depth 12, closing the corpus for those two formats. 1,683 games / 101,171 plies,
+~70 minutes single-core.
+
+**The scope decision, stated so it is not re-litigated.** Only 3+2 and 5+0 are
+in scope. Arena games are out (4 Lichess `≤1700 Blitz Arena`). Every other time
+control is out and stays out: **3+0** (1,072 chess.com, 151 Lichess), **5+3**
+(108 Lichess) and 300+2 (2 chess.com). 3+0 in particular is a harsher clock
+regime that this project has never verified as poolable, so it would need its
+own comparison rather than a row in an existing table.
+
+**Calibration-period games are included this time**, unlike the earlier
+treatment which dropped the account's first ~60 games while Lichess converged
+from its 1500 default. Keeping them makes the corpus complete and turns the
+exclusion into an analysis-time choice — filter on date if you want them out.
+Be aware they are in there: the 2023 Lichess block opens at 2023-03-22.
+
+| block | games | plies | window | formats | mean Elo (self/opp) |
+|---|---|---|---|---|---|
+| `jamorgan_blitz_2023` | 596 | 34,908 | 2023-03-22 → 2023-10-29 | 587 3+2, 9 5+0 | 926 / 931 |
+| `jamorgan_blitz_2024rest` | 132 | 8,373 | 2024-01-09 → 2024-12-27 | 9 3+2, 123 5+0 | 1176 / 1178 |
+| `chesscom_justinmorg_2023` | 359 | 21,143 | 2023-06-14 → 2023-11-17 | 351 3+2, 8 5+0 | 646 / 645 |
+| `chesscom_justinmorg_2024janapr` | 596 | 36,747 | 2024-01-01 → 2024-04-04 | 71 3+2, 525 5+0 | 670 / 675 |
+
+Records: 290W/269L/37D, 69W/55L/8D, 164W/183L/12D, 298W/287L/11D. All four
+verified the same way as every other block — full eval and clock coverage on
+every ply, ply count and the complete `[%clk]` series byte-identical to the
+source slice, GameId set equal to source, zero duplicates, uniform `Event`, no
+malformed eval tokens, and no server evals anywhere in the sources.
+
+`jamorgan_blitz_2024rest` is the odd one and needs its name explained: it is the
+2024 Lichess games at 3+2/5+0 that the **3+2-only** 2024 H2 block does not
+carry. It is mostly 5+0, and only 4 of its games fall inside H2's Aug 9 – Dec 30
+window. It is not a second sample of the same period.
+
+#### The positive control: this metric does move
+
+The corpus's central claim is that hanging material never responded to anything
+over two years. The obvious objection is that the measure might simply be
+incapable of moving — flat by construction rather than flat as a finding. The
+beginner-era blocks answer that, and they are the first thing in this project
+that makes the flatness result falsifiable rather than merely repeated.
+
+Lichess, 3+2, floored hanging material per eligible winning-middlegame move:
+
+| block | eligible | hanging | hung it myself | mean opp Elo |
+|---|---|---|---|---|
+| **2023** | 1,793 | **7.98% [6.75, 9.26]** | **2.68%** | 929 |
+| 2024 H2 | 2,090 | 5.02% | 1.00% | 1257 |
+| Q1 2025 | 1,224 | 5.23% | 1.06% | 1317 |
+| Q2 2025 | 5,005 | 4.40% | 1.30% | 1364 |
+| Q3 2025 | 1,300 | 4.31% | 1.08% | 1396 |
+| Q4 2025 | 693 | 4.33% | 1.44% | 1378 |
+| 2026 | 2,640 | 4.73% | 1.06% | 1379 |
+
+Game-level label-shuffle, 20,000 draws, seed 23:
+
+- six settled blocks (2024 H2 onward): spread 0.92 pp, **p = 0.86**
+- **add 2023: spread 3.67 pp, p = 0.0030**
+- `hung it myself`, same two runs: **p = 0.86** → **p = 0.0066**
+
+So the instrument detects a ~450-Elo difference in skill at p = 0.003 on the
+same test that returns 0.86 across the whole settled era. **The flatness result
+is a real null, not an insensitive measure.** That is the entire value of these
+blocks and it is worth more than the extra sample size.
+
+What it is **not**: evidence that anything he did moved the rate. This contrast
+is a 900-Elo player against a 1370-Elo player, which is a statement about the
+gap between beginner and settled play, not about training. Nobody should read
+"the rate fell from 7.98% to 4.5%" as an achievement to repeat — the rating
+climb over that span is the thing being described, and this is one more view of
+it.
+
+The chess.com series leans the same way and **does not reach significance on its
+own**: 7.65% (2023) / 7.09% (2024 Jan–Apr) / 5.51% (2024 Q4) / 4.95% (2026),
+spread p = 0.38, `hungself` p = 0.11. The two early blocks are 351 and 71 games
+at 3+2, so this is underpowered rather than contradictory. Do not describe the
+positive control as "replicating across pools" — one site carries it.
+
+The 5+0 material, for the record, since it is new to the corpus at this volume:
+chess.com Jan–Apr 2024 at 5+0 is 2,074 eligible moves at 6.56% floored
+(`hungself` 2.03%); Lichess 2024 at 5+0 is 502 eligible at 4.58%
+(`hungself` 1.79%). Both sit with their own era rather than with their format,
+which is what the pooling default predicts.
+
 ### Clock spend is a property of the player, not the site
 
 Both sites were 3+2 in the date-matched windows, so per-move time spend compares
@@ -1038,6 +1132,13 @@ Two rules the subcommands encode, both learned the hard way here:
 - **`pools` shuffles within window.** Never compare a pooled multi-year baseline
   against a date-specific block. Doing so absorbs between-block noise into the
   contrast; it turned p = 0.10 into p = 0.031 once already.
+- **`shuffle` takes one `--user` for all blocks; only `pools` accepts
+  `--user-map`.** Passing `--user NAME=account` to `shuffle` does not error — it
+  sets the username to the literal string `NAME=account`, every game fails the
+  match, and the run dies with a `KeyError` on the first block name while
+  printing a table header first. For an all-chess.com `shuffle`, set
+  `CHESS_USER=justinmorg` (or `--user justinmorg`) for the whole invocation.
+  Mixed-site comparisons have to go through `pools`.
 
 Eligibility mirrors `longitudinal.py` exactly, so block rates printed by the two
 scripts agree. Note the diversity tests in the chess.com section used
@@ -1071,6 +1172,39 @@ that time cannot stand in for pool:
 The direction is consistent across both windows (+0.44 and +1.47 pp), but it is
 not significant once time is controlled.
 
+**A third window closed this further (Aug 2026).** Annotating the 2023 blocks on
+both sites made a Jun–Jul 2023 window available — the only period before 2024
+where both accounts were active — so the test now runs on three windows:
+
+| window | pool | games | eligible | hanging | hung it myself |
+|---|---|---|---|---|---|
+| **2023 Jun–Jul** | **Lichess** | **432** | **1,346** | **7.43%** | **2.38%** |
+| **2023 Jun–Jul** | **chess.com** | **225** | **590** | **7.46%** | **3.05%** |
+| 2024 Sep–Dec | Lichess | 273 | 821 | 5.48% | 1.22% |
+| 2024 Sep–Dec | chess.com | 808 | 2,650 | 5.51% | 1.66% |
+| 2026 Feb–Apr | Lichess | 433 | 1,506 | 5.25% | 1.39% |
+| 2026 Feb–Apr | chess.com | 137 | 525 | 4.95% | 2.86% |
+
+- hanging material: cc − li = **−0.36 pp, p = 0.55**
+- hung it myself: cc − li = **+0.33 pp, p = 0.41** (was +0.53 pp, p = 0.10)
+
+Adding the window **weakened** the `hungself` contrast rather than sharpening
+it — the effect size fell by nearly half and p went from 0.10 to 0.41. The
+direction is still positive in all three windows (+0.68, +0.44, +1.47 pp), but a
+difference that shrinks as data arrives is behaving like noise, not like a real
+effect waiting for power.
+
+The 2023 window is also a **third independent replication of the
+hanging-material equivalence**, and the most surprising one: 7.43% against
+7.46%, with the two accounts at ~929 and ~646 nominal Elo. The cross-pool rate
+agreement holds at the beginner end of the range as well as the settled end.
+
+The window is deliberately cut to Jun 14 – Jul 31 rather than to the full
+overlap of the two blocks. chess.com has no games Aug–Oct 2023, so a Jun–Oct
+window would compare four Lichess months against two chess.com ones and
+re-introduce exactly the time-leakage this test exists to prevent. The looser
+cut gives +0.30 pp at p = 0.46 — same conclusion, worse hygiene.
+
 **Why the pooled test overstated it.** Pooling the whole Lichess corpus put the
 baseline at 1.15%, but the two date-matched sub-windows sit at 1.22% and 1.39%.
 The homogeneity result says that spread is noise — which is exactly the point:
@@ -1079,18 +1213,29 @@ Homogeneity licenses pooling for comparisons *between* Lichess blocks. It does
 not license using a pooled Lichess baseline against a block drawn from specific
 weeks. Match the dates.
 
-**Status: unresolved, and not cheaply resolvable.** Detecting a ~0.5 pp
-difference on a ~1.2% base needs several times the current 3,175 chess.com
-eligible moves. The remaining un-annotated chess.com 3+2 games number only 422
-(351 from 2023, pre-repertoire; 71 from 2024). The only large block left is
-1,071 games at 3+0, which is not verified as poolable. Either accept this as
-open or generate new chess.com 3+2 games.
+**Status: still open, leaning null, and no longer cheaply advanceable.** The
+422 previously un-annotated chess.com 3+2 games have since been annotated, with
+533 more at 5+0, taking chess.com from 3,175 to 6,511 eligible moves — roughly
+double — and the contrast got *smaller*. There is nothing left to annotate at
+these formats on either site.
+
+What remains is 1,072 chess.com games at **3+0**, which is not verified as
+poolable and would need that verification first. Beyond that this needs new
+chess.com 3+2 play, not new analysis of existing games. Given that doubling the
+sample roughly halved the effect, the honest expectation is that there is
+nothing here.
 
 One observation worth keeping, on small numbers: in the 2026 chess.com block the
 composition inverts — 15 of 26 floored hits are `hung it myself` against 11
 `missed their threat`. Every other block measured, on either site, is roughly
-3:1 the other way. On 26 hits that is not worth acting on, but it is the thing
-to look at first if more chess.com data ever arrives.
+3:1 the other way. It was flagged as the thing to look at first if more
+chess.com data arrived, so: **it arrived, and it half-holds.** The Jan–Apr 2024
+3+2 block also inverts (11 `hung it myself` against 9 `missed their threat`,
+on 20 floored hits), but the 2023 block does not (29 against 46, the usual
+direction) and neither does the same period's 5+0 material (42 against 94).
+Two small inverted blocks out of five is not a pattern; it is what 20-hit
+samples do. Treat the inversion as unexplained and uninteresting until some
+block with real weight shows it.
 
 ### The 2023–2024 file needs filtering before use
 
@@ -1136,9 +1281,23 @@ was verified for 3+2 vs 5+0 only. 3+0 is a harsher clock regime than anything in
 
 After filtering to 3+2, non-arena, post-calibration, two clean blocks remain:
 2023 Apr–Jul (~495 games, rating ~820 → 1000) and 2024 Aug–Dec (651 games,
-rating ~1234 → 1301). Only the second was annotated — see below. The 2023 block
-sits at 800–1000 Elo where falling error rates are just a beginner improving,
-which says little about the plateau.
+rating ~1234 → 1301).
+
+**Both are now annotated, and so is everything else at 3+2 or 5+0 in this
+file** — see "Complete 3+2 / 5+0 coverage" above. `jamorgan_blitz_2023` (596
+games) and `jamorgan_blitz_2024rest` (132) between them cover every non-arena
+3+2/5+0 game the 2024 H2 block does not. Points 1 and 4 above still describe the
+raw file, but they are now **analysis-time** filters rather than reasons to skip
+data: calibration games are deliberately included in the 2023 block, so exclude
+them by date if a question needs them out, and the 4 arena games are excluded
+from the annotated blocks entirely.
+
+The earlier reason for skipping 2023 — that 800–1000 Elo is just a beginner
+improving and says little about the plateau — was right about the plateau and
+wrong about the value. It says nothing about *why* the plateau exists, but it
+turned out to be the only available positive control on whether the
+hanging-material measure can detect change at all. See "The positive control:
+this metric does move".
 
 ### Time control changed mid-2026
 
@@ -1208,18 +1367,25 @@ By block, with 3+2 counts:
 
 | block | games | plies | formats | notes |
 |---|---|---|---|---|
-| 2023 Jun–Nov | 362 | 21,312 | 351 at 3+2 | pre-repertoire — Englund absent entirely, Caro 16% in Jun–Jul |
-| 2024 Jan–Apr | 1,667 | 100,969 | 1,071 at 3+0, 525 at 5+0 | Lichess is near-silent here |
+| 2023 Jun–Nov | 362 | 21,312 | 351 at 3+2 | **annotated** (359 incl. 5+0) — pre-repertoire, Englund absent entirely, Caro 16% in Jun–Jul |
+| 2024 Jan–Apr | 1,667 | 100,969 | 1,071 at 3+0, 525 at 5+0 | **3+2 and 5+0 annotated** (596); the 3+0 remainder is not | 
 | 2024 Sep–Dec | 811 | 52,097 | 808 at 3+2 | **annotated** — see below |
 | 2026 Feb–Apr | 137 | 10,030 | all 3+2 | concurrent with the 2026 corpus |
 
 Nothing between 2025-01 and 2026-01 was exported. A July 2025 file exists (~6
 games at Elo 754–827) but failed to transfer three times; it is not in this set.
 
-The Jan–Apr 2024 block is the largest single body of unanalysed play anywhere in
-this project, and it fills a genuine Lichess hole — but it is 1,071 games of
-**3+0**, the one clock regime this project has never verified as poolable. It
-needs its own comparison, not a row in the existing table.
+The Jan–Apr 2024 block was the largest single body of unanalysed play anywhere
+in this project, and it fills a genuine Lichess hole. Its 3+2 (71) and 5+0 (525)
+games are now annotated as `chesscom_justinmorg_2024janapr`. What is left of it
+is **1,072 games at 3+0**, the one clock regime this project has never verified
+as poolable — that remainder still needs its own comparison, not a row in the
+existing table.
+
+**Every 3+2 and 5+0 game on either site is now annotated.** The un-annotated
+remainder across the whole project is exactly the formats deliberately out of
+scope: 3+0 (1,072 chess.com, 151 Lichess), 5+3 (108 Lichess), 300+2 (2
+chess.com) and 4 Lichess arena games.
 
 ### `chesscom_justinmorg_2024q4_analyzed.pgn.gz`
 
@@ -1435,6 +1601,50 @@ What this does mean:
   fresh-eval comparison above is a few minutes of engine time.
 
 ## Update procedure
+
+### When it is worth pulling a fresh batch
+
+Written Aug 2026, because "download the newest games" is the default reflex and
+it is usually **not** worth doing. A new block costs engine time and, worse,
+adds another opportunity to find a spurious difference — the corpus already has
+three retracted findings and one untested flag, every one of them from a small
+block. Q4 2025 is the cautionary case: 232 games bought a hanging-material
+interval of [2.89, 5.92] and resolved nothing.
+
+Current baseline for the arithmetic: **~190 games/month** (2026 average; recent
+months run 190–325) and **~3.3 eligible winning-middlegame moves per game.**
+
+**Pull a fresh batch when any one of these is true:**
+
+1. **Volume.** ~900+ new games since the last block, which is ~3,000 eligible
+   moves — the point at which a block gets a ±0.6 pp interval and can actually
+   sit in the flatness table. At current volume that is **roughly 5 months of
+   play.** Below ~450 games (~1,500 eligible, ±0.9 pp) a new block cannot
+   distinguish anything from the existing 4.3–5.2% band and should not be
+   annotated as a separate block at all — fold it into the next one.
+2. **Rating regime change.** Trailing-200-game mean rating leaves the
+   **1310–1455** plateau band and stays out for another 200 games. This is the
+   one trigger that justifies a small block, because a regime change is worth
+   measuring even at low precision.
+3. **A specific question needs it.** Not "let's see if anything changed" — an
+   open thread that a new block would actually settle.
+
+**Do not pull a batch just because time has passed.** As of 2026-08-19 the
+trailing-200 mean is **1370**, dead centre of the band, and 2026's monthly means
+run 1419 / 1454 / 1395 / 1353 / 1310 / 1362 / 1401 / 1368 — the full width of
+the band, oscillating, no trend. Movement inside that band is not a signal; the
+band *is* the signal, and it has been flat for ~13 months.
+
+The marginal value of another same-era block is now genuinely low. Flatness
+holds at p = 0.86 across six Lichess blocks, and the beginner-era blocks supply
+the positive control showing the measure moves when skill does. A seventh
+settled block would add a seventh null.
+
+**The natural next batch** is the rest of 2026: the corpus ends 2026-08-19, and
+Sep–Dec at current volume is ~760 games, so closing out the calendar year some
+time in Jan 2027 would produce a properly-sized block on a clean boundary. That
+is the default plan unless trigger 2 or 3 fires first.
+
 
 1. **Find the latest timestamp in the corpus.**
 
