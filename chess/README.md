@@ -1196,6 +1196,33 @@ Practical rule: any finding that leans on +5 should be re-checked at higher
 depth on the specific positions involved. Findings at +2 can be taken at face
 value.
 
+### Individual evals can also just be wrong
+
+Separate from depth noise: a small number of `[%eval]` values in the annotated
+files are simply corrupt — not a shallow-search misjudgment but a number that
+no engine at any depth produces for that position. Found Aug 2026 by reading a
+group R card that looked wrong: game `bdWcvWUA` ply 25 (13.Bf3) carries −602,
+while fresh Stockfish gives −0.17 at depths 12, 16 and 20, and the corpus's own
+next own-move row snaps back to +31. The game was won, peak +546. One bad
+number invented a permanent 650cp collapse.
+
+Rate, measured rather than assumed: re-evaluating the position after the played
+move for all 330 thread-2 judgment positions found **one** gross disagreement —
+this one, off by 585cp. The next-largest gap was 145cp, ordinary depth-12
+wobble. So roughly 0.3%, and no published figure moves when it is dropped (H2
+shifts ~0.1 pp; the thread 2 shares not at all). **Deliberately not fixed** — no
+blacklist, no re-annotation. At this rate the machinery would cost more than the
+error.
+
+What this does mean:
+
+* A single position that looks obviously wrong probably *is* wrong. Check it
+  against a live engine before theorising about it.
+* Don't build an argument on one position. Every finding in this README rests on
+  hundreds of rows, where a 0.3% artifact rate is harmless.
+* If a future analysis ever does turn on individual plies, audit first — the
+  fresh-eval comparison above is a few minutes of engine time.
+
 ## Update procedure
 
 1. **Find the latest timestamp in the corpus.**

@@ -137,27 +137,52 @@ def validate(sel, ext):
 
 
 # ---------------------------------------------------------------- engine
+def pv_san(eng, board, n=3, depth=16):
+    """Depth-`depth` principal variation as SAN, from `board`."""
+    info = eng.analyse(board, chess.engine.Limit(depth=depth))
+    sans, bb = [], board.copy()
+    for mv in info["pv"][:n]:
+        sans.append(bb.san(mv))
+        bb.push(mv)
+    return " ".join(sans)
+
+
 def engine_lines(sel, ext):
+    """Two depth-16 lines per position, cached:
+
+      better — best play from the position, i.e. what to do instead
+      after  — best play from the position the played move CREATES, i.e. what
+               the opponent had against it
+
+    `after` is the one that matters for training: thread 2 found the error is
+    typically a quiet move losing to an immediate capture or check (H2), and
+    this is that reply, spelled out. Cache entries are dicts; entries written
+    by the earlier single-line version are plain strings and get topped up
+    rather than recomputed.
+    """
     cache = {}
     if os.path.exists(CACHE):
         cache = json.load(open(CACHE))
-    todo = [(r.gid, int(r.ply)) for _, r in sel.iterrows()
-            if f"{r.gid}-{r.ply}" not in cache]
+    todo = []
+    for _, r in sel.iterrows():
+        k = f"{r.gid}-{r.ply}"
+        v = cache.get(k)
+        if not isinstance(v, dict) or "after" not in v:
+            todo.append((r.gid, int(r.ply)))
     if todo:
         if not os.path.exists(SF):
             sys.exit(f"ERROR: stockfish not at {SF} — see README "
                      f"'Stockfish in a fresh sandbox'")
         eng = chess.engine.SimpleEngine.popen_uci(SF)
-        eng.configure({"Threads": 1})
+        eng.configure({"Threads": 1, "Hash": 128})
         for gid, ply in todo:
+            k = f"{gid}-{ply}"
+            old = cache.get(k)
             b = chess.Board(ext[gid]["fen"])
-            info = eng.analyse(b, chess.engine.Limit(depth=16))
-            pv = info["pv"][:3]
-            sans, bb = [], b.copy()
-            for mv in pv:
-                sans.append(bb.san(mv))
-                bb.push(mv)
-            cache[f"{gid}-{ply}"] = " ".join(sans)
+            better = old if isinstance(old, str) else pv_san(eng, b, 3)
+            b.push(chess.Board(ext[gid]["fen"]).parse_san(ext[gid]["played"]))
+            after = "" if b.is_game_over() else pv_san(eng, b, 3)
+            cache[k] = {"better": better, "after": after}
         eng.quit()
         json.dump(cache, open(CACHE, "w"), indent=0, sort_keys=True)
     return cache
@@ -172,7 +197,8 @@ def ev(cp):
     return f"{cp / 100:+.1f}"
 
 
-def card(r, e, better):
+def card(r, e, lines):
+    better, after = lines["better"], lines["after"]
     fen = e["fen"]
     b = chess.Board(fen)
     side = "white" if b.turn == chess.WHITE else "black"
@@ -189,13 +215,13 @@ def card(r, e, better):
     <h3>Move {int(r.fullmove)} &middot; you're {side.capitalize()} &middot; <span class="ev">{ev(r.cp_before)}</span> &middot; you thought for {spend}s</h3>
     <div class="board" data-fen="{fen}" data-flip="{1 if side == 'black' else 0}"></div>
     <p class="ask">{opp_line(e)} You played <strong>{html.escape(e['played'])}</strong>.</p>
-    <p class="ask dim">Before opening the answer: why this move? What did you see in the position, what was the idea, and what (if anything) were you worried about?</p>
     <textarea class="rnote" data-k="{key}" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
     <p class="rsaved dim" data-k="{key}"></p>
     <details class="spoil"><summary>What happened</summary>
-      <p>Eval {ev(r.cp_before)} &rarr; <strong>{ev(r.cp_after)}</strong> &mdash; this move cost {cost} win% points and the game never recovered. Deeper engine (depth 16) prefers <strong>{html.escape(better)}</strong>.</p>
-      <p class="dim">Nothing was hanging and the opponent's last move was quiet &mdash; this is a judgment position, which is exactly why it's here. After reading the line, add to your note what you missed.</p>
-      <p class="meta dim">vs {html.escape(opp)} ({html.escape(oelo)}) &middot; {e['date']}</p>
+      <p>Eval {ev(r.cp_before)} &rarr; <strong>{ev(r.cp_after)}</strong>, costing {cost} win% points, and the game never recovered.</p>
+      {after_html(e, after)}
+      <p>Instead of {html.escape(e['played'])}: <strong>{html.escape(better)}</strong></p>
+      <p class="meta dim">vs {html.escape(opp)} ({html.escape(oelo)}) &middot; {e['date']} &middot; depth 16</p>
       <div class="acts">
         <a class="btn ghost" href="{link}" target="_blank" rel="noopener">Explore on Lichess</a>
         <a class="btn ghost" href="{game}" target="_blank" rel="noopener">The real game</a>
@@ -203,6 +229,14 @@ def card(r, e, better):
     </details>
   </div>
 </article>"""
+
+
+def after_html(e, after):
+    """The line the played move actually allowed — the scan target."""
+    if not after:
+        return ""
+    return (f'<p class="after">After {html.escape(e["played"])}, best for them: '
+            f'<strong>{html.escape(after)}</strong></p>')
 
 
 def opp_line(e):
@@ -219,6 +253,7 @@ CSS = """/* group R — reflection */
 background:#fff;border:1px solid var(--rule);border-radius:2px;padding:.55rem .6rem;resize:vertical}
 .rnote:focus{outline:2px solid var(--board)}
 .rsaved{min-height:1em;margin:.25rem 0 .4rem;font-size:.78rem}
+.after{border-left:2px solid var(--board);padding-left:.6rem}
 .rprog{font-family:'Roboto Mono',monospace;font-size:.85rem;margin:.2rem 0 .8rem}
 .rexport{margin:.4rem 0 0}
 """
@@ -290,7 +325,7 @@ def build():
                     for _, r in sel.iterrows())
     block = f"""<section class="group" id="gR">
   <header class="ghead"><span class="gletter alt">R</span><h2>Reflection &mdash; where level games are decided</h2></header>
-  <p class="blurb">Not a drill &mdash; a notebook. The corpus says your level games are decided by one move: a <strong>considered</strong> move in a quiet, piece-heavy position around moves 13&ndash;25, with nothing hanging. These are the {N_CARDS} such moves that cost the most. For each one: sit with the position, then write down &mdash; honestly, in your own words &mdash; why you played what you played. What you saw, what the plan was, what you were worried about. <em>Then</em> open the answer.</p>
+  <p class="blurb">Not a drill &mdash; a notebook. The corpus says your level games are decided by one move: a <strong>considered</strong> move in a quiet, piece-heavy position around moves 13&ndash;25, with nothing hanging. These are the {N_CARDS} such moves that cost the most. For each one: sit with the position, then write down &mdash; honestly, in your own words &mdash; why you played what you played. What you saw, what the plan was, what you were worried about. <em>Then</em> open the answer &mdash; it shows what your move allowed, which is the thing to have seen.</p>
   <p class="blurb">The notes save in this browser and survive rebuilds. When you've written a batch, <strong>Copy my notes as JSON</strong> and bring them to a session &mdash; the whole point is to read them together and find what you're seeing and what you're systematically not.</p>
   <p class="rprog" id="rprog">0 / {N_CARDS} written</p>
   <button class="btn ghost rexport" id="rexport">Copy my notes as JSON</button>
