@@ -56,6 +56,7 @@ chess/
     ├── clockdecomp.py                          clock effect vs difficulty effect
     ├── quiet43.py                              characterizing the 43% H2 doesn't cover
     ├── pvplayout.py                            delayed tactic or positional decay?
+    ├── openings.py                             recover the played book from move times
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_drills.py                       superseded — see below, do not run
@@ -2892,6 +2893,227 @@ take longer, which biases *toward* calling things positional; a 16-ply rerun
 would test that. And this is depth-16 judgment about what should have happened
 next, not a record of what did happen in the games.
 
+## The opening book, recovered from move times
+
+Added Aug 2026. `openings.py`. This is the first section of the README that
+uses **no evals at all** for its main result, so the depth-12 caveat does not
+touch it; the only engine work is the optional audit at the end, which is run
+at depth 20 on a few dozen positions.
+
+The method rests on one measured gap:
+
+| | mean seconds |
+|---|---|
+| own moves inside the book | **1.38** |
+| the first own move outside it | **2.53** |
+
+n = 3,206 and 1,669 respectively. That separation is large enough that the
+repertoire tree falls straight out of the clock data without any judgement
+about which moves are good.
+
+**Scope: 1,772 Lichess games, 2025-08-31 → 2026-08-19, 3+2 and 5+0**, from the
+raw 2025 file plus the 2026 corpus. 882 White / 890 Black. The raw 2025 file is
+fine here precisely because this analysis wants clocks and not evals — the one
+question where `_raw` is not a downgrade. **chess.com is excluded**: the export
+gap means it contributes ~140 games to this window, which is too few to change
+anything and enough to muddy the scope statement. Re-run with the two
+chess.com blocks and `--user-map` if that ever matters.
+
+Reproduce with:
+
+```bash
+python3 chess/scripts/openings.py \
+  2025=chess/data/jamorgan_blitz_2025_raw.pgn.gz \
+  2026=chess/data/jamorgan_blitz_2026_analyzed.pgn.gz \
+  --since 2025-08-29 --min-reps 25 \
+  --engine /home/claude/sf/x/usr/games/stockfish --engine-depth 20
+```
+
+`--tc` takes a comma-separated list (the `outcomes.py` convention, not
+`longitudinal.py`'s). Default is `180+2,300+0`.
+
+### Two things that will silently corrupt this if you rewrite it
+
+**Nodes must be keyed by (colour, EPD), not EPD.** The position after `1.d4 e5`
+arises both when he plays the Englund and when an opponent plays it against
+him. Pooling the two gave `1.d4 e5 2.dxe5` a spurious 307 reps at 0.69 share —
+the denominator was counting his Black games, where the move was not his to
+make. Every share in the Englund lines was wrong until this was fixed. It is
+the same class of error as the `CHESS_USER` silent-zero documented above:
+plausible output, wrong population.
+
+**Plies 1 and 2 carry no usable clock.** Lichess writes the initial clock for
+both first moves regardless of what was actually spent, and only applies the
+increment from ply 3 on. So `1.d4` and `1...c6` measure 0.00s by construction,
+not by measurement. `openings.py` time-exempts those two plies and judges them
+on share alone; an earlier version that did not divided by zero, which was
+lucky — the quiet failure would have been to report every game as leaving book
+at move 1.
+
+### Validation gate
+
+`openings.py` re-derives mean seconds per own move at moves 16–20 in the 2026
+corpus before doing anything else, and hard-exits on mismatch:
+
+| | measured | README |
+|---|---|---|
+| 180+2 | 8.37s | 8.4 |
+| 300+0 | 7.78s | 7.8 |
+
+Clock arithmetic is the single thing in this analysis that can be wrong
+without looking wrong, so it is gated against a figure published from a
+completely different script.
+
+### First-move adherence is near-total, with a hole
+
+| | | |
+|---|---|---|
+| 1.d4 as White | 881 / 882 | 99.9% |
+| 1…c6 vs 1.e4 | 540 / 541 | 99.8% |
+| 1…e5 vs 1.d4 | 254 / 256 | 99.2% |
+
+Against anything else as Black there is **no settled reply at all**. 1.c4 (18
+games) splits …e5/…Nc6/…d5 15/2/1; 1.e3 (12) splits …e5/…c6/…c5 6/5/1; 1.b3
+(10) splits 7/2/1; 1.g3 (9) splits …d5/…e5 4/4. Adding 1.d3, 1.f4, 1.Nc3,
+1.g4, 1.b4: **~70 games a year, book depth 0.** 1.Nf3 is the exception and is
+prepared (…d5, 18 of 19).
+
+### The book itself
+
+Book node = ≥25 reps, top-move share ≥0.90, mean spend <3.0s. Descriptive, not
+a pre-specified test; both thresholds are conventions, though 3.0s sits just
+above twice the in-book mean rather than being picked freely.
+
+**White — Accelerated London, depth 3, universal.** 2.Bf4 and 3.e3 against
+literally every setup, and they are the fastest moves in the corpus:
+
+| line | reps | mean s |
+|---|---|---|
+| 1.d4 d5 2.**Bf4** | 439 | 1.28 |
+| 1.d4 Nf6 2.Bf4 d5 3.**e3** | 137 | 0.92 |
+| 1.d4 d5 2.Bf4 Nc6 3.**e3** | 121 | 1.02 |
+| 1.d4 e6 2.Bf4 d5 3.**e3** | 118 | 0.99 |
+| 1.d4 Nf6 2.**Bf4** | 139 | 1.45 |
+| 1.d4 e6 / g6 / c6 / d6 2.**Bf4** | 81 / 49 / 28 / 27 | ~1.4 |
+
+**Black vs 1.e4 — Caro, depth 4–6.** 2…d5 is automatic against every second
+move (2.d4 214×, 2.Nf3 189×, 2.Bc4 56×, 2.Nc3 36×, all ~1.3s).
+
+| line | reps | mean s |
+|---|---|---|
+| 2.Nf3 d5 3.exd5 **cxd5** | 114 | 0.81 |
+| 2.Bc4 d5 3.exd5 **cxd5** | 55 | 0.51 |
+| 2.d4 d5 3.e5 c5 4.c3 **Nc6** | 53 | 1.09 |
+| 2.d4 d5 3.exd5 **cxd5** | 52 | 1.40 |
+| 2.d4 d5 3.e5 c5 4.c3 Nc6 5.Nf3 cxd4 6.cxd4 **Bg4** | 51 | 1.67 |
+
+**Black vs 1.d4 — Englund, and the most interesting row in the section.** The
+main line is played 100% of the time to move 8, but the clock climbs steadily:
+
+| ply | move | reps | share | mean s |
+|---|---|---|---|---|
+| 3 | 2…Nc6 | 160 | 1.00 | 1.29 |
+| 5 | 3…Qe7 | 128 | 0.98 | 1.55 |
+| 7 | 4…Qb4+ | 51 | 1.00 | 1.39 |
+| 9 | 5…Qxb2 | 42 | 1.00 | 1.81 |
+| 11 | 6…Bb4 | 32 | 1.00 | **3.75** |
+| 13 | 7…Qa3 | 27 | 1.00 | **3.41** |
+| 15 | 8…Qa5 | 12 | 1.00 | **5.08** |
+
+Share never drops. Spend nearly quadruples. **The moves are still known and
+have stopped being trusted** — from move 6 on he is re-deriving a line he
+plays unanimously. This is the one pattern in the section that the share
+column alone would have missed entirely, and it is the argument for measuring
+book by time rather than by move frequency.
+
+### Book depth by family
+
+| family | games | median depth |
+|---|---|---|
+| Black vs 1.e4 | 541 | 3 |
+| White 1.d4 d5 | 439 | 3 |
+| White 1.d4 Nf6 | 139 | 3 |
+| Black vs 1.d4 | 256 | 2 |
+| Black vs 1.Nf3 / 1.c4 / 1.e3 / 1.b3 | 19 / 18 / 12 / 10 | **0** |
+
+Depth 2–3 sounds shallow and partly is an artifact of the ≥25-reps rule: the
+tree fans out faster than reps accumulate, so a line can be genuinely known
+and still fall below the bar. Read the per-line tables above, not this one,
+for how deep any particular line runs. What the family table *is* good for is
+the last row.
+
+### Where the book stops
+
+Nodes at ≥25 reps that fail the book test:
+
+| line | reps | share | mean s | alternatives tried |
+|---|---|---|---|---|
+| 1.d4 d5 2.Bf4 Nc6 3.e3 Nf6 4.**?** | 78 | 0.63 | 3.76 | Nf3 49, c4 23, Bb5 4, Bd3, Be2 |
+| 1.d4 c6 2.Bf4 d5 3.e3 Bf5 4.c4 e6 5.Nc3 Nf6 6.**?** | 25 | 0.56 | 3.14 | Qb3 14, Nf3 10, cxd5 |
+| 1.d4 Nf6 2.Bf4 d6 3.e3 g6 4.h3 Bg7 5.**?** | 29 | 0.62 | 2.56 | Bh2 18, Nf3 8, c4 3 |
+| 1.d4 g6 2.Bf4 Bg7 3.e3 Nf6 4.**?** | 50 | 0.82 | 1.71 | Nf3 41, c4 9 |
+| 1.e4 c6 2.Nf3 d5 3.exd5 cxd5 4.d4 **?** | 88 | 0.86 | 1.21 | Nc6 76, Bg4 12 |
+| …4.Nc3 Nc6 5.d4 Bg4 6.Be2 **?** | 28 | 0.68 | 2.53 | e6 19, Nf6 9 |
+| 1.e4 c6 2.d4 d5 3.e5 c5 4.Nf3 Nc6 5.c3 **?** | 63 | 0.84 | 1.98 | cxd4 53, Bg4 10 |
+
+The first row is the largest single hole in the repertoire: the standard
+London tabiya, reached 78 times a year by two move orders, costing 3.76s and
+resolved five different ways.
+
+### The engine audit: is the fast move the right move?
+
+Move times establish that a move is *prepared*. They say nothing about whether
+it is *correct*, and that is the one question this method structurally cannot
+answer. So `--engine` re-checks the top nodes at depth 20 with multipv 4 and
+reports centipawns lost against the engine's first choice, from the mover's
+point of view.
+
+**44 of the 59 audited nodes are within 15cp of best.** The book is mostly
+sound. The exceptions split into two kinds that must not be quoted as one
+number:
+
+**Repertoire choices, not errors.** `1.d4` (−16 vs 1.e4), `2.Bf4` (−19 vs
+2.c4), `1…e5` the Englund itself (−101 vs 1…Nf6). These are the known price of
+the openings, paid deliberately, and no amount of study removes them. Do not
+report them as mistakes.
+
+**Moves inside a chosen line that the engine dislikes:**
+
+| line | reps | cost | engine prefers |
+|---|---|---|---|
+| Englund 5.Bd2 **Qxb2** | 42 | −62 | Qc5 |
+| 1.d4 e5 2.d5 **f5** | 26 | −84 | Bc5 |
+| 1.e4 c6 2.Bc4 d5 3.exd5 cxd5 4.Bb3 **a5** | 36 | −53 | Bf5 |
+| 1.e4 c6 2.Nf3 d5 3.e5 **c5** | 47 | −34 | Bg4 |
+| 1.d4 Nf6 2.Bf4 d6 3.**e3** | 33 | −28 | Nc3 |
+| 1.e4 c6 2.Nf3 d5 3.exd5 cxd5 4.d4 Nc6 5.Bb5 **Bg4** | 33 | −24 | Qa5+ |
+
+`Qxb2` is the one to take seriously: 42 reps a year, played in 1.81s at 100%
+share, and the line it enters is exactly where the clock spend triples. That
+is a single coherent story rather than six independent findings — the move he
+is surest of walks into the position he has to solve from scratch every time.
+
+**Caveats on the audit.** Depth 20 in the opening is not theory and the ranking
+of near-equal moves at that depth is not stable; treat anything under ~30cp as
+noise rather than a verdict, and check the named lines against an actual
+reference before rewriting them. The `n × cost` column in the script output is
+a sorting device, not a claim about rating points.
+
+### What this does not establish
+
+Nothing here is tested against **results**. Book depth is not shown to predict
+score, the flagged moves are not shown to lose games, and no claim in this
+section has been through a permutation test. It is a description of what is
+prepared and what is not. The obvious follow-up — does leaving book early
+predict anything downstream, controlling for opponent strength — is listed
+under open threads and is not answered here.
+
+It also does not revisit the standing finding that **openings are a relative
+strength and there is no reliable opening-phase deficit**. The gaps above are
+gaps in *preparation*, measured in seconds; the eval-based work continues to
+find no opening-phase problem, and the two are consistent. Time lost at move 4
+is a clock cost, not an evaluation cost.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -3074,6 +3296,27 @@ spend/error gradient is confounded by difficulty in both directions, and
 nothing here would license "move slower" any more than the earlier result
 licensed "move faster." At most this identifies a subset, not a remedy. n is
 also small: 13 notes, a handful of fast ones.
+
+### 8. Does leaving book early predict anything? — open, cheap
+
+`openings.py` produces a per-game book depth. Nothing has been done with it.
+The question worth asking is whether depth predicts **downstream** outcomes —
+eval at move 12, whether a winning middlegame is reached, score — after
+controlling for opponent Elo and for which family the game is in. That control
+matters more than usual here: book depth is nearly determined by the
+opponent's choice of opening, so a raw correlation would mostly measure which
+openings are easy to play against.
+
+**Pre-specify before running.** The honest prior is null, for the same reason
+every other opening-phase test in this README came back null: eval after move
+12 is fine, and the gaps identified above cost seconds rather than
+centipawns. The interesting version of the question is therefore about the
+*clock* — does a 3.8s hole at move 4 show up as time pressure at move 30 — and
+that runs into the format split, so it must be done inside `TimeControl`
+rather than pooled.
+
+Cheap, and it needs no new annotation: book depth comes from clocks, and the
+outcome columns already exist in `features.py`'s `games.csv`.
 
 ### Do not re-chase
 
