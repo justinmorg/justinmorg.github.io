@@ -3108,6 +3108,11 @@ prepared and what is not. The obvious follow-up — does leaving book early
 predict anything downstream, controlling for opponent strength — is listed
 under open threads and is not answered here.
 
+The follow-up that would test it is written up as open thread 8, where the
+clock half of it is closed on a power calculation before being run: own clock
+at move 30 has sd ~42s, the predicted effect is 3–4s, and the corpus is short
+by an order of magnitude. The eval half survives at 45–90cp resolution.
+
 It also does not revisit the standing finding that **openings are a relative
 strength and there is no reliable opening-phase deficit**. The gaps above are
 gaps in *preparation*, measured in seconds; the eval-based work continues to
@@ -3297,26 +3302,88 @@ nothing here would license "move slower" any more than the earlier result
 licensed "move faster." At most this identifies a subset, not a remedy. n is
 also small: 13 notes, a handful of fast ones.
 
-### 8. Does leaving book early predict anything? — open, cheap
+### 8. Does leaving book early predict anything? — scoped, and half of it is dead
 
-`openings.py` produces a per-game book depth. Nothing has been done with it.
-The question worth asking is whether depth predicts **downstream** outcomes —
-eval at move 12, whether a winning middlegame is reached, score — after
-controlling for opponent Elo and for which family the game is in. That control
-matters more than usual here: book depth is nearly determined by the
-opponent's choice of opening, so a raw correlation would mostly measure which
-openings are easy to play against.
+`openings.py` produces a per-game book depth: consecutive own moves from move 1
+that are book moves. Nothing has been done with it. The question splits into two
+channels, and **they are not equally viable** — the clock channel was the
+obvious one and is the one that cannot be run.
 
-**Pre-specify before running.** The honest prior is null, for the same reason
-every other opening-phase test in this README came back null: eval after move
-12 is fine, and the gaps identified above cost seconds rather than
-centipawns. The interesting version of the question is therefore about the
-*clock* — does a 3.8s hole at move 4 show up as time pressure at move 30 — and
-that runs into the format split, so it must be done inside `TimeControl`
-rather than pooled.
+**Channel B, clock — not testable at this corpus size. Do not attempt it.**
+The appealing version was "does a 3.8s hole at move 4 still exist at move 30."
+It does not survive a power calculation. Own clock at move 30 in the largest
+held-out cell (Black vs 1.e4 at 300+0, May–Aug 2026) has **sd 41.5s across 129
+games**, and only about half of games reach move 30 at all. Splitting that cell
+by book depth gives ~65 per group, which detects a difference of **~25s** at 80%
+power and alpha 0.01. Pooling all families within 300+0 gets ~225 per group and
+detects **~15s**.
 
-Cheap, and it needs no new annotation: book depth comes from clocks, and the
-outcome columns already exist in `features.py`'s `games.csv`.
+The predicted effect is **3–4 seconds**: the measured book gap is 1.15s per
+move (2.53 out of book against 1.38 in it), over the two or three extra
+out-of-book moves that separate a shallow game from a deep one. So the test is
+underpowered by a factor of four to eight against its own hypothesis, and
+detecting 3.5s at sd 46 would need roughly **4,000 games per group** — an order
+of magnitude beyond the corpus, and beyond what any realistic number of new
+batches would supply.
+
+More to the point, **the quantity of interest is already measured directly**.
+Seconds spent on out-of-book moves is observed at the source, per move, with no
+inference required. Asking whether it is still visible twenty moves later is
+asking whether a small measured quantity survives being swamped by the variance
+of everything that happens in between. It will not, and it does not need to:
+the cost is the 3.76s at the London move-4 tabiya, not some echo of it at move
+30. Record the direct figure; do not chase the downstream one.
+
+**Channel A, evaluation — viable, cheap, and expected null.** Does leaving book
+early produce a worse position? Outcomes: eval after own move 12, share of
+games at ≤−100cp there, whether a ≥+200 middlegame is reached. All three are
+already columns in `features.py`'s `games.csv`.
+
+Resolution, from the 1,616 games in the 12-month window that carry evals (the
+Q4 2025 slice plus the 2026 corpus; the raw 2025 file cannot be used here, and
+this is the one part of the opening work where `_raw` is a real limitation).
+Eval at own move 12 has **sd 264cp**:
+
+| games per group | detectable at |
+|---|---|
+| 200 | 90cp |
+| 400 | 64cp |
+| 800 | 45cp |
+
+Pooled, this resolves 45cp. Within family — which is the version that actually
+answers the question, see below — the larger families give 200–400 per group
+and resolve 64–90cp. That is a real but coarse instrument: it would catch
+"unprepared openings produce materially worse positions" and would miss
+anything subtler.
+
+**Controls.** Opponent Elo and colour. The one that matters is **opening
+family**: book depth is close to determined by the opponent's choice, so a raw
+correlation would mostly measure which openings are easy to face rather than
+anything about preparation. The comparison has to be shallow-vs-deep *inside*
+`1.d4 d5`, inside the Advance Caro, and so on. That control is what costs the
+power in the table above, and it is not optional.
+
+`TimeControl` need not be split for channel A — eval at move 12 is inside the
+window the README verifies as poolable, and the format split only binds on
+clock-dependent quantities past move 25.
+
+**Held-out design, and why.** Book status is defined partly *by* time: a node
+needs mean spend under 3.0s to qualify. Regressing a time-derived predictor on
+a time-derived outcome is circular, and the bias runs in exactly the direction
+the hypothesis predicts. With ≥25 reps per node any one game's contribution to
+its own node's classification is small, but small is not zero. So **build the
+node table on Sep 2025–Apr 2026 and score games from May–Aug 2026 only.** This
+matters much less for channel A than it would have for channel B — eval is not
+time-derived, so the circularity is second-order there — but the corpus has
+three retracted findings and a held-out split is cheap.
+
+**Pre-specified decision rule.** Channel A, stratified permutation test by
+family, game-level resampling, p<0.01 given three outcome columns. **Honest
+prior: null.** Every opening-phase test in this README has come back null, eval
+at move 12 is fine, and the gaps `openings.py` found cost seconds rather than
+centipawns. State the detectable-at figure with the result whichever way it
+lands, the way the chess.com diversity test did — a null is worth nothing
+without its resolution attached.
 
 ### Do not re-chase
 
