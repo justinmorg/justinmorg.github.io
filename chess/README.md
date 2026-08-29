@@ -51,6 +51,10 @@ chess/
     ├── oppmove.py                             opponent's previous move vs my blunder rate
     ├── firstdrop.py                           first major deterioration per game (thread 2)
     ├── forcingtest.py                         missed forcing move, or move that loses to one?
+    ├── coincide.py                             do the standing-threat and first-drop findings overlap?
+    ├── thread7.py                              does error severity skew fast? (pre-specified; fails)
+    ├── clockdecomp.py                          clock effect vs difficulty effect
+    ├── quiet43.py                              characterizing the 43% H2 doesn't cover
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_drills.py                       superseded — see below, do not run
@@ -2535,8 +2539,10 @@ opponent's not checked at all. Do not quote the 57% alone.
 This unifies three previously separate results, all of which are
 opponent-resource blindness and none of which is own-resource blindness:
 standing threats reading 6.3 pp more dangerous than fresh ones, group P's
-`missed_their_threat` class, and H2. The training rule that follows is
-one-sided and cheap: **move chosen, hand not yet moved — what are their checks
+`missed_their_threat` class, and H2. **The unification is descriptive, not a
+claim that they are one event** — see "Three failure modes, not one" below,
+where they turn out to be close to statistically independent. The training rule
+that follows is one-sided and cheap: **move chosen, hand not yet moved — what are their checks
 and captures against the position this creates?** That layer accounts for 57%
 of these errors. The other 43% get punished quietly and no scan will catch
 them; they are what the rest of the R notes are for.
@@ -2556,6 +2562,246 @@ failure in the project, and it came from the player, not the tables.
 Two documented members of the quiet-punishment 43%, for whoever picks this up:
 `7k30XvzG` 21...Qb8 and the queen trap after `vQvOtLkI` 15...Qg6 (16.Bc2). Both
 are positional and neither is caught by any forcing-move check.
+
+### Three failure modes, not one
+
+The forcing-layer section groups the standing-threat result, group P and H2
+under one description. The obvious next question is whether the description is
+hiding a single underlying event — whether the standing-threat finding and the
+thread 2 first-deterioration finding are the same thing seen from two angles.
+
+```bash
+python3 chess/scripts/firstdrop.py /home/claude/features   # produces the input
+python3 chess/scripts/coincide.py  /home/claude/features
+```
+
+Validation-gated on the `firstdrop.py` precedent: it hard-exits unless the input
+is the 5,404-game / 178,684-row seven-block run and the published event counts —
+standing arms 19,486 / 3,006 at 16.73%, 1,930 level-entry games, 633 hot-zone
+drops — all reproduce. Every number below prints from that one command.
+
+Events, all defined from columns already in `moves.csv.gz`:
+
+- **A** — permanent hot-zone first drop, in a game level at middlegame entry
+  (633 games)
+- **B** — standing-threat blunder: own move, `fullmove > 12`, non-mate,
+  `see_standing >= 150`, `opp_created_threat == 0`, `drop_cp >= 200` — the
+  failed half of the "already standing" arm (503 moves in 420 games)
+- **P** — group P floored `missed_their_threat` hit (629 moves in 522 games)
+
+**Answer: they are not the same event, and they are close to independent.**
+
+#### They are almost never the same move
+
+Only **14 of the 633** hot-zone drops (2.2%) are also standing-threat blunders;
+28 (4.4%) are group P floored hits. The decomposition shows why, and it is more
+informative than the 29%-vs-26% figure the thread 2 section reports:
+
+| of the 633 hot-zone drops | n |
+|---|---|
+| no material hanging | 451 (71%) |
+| hanging, threat the opponent **just created** | 168 |
+| hanging, threat **already standing** | **14** |
+
+The hanging-material minority of the hot zone is almost entirely *fresh*
+threats — the arm `oppmove.py` found to be the **safe** one. The stale-threat
+mechanism is essentially absent from the hot zone. The "barely elevated
+(29% vs 26%)" line in thread 2 was right about the conclusion and was averaging
+over two arms that point opposite ways.
+
+#### They barely co-occur in the same games
+
+Within the 1,930 level-entry games, exposure-matched on own moves after move 12
+(quintiles) so that long games cannot fake co-occurrence, 10,000 within-stratum
+permutations, seed 23:
+
+| | both | observed | independence predicts | odds ratio | p |
+|---|---|---|---|---|---|
+| A × B | 71 | 3.7% | 3.2% | 1.30 [0.95, 1.75] | 0.12 |
+| A × P | 63 | 3.3% | 2.9% | 1.19 [0.85, 1.62] | 0.21 |
+
+A slight positive lean, neither significant, both intervals covering 1.0. Two
+tests run, both null.
+
+#### The before/after cut is definitional — do not quote it
+
+Of the 86 standing-threat blunders inside the 71 co-occurring games: 72 after
+the first drop, 14 at it, **0 before**. That zero is forced — a standing-threat
+blunder is by definition a ≥200cp drop, and the first drop is the *first* ≥200cp
+drop, so nothing can precede it. Same family as the `opp_created_threat` row
+being definitional: check what a category guarantees before comparing across it.
+What is informative is that most standing-threat blunders in these games land
+*after* the game was already decided.
+
+#### The loss budgets add rather than overlap
+
+| within the 1,930 level-entry games | games | losses | % of 1,016 | score |
+|---|---|---|---|---|
+| A only | 562 | 397 | 39.1% | 27.4% |
+| B only | 115 | 68 | 6.7% | 38.7% |
+| **both** | **71** | **54** | **5.3%** | 22.5% |
+| A or B | 748 | 519 | 51.1% | 28.7% |
+| A or B or P | 827 | 559 | 55.0% | 30.5% |
+
+Corpus-wide over 5,404 games and 2,585 losses: A or B is **26.2%** of all
+losses, A or B or P is **32.4%**.
+
+The marginal-effect check is the sharpest evidence they are distinct. In games
+with no hot-zone drop, a standing-threat blunder costs 55.8% → 38.7%
+(−17.1 pp). In games that already have one, it costs 27.4% → 22.5% (−4.9 pp).
+If these were one event, B would add nothing once A had happened. It adds less,
+not nothing — the shape of a floor effect in games already lost.
+
+#### What this changes
+
+The opponent-resource-blindness umbrella stays as a *description*; it is not one
+mechanism. Three consequences:
+
+1. The H2 pre-move check and the standing-threat re-scan address **different
+   games**, so their value adds rather than overlapping. The combined story
+   covers ~32% of all losses, which is the number to quote rather than anything
+   smaller derived from assumed overlap.
+2. The hot zone is not group P wearing a disguise, confirmed a second way — 2.2%
+   move-level overlap, and the material that does hang there is fresh, not stale.
+3. Anything targeting stale threats will not move the thread 2 flow, and vice
+   versa. They are separate training targets.
+
+**Status and caveats.** Not pre-specified — the question came out of a summary
+of open items, so read it as exploratory. Two co-occurrence tests were run and
+both are null, which is the direction that needs least protection from multiple
+comparisons. The standing-threat arm carries its usual selection caveat (a
+threat is "standing" only if it survived a previous own move). And "games
+containing the event" is an upper bound on attribution, not a causal share —
+the 72 post-drop standing-threat blunders are mop-up in games already lost.
+
+### Thread 7: does severity skew fast? No.
+
+Several group R notes observed that some of the *costliest* drops were 1-3s
+moves against a hot-zone median of 8s, suggesting severity and frequency run
+opposite. Tested with the rule written down first:
+
+```bash
+python3 chess/scripts/thread7.py /home/claude/features
+```
+
+**Pre-specified decision rule:** mean `wp_error` must decline roughly
+monotonically with spend (T1) AND the top `wp_error` decile must over-represent
+<=2s moves against the 13% base rate (T2).
+
+| spend | n | mean `wp_error` | 95% CI |
+|---|---|---|---|
+| <=2s | 83 | 0.302 | [0.274, 0.332] |
+| 2-4s | 90 | 0.320 | [0.292, 0.348] |
+| 4-8s | 148 | 0.289 | [0.272, 0.306] |
+| 8-16s | 190 | 0.271 | [0.257, 0.287] |
+| 16s+ | 119 | 0.279 | [0.261, 0.298] |
+
+T1 is not monotone — 2-4s is the peak and 16s+ turns back up. T2 is null: 15.9%
+of the top decile at <=2s against a 13.2% base, p = 0.31. **The rule fails.**
+
+A directional lean survives and is worth logging, but only as a flag. Holding
+sharpness fixed (`n_legal` tercile x `n_caps_avail` x eval bucket), fast is
++0.041 worse, permutation p = 0.008; median spend in the top decile is 6.0s vs
+8.5s, p = 0.016; and the direction holds on all four splits tried (Lichess
++0.045, chess.com +0.019, 2024-25 +0.031, 2026 +0.079). **Both tests are
+post-hoc** — added after the point estimates leaned — the fast arm is 83
+positions and the chess.com arm is 8. This is the exact shape of the three
+findings already retracted here: plausible mechanism, monotone-looking point
+estimates, no pre-specification. Not promoted. Even if it later replicates,
+the ceiling stands: it would identify a subset worth pausing on, not license
+"move slower".
+
+### Clock: the first cut that separates clock from difficulty
+
+The standing caveat is that clock state at any crossing is downstream of the
+middlegame that produced it, so nothing licenses moving faster. The way out:
+a clock *advantage* has two sources, and they are not equally confounded. Your
+own speed is tangled with your position's difficulty. The opponent's pace is
+largely their trait.
+
+```bash
+python3 chess/scripts/clockdecomp.py /home/claude/features
+```
+
+**C1**, at fullmove 25 (3+2, n = 3,377), both axes carry weight: your clock
+high-vs-low is +10.4 pp holding theirs fixed, theirs low-vs-high is +13.3 pp
+holding yours fixed. Not decisive — pressing an opponent makes them slow, so
+their move-25 clock is partly your doing.
+
+**C2** is the real cut. Opponent pace measured over moves 1-12, before
+middlegame difficulty diverges, standardized over your own opening pace and
+opponent Elo quartile, 3+2 only (n = 4,433):
+
+| opponent's opening pace | n | raw | standardized |
+|---|---|---|---|
+| slow | 1,491 | 52.6% | **53.6%** |
+| mid | 1,521 | 48.3% | 48.2% |
+| fast | 1,421 | 45.6% | **45.5%** |
+
+**+8.1 pp, two-sided permutation p = 0.0003.**
+
+**C3** kills the obvious alternative — that fast opponents are simply better
+prepared. Eval at move 12 is flat across the three groups (median +19 / +11 /
++13 cp; share worse than -100 running 26.9 / 25.1 / 23.0%). Adding eval@12 to
+the stratum set attenuates the contrast only to **+7.0 pp, p = 0.0003**, and it
+is largest in the level bucket (51.8% vs 41.7%).
+
+**What this licenses.** For the first time in this corpus, a clock edge shows
+value that cannot be attributed to your own position's difficulty, because the
+variation is in the opponent's behaviour rather than yours. What it does *not*
+license is anything about your own speed: the mirror arm is non-monotone
+(44.6 / 51.7 / 51.3 standardized), slow openings being worst for you is exactly
+the confounded direction, and the think-time gradient is untouched by this.
+
+Residual threat: opponent opening pace is not randomly assigned and may proxy
+playing style rather than clock alone. Real, but far weaker than the objection
+that has blocked every previous clock result. A difficulty instrument (thread 6)
+would close it properly.
+
+### The quiet-punishment 43%, characterized
+
+H2 covers 57% of the 330 hot-zone judgment drops. The residual was defined only
+by what it is not, and no forcing-move check will ever reach it.
+
+```bash
+python3 chess/scripts/forcingtest.py /home/claude/features   # prerequisite
+python3 chess/scripts/quiet43.py     /home/claude/features
+```
+
+n = 143 quiet-punished vs 187 forcing-punished. Almost everything is null —
+spend, `fullmove`, `npm_light`, `n_legal`, captures available, king attackers,
+material balance, game length, score. One contrast is large and clean:
+
+| | quiet-punished | forcing-punished | p |
+|---|---|---|---|
+| `cp_before` | **+210** | +116 | 0.0003 |
+| `cp_after` | **-131** | -237 | 0.0001 |
+| `drop_cp` | 341 | 353 | 0.43 |
+
+Same size of error, different endpoints. The quiet half starts from a position
+you had *already made good* and lands somewhere only slightly worse. The forcing
+half starts near level and lands clearly lost. So quiet punishment is not a
+cheaper error — it is an error made from a better position, and it is the one
+where nothing hangs, nothing checks, and the eval simply stops being yours.
+
+Three things that looked like findings and were killed:
+
+- **Opponent Elo +93 in the quiet half.** Entirely chess.com pool calibration.
+  Within Lichess: +12, p = 0.18.
+- **The quiet half keeps bleeding** (-128 -> -335 vs -246 -> -366 over the next
+  five own moves). Tested properly the difference is -35 cp at p = 0.27, and the
+  forcing half starts lower so a floor effect is live. Do not quote the
+  trajectory numbers.
+- **Site difference in quiet share**, Lichess 48% vs chess.com 21%, p = 0.0002.
+  Rests almost entirely on CC-2024Q4 (CC-2026 is n = 6), and the date-matched
+  Sep-Dec 2024 contrast is +17.9 pp at **p = 0.14**. Logged, not promoted.
+
+**Handoff.** The 143 positions are written worst-first to
+`features/quiet43.csv`. The paid half is a depth-16 PV playout 6-10 plies to
+split *delayed tactic* (material moves within a few plies, so this is really a
+calculation-depth problem) from *genuine positional decay*. The +210 starting
+eval makes that split more interesting than it looked: the two explanations
+predict different things about how an advantage that size comes apart.
 
 ## Open threads
 
@@ -2748,6 +2994,17 @@ also small: 13 notes, a handful of fast ones.
   claim (H2) is the real one. If a future reflection note says "I never saw
   that capture" — and they will, it's the most memorable kind of miss — that
   intuition has already been tested against controls and lost.
+- **Severity skewing fast inside the hot zone.** Pre-specified test failed:
+  T1 non-monotone, T2 null at p = 0.31. A post-hoc lean survives (+0.041
+  standardized, p = 0.008) and is logged in the thread 7 section as a flag, not
+  a finding. Do not re-run without a held-out block.
+- **Fast opponents being better prepared** (the preparation explanation for the
+  C2 clock result). Eval at move 12 is flat across opponent pace terciles.
+- **The standing-threat and first-drop findings being one event.** Tested
+  directly: 2.2% move-level overlap, odds ratio 1.30 [0.95, 1.75] at p = 0.12
+  exposure-matched, and B still costs 4.9 pp in games that already have an A.
+  They are separate failure modes whose loss budgets add. See "Three failure
+  modes, not one".
 - The gap-by-difficulty interaction. Held out at p = 0.47. Third instance of
   monotone-ordering-plus-mechanism-plus-no-replication.
 - The June 2025 hanging-material dip, and the Q1→Q3 drop.
