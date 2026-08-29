@@ -55,6 +55,7 @@ chess/
     ├── thread7.py                              does error severity skew fast? (pre-specified; fails)
     ├── clockdecomp.py                          clock effect vs difficulty effect
     ├── quiet43.py                              characterizing the 43% H2 doesn't cover
+    ├── pvplayout.py                            delayed tactic or positional decay?
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_drills.py                       superseded — see below, do not run
@@ -2797,11 +2798,99 @@ Three things that looked like findings and were killed:
   Sep-Dec 2024 contrast is +17.9 pp at **p = 0.14**. Logged, not promoted.
 
 **Handoff.** The 143 positions are written worst-first to
-`features/quiet43.csv`. The paid half is a depth-16 PV playout 6-10 plies to
-split *delayed tactic* (material moves within a few plies, so this is really a
-calculation-depth problem) from *genuine positional decay*. The +210 starting
-eval makes that split more interesting than it looked: the two explanations
-predict different things about how an advantage that size comes apart.
+`features/quiet43.csv`. The paid half — a depth-16 PV playout splitting *delayed
+tactic* from *positional decay* — has since been run; see "Two regimes, split by
+how good the position was" below. Answer: mostly positional, and sharply
+dependent on the pre-move eval.
+
+**Also note:** `cp_before` and `cp_after` are one fact, not two. `cp_after =
+cp_before - drop_cp` exactly (zero residual across all 330 rows), and `drop_cp`
+is null between the halves, so the two p-values above are the same finding
+counted twice. The claim has one degree of freedom: quiet punishment happens at
+a higher pre-move evaluation.
+
+And the two-group split is really a gradient. P(punishment is quiet) by pre-move
+eval: 37% at <=0, 36% at 0-150, 42% at 150-350, **63% above +350**. Flat, then a
+jump. The 43% headline averages over that. Post-hoc; wants pre-specified
+re-testing before it is quoted as a finding rather than a description.
+
+### Two regimes, split by how good the position was
+
+The paid half of the quiet-punishment question. If the punishment is a *delayed
+tactic* — material, just arriving on move 3 or 5 instead of move 1 — the remedy
+is calculation depth and it folds into the forcing-layer work. If it is
+*positional decay* the remedy is a different skill entirely.
+
+```bash
+python3 chess/scripts/pvplayout.py /home/claude/features
+```
+
+Pre-specified: from the position immediately after the played move, depth 16,
+walk the PV up to 10 plies, material balance from my POV read at the END of the
+window so a capture-and-recapture nets to zero. Delayed tactic := PV mates
+against me OR balance ends >=150cp worse. Controls run identically — without
+them "material moved" means nothing, since it moves in ordinary play too.
+
+| | n | delayed tactic | median material change |
+|---|---|---|---|
+| quiet-punished | 143 | **27.3%** | 0 cp |
+| forcing-punished | 187 | 42.8% | -100 cp |
+| controls | 330 | 15.8% | 0 cp |
+
+Quiet vs controls **+11.5 pp, permutation p = 0.0054**. Real but small: about
+three-quarters of quiet punishment never becomes material at all, and the median
+case loses *exactly nothing* over the next ten plies. It just gets worse.
+
+The gradient is the actual finding. Control baseline is flat across the same
+bands (15 / 16 / 12 / 19%), so this is not level positions simply being sharper:
+
+| eval before the move | n | delayed tactic | median material change |
+|---|---|---|---|
+| <=0 | 32 | **62%** | -225 cp |
+| 0 to +150 | 37 | 27% | -90 cp |
+| +150 to +350 | 30 | 17% | 0 |
+| +350 and up | 44 | **9%** | 0 |
+
+#### All 330 hot-zone judgment drops, by how they are punished
+
+| eval before | forcing reply | delayed tactic | positional decay |
+|---|---|---|---|
+| <=0 | 63% | 23% | **14%** |
+| 0 to +150 | 64% | 10% | 26% |
+| +150 to +350 | 58% | 7% | 35% |
+| +350 and up | 37% | 6% | **57%** |
+| **overall** | **57%** | **12%** | **32%** |
+
+#### What this changes
+
+**The forcing layer is bigger than H2 alone said.** 57% forcing replies plus 12%
+delayed tactics means **69% of the hot zone is tactical**. The pre-move check
+takes the immediate 57% directly and the delayed 12% is the same skill run a
+move deeper. This strengthens the case for the check as the first habit.
+
+**There are two regimes, and the pre-move eval selects between them.** Level or
+worse, the hot zone is 86% tactical and the check plus a little depth covers
+nearly all of it. Above +350 it inverts: 57% positional decay, where no forcing
+check and no amount of calculation depth helps.
+
+**The +350 band belongs with the conversion problem, not the blunder problem.**
+Forty positions where I was winning, played a considered quiet move, lost
+>=200cp, and material never moved. That is the same failure as the 63.9%
+conversion-from-won-positions figure and the 53.2% small-edge endgame number,
+observed at move 17 instead of at endgame entry. It should stop being treated as
+a residual of H2 and start counting as mechanism for the conversion target the
+README already ranks second.
+
+**Group P shrinks again by comparison.** In winning positions, hanging-material
+errors were already capped at ~24% of blunders; this says most of what remains
+up there is positional, not a missed tactic at any depth.
+
+**Caveats.** The eval-band cut is post-hoc — built from the two-group difference
+in the section above — so it wants a pre-specified re-test before it reorders the
+drill queue. End cells are n=32 and n=44. A 10-ply window misses tactics that
+take longer, which biases *toward* calling things positional; a 16-ply rerun
+would test that. And this is depth-16 judgment about what should have happened
+next, not a record of what did happen in the games.
 
 ## Open threads
 
