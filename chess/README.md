@@ -2912,9 +2912,14 @@ repertoire tree falls straight out of the clock data without any judgement
 about which moves are good.
 
 **Scope: 1,772 Lichess games, 2025-08-31 → 2026-08-19, 3+2 and 5+0**, from the
-raw 2025 file plus the 2026 corpus. 882 White / 890 Black. The raw 2025 file is
-fine here precisely because this analysis wants clocks and not evals — the one
-question where `_raw` is not a downgrade. **chess.com is excluded**: the export
+raw 2025 file plus the 2026 corpus. 882 White / 890 Black.
+
+The raw file is a **convenience here, not a necessity**, and the command below
+would produce the identical 1,772 games from `2025q3` + `2025q4` + the 2026
+corpus — verified, 29 + 232 + 1,511. It is used because this analysis wants
+clocks and not evals, so the cheaper file suffices; it is *not* used because
+the annotated blocks are missing anything. Do not infer an eval gap in this
+window from the file choice. There isn't one. **chess.com is excluded**: the export
 gap means it contributes ~140 games to this window, which is too few to change
 anything and enough to muddy the scope statement. Re-run with the two
 chess.com blocks and `--user-map` if that ever matters.
@@ -3111,7 +3116,8 @@ under open threads and is not answered here.
 The follow-up that would test it is written up as open thread 8, where the
 clock half of it is closed on a power calculation before being run: own clock
 at move 30 has sd ~42s, the predicted effect is 3–4s, and the corpus is short
-by an order of magnitude. The eval half survives at 45–90cp resolution.
+by an order of magnitude. The eval half survives at 45–90cp resolution, on all
+1,772 games in the window — every one of which is annotated.
 
 It also does not revisit the standing finding that **openings are a relative
 strength and there is no reliable opening-phase deficit**. The gaps above are
@@ -3339,10 +3345,19 @@ early produce a worse position? Outcomes: eval after own move 12, share of
 games at ≤−100cp there, whether a ≥+200 middlegame is reached. All three are
 already columns in `features.py`'s `games.csv`.
 
-Resolution, from the 1,616 games in the 12-month window that carry evals (the
-Q4 2025 slice plus the 2026 corpus; the raw 2025 file cannot be used here, and
-this is the one part of the opening work where `_raw` is a real limitation).
-Eval at own move 12 has **sd 264cp**:
+Resolution, from all **1,772** games in the window, every one of which is
+annotated — 29 from the Q3 2025 slice (which runs to 2025-09-30), 232 from Q4
+2025, 1,511 from the 2026 corpus. 1,643 of them carry a usable eval at own
+move 12, which has **sd 265cp**:
+
+*Corrected Aug 2026.* The first version of this thread claimed channel A was
+limited to "the Q4 2025 slice plus the 2026 corpus" and called the raw 2025
+file "a real limitation" for it. Both were wrong: the Q3 slice covers the
+window's opening month, and the README already states that the raw file is
+fully covered by slices. The error came from reaching for the raw file because
+the *clock* analysis had used it, and not re-checking whether the eval analysis
+needed to. Nothing downstream moves — n goes 1,616 → 1,643, sd 264 → 265, and
+the resolution table below is unchanged to the digit.
 
 | games per group | detectable at |
 |---|---|
