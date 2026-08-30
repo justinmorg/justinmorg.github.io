@@ -9,6 +9,51 @@ files at `https://justinmorg.github.io/chess/...` since it publishes the whole
 repo root; nothing here is secret, but nothing here is meant to be browsed
 either.)
 
+## Explaining results — read this before writing any of them up
+
+**This README is dense on purpose. Conversation must not be.**
+
+The file is written for a future session picking this up cold, so it is packed
+with caveats, scope lines and p-values, and that density is doing real work
+here. It does the opposite of real work when the same register gets used to
+explain a result to Justin, who has said plainly that these explanations are
+often hard to follow. **Two registers. Keep them separate.** If an explanation
+reads like this file, it is wrong for the conversation.
+
+Rules for explaining any result:
+
+1. **Lead with the answer in one plain sentence, before any number.** "Leaving
+   the opening book early does not make your positions worse" — not "O1 returns
+   rho = −0.056 at p = 0.14."
+2. **Say what it means for how he plays or studies.** Every result ends with
+   "so what". Often the honest answer is "this changes nothing you do," and
+   that is a fine answer — but say it, don't leave it to be inferred.
+3. **Translate every number into something physical.** 80cp is "about
+   four-fifths of a pawn." 200cp is "a rook for a knight, roughly." A p-value
+   is "how likely this is to be a coincidence." A rank correlation near zero is
+   "the two things don't track each other."
+4. **Define the jargon in the conversation, every time, not just here.** cp,
+   rho, permutation test, standardization, held-out, stratified, floored,
+   eligible move. Familiarity with the README is not familiarity with these
+   terms, and re-defining them costs one clause.
+5. **Say what the test could and could not have caught, in plain units.** "If
+   it cost most of a pawn I'd have seen it; if it costs a tenth of a pawn I
+   couldn't tell." A null with no resolution attached is not an answer, and a
+   resolution stated only in centipawns is not an explanation.
+6. **Explain why a control was needed, not just that it was applied.** "Which
+   opening you face isn't your choice, and some are easier — so I only compared
+   games within the same opening." One sentence, and the whole design becomes
+   legible.
+7. **If he would have to ask "so what did you find?", the write-up is not
+   finished.** That question is the failure signal. Do not answer it by
+   restating the table more slowly; rewrite the explanation from the answer
+   outward.
+
+The caveats still travel — this project's whole asset is that its numbers
+survive re-testing, and hiding a limitation to make an explanation cleaner
+would be worse than any amount of density. The requirement is to state
+limitations in plain words, not to drop them.
+
 ## Layout
 
 ```
