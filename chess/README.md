@@ -2565,6 +2565,171 @@ Two documented members of the quiet-punishment 43%, for whoever picks this up:
 `7k30XvzG` 21...Qb8 and the queen trap after `vQvOtLkI` 15...Qg6 (16.Bc2). Both
 are positional and neither is caught by any forcing-move check.
 
+### All 40 group R notes: what the batch says
+
+Completed Aug 2026. The first nine generated the forcing-layer hypothesis; the
+remaining 31 were written afterwards and the full batch exported as JSON. What
+follows is a **qualitative reading of 40 self-reports**, and it must not be
+read as evidence at the level of anything else in this README. Three reasons,
+all of which the batch itself demonstrates:
+
+- **n = 40**, selected as the *costliest* hot-zone judgment drops, so it is the
+  tail of the distribution, not a sample of it.
+- **Hindsight contamination.** Every note was written with the position on
+  screen and the spoiler one click away. Several notes visibly change direction
+  mid-paragraph once the answer is checked.
+- **Introspective salience is not frequency.** Already established the hard way
+  in this project; the batch supplies a second demonstration, below.
+
+Use these as a hypothesis source and a description of the phenomenology. Every
+claim here needs a matched-control test before it counts.
+
+#### 1. The deficit is the trigger, not the vision
+
+The most consistent thing in the batch: **when the card forces a look, the look
+usually works.** Across roughly a dozen notes he correctly predicts the answer
+before opening the spoiler — `cA2oTuZe` ("before checking the answer, I now see
+the knight fork on c6" — yes), `ODQTL7Lp`, `T1BHxakK`, `bFQvzzSM`, `zrOBgtud`,
+`2SVfN1tw`, `SXNKVcS7`. Stated directly in `vQvOtLkI`:
+
+> that's hard for me to see and I would only find it by knowing something was
+> there.
+
+This is the most decision-relevant thing in the batch, because it discriminates
+between two remedies. If the failure were *capacity* — can't see these patterns
+— the answer would be pattern training at volume. If it is *invocation* — the
+scan is competent but doesn't fire — the answer is a cheap unconditional
+trigger, which is exactly the H2 pre-move check the forcing-layer section
+already recommends. The batch leans hard toward invocation.
+
+Caveat that has to travel with it: predicting the answer *given* that a card
+says an error occurred here is a far easier task than finding it at the board
+under a 3+2 clock with no such guarantee. This is suggestive of invocation, not
+proof of it.
+
+#### 2. H2 restated from the inside, repeatedly
+
+The `vQvOtLkI` quote above was one note. The full batch says the same thing in
+many voices: "I definitely didn't look at Black's responses" (`1mylWNui`),
+"never considered that my opponent could move its bishop and grab my queen"
+(`Tjx1Tbg9`), "didn't check on what the response might be" (`ZRgDesop`), "I
+just didn't sense any clear danger" (`uq7BvP6Y`).
+
+One sub-pattern is worth naming because it is mechanically specific and easy to
+drill: **moves that change the geometry, scanned on the old geometry.** Pawn
+moves dominate it — `3eLsCWEU` (17.f3 weakens e3, and he says so: "I didn't see
+how I weakened e3 with my move"), `SXNKVcS7` (14.f4 opens Nxe3 forking queen and
+rook), `KcwgSovn` (21.g4 and the queen ends up trapped). A committal pawn move
+is precisely the case where the position after the move is *least* like the
+position scanned, which is a plausible reason this class is over-represented —
+but "over-represented" here is 3–5 notes out of 40 and has not been tested
+against the corpus. It is a hypothesis with an obvious test: `features.py`
+already carries the move played, so blunder rate on own pawn moves versus piece
+moves, standardized the usual way, is a groupby.
+
+#### 3. The H1 illusion is stronger in the full batch, and is still null
+
+**About 12 of the 40 notes — roughly 30% — center on a missed opportunity of
+his own** rather than a missed threat: a hanging enemy queen (`3ZLHVBRE`), a
+free rook (`7DITZaKI`), a loose piece (`PjDjVZR9`, `cMp7o2xx`), an unplayed
+fork (`P6CmgTjR`), a resource never considered (`f7Y2RfNx` "I certainly never
+considered Rb4", `x1r5LfF9` "never considered or saw Rxh2", `uq7BvP6Y`,
+`wX0eYRY3`, `nx39s6Dw`, `MXQW6nTb`, `cA2oTuZe`).
+
+Two of them explicitly notice the mismatch and say so — `PjDjVZR9` ("this
+doesn't seem to fit the others"), `cMp7o2xx` ("again, not a missed threat to me
+but a missed opportunity").
+
+**This is the single most important thing in the batch, and it is important as
+a warning.** Thirty percent is a large, vivid, self-consistent pattern that the
+player independently identified as a distinct category. It is also the exact
+claim `forcingtest.py` tested against matched controls and found **null at
+p = 0.93** — blunder positions contain no more available captures and checks
+than positions from the same games where the move played was fine, and where
+the best move *was* forcing he played it 87% of the time.
+
+Nothing here reopens H1. What the batch adds is a measured sense of how
+misleading introspection is on this axis: the null hypothesis produced a 30%
+subjective hit rate in the tail. Anyone reading these notes fresh will
+reconstruct H1 within ten cards. It is on the do-not-re-chase list, and this
+section is the reason it will keep looking worth re-chasing.
+
+#### 4. Planlessness precedes the committal quiet move
+
+A recurring setup, roughly 6–8 notes: no candidate appealed, so a default move
+got played. "I suspect I scanned the options my pieces had and didn't see
+anything compelling so I pushed a pawn" (`cA2oTuZe`); "not sure the plan other
+than a vague idea to park a rook on the semi open file" (`7DITZaKI`); "I didn't
+have a concrete plan, but thought I could create some kind of problem by
+pushing the king around enough" (`2QMMesgU`); "I don't think I had much of a
+plan after that" (`wX0eYRY3`).
+
+**This is the best qualitative candidate yet for the positional-decay
+residual** — the 32% of hot-zone drops that `pvplayout.py` found never become
+material at all, and the 57% positional share above +350cp. It fits the shape:
+a considered move (median 8s), quiet, nothing hanging, no forcing punishment,
+eval simply stops being his. Two of the notes are from positions he was already
+winning, which is where that regime lives.
+
+It is also the hardest thing here to turn into a test, because "had no plan" is
+not a column and has no obvious proxy. Do not start by running an engine; this
+is the thread 6 design problem wearing different clothes.
+
+#### 5. Four notes where review did not resolve the error
+
+`7k30XvzG` ("even now, I don't see the danger in my move... there's something
+I'm missing here"), `2QMMesgU`, `f7Y2RfNx` in part, and `3ZLHVBRE` ("no idea
+what I was thinking here"). These are positions where the player had unlimited
+time, the answer available, and still could not reconstruct what went wrong.
+
+Worth keeping as a category. A hot-zone drop that survives untimed review by
+the person who played it is not a scanning failure under any reading, and these
+are the most likely members of the positional bucket. `7k30XvzG` was already
+recorded above as a documented member of the quiet-punishment 43%, from the
+first nine notes, which is mild independent support for the category.
+
+#### 6. Player-flagged eval errors: three claimed, one real
+
+Three notes dispute the engine: `bdWcvWUA` (13.Bf3), `Ifg6B0mx` ("this looks
+like another eval error. Lichess doesn't see this as +6"), and `qwOlV23r` (the
+spoiler's reply line). `bdWcvWUA` is the confirmed corrupt eval already
+documented under "Individual evals can also just be wrong" — and note it was
+found *by reading a group R card*, which is how it entered this README in the
+first place. The other two are unverified.
+
+**Do not read this as a 7.5% error rate.** The measured rate of gross eval
+corruption is ~0.3% (one position in 330, re-evaluated at depth 12/16/20), and
+`Ifg6B0mx` at `cp_before` = 602 sits above the +5 line where depth 12 is known
+to be noisy — ordinary depth wobble is the null explanation and it has not been
+ruled out. Player disagreement is a useful pointer and a bad estimator. If any
+future analysis turns on these specific plies, re-check them against a live
+engine first; nothing currently does.
+
+#### 7. One concrete repertoire item
+
+`owWTo8kf` 13.Ne5, met by Nxc6: "this has gotten me before in the London."
+That is a named, recurring, fixable line rather than a statistical tendency,
+and it belongs with the openings section's "where the book stops" table rather
+than with any of the above. It is the only note in the batch that names a
+specific opening trap.
+
+#### What the batch does not support
+
+Several notes self-diagnose as moving too fast (`6GWSiBPt`, "this one was just
+me moving too fast"), and the batch does contain fast, costly errors. **That
+question is closed** — thread 7 pre-specified a decision rule, both tests
+failed (T1 non-monotone, T2 null at p = 0.31), and the surviving lean is logged
+as a post-hoc flag. The notes are the source of that hypothesis, not evidence
+for it, and re-reading them will make it feel true again.
+
+#### Handoff
+
+The exported JSON is the batch as written. The two testable hypotheses it
+raises are **pawn moves versus piece moves** (§2, a groupby on existing
+columns, needs a pre-specified rule and a held-out check given how many
+post-hoc tests this corpus has already absorbed) and **planlessness** (§4, not
+currently measurable). Everything else in this section is description.
+
 ### Three failure modes, not one
 
 The forcing-layer section groups the standing-threat result, group P and H2
@@ -3241,15 +3406,28 @@ reflection box and JSON export — see "Group R: the reflection set" above. The
 working form of this thread is: write notes there, export, read the batch
 together for the pattern.
 
-**First nine notes done (Aug 2026).** They generated a hypothesis that
-`forcingtest.py` then split into a null and a large effect — see "The forcing
-layer" above. Worth noting how that went: the notes' most *vivid* content
-("I never saw the hanging queen") was the half that tested null, and the
-half stated more flatly ("I didn't detect any threats here") was the half that
-held. Introspective salience is not evidence of frequency; the notes are
-valuable as a hypothesis source, and every hypothesis they raise gets tested
-against a matched control before it counts. Remaining 31 notes still worth
-writing — the quiet-punishment 43% has no explanation yet.
+**All 40 notes done (Aug 2026) — this thread's data collection is complete.**
+See "All 40 group R notes: what the batch says" above for the full reading.
+
+The first nine generated a hypothesis that `forcingtest.py` then split into a
+null and a large effect — see "The forcing layer" above. Worth noting how that
+went: the notes' most *vivid* content ("I never saw the hanging queen") was the
+half that tested null, and the half stated more flatly ("I didn't detect any
+threats here") was the half that held. The full batch made that lesson sharper
+rather than weaker — ~30% of the 40 notes centre on a missed own resource,
+which is the H1 claim that tests null at p = 0.93. Introspective salience is
+not evidence of frequency; the notes are valuable as a hypothesis source, and
+every hypothesis they raise gets tested against a matched control before it
+counts.
+
+**What remains of this thread is testing, not collecting.** Two hypotheses came
+out of the batch: pawn moves versus piece moves (a groupby on existing columns,
+needs pre-specification and a held-out check) and planlessness as the mechanism
+behind positional decay (not currently measurable — thread 6's design problem).
+The quiet-punishment residual now has a *description* from the notes but no
+test. Writing more R cards is not the bottleneck; the top-40 selection is
+already the tail of the distribution and more of the same would not change
+what the batch supports.
 
 The original endgame framing, kept for the record. **Its priority had already
 dropped since `material.py`.** The 42.7% over 774 games is real,
