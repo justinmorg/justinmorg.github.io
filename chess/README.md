@@ -100,6 +100,8 @@ chess/
     ├── thread7.py                              does error severity skew fast? (pre-specified; fails)
     ├── clockdecomp.py                          clock effect vs difficulty effect
     ├── ratingexcursion.py                     was a rating peak real, or a random walk?
+    ├── pawnpiece.py                            are pawn moves more dangerous than piece moves?
+    ├── pawnpiece_prespec.md                    pre-spec for the above (pre-specified; null)
     ├── quiet43.py                              characterizing the 43% H2 doesn't cover
     ├── pvplayout.py                            delayed tactic or positional decay?
     ├── openings.py                             recover the played book from move times
