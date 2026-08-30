@@ -3281,14 +3281,114 @@ under open threads and is not answered here.
 The follow-up that would test it is written up as open thread 8, where the
 clock half of it is closed on a power calculation before being run: own clock
 at move 30 has sd ~42s, the predicted effect is 3–4s, and the corpus is short
-by an order of magnitude. The eval half survives at 45–90cp resolution, on all
-1,772 games in the window — every one of which is annotated.
+by an order of magnitude. **The eval half has now been run — see the next
+section. It is null.**
 
 It also does not revisit the standing finding that **openings are a relative
 strength and there is no reliable opening-phase deficit**. The gaps above are
 gaps in *preparation*, measured in seconds; the eval-based work continues to
 find no opening-phase problem, and the two are consistent. Time lost at move 4
 is a clock cost, not an evaluation cost.
+
+### Leaving book early does not produce a worse position
+
+Thread 8 channel A, run Aug 2026. **Pre-specified in
+`chess/scripts/thread8a_prespec.md`, which was written and committed before any
+output was inspected** — read it rather than taking this section's word for the
+rule.
+
+```bash
+python3 chess/scripts/thread8a.py /home/claude/features
+```
+
+Validation-gated on the `firstdrop.py` precedent, four gates, all hard-exit:
+`openings.py`'s clock gate (8.37s / 7.78s at moves 16–20); the full-window
+rebuild reproducing 1,772 games, in-book 1.38s, out-of-book 2.53s and `1.d4`
+881/882; the features run being the 5,636-game eight-block one; and the
+full-window eval@12 distribution (n = 1,641, sd 264 against a published ~1,643
+and ~265). All four pass.
+
+**Held-out by construction.** Book status is defined partly *by* move times, so
+the node table is built on 2025-09-01 → 2026-04-30 (832 games) and only games
+from 2026-05-01 → 2026-08-19 are scored (938 games, 871 with a usable eval@12).
+
+Exposure is `report_depth`'s book depth, unchanged. Outcomes: **O1** `cp_after`
+of own move 12 (primary — an own move's `cp_after` carries no POV trap),
+**O2** share ≤ −100cp there, **O3** reached ≥ +200 in the middlegame. Test is
+the within-family Spearman correlation, pooled sample-size-weighted, with
+depth permuted **within family**, 10,000 draws, seed 23. Family is the control
+that matters: book depth is close to determined by the opponent's choice, so an
+uncontrolled correlation would mostly measure which openings are easy to face.
+Five families cleared the pre-set ≥30-game bar (781 of 938 games).
+
+| outcome | n | pooled rho | p |
+|---|---|---|---|
+| **O1 eval@12 (primary)** | 723 | **−0.056** | **0.14** |
+| O2 share ≤ −100cp | 723 | +0.007 | 0.84 |
+| O3 reached ≥ +200 | 781 | −0.081 | 0.023 |
+
+**Null on the pre-specified rule** (p < 0.01 on O1). O3 does not clear 0.01
+either, so there is not even a flag to log. Covariate check passed without
+needing the robustness run: pooled rho(depth, opp_elo) = +0.054, below the
+0.10 trigger.
+
+#### Resolution, and a correction to the published figure
+
+**This test detects an 80cp difference** at 80% power, alpha 0.01, two-sided.
+
+The open-threads section published 45cp pooled and 64–90cp within family. That
+table is computed on all **1,772 full-window games**; the held-out design
+scores only 938 of them, and the median split lands 150 shallow against 573
+deep. **The real held-out resolution is 80cp, not 45cp**, and the earlier
+figure should not be quoted for this test. A null is worth nothing without its
+resolution attached — so: no effect larger than ~80cp, and nothing about
+effects smaller than that.
+
+#### The direction is the informative part
+
+All three point estimates lean **opposite** to the hypothesis — deeper book
+associates with marginally *worse* eval@12 and *fewer* winning middlegames, not
+better. Descriptively, shallow games average +48cp at move 12 against deep
+games' +25cp. None of this is significant and none of it should be quoted as an
+effect. What it does rule out is a real benefit sitting just under the
+resolution floor: if leaving book early cost 40–70cp, the point estimates would
+lean the other way and simply fail to clear p < 0.01. They do not.
+
+This is consistent with everything else the project has found about the
+opening. Preparation gaps cost **seconds**, not centipawns.
+
+#### Three limitations, stated plainly
+
+1. **The held-out node table is thin.** 832 training games against the
+   published 1,772-game tree, so with `min_reps` 25 the book is sparser and
+   depth compresses: max observed depth is 4, and 42% of test games sit at
+   depth 3. That is measurement noise in the exposure and it biases **toward**
+   null. Relaxing `min_reps` would fix it and would also be post-hoc tuning of
+   the instrument after seeing the answer; it was not done.
+2. **Two of the five included families have a degenerate median split**
+   (`White 1.d4 Nf6` and `1.d4 e6` have zero shallow games), so they contribute
+   to the rank-correlation test but nothing to the descriptive table.
+3. **The 157 dropped games are the interesting ones.** Every family below the
+   30-game bar is a rare opponent first move — exactly the `1.c4 / 1.e3 / 1.b3`
+   territory where `openings.py` found book depth 0. The design cannot say
+   anything about the unprepared openings, because there are not enough of
+   them. That is the same ~70-games-a-year hole the openings section already
+   records, seen from the other side.
+
+#### One post-hoc observation, deliberately not promoted
+
+`Black vs 1.d4` is the one family where the descriptive split separates: +46cp
+shallow against −53cp deep, n = 49/68. That is the Englund, and going deeper in
+it means reaching `5...Qxb2` — which the engine audit independently flagged at
+−62cp against `Qc5`, at 42 reps a year and 100% share.
+
+Two independent-looking things pointing the same way is exactly the shape of
+the three findings already retracted here. It is one family out of five, it was
+spotted by eye after the test came back null, the pooled test it sits inside is
+null, and n = 68 in the deep arm. **Not a finding. Do not build on it.** If it
+is ever worth pursuing, the pre-specified version is a single-family test of
+the Englund main line against the `Qc5` alternative, on a block that does not
+include these games.
 
 ## Open threads
 
@@ -3486,7 +3586,23 @@ nothing here would license "move slower" any more than the earlier result
 licensed "move faster." At most this identifies a subset, not a remedy. n is
 also small: 13 notes, a handful of fast ones.
 
-### 8. Does leaving book early predict anything? — scoped, and half of it is dead
+### 8. Does leaving book early predict anything? — **DONE, null**
+
+**Resolved Aug 2026. Channel A was run and is null; channel B was already dead
+on a power calculation.** See "Leaving book early does not produce a worse
+position" above for the result, and `thread8a_prespec.md` for the rule as it
+was written beforehand.
+
+Short version: within-family Spearman on 781 held-out games gives O1 (eval@12)
+rho = −0.056 at **p = 0.14**, O2 p = 0.84, O3 p = 0.023 — nothing clears the
+pre-specified 0.01, so there is not even a flag. **Resolution is 80cp, not the
+45cp this section originally published** (that figure was for all 1,772
+full-window games; the held-out design scores 938). All three point estimates
+lean opposite to the hypothesis, which rules out a real benefit hiding just
+under the floor. Thread 8 is closed; the corrected scoping below is kept for
+the record.
+
+The original spec, kept for the record:
 
 `openings.py` produces a per-game book depth: consecutive own moves from move 1
 that are book moves. Nothing has been done with it. The question splits into two
@@ -3580,6 +3696,12 @@ without its resolution attached.
 
 ### Do not re-chase
 
+- **Book depth predicting position quality.** Pre-specified, held-out, null:
+  eval@12 rho = −0.056 at p = 0.14, and all three outcomes lean *opposite* to
+  the hypothesis. Resolution 80cp, so effects smaller than that are untested —
+  but a real benefit would have leaned the right way. The Englund sub-result
+  (`Black vs 1.d4`, +46 shallow vs −53 deep) is post-hoc, one family of five,
+  inside a null pooled test, and is not a finding.
 - **H1, missed own forcing moves.** Blunder positions contain no more available
   captures/checks than matched controls (28% vs 28%, p = 0.93), and in controls
   where the best move was forcing he played it 87% of the time. The mirror
