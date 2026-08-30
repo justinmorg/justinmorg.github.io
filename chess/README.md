@@ -1041,9 +1041,55 @@ below.** That list is for hypotheses that were chased and lost. This one has
 not been tested against anything independent, and the honest position is that
 nobody knows. If it ever matters, the cheap version is to check opening and
 early-queen-trade composition in Q4 against the adjacent quarters *from the raw
-2025 file*, which needs no new engine time. Adding a `reached` metric to
-`blockstats.py` would make the table above reproducible from the committed
-tooling rather than from an ad-hoc groupby, and is a few lines.
+2025 file*, which needs no new engine time. **`blockstats.py` now implements
+`reached`, `noelig` and `reached_mg` as game-level metrics, so the table above
+is reproducible from committed tooling rather than from an ad-hoc groupby:**
+
+```bash
+python3 chess/scripts/blockstats.py shuffle \
+    2024H2=h2.pgn Q1=q1.pgn Q2=q2.pgn Q3=q3.pgn Q4=q4.pgn 2026=corpus.pgn \
+    --tc 180+2,300+0 --metric reached --seed 23
+```
+
+Every rate reproduces to the decimal — Q4 43.53 / 21.55 / 55.49% against the
+43.5 / 21.6 / 55.5% published above, and each of the five other blocks lands on
+its published value. The p-values agree to within Monte Carlo noise (0.0196
+against 0.020 on the spread, 0.0050 against 0.0045 on the Q4 block, 0.0072
+against 0.0075, 0.1317 against 0.14, 0.0646 against 0.059); the original run
+used a different RNG stream, and none of the differences changes a conclusion.
+**The controlled row stays null**, which was the thing worth confirming.
+
+Three things changed in `blockstats.py` to make this work, all documented in
+its docstring:
+
+1. **The game metrics divide by games, not by eligible moves**, and they mirror
+   `outcomes.py`'s eligibility, which has **no `cp >= 150` gate** — unlike
+   `blockstats.py`'s existing `eligible` counter, which does. Reusing that
+   counter would have silently redefined the metric. The two are tracked
+   separately in `per_game`. Never compare a rate from one family against a
+   rate from the other; the denominators are different things.
+2. **`--tc` now takes a comma-separated list**, because the published Q4 table
+   is a `180+2,300+0` run and the old single-value argument could not express
+   it. A single value still works. `cmd_clock` stays single-tc on purpose — it
+   reads the increment out of the string.
+3. **`shuffle` now also prints a maximum-block p.** The `noelig` row needed it:
+   Q4 is the *highest* block there, and only the minimum-block p was being
+   computed, so the row could not be tested at the end it was extreme at.
+
+**And one bug found while doing it, worth recording on its own.**
+`blockstats.py`'s `CHESS_USER` guard was **dead**. It read
+`if rows and not stats["matched"] and stats["games"]`, but nothing in
+`per_game` ever incremented either counter — they were only touched inside
+`probe()`, which populates a different dict. The guard could never fire, so
+the one silent-zero this README warns about most had an inert tripwire sitting
+in front of it. It now counts locally and hard-exits properly. This mattered
+immediately: the game metrics run with `need_hits=False` and skip `probe()`
+altogether, so the old guard would have been doubly dead on exactly the new
+code path.
+
+That is the same class of failure as everything else in this file's guardrails
+list — no error, plausible output, and the only way to catch it is to check
+that a known number reproduces.
 
 Do not act on it, do not build a mechanism story around it, and do not let it
 into a summary as "Q4 2025 converted fewer games."
@@ -1153,7 +1199,14 @@ or pool. Reproduce with `blockstats.py clock`.
 
 `longitudinal.py` gives per-block rates with bootstrap CIs. It does not give
 significance, and reading it off overlapping CIs is unreliable. `blockstats.py`
-does the tests; every p-value in this README comes from it, with the seed noted:
+does the tests; every p-value in this README comes from it, with the seed noted.
+
+It carries two families of metric with **different denominators**: `hang` and
+`hungself` are per eligible winning-middlegame move, while `reached`, `noelig`
+and `reached_mg` are per game and mirror `outcomes.py`'s eligibility (no `cp`
+gate). Do not compare across the families.
+
+
 
 ```bash
 # do any of the six Lichess blocks differ?  spread 0.92 pp, p = 0.86
@@ -2667,10 +2720,16 @@ how I weakened e3 with my move"), `SXNKVcS7` (14.f4 opens Nxe3 forking queen and
 rook), `KcwgSovn` (21.g4 and the queen ends up trapped). A committal pawn move
 is precisely the case where the position after the move is *least* like the
 position scanned, which is a plausible reason this class is over-represented —
-but "over-represented" here is 3–5 notes out of 40 and has not been tested
-against the corpus. It is a hypothesis with an obvious test: `features.py`
-already carries the move played, so blunder rate on own pawn moves versus piece
-moves, standardized the usual way, is a groupby.
+but "over-represented" here is 3–5 notes out of 40. **It has now been tested
+against the corpus and it is null** — see "Pawn moves are not more dangerous
+than piece moves" below.
+
+*Correction.* An earlier revision of this paragraph said `features.py` "already
+carries the move played." It does not: `moves.csv.gz` carries `opp_prev_san`,
+the *opponent's* previous move, and there is no column for the player's own
+SAN. `pawnpiece.py` re-walks the annotated PGNs to recover it and merges on
+`(gid, ply)`. The claim was wrong when written and is corrected here rather
+than quietly deleted, on the same principle as the retracted-findings section.
 
 #### 3. The H1 illusion is stronger in the full batch, and is still null
 
@@ -2774,6 +2833,68 @@ raises are **pawn moves versus piece moves** (§2, a groupby on existing
 columns, needs a pre-specified rule and a held-out check given how many
 post-hoc tests this corpus has already absorbed) and **planlessness** (§4, not
 currently measurable). Everything else in this section is description.
+
+### Pawn moves are not more dangerous than piece moves
+
+The one testable hypothesis the 40 R notes produced. **Pre-specified in
+`chess/scripts/pawnpiece_prespec.md`, written before any output was
+inspected.** Result: **null**.
+
+```bash
+python3 chess/scripts/pawnpiece.py /home/claude/features7 \
+  2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn Q3-2025=q3.pgn \
+  2026=corpus.pgn CC-2024Q4=cc_2024q4_analyzed.pgn \
+  CC-2026=cc_2026febapr_analyzed.pgn
+```
+
+Scope is the **seven-block** run (5,404 games / 178,684 rows), matching the
+`oppmove.py` precedent whose method this copies. Own moves, `fullmove > 12`,
+non-mate, 108,151 rows. Blunder = `drop_cp >= 200`.
+
+Four hard gates, all pass: the features run identity; the in-scope row count
+of 108,151; **`oppmove.py`'s published raw crosstab reproducing exactly**
+(check 7.95%, capture 8.46%, pawn_break 10.44%, quiet 10.16%) from columns this
+analysis does not otherwise use; and 100.00% SAN merge coverage.
+
+Castling is excluded as pre-specified — 1,602 rows, 1.48%, blunder rate 6.80%,
+notably safer than either arm and structurally unlike both.
+
+| | pawn | piece | diff |
+|---|---|---|---|
+| raw | 9.44% (n=22,501) | 9.61% (n=84,048) | **−0.17 pp** |
+| standardized | **9.94%** | **9.55%** | **+0.40 pp** |
+
+Standardization is across 390 strata — move band × `n_legal` quartile × eval
+bucket × `in_check` × `tc` × **own move was a capture** — retaining 99.7% of
+rows. Within-stratum permutation, 10,000 draws, seed 23: **p = 0.12**. The
+pre-specified rule required p < 0.01. Null.
+
+**The sign flip is the interesting part and is not a finding about pawns.**
+Raw, pawn moves look *safer*; standardized, they look marginally worse. That
+means pawn moves are selected into easier positions — which is a fact about
+when he pushes pawns, not about pawn moves being dangerous. It is the same
+lesson as the `material.py` benchmark section and the `opp_created_threat` row:
+**check what a category selects for before comparing rates across it.** Without
+the controls this would have been published as "pawn moves are safer," which is
+equally wrong in the other direction.
+
+What survives is +0.40 pp on a ~9.5% base — under a twentieth of the effect
+size, and not distinguishable from zero at this sample size, which is 106,237
+rows and not going to get meaningfully bigger.
+
+The exploratory hot-zone cut (moves 13–25, `npm_light >= 13`, 41,896 rows), the
+cut with the most overlap with the positions that generated the hypothesis, is
+smaller still: raw −0.18 pp, standardized **+0.11 pp**. Labelled exploratory in
+the pre-spec and it does not rescue anything.
+
+**Fifth notes-derived hypothesis to test null or reverse**, after H1, the June
+2025 dip, the difficulty interaction and thread 7. That base rate was written
+into the pre-spec as the prior and is now worth treating as a standing
+expectation rather than a repeated surprise: the R notes are an excellent
+source of *mechanism description* and a poor source of *frequency claims*. The
+one place a note has changed a published finding remains `bdWcvWUA`, where the
+player caught a corrupt eval — an observation about a single position, not a
+rate.
 
 ### Three failure modes, not one
 
@@ -3741,6 +3862,12 @@ without its resolution attached.
 
 ### Do not re-chase
 
+- **Pawn moves being more dangerous than piece moves.** Pre-specified, null:
+  standardized +0.40 pp on a ~9.5% base at p = 0.12 over 106,237 rows, and the
+  exploratory hot-zone cut is +0.11 pp. Note the raw comparison runs the *other*
+  way (pawn 9.44% vs piece 9.61%), so an uncontrolled version of this would
+  read as "pawn moves are safer" and be equally wrong. Fifth notes-derived
+  hypothesis to test null or reverse.
 - **Book depth predicting position quality.** Pre-specified, held-out, null:
   eval@12 rho = −0.056 at p = 0.14, and all three outcomes lean *opposite* to
   the hypothesis. Resolution 80cp, so effects smaller than that are untested —
