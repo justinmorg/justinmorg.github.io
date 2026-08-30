@@ -99,6 +99,7 @@ chess/
     ├── coincide.py                             do the standing-threat and first-drop findings overlap?
     ├── thread7.py                              does error severity skew fast? (pre-specified; fails)
     ├── clockdecomp.py                          clock effect vs difficulty effect
+    ├── ratingexcursion.py                     was a rating peak real, or a random walk?
     ├── quiet43.py                              characterizing the 43% H2 doesn't cover
     ├── pvplayout.py                            delayed tactic or positional decay?
     ├── openings.py                             recover the played book from move times
@@ -245,8 +246,15 @@ python3 chess/scripts/longitudinal.py \
 list `outcomes.py`/`features.py` accept. Passing `180+2,300+0` to it matches
 nothing and it reports `games=0` for every block — a clean, wrong answer of
 exactly the kind this README keeps warning about. The published 2026 figure of
-5,517 eligible / 4.33% is the **unfiltered** run (both formats, no `--tc`);
-3+2-only gives 2,640 / 4.73%.
+5,517 eligible / 4.33% is the **corpus-default** scope — 3+2 and 5+0, as
+`features.py` produces it; 3+2-only gives 2,640 / 4.73%.
+
+**That figure is not what `longitudinal.py` prints with `--tc` omitted.** Aug
+2026, chasing what looked like a stale number: dropping `--tc` filters on
+nothing at all, so it also admits the 4 games outside the corpus default (3 at
+`300+3`, 1 at `180+0`), and returns **5,529 / 4.32%**. The 12-move gap is scope,
+not drift. Both numbers are correct for their own scope; quote 5,517 for the
+3+2/5+0 default and say which one when quoting the other.
 
 Drop `--tc` to check whether a finding is a time-control artifact — the script
 then also prints band 26+ split by `TimeControl`.
@@ -1094,6 +1102,122 @@ that a known number reproduces.
 Do not act on it, do not build a mechanism story around it, and do not let it
 into a summary as "Q4 2025 converted fewer games."
 
+### The Jan/Feb 2026 rating peak was a random walk
+
+Aug 2026. On **2026-02-06 the rating hit 1508**, the all-time Lichess blitz high
+across all 5,686 games in the corpus (previous best 1457, 2025-07-15; the
+2023–24 file tops out at 1371). It arrived after a visible run of wins in late
+January. The question this section settles: was that a genuine short spell of
+better play, or the excursion a constant-strength player's rating takes anyway?
+
+**It was the excursion. Nothing about the play changed.**
+
+Script: `ratingexcursion.py`, written to be reusable for the next excursion —
+trigger 2 under "When it is worth pulling a fresh batch" exists to flag these,
+and this is what adjudicates one without annotating a new block.
+
+```bash
+python3 chess/scripts/ratingexcursion.py corpus.pgn \
+    --window 2026-01-20:2026-02-14 --window 2026-02-04:2026-02-14 \
+    --tc 180+2 --until 2026-04-30 --seed 23
+```
+
+Pool is 2026 at **3+2 only, through 2026-04-30** — 573 games. Cut there because
+the format switches to 5+0 in May (see "Time control changed mid-2026"), and a
+format change inside the baseline would confound the contrast.
+
+#### Why the obvious test is the wrong test
+
+**The window is selected because the results were good.** Nearly every
+move-quality measure correlates with winning, so under a null of constant skill
+the best-results window *still* shows better-looking quality. A plain
+window-vs-rest permutation is biased toward finding improvement and cannot
+answer the question. This is the same class of error as the June 2025 dip —
+a bucket singled out for being extreme, then tested as though it hadn't been.
+
+The headline test (T2) puts the selection **inside the null**: each shuffle
+re-runs the same cherry-pick — find the hottest 186-game window in the shuffled
+order — and measures *that* window's quality. The observed window is then
+compared against windows selected the same way by luck alone. The naive test is
+still printed as T3, labelled biased, so the size of the bias stays visible.
+
+#### Pre-specified before any output was inspected
+
+- Primary window **W1 = 2026-01-20 → 2026-02-14** (186 games), Justin's own
+  description of the run. Sensitivity **W2 = 2026-02-04 → 2026-02-14** (63
+  games), the excursion already tabulated under "Checking the rating trigger by
+  eye".
+- Primary quality metric: mean win probability lost per own move. Secondary:
+  blunder rate moves 13+, blunder rate all moves, floored hanging material.
+- **Decision rule: conclude "genuinely better" only if the primary metric is
+  better at p < 0.05 under T2.** T3 alone is not sufficient and will not be
+  quoted as evidence.
+
+#### Results
+
+Descriptives, W1 against the rest of the pool:
+
+| | W1 (Jan 20 – Feb 14) | rest of Jan–Apr 3+2 | whole pool |
+|---|---|---|---|
+| games | 186 | 387 | 573 |
+| score | 0.527 | 0.475 | 0.492 |
+| mean opponent Elo | 1450 | 1370 | 1396 |
+| win prob lost per own move | 0.0387 | 0.0395 | 0.0392 |
+| blunder rate, moves 13+ | 9.07% | 9.72% | 9.50% |
+| hanging material (floored) | 4.39% (661 elig) | 4.92% (1,381 elig) | 4.75% |
+
+Every quality metric leans *better* in W1, and not one of them is close to
+significant:
+
+| metric | W1 | null mean | **p (T2)** | p (T3, biased) | detectable at 80% |
+|---|---|---|---|---|---|
+| win prob lost / move | 0.0387 | 0.0385 | **0.554** | 0.609 | 0.0028 |
+| blunder rate 13+ | 9.07% | 9.26% | **0.338** | 0.331 | 1.21 pp |
+| blunder rate, all | 6.85% | 7.08% | **0.214** | 0.173 | 0.81 pp |
+| hanging material | 4.39% | 4.58% | **0.399** | 0.624 | 1.97 pp |
+
+20,000 shuffles for T1, 5,000 for T2/T3, seed 23, game-level resampling.
+
+**T1 — was the streak itself extreme?** The best 186-game stretch in the real
+data scores 0.573 (2026-01-02 → 02-07). Shuffling the pool, the best window
+averages 0.545 and reaches 0.578 in 5% of shuffles: **p = 0.082**. The longest
+win streak, 10 games (2026-01-19 → 01-25), comes up at **p = 0.166**. Neither
+is unusual for 573 games. Window-length sensitivity (k = 30/48/63/100/150/186)
+gives p between 0.08 and 0.36 with no consistent pattern — the signature of
+noise, not of a real hot spell.
+
+**Elo over/under-performance.** W1 scored 52.7% against an Elo-expectation of
+49.2% — **+3.4 pp, exactly 1.0 standard error**. W2 is +1.2 pp (0.2 SE). The
+rest of Jan–Apr runs −2.2 pp. Net rating is **+78 in W1 and −84 over the rest**,
+round-tripping to −6 across four months. Same play, rating oscillating around
+it. Mean opponent Elo rising 1370 → 1450 inside the window is matchmaking
+following the rating, and is what pulls it back.
+
+#### Resolution — what this could and could not have caught
+
+The accuracy test would have caught an improvement of **0.0028 win probability
+per own move, about 3 centipawns per move near a level position** — roughly a
+7% relative improvement in average move quality. Observed gap is 0.0008, about
+a quarter of that. The blunder test would have caught 9.07% → 7.9%. The hanging
+test is the weak one: at 661 eligible moves it could only have caught a change
+of ~2 pp, i.e. 4.4% → 2.4%, so a moderate real improvement in *that* metric
+would have been invisible. "No improvement" here means no improvement large
+enough to matter, not proof of identity.
+
+#### What this is good for
+
+It converts an assumption into a measurement. The 2026-02-04 → 02-14 excursion
+was already in the trigger-2 calibration table as the largest of 33 excursions
+across a known-flat 13-month plateau, i.e. *assumed* to be noise because the
+surrounding period was flat. It has now been tested directly and is noise.
+
+It is also the cleanest available calibration for how loud the noise is:
+**~150 rating points of movement with no detectable change in play at all.**
+Quote that before reading anything into a rating swing.
+
+No study-plan consequence. There is no February technique to recover, and group
+P remains the priority.
+
 ### Complete 3+2 / 5+0 coverage, and what the beginner era shows
 
 Aug 2026: every remaining game at **3+2 or 5+0** on both sites was annotated at
@@ -1787,6 +1911,13 @@ not play." Three weeks is ~110 games.
 The override thresholds are set outside everything 2,110 plateau games
 produced (min 1262, max 1508). A reading past them is unprecedented rather
 than merely unusual, so there is nothing to wait for.
+
+The largest excursion in that table — 2026-02-04 → 02-14, peaking at 1508 — has
+since been tested directly rather than assumed, and is noise: no move-quality
+metric moved. See "The Jan/Feb 2026 rating peak was a random walk". If trigger 2
+ever does fire, run `ratingexcursion.py` on the existing corpus before
+annotating anything new; it is minutes of work and may settle the question
+without a new block.
 
 Reproduce the calibration from the committed blocks — Q3 2025 onward, own Elo
 per game, runs of consecutive games outside the band measured in calendar days.
@@ -3894,6 +4025,13 @@ without its resolution attached.
 - The gap-by-difficulty interaction. Held out at p = 0.47. Third instance of
   monotone-ordering-plus-mechanism-plus-no-replication.
 - The June 2025 hanging-material dip, and the Q1→Q3 drop.
+- **The Jan/Feb 2026 rating peak.** 1508 on 2026-02-06 is the all-time high and
+  came off a visible win run, but the selection-aware test is null on every
+  quality metric (primary p = 0.55), the streak itself is p = 0.08–0.17, and
+  W1 beat its Elo expectation by exactly 1.0 SE. Resolution ~3cp per move on
+  accuracy; the hanging-material arm was underpowered at 661 eligible moves, so
+  *that* arm alone could be worth re-running if a future excursion is longer.
+  Do not re-open it on the same window.
 - The moves 13–25 apparent improvement.
 - The chess.com `hung it myself` difference — open, but not cheaply resolvable;
   see that section for what it would actually take.
