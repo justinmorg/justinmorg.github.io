@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Conversion drills — fresh batch (Aug 2026)</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Drills">
+<meta name="theme-color" content="#16180F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Spectral:ital,wght@0,400;0,600;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="./icon.png">
+<style>
+:root{
+  --ink:#16180F; --board:#7C8F5A; --cream:#E9E5CE; --paper:#F4F2E6;
+  --flag:#B3372A; --muted:#6E7059; --rule:#CFCBB0;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Spectral,Georgia,serif; font-size:17px; line-height:1.5;
+  padding-bottom:4rem;
+}
+.wrap{max-width:44rem;margin:0 auto;padding:0 1.1rem}
+
+/* masthead */
+.mast{padding:2.4rem 0 1.2rem}
+.eyebrow{
+  font-family:'Roboto Mono',monospace;font-size:.7rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 .5rem
+}
+h1{
+  font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:clamp(2.4rem,11vw,3.6rem);
+  line-height:.92;letter-spacing:-.01em;margin:0 0 .7rem;text-transform:uppercase
+}
+.lede{margin:0;font-size:1.02rem;color:#3A3D2E}
+.lede em{color:var(--flag);font-style:italic}
+
+/* progress */
+.prog{
+  display:flex;align-items:baseline;gap:.6rem;margin:1.4rem 0 0;
+  font-family:'Roboto Mono',monospace;font-size:.78rem;color:var(--muted)
+}
+.bar{flex:1;height:3px;background:var(--rule);position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--board);transition:width .3s}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+
+/* protocol */
+details.how{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:1.5rem 0 0;padding:.2rem 0}
+details.how summary{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;font-size:.95rem;padding:.8rem 0;cursor:pointer;list-style:none
+}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:'+';float:right;font-family:'Roboto Mono',monospace}
+details.how[open] summary::after{content:'\2212'}
+details.how ol{margin:0 0 .9rem;padding-left:1.2rem}
+details.how li{margin:.35rem 0}
+details.how .warn{
+  border-left:3px solid var(--flag);padding:.1rem 0 .1rem .8rem;margin:.9rem 0;
+  font-size:.94rem
+}
+
+/* nav */
+nav.jump{
+  position:sticky;top:0;z-index:5;display:flex;gap:.4rem;
+  background:var(--paper);border-bottom:1px solid var(--rule);
+  padding:.55rem 0;margin-top:1.6rem
+}
+nav.jump a{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:.95rem;
+  text-decoration:none;color:var(--ink);border:1px solid var(--rule);
+  width:2.1rem;height:2.1rem;display:grid;place-items:center
+}
+nav.jump a:hover,nav.jump a:focus-visible{background:var(--board);color:var(--paper);border-color:var(--board)}
+
+/* groups */
+.group{margin:2.6rem 0 0;scroll-margin-top:3.4rem}
+.ghead{display:flex;align-items:center;gap:.7rem}
+.gletter{
+  font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.15rem;
+  background:var(--ink);color:var(--paper);width:1.9rem;height:1.9rem;
+  display:grid;place-items:center;flex:none
+}
+.ghead h2{
+  font-family:'Saira Condensed',sans-serif;font-weight:800;text-transform:uppercase;
+  font-size:1.3rem;letter-spacing:.01em;margin:0;line-height:1.1
+}
+.blurb{margin:.6rem 0 1.4rem;color:#3A3D2E;font-size:.98rem}
+
+/* drill card */
+.drill{display:flex;gap:.85rem;padding:1.1rem 0;border-top:1px solid var(--rule)}
+.sq{width:2.6rem;height:2.6rem;flex:none;display:grid;place-items:center;position:relative}
+.sq.light{background:var(--cream)}
+.sq.dark{background:var(--board)}
+.num{font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1.25rem}
+.sq.dark .num{color:var(--paper)}
+.drill.done .sq::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top right,transparent 46%,var(--ink) 46%,var(--ink) 54%,transparent 54%)
+}
+.drill.done .body{opacity:.42}
+.body{flex:1;min-width:0}
+.body h3{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:1.12rem;
+  margin:.1rem 0 .25rem;line-height:1.2
+}
+.ev{font-family:'Roboto Mono',monospace;font-size:.95rem;color:var(--flag);font-weight:500}
+.meta{margin:0;font-size:.88rem;color:#4A4D3B}
+.meta.dim{color:var(--muted);font-size:.82rem;margin-top:.15rem}
+.flag{
+  font-family:'Roboto Mono',monospace;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--flag);border:1px solid var(--flag);
+  padding:.05rem .3rem;margin-left:.3rem;white-space:nowrap
+}
+.acts{display:flex;flex-wrap:wrap;gap:.45rem;margin:.75rem 0 .55rem}
+.btn{
+  font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:.95rem;
+  text-decoration:none;padding:.5rem .8rem;display:inline-block;line-height:1.15
+}
+.btn.play{background:var(--ink);color:var(--paper)}
+.btn.play:hover,.btn.play:focus-visible{background:var(--board)}
+.btn.ghost{border:1px solid var(--rule);color:var(--ink)}
+.btn.ghost:hover,.btn.ghost:focus-visible{border-color:var(--ink)}
+.fen{
+  display:block;width:100%;text-align:left;font-family:'Roboto Mono',monospace;
+  font-size:.66rem;color:var(--muted);background:none;border:0;border-top:1px dotted var(--rule);
+  padding:.45rem 0 0;cursor:pointer;word-break:break-all;line-height:1.35
+}
+.fen:hover{color:var(--ink)}
+.fen.copied{color:var(--board)}
+.done{display:flex;align-items:center;gap:.45rem;margin-top:.5rem;font-size:.86rem;color:var(--muted);cursor:pointer}
+.done input{accent-color:var(--board);width:1rem;height:1rem}
+
+.gletter.alt{background:var(--flag)}
+.navsep{width:.5rem;flex:none}
+.tag{font-family:'Roboto Mono',monospace;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.06em;padding:.1rem .35rem;white-space:nowrap}
+.tag.t-miss{background:var(--flag);color:var(--paper)}
+.tag.t-hung{background:var(--ink);color:var(--paper)}
+details.spoil{margin:.15rem 0 .5rem}
+details.spoil summary{font-family:'Roboto Mono',monospace;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);cursor:pointer;
+  list-style:none;padding:.2rem 0}
+details.spoil summary::-webkit-details-marker{display:none}
+details.spoil summary::before{content:'\25B8 ';}
+details.spoil[open] summary::before{content:'\25BE ';}
+details.spoil p{margin:.2rem 0 .4rem;font-size:.9rem;color:#3A3D2E}
+.board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);width:min(300px,78vw);aspect-ratio:1;
+margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;font-size:min(34px,8.6vw);line-height:1}
+.board i{display:flex;align-items:center;justify-content:center;font-style:normal;color:#111;font-family:'Apple Symbols','Segoe UI Symbol','Noto Sans Symbols 2','DejaVu Sans',serif}
+.board i.d{background:var(--board)} .board i.l{background:var(--cream)}
+.board i.w{color:#fff;text-shadow:0 0 1px #000,0 0 2px #000}
+.ask{font-size:.95rem;margin:.5rem 0 .3rem}
+.ask .dim{font-size:.82rem}
+/*R-CSS*//* group R — reflection */
+.rcard{padding:1.1rem 0;border-top:1px solid var(--rule)}
+.rcard.noted .body{opacity:.62}
+.rnote{width:100%;box-sizing:border-box;font:inherit;font-size:.92rem;color:var(--ink);
+background:#fff;border:1px solid var(--rule);border-radius:2px;padding:.55rem .6rem;resize:vertical}
+.rnote:focus{outline:2px solid var(--board)}
+.rsaved{min-height:1em;margin:.25rem 0 .4rem;font-size:.78rem}
+.after{border-left:2px solid var(--board);padding-left:.6rem}
+.rprog{font-family:'Roboto Mono',monospace;font-size:.85rem;margin:.2rem 0 .8rem}
+.rexport{margin:.4rem 0 0}
+/*R-CSS-END*/footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);
+  font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer button{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="mast">
+  <p class="eyebrow">jamorgan &middot; blitz &middot; 220 games, 19&ndash;31 Aug 2026</p>
+  <h1>Conversion<br>drills<br><small style="font-size:.42em;letter-spacing:.02em">fresh batch &middot; 19&ndash;31 Aug 2026</small></h1>
+  <p class="lede">260 positions you were winning and <em>lost anyway</em>. Start with the priority set &mdash; <em>hanging material</em> &mdash; then the endgame groups. Two or three before your first game of the day.</p>
+  <div class="prog"><span id="ptext">0 / 260</span><span class="bar"><i id="pbar"></i></span></div>
+</div>
+
+<details class="how">
+  <summary>How to run one</summary>
+  <ol>
+    <li>Tap <strong>Play it out</strong>. The Lichess board opens with the position loaded, oriented your way, you to move.</li>
+    <li>Board menu (&#9776; under the board) &rarr; <strong>Continue from here</strong> &rarr; <strong>Play with the computer</strong>.</li>
+    <li>Set the level listed and convert it.</li>
+    <li>Won it clearly twice? Tick it off. Lost it twice? Tap <strong>Review the real game</strong> &mdash; you'll usually find you played your original move again.</li>
+  </ol>
+  <p class="warn"><strong>Put a clock on it &mdash; 5+0, same as your real games.</strong> Your conversion problem and your clock problem are the same problem, and an untimed drill trains only half of it.</p>
+  <p class="warn">Level 3 (&#8776;1400) is your mirror. Level 4 (&#8776;1700) is the stretch. Levels are set per position &mdash; don't go higher; you'd lose for reasons that have nothing to do with technique.</p>
+  <p class="warn"><strong>The P groups are not played out.</strong> They're fifteen-second scans &mdash; read the note at the top of the priority set. The steps above apply to groups C/B/A/D only.</p>
+<p style="font-size:.9rem;color:var(--muted);margin:.9rem 0">Order is <strong>P &rarr; C &rarr; B &rarr; A &rarr; D</strong>, top to bottom. Group D last, and read its note first.</p>
+</details>
+
+<nav class="jump"><a href="#gP">P</a><a href="#gA1">A1</a><a href="#gA2">A2</a><a href="#gA3">A3</a><a href="#gA4">A4</a><a href="#gB1">B1</a><a href="#gB2">B2</a><a href="#gB3">B3</a><a href="#gB4">B4</a><span class="navsep"></span><a href="#gC">C</a><a href="#gB">B</a><a href="#gA">A</a><a href="#gD">D</a><a href="#gR">R</a></nav>
+
+
+<section class="group" id="gP">
+  <header class="ghead"><span class="gletter alt">P</span><h2>Priority &mdash; hanging material</h2></header>
+  <p class="blurb">The single biggest source of thrown-away wins, and the reason this set sits ahead of the endgame drills. Across the 220 blitz games of 19&ndash;31 August 2026 there are <strong>34 middlegame moves</strong> you played while <strong>already winning by +1.5 or more</strong>, where a capture worth at least a pawn and a half was on the board and you played something else. They split into two different skills, so they're now two different drills.</p>
+  <p class="blurb"><strong>Group A &mdash; the scan.</strong> 22 positions where the threat was <em>already there</em> before you moved. The question is answerable from the position alone: which of your squares is loose? Give yourself <strong>fifteen seconds</strong>, name the square out loud, then open the answer. 79% have exactly one; the rest have two. This is the one to run now.</p>
+  <p class="blurb"><strong>Group B &mdash; the check before you commit.</strong> 12 positions where nothing was hanging until your move created it. The board shows the position <em>before</em> you moved and the move is named underneath &mdash; picture it, then find the punishment. Unique answer every time. Do these after A.</p>
+  <p class="blurb dim">Neither group is played out against the computer. Fifteen seconds, name it, move on &mdash; the skill is the scan, not the calculation.</p>
+</section>
+<section class="group" id="gA1">
+  <header class="ghead"><span class="gletter alt">A1</span><h2>Threw the game outright</h2></header>
+  <p class="blurb">A win became a loss on one move. <strong>5 positions.</strong></p>
+  <article class="drill" id="dA-tFAAYzye-46" data-n="A-tFAAYzye-46">
+  <div class="body">
+    <h3>Move 23 &middot; you're Black &middot; <span class="ev">+6.4</span></h3>
+    <div class="board" data-fen="r3r1k1/ppp3p1/3p3p/3P1P1Q/4q3/8/PPP3P1/1K2R2R b - - 1 23" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>e4</strong> (your queen &mdash; they play <strong>Rxe4</strong>, winning 4.0)</p>
+      <p class="dim">In the game you played Qxg2 and it cost you 81 win% points.</p>
+      <p class="meta dim">vs Carlos_Espinoza1 (1447) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r3r1k1/ppp3p1/3p3p/3P1P1Q/4q3/8/PPP3P1/1K2R2R_b_-_-_1_23?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/tFAAYzye#45" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-tFAAYzye-46"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-sREui8BU-40" data-n="A-sREui8BU-40">
+  <div class="body">
+    <h3>Move 20 &middot; you're Black &middot; <span class="ev">+4.0</span></h3>
+    <div class="board" data-fen="r3r1k1/ppb2ppp/3q1p2/1Np5/5B2/P2P1nP1/1PPQRPKP/4R3 b - - 3 20" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? <span class="dim">4 squares</span></p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>d6</strong> (your queen &mdash; they play <strong>Nxd6</strong>, winning 9.0), <strong>e8</strong> (your rook &mdash; they play <strong>Rxe8+</strong>, winning 5.0), <strong>c7</strong> (your bishop &mdash; they play <strong>Nxc7</strong>, winning 3.0), <strong>f3</strong> (your knight &mdash; they play <strong>Kxf3</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Nxd2 and it cost you 70 win% points.</p>
+      <p class="meta dim">vs handsome34 (1398) &middot; 2026-08-24</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r3r1k1/ppb2ppp/3q1p2/1Np5/5B2/P2P1nP1/1PPQRPKP/4R3_b_-_-_3_20?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/sREui8BU#39" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-sREui8BU-40"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-91SVx1q4-44" data-n="A-91SVx1q4-44">
+  <div class="body">
+    <h3>Move 22 &middot; you're Black &middot; <span class="ev">+6.6</span></h3>
+    <div class="board" data-fen="2r1k2r/p4ppp/3qp3/P2p4/1P6/7P/2n2KP1/2RQR3 b k - 0 22" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>c2</strong> (your knight &mdash; they play <strong>Rxc2</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Nxe1 and it cost you 66 win% points.</p>
+      <p class="meta dim">vs Mrabolfazl71 (1297) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2r1k2r/p4ppp/3qp3/P2p4/1P6/7P/2n2KP1/2RQR3_b_k_-_0_22?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/91SVx1q4#43" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-91SVx1q4-44"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-fbMBmCMj-34" data-n="A-fbMBmCMj-34">
+  <div class="body">
+    <h3>Move 17 &middot; you're Black &middot; <span class="ev">+4.9</span></h3>
+    <div class="board" data-fen="r4rk1/pp3ppp/2qn2n1/4Nb2/5p2/3B4/PPP2PPP/2KRQ2R b - - 5 17" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>c6</strong> (your queen &mdash; they play <strong>Nxc6</strong>, winning 6.0)</p>
+      <p class="dim">In the game you played Bxd3 and it cost you 65 win% points.</p>
+      <p class="meta dim">vs francois_tronche (1420) &middot; 2026-08-24</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pp3ppp/2qn2n1/4Nb2/5p2/3B4/PPP2PPP/2KRQ2R_b_-_-_5_17?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/fbMBmCMj#33" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-fbMBmCMj-34"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-jJukVaD4-35" data-n="A-jJukVaD4-35">
+  <div class="body">
+    <h3>Move 18 &middot; you're White &middot; <span class="ev">+2.5</span></h3>
+    <div class="board" data-fen="r4rk1/pq3pp1/1pp1bn1p/3N4/2Q1P3/5NP1/PP3PP1/2KR3R w - - 0 18" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>d5</strong> (your knight &mdash; they play <strong>cxd5</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Nd4 and it cost you 60 win% points.</p>
+      <p class="meta dim">vs Roos0101 (1455) &middot; 2026-08-21</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pq3pp1/1pp1bn1p/3N4/2Q1P3/5NP1/PP3PP1/2KR3R_w_-_-_0_18?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/jJukVaD4#34" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-jJukVaD4-35"> Spotted it</label>
+  </div>
+</article>
+</section><section class="group" id="gA2">
+  <header class="ghead"><span class="gletter alt">A2</span><h2>Threw most of it</h2></header>
+  <p class="blurb">Still alive afterwards, but you handed back the bulk of it in a single move. <strong>8 positions.</strong></p>
+  <article class="drill" id="dA-R7vgUySt-34" data-n="A-R7vgUySt-34">
+  <div class="body">
+    <h3>Move 17 &middot; you're Black &middot; <span class="ev">+2.2</span></h3>
+    <div class="board" data-fen="2rq1rk1/4bppp/p1n1p3/3pPn2/Q2P4/2R1BN2/PP3PPP/2R3K1 b - - 0 17" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>c6</strong> (your knight &mdash; they play <strong>Rxc6</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Nb8 and it cost you 48 win% points.</p>
+      <p class="meta dim">vs jabeguk (1467) &middot; 2026-08-20</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2rq1rk1/4bppp/p1n1p3/3pPn2/Q2P4/2R1BN2/PP3PPP/2R3K1_b_-_-_0_17?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/R7vgUySt#33" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-R7vgUySt-34"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-GgOHjl07-54" data-n="A-GgOHjl07-54">
+  <div class="body">
+    <h3>Move 27 &middot; you're Black &middot; <span class="ev">+2.2</span></h3>
+    <div class="board" data-fen="r4n2/ppq1kBp1/2prb3/5PN1/4Q3/4P3/P1P1K1PP/3R4 b - - 0 27" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>e6</strong> (your bishop &mdash; they play <strong>Bxe6</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Kf6 and it cost you 46 win% points.</p>
+      <p class="meta dim">vs hanamontazeri89 (1427) &middot; 2026-08-28</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4n2/ppq1kBp1/2prb3/5PN1/4Q3/4P3/P1P1K1PP/3R4_b_-_-_0_27?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/GgOHjl07#53" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-GgOHjl07-54"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-GgOHjl07-50" data-n="A-GgOHjl07-50">
+  <div class="body">
+    <h3>Move 25 &middot; you're Black &middot; <span class="ev">+4.0</span> <span class="flag">you are in check</span></h3>
+    <div class="board" data-fen="r1b5/ppq1kBpN/2pr2n1/8/4QP2/4P3/P1P1K1PP/3R4 b - - 2 25" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>g6</strong> (your knight &mdash; they play <strong>Bxg6+</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Be6 and it cost you 46 win% points.</p>
+      <p class="meta dim">vs hanamontazeri89 (1427) &middot; 2026-08-28</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1b5/ppq1kBpN/2pr2n1/8/4QP2/4P3/P1P1K1PP/3R4_b_-_-_2_25?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/GgOHjl07#49" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-GgOHjl07-50"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-GE5X3RPH-30" data-n="A-GE5X3RPH-30">
+  <div class="body">
+    <h3>Move 15 &middot; you're Black &middot; <span class="ev">+3.7</span></h3>
+    <div class="board" data-fen="r1b3nr/ppkp1pQp/2n5/q3P3/8/8/2PNPPPP/3RKB1R b K - 2 15" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>h8</strong> (your rook &mdash; they play <strong>Qxh8</strong>, winning 5.0)</p>
+      <p class="dim">In the game you played Nd4 and it cost you 43 win% points.</p>
+      <p class="meta dim">vs mozsayin7 (1377) &middot; 2026-08-20</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1b3nr/ppkp1pQp/2n5/q3P3/8/8/2PNPPPP/3RKB1R_b_K_-_2_15?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/GE5X3RPH#29" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-GE5X3RPH-30"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-Xn0zeml3-25" data-n="A-Xn0zeml3-25">
+  <div class="body">
+    <h3>Move 13 &middot; you're White &middot; <span class="ev">+7.8</span></h3>
+    <div class="board" data-fen="r1bq1b1r/ppp5/2k1p1Qp/3p1BB1/1n1P4/4P3/PPP2PPP/RN2K2R w KQ - 0 13" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>g5</strong> (your bishop &mdash; they play <strong>Qxg5</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Bxe6 and it cost you 39 win% points.</p>
+      <p class="meta dim">vs notthepooh (1403) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1bq1b1r/ppp5/2k1p1Qp/3p1BB1/1n1P4/4P3/PPP2PPP/RN2K2R_w_KQ_-_0_13?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/Xn0zeml3#24" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-Xn0zeml3-25"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-jazaSwwW-41" data-n="A-jazaSwwW-41">
+  <div class="body">
+    <h3>Move 21 &middot; you're White &middot; <span class="ev">+3.2</span></h3>
+    <div class="board" data-fen="q1b1k1nr/4b3/p2p1p2/1pp4p/5Pp1/1Q4P1/PPP1B1NP/2KR3R w k - 0 21" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>g2</strong> (your knight &mdash; they play <strong>Qxg2</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Rhe1 and it cost you 38 win% points.</p>
+      <p class="meta dim">vs scheissSCF (1381) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/q1b1k1nr/4b3/p2p1p2/1pp4p/5Pp1/1Q4P1/PPP1B1NP/2KR3R_w_k_-_0_21?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/jazaSwwW#40" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-jazaSwwW-41"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-ucpZuJmj-36" data-n="A-ucpZuJmj-36">
+  <div class="body">
+    <h3>Move 18 &middot; you're Black &middot; <span class="ev">+1.9</span></h3>
+    <div class="board" data-fen="rn4k1/pp3ppp/1q1brp2/3Q4/3N4/8/PPP3PP/1K1R1B1R b - - 2 18" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>e6</strong> (your rook &mdash; they play <strong>Nxe6</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Ba3 and it cost you 37 win% points.</p>
+      <p class="meta dim">vs renisdominic (1454) &middot; 2026-08-20</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/rn4k1/pp3ppp/1q1brp2/3Q4/3N4/8/PPP3PP/1K1R1B1R_b_-_-_2_18?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/ucpZuJmj#35" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-ucpZuJmj-36"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-xXGuNRgL-27" data-n="A-xXGuNRgL-27">
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+2.0</span></h3>
+    <div class="board" data-fen="r1b2rk1/1p1p1ppp/p2P1n2/qNp5/1n2P3/8/P1PB1PPP/1R1QKB1R w K - 0 14" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>b5</strong> (your knight &mdash; they play <strong>axb5</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Bxb4 and it cost you 33 win% points.</p>
+      <p class="meta dim">vs RussianBearEnjoyer (1385) &middot; 2026-08-20</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1b2rk1/1p1p1ppp/p2P1n2/qNp5/1n2P3/8/P1PB1PPP/1R1QKB1R_w_K_-_0_14?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/xXGuNRgL#26" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-xXGuNRgL-27"> Spotted it</label>
+  </div>
+</article>
+</section><section class="group" id="gA3">
+  <header class="ghead"><span class="gletter alt">A3</span><h2>Real damage</h2></header>
+  <p class="blurb">A clear chunk of the win gone &mdash; a comfortable game turned into a fight. <strong>1 positions.</strong></p>
+  <article class="drill" id="dA-zhYL8sbY-32" data-n="A-zhYL8sbY-32">
+  <div class="body">
+    <h3>Move 16 &middot; you're Black &middot; <span class="ev">+1.9</span></h3>
+    <div class="board" data-fen="2r2rk1/pp1Nbppp/1q2p3/3p4/3n1P2/2NPQ3/PP4PP/1R3RK1 b - - 1 16" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? <span class="dim">2 squares</span></p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>b6</strong> (your queen &mdash; they play <strong>Nxb6</strong>, winning 6.0), <strong>f8</strong> (your rook &mdash; they play <strong>Nxf8</strong>, winning 2.0)</p>
+      <p class="dim">In the game you played Nf5 and it cost you 26 win% points.</p>
+      <p class="meta dim">vs sonar2015 (1446) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2r2rk1/pp1Nbppp/1q2p3/3p4/3n1P2/2NPQ3/PP4PP/1R3RK1_b_-_-_1_16?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/zhYL8sbY#31" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-zhYL8sbY-32"> Spotted it</label>
+  </div>
+</article>
+</section><section class="group" id="gA4">
+  <header class="ghead"><span class="gletter alt">A4</span><h2>Leaks</h2></header>
+  <p class="blurb">Small individually, common collectively. Skim for the recurring shape. <strong>8 positions.</strong></p>
+  <article class="drill" id="dA-WEWEE4ot-59" data-n="A-WEWEE4ot-59">
+  <div class="body">
+    <h3>Move 30 &middot; you're White &middot; <span class="ev">+4.5</span></h3>
+    <div class="board" data-fen="5rk1/7p/1nq2p2/pR1N2p1/P1pP1P2/8/5PKP/3Q1R2 w - - 1 30" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>d5</strong> (your knight &mdash; they play <strong>Nxd5</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Kg1 and it cost you 10 win% points.</p>
+      <p class="meta dim">vs ajzamora (1421) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/5rk1/7p/1nq2p2/pR1N2p1/P1pP1P2/8/5PKP/3Q1R2_w_-_-_1_30?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/WEWEE4ot#58" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-WEWEE4ot-59"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-R7vgUySt-32" data-n="A-R7vgUySt-32">
+  <div class="body">
+    <h3>Move 16 &middot; you're Black &middot; <span class="ev">+2.3</span></h3>
+    <div class="board" data-fen="2rq1rk1/4bppp/p1n1p3/1p1pPn2/B2P4/1QR1BN2/PP3PPP/2R3K1 b - - 1 16" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>c6</strong> (your knight &mdash; they play <strong>Rxc6</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played bxa4 and it cost you 8 win% points.</p>
+      <p class="meta dim">vs jabeguk (1467) &middot; 2026-08-20</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2rq1rk1/4bppp/p1n1p3/1p1pPn2/B2P4/1QR1BN2/PP3PPP/2R3K1_b_-_-_1_16?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/R7vgUySt#31" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-R7vgUySt-32"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-nqxcLxBB-40" data-n="A-nqxcLxBB-40">
+  <div class="body">
+    <h3>Move 20 &middot; you're Black &middot; <span class="ev">+7.8</span></h3>
+    <div class="board" data-fen="5rk1/p2rnppp/4p3/2Q1P3/3R4/1P5P/q1P2PP1/2K4R b - - 0 20" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>d7</strong> (your rook &mdash; they play <strong>Rxd7</strong>, winning 5.0)</p>
+      <p class="dim">In the game you played Rxd4 and it cost you 6 win% points.</p>
+      <p class="meta dim">vs martinrizz (1406) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/5rk1/p2rnppp/4p3/2Q1P3/3R4/1P5P/q1P2PP1/2K4R_b_-_-_0_20?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/nqxcLxBB#39" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-nqxcLxBB-40"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-TXRzckef-49" data-n="A-TXRzckef-49">
+  <div class="body">
+    <h3>Move 25 &middot; you're White &middot; <span class="ev">+4.9</span></h3>
+    <div class="board" data-fen="1q3rk1/5pp1/4p3/p1P5/2P2P2/P1PBn1p1/6QP/R4RK1 w - - 0 25" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? <span class="dim">2 squares</span></p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>g2</strong> (your queen &mdash; they play <strong>Nxg2</strong>, winning 6.0), <strong>f1</strong> (your rook &mdash; they play <strong>Nxf1</strong>, winning 2.0)</p>
+      <p class="dim">In the game you played Qh3 and it cost you 5 win% points.</p>
+      <p class="meta dim">vs obie90 (1493) &middot; 2026-08-29</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1q3rk1/5pp1/4p3/p1P5/2P2P2/P1PBn1p1/6QP/R4RK1_w_-_-_0_25?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/TXRzckef#48" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-TXRzckef-49"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-qOhA2B9S-66" data-n="A-qOhA2B9S-66">
+  <div class="body">
+    <h3>Move 33 &middot; you're Black &middot; <span class="ev">+4.4</span></h3>
+    <div class="board" data-fen="r5k1/5p1p/2q1p1p1/3p4/1P1n4/p1pQ3P/R4PP1/1R4K1 b - - 1 33" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>d4</strong> (your knight &mdash; they play <strong>Qxd4</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played c2 and it cost you 5 win% points.</p>
+      <p class="meta dim">vs djor (1394) &middot; 2026-08-19</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r5k1/5p1p/2q1p1p1/3p4/1P1n4/p1pQ3P/R4PP1/1R4K1_b_-_-_1_33?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/qOhA2B9S#65" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-qOhA2B9S-66"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-oYnIOVjc-44" data-n="A-oYnIOVjc-44">
+  <div class="body">
+    <h3>Move 22 &middot; you're Black &middot; <span class="ev">+5.0</span> <span class="flag">you are in check</span></h3>
+    <div class="board" data-fen="r4rk1/pppq2pB/1n6/4P1B1/2P5/6R1/PP1R3P/2K5 b - - 0 22" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>d7</strong> (your queen &mdash; they play <strong>Rxd7+</strong>, winning 4.0)</p>
+      <p class="dim">In the game you played Kxh7 and it cost you 4 win% points.</p>
+      <p class="meta dim">vs RAMIZchaos (1477) &middot; 2026-08-31</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pppq2pB/1n6/4P1B1/2P5/6R1/PP1R3P/2K5_b_-_-_0_22?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/oYnIOVjc#43" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-oYnIOVjc-44"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-91SVx1q4-40" data-n="A-91SVx1q4-40">
+  <div class="body">
+    <h3>Move 20 &middot; you're Black &middot; <span class="ev">+6.4</span></h3>
+    <div class="board" data-fen="2r1k2r/p4ppp/1b1qp3/P2p4/1P1n4/7P/5PP1/R2QR1K1 b k - 0 20" data-flip="1"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>b6</strong> (your bishop &mdash; they play <strong>axb6</strong>, winning 2.0)</p>
+      <p class="dim">In the game you played Nc2 and it cost you 3 win% points.</p>
+      <p class="meta dim">vs Mrabolfazl71 (1297) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2r1k2r/p4ppp/1b1qp3/P2p4/1P1n4/7P/5PP1/R2QR1K1_b_k_-_0_20?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/91SVx1q4#39" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-91SVx1q4-40"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dA-PqWBHOzu-33" data-n="A-PqWBHOzu-33">
+  <div class="body">
+    <h3>Move 17 &middot; you're White &middot; <span class="ev">+5.1</span></h3>
+    <div class="board" data-fen="r4rk1/2B2ppp/1p6/p2qN3/1n1Pn1b1/1Q2P3/P3BPPP/2R2RK1 w - - 0 17" data-flip="0"></div>
+    <p class="ask">Which of your squares is already loose? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>e2</strong> (your bishop &mdash; they play <strong>Bxe2</strong>, winning 3.0)</p>
+      <p class="dim">In the game you played Qxd5 and it cost you 2 win% points.</p>
+      <p class="meta dim">vs ALOK_KUMAR_SHARMA_29 (1325) &middot; 2026-08-28</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/2B2ppp/1p6/p2qN3/1n1Pn1b1/1Q2P3/P3BPPP/2R2RK1_w_-_-_0_17?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/PqWBHOzu#32" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="A-PqWBHOzu-33"> Spotted it</label>
+  </div>
+</article>
+</section><section class="group" id="gB1">
+  <header class="ghead"><span class="gletter alt">B1</span><h2>Threw the game outright</h2></header>
+  <p class="blurb">A win became a loss on one move. <strong>1 positions.</strong></p>
+  <article class="drill" id="dB-ftWlMIpx-30" data-n="B-ftWlMIpx-30">
+  <div class="body">
+    <h3>Move 15 &middot; you're Black &middot; <span class="ev">+3.5</span></h3>
+    <div class="board" data-fen="r4rk1/1Q3ppp/2nqpn2/p2p1b2/3P4/1BN2P2/PPP1N1PP/R3K2R b KQ - 0 15" data-flip="1"></div>
+    <p class="ask">You played <strong>Qb4</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Qxc6</strong>, winning 3.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +3.5 &rarr; -3.2, 55 win% points.</p>
+      <p class="meta dim">vs hstephano93 (1469) &middot; 2026-08-24</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/1Q3ppp/2nqpn2/p2p1b2/3P4/1BN2P2/PPP1N1PP/R3K2R_b_KQ_-_0_15?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/ftWlMIpx#29" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-ftWlMIpx-30"> Spotted it</label>
+  </div>
+</article>
+</section><section class="group" id="gB3">
+  <header class="ghead"><span class="gletter alt">B3</span><h2>Real damage</h2></header>
+  <p class="blurb">A clear chunk of the win gone &mdash; a comfortable game turned into a fight. <strong>6 positions.</strong></p>
+  <article class="drill" id="dB-Ney2VdRN-72" data-n="B-Ney2VdRN-72">
+  <div class="body">
+    <h3>Move 36 &middot; you're Black &middot; <span class="ev">+7.3</span></h3>
+    <div class="board" data-fen="1r2r1k1/5ppp/Q1p2q2/p1Pp4/P2P1P2/1p2n1PP/1B2NK2/5R2 b - - 1 36" data-flip="1"></div>
+    <p class="ask">You played <strong>Nd1+</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Rxd1</strong>, winning 3.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +7.3 &rarr; +1.9, 27 win% points.</p>
+      <p class="meta dim">vs Filipov81 (1456) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1r2r1k1/5ppp/Q1p2q2/p1Pp4/P2P1P2/1p2n1PP/1B2NK2/5R2_b_-_-_1_36?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/Ney2VdRN#71" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-Ney2VdRN-72"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-luhxfIVG-36" data-n="B-luhxfIVG-36">
+  <div class="body">
+    <h3>Move 18 &middot; you're Black &middot; <span class="ev">+2.0</span></h3>
+    <div class="board" data-fen="r2q1rk1/3nbppp/4pn1B/3p4/p4N2/P1PP2QP/2B2PP1/R3K2R b KQ - 4 18" data-flip="1"></div>
+    <p class="ask">You played <strong>g6</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Bxf8</strong>, winning 2.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +2.0 &rarr; -0.8, 25 win% points.</p>
+      <p class="meta dim">vs Weh40 (1445) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2q1rk1/3nbppp/4pn1B/3p4/p4N2/P1PP2QP/2B2PP1/R3K2R_b_KQ_-_4_18?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/luhxfIVG#35" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-luhxfIVG-36"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-lFYcAxUa-40" data-n="B-lFYcAxUa-40">
+  <div class="body">
+    <h3>Move 20 &middot; you're Black &middot; <span class="ev">+5.0</span></h3>
+    <div class="board" data-fen="1qr3k1/1r3ppp/4pn2/3pNb2/Q2P4/2P3P1/PP3P1P/R4RK1 b - - 3 20" data-flip="1"></div>
+    <p class="ask">You played <strong>Rc4</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Nxc4</strong>, winning 3.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +5.0 &rarr; +2.2, 17 win% points.</p>
+      <p class="meta dim">vs Saeed1989 (1409) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1qr3k1/1r3ppp/4pn2/3pNb2/Q2P4/2P3P1/PP3P1P/R4RK1_b_-_-_3_20?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/lFYcAxUa#39" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-lFYcAxUa-40"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-K4X2xK4W-56" data-n="B-K4X2xK4W-56">
+  <div class="body">
+    <h3>Move 28 &middot; you're Black &middot; <span class="ev">+3.2</span></h3>
+    <div class="board" data-fen="4r1k1/5p1p/2p1pnpQ/1pN1R3/3P3P/r1P3R1/5PPK/1q6 b - - 0 28" data-flip="1"></div>
+    <p class="ask">You played <strong>Rxc3</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Rxc3</strong>, winning 4.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +3.2 &rarr; +1.5, 13 win% points.</p>
+      <p class="meta dim">vs anirudhya26 (1514) &middot; 2026-08-30</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/4r1k1/5p1p/2p1pnpQ/1pN1R3/3P3P/r1P3R1/5PPK/1q6_b_-_-_0_28?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/K4X2xK4W#55" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-K4X2xK4W-56"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-cdeEVnJC-30" data-n="B-cdeEVnJC-30">
+  <div class="body">
+    <h3>Move 15 &middot; you're Black &middot; <span class="ev">+3.9</span></h3>
+    <div class="board" data-fen="r1b2rk1/ppp1q1pp/3p1n2/3P4/2P1P3/1P1p1Q1P/P2N2P1/R3K1NR b KQ - 2 15" data-flip="1"></div>
+    <p class="ask">You played <strong>Nxe4</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Qxe4</strong>, winning 2.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +3.9 &rarr; +2.1, 13 win% points.</p>
+      <p class="meta dim">vs hernype (1420) &middot; 2026-08-28</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1b2rk1/ppp1q1pp/3p1n2/3P4/2P1P3/1P1p1Q1P/P2N2P1/R3K1NR_b_KQ_-_2_15?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/cdeEVnJC#29" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-cdeEVnJC-30"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-ucpZuJmj-58" data-n="B-ucpZuJmj-58">
+  <div class="body">
+    <h3>Move 29 &middot; you're Black &middot; <span class="ev">+7.0</span></h3>
+    <div class="board" data-fen="3r2k1/pp4p1/3r1p2/2q1n1PQ/8/1P6/P1P4P/1KR5 b - - 0 29" data-flip="1"></div>
+    <p class="ask">You played <strong>Rd1</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Rxd1</strong>, winning 5.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +7.0 &rarr; +4.3, 10 win% points.</p>
+      <p class="meta dim">vs renisdominic (1454) &middot; 2026-08-20</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/3r2k1/pp4p1/3r1p2/2q1n1PQ/8/1P6/P1P4P/1KR5_b_-_-_0_29?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/ucpZuJmj#57" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-ucpZuJmj-58"> Spotted it</label>
+  </div>
+</article>
+</section><section class="group" id="gB4">
+  <header class="ghead"><span class="gletter alt">B4</span><h2>Leaks</h2></header>
+  <p class="blurb">Small individually, common collectively. Skim for the recurring shape. <strong>5 positions.</strong></p>
+  <article class="drill" id="dB-VwbhzYP2-31" data-n="B-VwbhzYP2-31">
+  <div class="body">
+    <h3>Move 16 &middot; you're White &middot; <span class="ev">+3.4</span></h3>
+    <div class="board" data-fen="2kr1b2/ppp2Q2/2n2p2/3p2p1/3P1qb1/5N2/PPPN1PPP/R3R1K1 w - - 4 16" data-flip="0"></div>
+    <p class="ask">You played <strong>g3</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Bxf3</strong>, winning 3.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +3.4 &rarr; +2.3, 8 win% points.</p>
+      <p class="meta dim">vs Flushboy (1435) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2kr1b2/ppp2Q2/2n2p2/3p2p1/3P1qb1/5N2/PPPN1PPP/R3R1K1_w_-_-_4_16?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/VwbhzYP2#30" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-VwbhzYP2-31"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-VToFcEnn-39" data-n="B-VToFcEnn-39">
+  <div class="body">
+    <h3>Move 20 &middot; you're White &middot; <span class="ev">+5.7</span></h3>
+    <div class="board" data-fen="6k1/pqp2ppp/4p3/b3Nb2/3P1B2/2P1P3/r4PPP/2RQ1RK1 w - - 0 20" data-flip="0"></div>
+    <p class="ask">You played <strong>Rb1</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Qxb1</strong>, winning 2.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +5.7 &rarr; +4.0, 8 win% points.</p>
+      <p class="meta dim">vs DynamicEarth (1413) &middot; 2026-08-26</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/6k1/pqp2ppp/4p3/b3Nb2/3P1B2/2P1P3/r4PPP/2RQ1RK1_w_-_-_0_20?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/VToFcEnn#38" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-VToFcEnn-39"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-WEWEE4ot-55" data-n="B-WEWEE4ot-55">
+  <div class="body">
+    <h3>Move 28 &middot; you're White &middot; <span class="ev">+5.4</span></h3>
+    <div class="board" data-fen="3r1rk1/1q5p/1n3p2/pR1p2p1/P1pP1P2/4NB2/5PKP/3Q1R2 w - - 0 28" data-flip="0"></div>
+    <p class="ask">You played <strong>Bxd5+</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Rxd5</strong>, winning 2.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +5.4 &rarr; +4.0, 7 win% points.</p>
+      <p class="meta dim">vs ajzamora (1421) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/3r1rk1/1q5p/1n3p2/pR1p2p1/P1pP1P2/4NB2/5PKP/3Q1R2_w_-_-_0_28?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/WEWEE4ot#54" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-WEWEE4ot-55"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-oudIAzP4-37" data-n="B-oudIAzP4-37">
+  <div class="body">
+    <h3>Move 19 &middot; you're White &middot; <span class="ev">+5.8</span></h3>
+    <div class="board" data-fen="r4rk1/p5pp/1p2pp2/2npP3/q7/2PBP1B1/P4PPP/R2Q1RK1 w - - 2 19" data-flip="0"></div>
+    <p class="ask">You played <strong>Qxa4</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Nxd3</strong>, winning 3.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +5.8 &rarr; +5.0, 3 win% points.</p>
+      <p class="meta dim">vs Dimension13 (1428) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/p5pp/1p2pp2/2npP3/q7/2PBP1B1/P4PPP/R2Q1RK1_w_-_-_2_19?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/oudIAzP4#36" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-oudIAzP4-37"> Spotted it</label>
+  </div>
+</article><article class="drill" id="dB-rv6N6YTU-43" data-n="B-rv6N6YTU-43">
+  <div class="body">
+    <h3>Move 22 &middot; you're White &middot; <span class="ev">+6.4</span></h3>
+    <div class="board" data-fen="3r2k1/p1p2pp1/7p/4P1q1/2QN4/4P2b/P1P2PPP/R4RK1 w - - 1 22" data-flip="0"></div>
+    <p class="ask">You played <strong>g3</strong>. Picture it on the board. What refutes it? </p>
+    <details class="spoil"><summary>Answer</summary>
+      <p><strong>Bxf1</strong>, winning 2.0 pawns. Nothing was hanging before your move &mdash; this one you created.</p>
+      <p class="dim">Eval +6.4 &rarr; +5.7, 2 win% points.</p>
+      <p class="meta dim">vs ravendra_singh (1426) &middot; 2026-08-25</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/3r2k1/p1p2pp1/7p/4P1q1/2QN4/4P2b/P1P2PPP/R4RK1_w_-_-_1_22?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/rv6N6YTU#42" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+    <label class="done"><input type="checkbox" data-n="B-rv6N6YTU-43"> Spotted it</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gC">
+  <header class="ghead">
+    <span class="gletter">C</span>
+    <h2>Simplified — pure technique</h2>
+  </header>
+  <p class="blurb">You&#x27;re ahead and the position is already stripped down. Nothing to find here; you win these by knowing how. Five quick ones, and they tell you fast whether your gap is knowledge or judgement. If you drop these, go do Lichess Practice before running the rest.</p>
+  
+<article class="drill" id="d1" data-n="1">
+  <div class="sq dark"><span class="num">1</span></div>
+  <div class="body">
+    <h3>Move 30 &middot; you're White &middot; <span class="ev">+2.2</span></h3>
+    <p class="meta">up a pawn &middot; 19 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game &middot; vs mario953 (1396) &middot; 2026-04-17</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/8/pp4kp/6p1/2p1b3/8/5P1P/B2K2P1/1N6_w_-_-_0_30?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/abqdV6Eq#58" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="8/pp4kp/6p1/2p1b3/8/5P1P/B2K2P1/1N6 w - - 0 30" title="Copy FEN">8/pp4kp/6p1/2p1b3/8/5P1P/B2K2P1/1N6 w - - 0 30</button>
+    <label class="done"><input type="checkbox" data-n="1"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d2" data-n="2">
+  <div class="sq light"><span class="num">2</span></div>
+  <div class="body">
+    <h3>Move 24 &middot; you're White &middot; <span class="ev">+5.2</span></h3>
+    <p class="meta">up two pawns &middot; 45 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Dhanuakula2012 (1303) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/3r2k1/p4p1p/8/8/4p3/1P2P3/P3KPPP/2R5_w_-_-_0_24?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/Quz4RrV8#46" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="3r2k1/p4p1p/8/8/4p3/1P2P3/P3KPPP/2R5 w - - 0 24" title="Copy FEN">3r2k1/p4p1p/8/8/4p3/1P2P3/P3KPPP/2R5 w - - 0 24</button>
+    <label class="done"><input type="checkbox" data-n="2"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d3" data-n="3">
+  <div class="sq dark"><span class="num">3</span></div>
+  <div class="body">
+    <h3>Move 45 &middot; you're Black &middot; <span class="ev">+4.6</span></h3>
+    <p class="meta">up a pawn &middot; 18 of your moves left </p>
+    <p class="meta dim">Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense &middot; vs sasumba (1412) &middot; 2026-04-05</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/8/P5pp/8/3r4/1k1pp3/7P/2R3P1/7K_b_-_-_0_45?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/FRffTsAL#89" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="8/P5pp/8/3r4/1k1pp3/7P/2R3P1/7K b - - 0 45" title="Copy FEN">8/P5pp/8/3r4/1k1pp3/7P/2R3P1/7K b - - 0 45</button>
+    <label class="done"><input type="checkbox" data-n="3"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d4" data-n="4">
+  <div class="sq light"><span class="num">4</span></div>
+  <div class="body">
+    <h3>Move 35 &middot; you're White &middot; <span class="ev">+3.4</span></h3>
+    <p class="meta">up a pawn &middot; 17 of your moves left </p>
+    <p class="meta dim">Horwitz Defense &middot; vs Tayronantonio (1335) &middot; 2026-08-13</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/5r2/1k6/4p3/4K3/8/1P2Pp2/P2R4/8_w_-_-_1_35?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/ceHC6FeN#68" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="5r2/1k6/4p3/4K3/8/1P2Pp2/P2R4/8 w - - 1 35" title="Copy FEN">5r2/1k6/4p3/4K3/8/1P2Pp2/P2R4/8 w - - 1 35</button>
+    <label class="done"><input type="checkbox" data-n="4"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d5" data-n="5">
+  <div class="sq dark"><span class="num">5</span></div>
+  <div class="body">
+    <h3>Move 51 &middot; you're White &middot; <span class="ev">+5.8</span></h3>
+    <p class="meta">up a rook &middot; 45 of your moves left </p>
+    <p class="meta dim">Horwitz Defense &middot; vs kvuick (1487) &middot; 2026-01-28</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/8/4nk2/p1p2b1p/2P3p1/6P1/4R2P/P4PK1/3R4_w_-_-_4_51?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/vwtqL5De#100" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="8/4nk2/p1p2b1p/2P3p1/6P1/4R2P/P4PK1/3R4 w - - 4 51" title="Copy FEN">8/4nk2/p1p2b1p/2P3p1/6P1/4R2P/P4PK1/3R4 w - - 4 51</button>
+    <label class="done"><input type="checkbox" data-n="5"> Converted it twice</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gB">
+  <header class="ghead">
+    <span class="gletter">B</span>
+    <h2>Winning, but the clock is the enemy</h2>
+  </header>
+  <p class="blurb">You were winning and lost on time, or nearly did. The skill is picking a safe move fast, not the best move slowly. Run these with the clock going and don&#x27;t let yourself think past 15 seconds.</p>
+  
+<article class="drill" id="d6" data-n="6">
+  <div class="sq light"><span class="num">6</span></div>
+  <div class="body">
+    <h3>Move 22 &middot; you're White &middot; <span class="ev">+7.6</span></h3>
+    <p class="meta">up 10 points &middot; 45 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">London System &middot; vs DenisK1979 (1456) &middot; 2026-05-26</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1r3k1/5pbp/4b1p1/8/3P2n1/P1N1PN2/1P2QPPP/R4RK1_w_-_-_5_22?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/FqCgbeKd#42" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1r3k1/5pbp/4b1p1/8/3P2n1/P1N1PN2/1P2QPPP/R4RK1 w - - 5 22" title="Copy FEN">r1r3k1/5pbp/4b1p1/8/3P2n1/P1N1PN2/1P2QPPP/R4RK1 w - - 5 22</button>
+    <label class="done"><input type="checkbox" data-n="6"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d7" data-n="7">
+  <div class="sq dark"><span class="num">7</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+4.7</span></h3>
+    <p class="meta">material level &middot; 40 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs wwm1958 (1353) &middot; 2026-05-15</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r2q1rk1/pb1n1ppp/1p1bpn2/2pp4/2PP4/2NBPNB1/PP3PPP/R2Q1RK1_w_-_-_0_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/vvoJl3Ii#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r2q1rk1/pb1n1ppp/1p1bpn2/2pp4/2PP4/2NBPNB1/PP3PPP/R2Q1RK1 w - - 0 10" title="Copy FEN">r2q1rk1/pb1n1ppp/1p1bpn2/2pp4/2PP4/2NBPNB1/PP3PPP/R2Q1RK1 w - - 0 10</button>
+    <label class="done"><input type="checkbox" data-n="7"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d8" data-n="8">
+  <div class="sq light"><span class="num">8</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're Black &middot; <span class="ev">+3.3</span></h3>
+    <p class="meta">material level &middot; 20 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense &middot; vs tarasov101288 (1617) &middot; 2026-02-07</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/2rq1rk1/pp2bppp/2n1p3/3pPn2/3P4/P1N1BB1P/1P2QPP1/R4RK1_b_-_-_2_14?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/LTxNQ13l#27" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="2rq1rk1/pp2bppp/2n1p3/3pPn2/3P4/P1N1BB1P/1P2QPP1/R4RK1 b - - 2 14" title="Copy FEN">2rq1rk1/pp2bppp/2n1p3/3pPn2/3P4/P1N1BB1P/1P2QPP1/R4RK1 b - - 2 14</button>
+    <label class="done"><input type="checkbox" data-n="8"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d9" data-n="9">
+  <div class="sq dark"><span class="num">9</span></div>
+  <div class="body">
+    <h3>Move 11 &middot; you're White &middot; <span class="ev">+2.7</span></h3>
+    <p class="meta">material level &middot; 24 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">London System &middot; vs krish199426 (1334) &middot; 2026-04-29</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/rn1q1rk1/ppp2pbp/6p1/3p1b2/3P1B2/1QP1PN2/P3BPPP/R3K2R_w_KQ_-_1_11?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/YJ8da4dy#20" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="rn1q1rk1/ppp2pbp/6p1/3p1b2/3P1B2/1QP1PN2/P3BPPP/R3K2R w KQ - 1 11" title="Copy FEN">rn1q1rk1/ppp2pbp/6p1/3p1b2/3P1B2/1QP1PN2/P3BPPP/R3K2R w KQ - 1 11</button>
+    <label class="done"><input type="checkbox" data-n="9"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d10" data-n="10">
+  <div class="sq light"><span class="num">10</span></div>
+  <div class="body">
+    <h3>Move 36 &middot; you're Black &middot; <span class="ev">+2.4</span></h3>
+    <p class="meta">down two pawns &middot; 20 of your moves left <span class="flag">lost on time</span></p>
+    <p class="meta dim">Caro-Kann Defense: Hillbilly Attack &middot; vs RadicalFuns (1308) &middot; 2026-05-14</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/6qk/5pp1/Q3pn1p/1p6/1P1p3B/P2P4/4nPPP/2R2K2_b_-_-_2_36?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/upLz9e4l#71" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="6qk/5pp1/Q3pn1p/1p6/1P1p3B/P2P4/4nPPP/2R2K2 b - - 2 36" title="Copy FEN">6qk/5pp1/Q3pn1p/1p6/1P1p3B/P2P4/4nPPP/2R2K2 b - - 2 36</button>
+    <label class="done"><input type="checkbox" data-n="10"> Converted it twice</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gA">
+  <header class="ghead">
+    <span class="gletter">A</span>
+    <h2>Material up — the trade decision</h2>
+  </header>
+  <p class="blurb">You&#x27;re ahead in material with pieces still on the board. Every trade brings you closer to a won ending; every trade you dodge hands the position back.</p>
+  
+<article class="drill" id="d11" data-n="11">
+  <div class="sq dark"><span class="num">11</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+7.5</span></h3>
+    <p class="meta">up a queen &middot; 39 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs hsnthsin41 (1252) &middot; 2026-05-22</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1b5/pppkq1Q1/2n1ppp1/3p4/3P1B2/4P3/PPP2PPP/RN2K1NR_w_KQ_-_1_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/Ea24bBkA#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1b5/pppkq1Q1/2n1ppp1/3p4/3P1B2/4P3/PPP2PPP/RN2K1NR w KQ - 1 10" title="Copy FEN">r1b5/pppkq1Q1/2n1ppp1/3p4/3P1B2/4P3/PPP2PPP/RN2K1NR w KQ - 1 10</button>
+    <label class="done"><input type="checkbox" data-n="11"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d12" data-n="12">
+  <div class="sq light"><span class="num">12</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+4.2</span></h3>
+    <p class="meta">up a pawn &middot; 21 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Sek123 (1230) &middot; 2026-04-28</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bq1bnr/ppp1k3/5nBp/3pp1BQ/8/2N1P3/PPP2PPP/R3K1NR_w_KQ_-_0_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/J0Pm3xkQ#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bq1bnr/ppp1k3/5nBp/3pp1BQ/8/2N1P3/PPP2PPP/R3K1NR w KQ - 0 10" title="Copy FEN">r1bq1bnr/ppp1k3/5nBp/3pp1BQ/8/2N1P3/PPP2PPP/R3K1NR w KQ - 0 10</button>
+    <label class="done"><input type="checkbox" data-n="12"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d13" data-n="13">
+  <div class="sq dark"><span class="num">13</span></div>
+  <div class="body">
+    <h3>Move 16 &middot; you're White &middot; <span class="ev">+3.1</span></h3>
+    <p class="meta">up a pawn &middot; 37 of your moves left </p>
+    <p class="meta dim">Indian Defense: Accelerated London System &middot; vs AlexcnetoBr2020 (1352) &middot; 2026-08-15</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r4rk1/3nbppp/1q1p1n2/1BpPp3/P7/4PN1P/1P3PPB/R2Q1RK1_w_-_-_1_16?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/L18JxK5o#30" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r4rk1/3nbppp/1q1p1n2/1BpPp3/P7/4PN1P/1P3PPB/R2Q1RK1 w - - 1 16" title="Copy FEN">r4rk1/3nbppp/1q1p1n2/1BpPp3/P7/4PN1P/1P3PPB/R2Q1RK1 w - - 1 16</button>
+    <label class="done"><input type="checkbox" data-n="13"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d14" data-n="14">
+  <div class="sq light"><span class="num">14</span></div>
+  <div class="body">
+    <h3>Move 13 &middot; you're Black &middot; <span class="ev">+2.5</span></h3>
+    <p class="meta">up a pawn &middot; 38 of your moves left </p>
+    <p class="meta dim">Caro-Kann Defense: Advance Variation, Botvinnik-Carls Defense &middot; vs oguenaydin (1378) &middot; 2026-08-04</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r2qkb1r/pp3ppp/2n1p3/1N1pP3/8/3Q3P/PP3PP1/R1B2RK1_b_kq_-_0_13?color=black" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/ksbnfLHy#25" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r2qkb1r/pp3ppp/2n1p3/1N1pP3/8/3Q3P/PP3PP1/R1B2RK1 b kq - 0 13" title="Copy FEN">r2qkb1r/pp3ppp/2n1p3/1N1pP3/8/3Q3P/PP3PP1/R1B2RK1 b kq - 0 13</button>
+    <label class="done"><input type="checkbox" data-n="14"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d15" data-n="15">
+  <div class="sq dark"><span class="num">15</span></div>
+  <div class="body">
+    <h3>Move 22 &middot; you're White &middot; <span class="ev">+2.2</span></h3>
+    <p class="meta">up a pawn &middot; 16 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Aaron77 (1417) &middot; 2026-07-25</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r4r1k/p4ppp/2q5/2Pp1p1n/P2P1P2/5P2/4B1PP/R2Q1RK1_w_-_-_1_22?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/5cCywAbN#42" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r4r1k/p4ppp/2q5/2Pp1p1n/P2P1P2/5P2/4B1PP/R2Q1RK1 w - - 1 22" title="Copy FEN">r4r1k/p4ppp/2q5/2Pp1p1n/P2P1P2/5P2/4B1PP/R2Q1RK1 w - - 1 22</button>
+    <label class="done"><input type="checkbox" data-n="15"> Converted it twice</label>
+  </div>
+</article>
+</section>
+<section class="group" id="gD">
+  <header class="ghead">
+    <span class="gletter">D</span>
+    <h2>Material level, big positional edge</h2>
+  </header>
+  <p class="blurb">Your most common winning position by a wide margin — 98 of the 204 I found. No extra material; the engine likes you for structural reasons or because something is about to drop. Here &quot;trade into a won endgame&quot; is usually the WRONG instinct. Keep pieces on and increase the pressure. Do these last, and treat them as the opposite lesson to Group A.</p>
+  
+<article class="drill" id="d16" data-n="16">
+  <div class="sq light"><span class="num">16</span></div>
+  <div class="body">
+    <h3>Move 13 &middot; you're White &middot; <span class="ev">mate</span></h3>
+    <p class="meta">material level &middot; 21 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs dado9922 (1396) &middot; 2026-03-29</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bqk2r/1p4p1/p1nbpp1p/4N3/3PpB2/1NP5/PP3PPP/R2Q1RK1_w_kq_-_0_13?color=white" target="_blank" rel="noopener">Play it out &mdash; level 4</a>
+      <a class="btn ghost" href="https://lichess.org/91Fq3Ywc#24" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bqk2r/1p4p1/p1nbpp1p/4N3/3PpB2/1NP5/PP3PPP/R2Q1RK1 w kq - 0 13" title="Copy FEN">r1bqk2r/1p4p1/p1nbpp1p/4N3/3PpB2/1NP5/PP3PPP/R2Q1RK1 w kq - 0 13</button>
+    <label class="done"><input type="checkbox" data-n="16"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d17" data-n="17">
+  <div class="sq dark"><span class="num">17</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+4.0</span></h3>
+    <p class="meta">material level &middot; 24 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs FloLimbani (1351) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/2kr3r/pppqnppp/4p3/1P6/2PPpB2/4P3/P2Q1PPP/1R3RK1_w_-_-_1_14?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/0okez6Oo#26" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="2kr3r/pppqnppp/4p3/1P6/2PPpB2/4P3/P2Q1PPP/1R3RK1 w - - 1 14" title="Copy FEN">2kr3r/pppqnppp/4p3/1P6/2PPpB2/4P3/P2Q1PPP/1R3RK1 w - - 1 14</button>
+    <label class="done"><input type="checkbox" data-n="17"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d18" data-n="18">
+  <div class="sq light"><span class="num">18</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+3.2</span></h3>
+    <p class="meta">material level &middot; 39 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game &middot; vs dagallo (1402) &middot; 2026-08-13</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r4rk1/2pqbppp/p1nppnb1/1p1P4/Q1P2B2/2N1PN1P/PP2BPP1/R3K2R_w_KQ_-_0_14?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/2HffPMHp#26" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r4rk1/2pqbppp/p1nppnb1/1p1P4/Q1P2B2/2N1PN1P/PP2BPP1/R3K2R w KQ - 0 14" title="Copy FEN">r4rk1/2pqbppp/p1nppnb1/1p1P4/Q1P2B2/2N1PN1P/PP2BPP1/R3K2R w KQ - 0 14</button>
+    <label class="done"><input type="checkbox" data-n="18"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d19" data-n="19">
+  <div class="sq dark"><span class="num">19</span></div>
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+2.6</span></h3>
+    <p class="meta">down a pawn &middot; 23 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs Kadu2022 (1339) &middot; 2026-05-16</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bq1rk1/1pp2p1p/p3p1p1/n3N3/3P1BQ1/2nBP3/P4PPP/R4RK1_w_-_-_0_14?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/29f8yPkI#26" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bq1rk1/1pp2p1p/p3p1p1/n3N3/3P1BQ1/2nBP3/P4PPP/R4RK1 w - - 0 14" title="Copy FEN">r1bq1rk1/1pp2p1p/p3p1p1/n3N3/3P1BQ1/2nBP3/P4PPP/R4RK1 w - - 0 14</button>
+    <label class="done"><input type="checkbox" data-n="19"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d20" data-n="20">
+  <div class="sq light"><span class="num">20</span></div>
+  <div class="body">
+    <h3>Move 10 &middot; you're White &middot; <span class="ev">+2.3</span></h3>
+    <p class="meta">material level &middot; 18 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs vizzzi (1332) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/rn1qk1nr/ppp1bppp/4p1b1/4P3/2BP1B2/1QN3P1/PP3P1P/R3K1NR_w_KQkq_-_1_10?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/B7j9RO7t#18" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="rn1qk1nr/ppp1bppp/4p1b1/4P3/2BP1B2/1QN3P1/PP3P1P/R3K1NR w KQkq - 1 10" title="Copy FEN">rn1qk1nr/ppp1bppp/4p1b1/4P3/2BP1B2/1QN3P1/PP3P1P/R3K1NR w KQkq - 1 10</button>
+    <label class="done"><input type="checkbox" data-n="20"> Converted it twice</label>
+  </div>
+</article>
+<article class="drill" id="d21" data-n="21">
+  <div class="sq dark"><span class="num">21</span></div>
+  <div class="body">
+    <h3>Move 11 &middot; you're White &middot; <span class="ev">+2.2</span></h3>
+    <p class="meta">material level &middot; 18 of your moves left </p>
+    <p class="meta dim">Queen&#x27;s Pawn Game: Accelerated London System &middot; vs BorvStogov (1340) &middot; 2026-08-06</p>
+    <div class="acts">
+      <a class="btn play" href="https://lichess.org/analysis/standard/r1bq1rk1/ppp3pp/2n1p3/5p2/2BPnB2/1QP1PN2/P4PPP/R4RK1_w_-_-_0_11?color=white" target="_blank" rel="noopener">Play it out &mdash; level 3</a>
+      <a class="btn ghost" href="https://lichess.org/YgPfyRUG#20" target="_blank" rel="noopener">Review the real game</a>
+    </div>
+    <button class="fen" data-fen="r1bq1rk1/ppp3pp/2n1p3/5p2/2BPnB2/1QP1PN2/P4PPP/R4RK1 w - - 0 11" title="Copy FEN">r1bq1rk1/ppp3pp/2n1p3/5p2/2BPnB2/1QP1PN2/P4PPP/R4RK1 w - - 0 11</button>
+    <label class="done"><input type="checkbox" data-n="21"> Converted it twice</label>
+  </div>
+</article>
+</section>
+
+<section class="group" id="gR">
+  <header class="ghead"><span class="gletter alt">R</span><h2>Reflection &mdash; where level games are decided</h2></header>
+  <p class="blurb">Not a drill &mdash; a notebook. The corpus says your level games are decided by one move: a <strong>considered</strong> move in a quiet, piece-heavy position around moves 13&ndash;25, with nothing hanging. These are the 40 such moves that cost the most. For each one: sit with the position, then write down &mdash; honestly, in your own words &mdash; why you played what you played. What you saw, what the plan was, what you were worried about. <em>Then</em> open the answer &mdash; it shows what your move allowed, which is the thing to have seen.</p>
+  <p class="blurb">The notes save in this browser and survive rebuilds. When you've written a batch, <strong>Copy my notes as JSON</strong> and bring them to a session &mdash; the whole point is to read them together and find what you're seeing and what you're systematically not.</p>
+  <p class="rprog" id="rprog">0 / 40 written</p>
+  <button class="btn ghost rexport" id="rexport">Copy my notes as JSON</button>
+  <article class="rcard" id="dR-MXQW6nTb-48" data-k="R-MXQW6nTb-48" data-fen="r4r1k/ppq4p/2p2n2/7P/3QN3/8/PPP5/2KR2R1 b - - 3 24" data-played="Qf7" data-fm="24" data-side="black" data-cpb="264" data-cpa="-535" data-spend="18">
+  <div class="body">
+    <h3>Move 24 &middot; you're Black &middot; <span class="ev">+2.6</span> &middot; you thought for 18s</h3>
+    <div class="board" data-fen="r4r1k/ppq4p/2p2n2/7P/3QN3/8/PPP5/2KR2R1 b - - 3 24" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Ne4</strong>. You played <strong>Qf7</strong>.</p>
+    <textarea class="rnote" data-k="R-MXQW6nTb-48" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-MXQW6nTb-48"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +2.6 &rarr; <strong>-5.3</strong>, costing 60 win% points, and the game never recovered.</p>
+      <p class="after">After Qf7, best for them: <strong>Rgf1 Qd5 Rxf6</strong></p>
+      <p>Instead of Qf7: <strong>Qf4+ Kb1 Qxe4</strong></p>
+      <p class="meta dim">vs ZhadgerovRashit (1240) &middot; 2026-05-20 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4r1k/ppq4p/2p2n2/7P/3QN3/8/PPP5/2KR2R1_b_-_-_3_24?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/MXQW6nTb#47" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-3ZLHVBRE-28" data-k="R-3ZLHVBRE-28" data-fen="1kr2b1r/pp1q1ppp/5p2/8/1n1P4/P2Q4/1PP1NPPP/RN3RK1 b - - 2 14" data-played="Nxc2" data-fm="14" data-side="black" data-cpb="658" data-cpa="-199" data-spend="6">
+  <div class="body">
+    <h3>Move 14 &middot; you're Black &middot; <span class="ev">+6.6</span> &middot; you thought for 6s</h3>
+    <div class="board" data-fen="1kr2b1r/pp1q1ppp/5p2/8/1n1P4/P2Q4/1PP1NPPP/RN3RK1 b - - 2 14" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qd3</strong>. You played <strong>Nxc2</strong>.</p>
+    <textarea class="rnote" data-k="R-3ZLHVBRE-28" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-3ZLHVBRE-28"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +6.6 &rarr; <strong>-2.0</strong>, costing 59 win% points, and the game never recovered.</p>
+      <p class="after">After Nxc2, best for them: <strong>Ra2 Bd6 Nbc3</strong></p>
+      <p>Instead of Nxc2: <strong>Nxd3 cxd3 f5</strong></p>
+      <p class="meta dim">vs Kisslove213 (1337) &middot; 2025-08-12 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1kr2b1r/pp1q1ppp/5p2/8/1n1P4/P2Q4/1PP1NPPP/RN3RK1_b_-_-_2_14?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/3ZLHVBRE#27" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-7k30XvzG-42" data-k="R-7k30XvzG-42" data-fen="2kr2r1/p4Q2/bq2p2B/3pP3/3p4/bP1P3P/P2R1PP1/R5K1 b - - 1 21" data-played="Qb8" data-fm="21" data-side="black" data-cpb="213" data-cpa="-560" data-spend="11">
+  <div class="body">
+    <h3>Move 21 &middot; you're Black &middot; <span class="ev">+2.1</span> &middot; you thought for 11s</h3>
+    <div class="board" data-fen="2kr2r1/p4Q2/bq2p2B/3pP3/3p4/bP1P3P/P2R1PP1/R5K1 b - - 1 21" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Rd2</strong>. You played <strong>Qb8</strong>.</p>
+    <textarea class="rnote" data-k="R-7k30XvzG-42" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-7k30XvzG-42"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +2.1 &rarr; <strong>-5.6</strong>, costing 57 win% points, and the game never recovered.</p>
+      <p class="after">After Qb8, best for them: <strong>Rc2+ Bc4 bxc4</strong></p>
+      <p>Instead of Qb8: <strong>Kb8 b4 Qxb4</strong></p>
+      <p class="meta dim">vs Irina678 (1370) &middot; 2025-05-07 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2kr2r1/p4Q2/bq2p2B/3pP3/3p4/bP1P3P/P2R1PP1/R5K1_b_-_-_1_21?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/7k30XvzG#41" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-f7Y2RfNx-50" data-k="R-f7Y2RfNx-50" data-fen="1r2r3/4qpk1/6pp/p1p1b3/2Q5/1B5P/PP3PP1/1R1R1K2 b - - 7 25" data-played="Qg5" data-fm="25" data-side="black" data-cpb="105" data-cpa="-783" data-spend="16">
+  <div class="body">
+    <h3>Move 25 &middot; you're Black &middot; <span class="ev">+1.1</span> &middot; you thought for 16s</h3>
+    <div class="board" data-fen="1r2r3/4qpk1/6pp/p1p1b3/2Q5/1B5P/PP3PP1/1R1R1K2 b - - 7 25" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qc4</strong>. You played <strong>Qg5</strong>.</p>
+    <textarea class="rnote" data-k="R-f7Y2RfNx-50" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-f7Y2RfNx-50"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.1 &rarr; <strong>-7.8</strong>, costing 54 win% points, and the game never recovered.</p>
+      <p class="after">After Qg5, best for them: <strong>Qxf7+ Kh8 Rd7</strong></p>
+      <p>Instead of Qg5: <strong>Rb4 Qd3 Bd4</strong></p>
+      <p class="meta dim">vs tranzu (1354) &middot; 2025-04-02 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1r2r3/4qpk1/6pp/p1p1b3/2Q5/1B5P/PP3PP1/1R1R1K2_b_-_-_7_25?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/f7Y2RfNx#49" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-wX0eYRY3-45" data-k="R-wX0eYRY3-45" data-fen="2k1r2r/1pp4p/p1np1b2/1b1Bp1N1/6PB/4P2P/PPPR4/1K5R w - - 4 23" data-played="Be6+" data-fm="23" data-side="white" data-cpb="221" data-cpa="-423" data-spend="2">
+  <div class="body">
+    <h3>Move 23 &middot; you're White &middot; <span class="ev">+2.2</span> &middot; you thought for 2s</h3>
+    <div class="board" data-fen="2k1r2r/1pp4p/p1np1b2/1b1Bp1N1/6PB/4P2P/PPPR4/1K5R w - - 4 23" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bf6</strong>. You played <strong>Be6+</strong>.</p>
+    <textarea class="rnote" data-k="R-wX0eYRY3-45" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-wX0eYRY3-45"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +2.2 &rarr; <strong>-4.2</strong>, costing 52 win% points, and the game never recovered.</p>
+      <p class="after">After Be6+, best for them: <strong>Rxe6 Nxe6 Bxh4</strong></p>
+      <p>Instead of Be6+: <strong>c4 Nb4 cxb5</strong></p>
+      <p class="meta dim">vs Red11 (1402) &middot; 2025-03-22 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2k1r2r/1pp4p/p1np1b2/1b1Bp1N1/6PB/4P2P/PPPR4/1K5R_w_-_-_4_23?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/wX0eYRY3#44" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-nx39s6Dw-40" data-k="R-nx39s6Dw-40" data-fen="1r3rk1/5ppp/p3p3/2bpP1q1/2pN2P1/2P1PR1Q/PP5P/1R4K1 b - - 7 20" data-played="f6" data-fm="20" data-side="black" data-cpb="298" data-cpa="-304" data-spend="21">
+  <div class="body">
+    <h3>Move 20 &middot; you're Black &middot; <span class="ev">+3.0</span> &middot; you thought for 21s</h3>
+    <div class="board" data-fen="1r3rk1/5ppp/p3p3/2bpP1q1/2pN2P1/2P1PR1Q/PP5P/1R4K1 b - - 7 20" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Rb1</strong>. You played <strong>f6</strong>.</p>
+    <textarea class="rnote" data-k="R-nx39s6Dw-40" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-nx39s6Dw-40"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +3.0 &rarr; <strong>-3.0</strong>, costing 50 win% points, and the game never recovered.</p>
+      <p class="after">After f6, best for them: <strong>Nxe6 Qg6 Rbf1</strong></p>
+      <p>Instead of f6: <strong>Qxe5 Qg2 Qe4</strong></p>
+      <p class="meta dim">vs Starshinov44 (1382) &middot; 2026-05-14 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1r3rk1/5ppp/p3p3/2bpP1q1/2pN2P1/2P1PR1Q/PP5P/1R4K1_b_-_-_7_20?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/nx39s6Dw#39" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-uq7BvP6Y-41" data-k="R-uq7BvP6Y-41" data-fen="r4rk1/1ppb1ppp/pq1bp3/8/4NPN1/6P1/PP2QP1P/R2R2K1 w - - 3 21" data-played="Kg2" data-fm="21" data-side="white" data-cpb="470" data-cpa="-173" data-spend="3">
+  <div class="body">
+    <h3>Move 21 &middot; you're White &middot; <span class="ev">+4.7</span> &middot; you thought for 3s</h3>
+    <div class="board" data-fen="r4rk1/1ppb1ppp/pq1bp3/8/4NPN1/6P1/PP2QP1P/R2R2K1 w - - 3 21" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bd7</strong>. You played <strong>Kg2</strong>.</p>
+    <textarea class="rnote" data-k="R-uq7BvP6Y-41" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-uq7BvP6Y-41"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +4.7 &rarr; <strong>-1.7</strong>, costing 50 win% points, and the game never recovered.</p>
+      <p class="after">After Kg2, best for them: <strong>Bb5 Qe3 Qxe3</strong></p>
+      <p>Instead of Kg2: <strong>Ngf6+ Kh8 Nxd7</strong></p>
+      <p class="meta dim">vs blaxis (1530) &middot; 2025-06-05 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/1ppb1ppp/pq1bp3/8/4NPN1/6P1/PP2QP1P/R2R2K1_w_-_-_3_21?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/uq7BvP6Y#40" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-x1r5LfF9-46" data-k="R-x1r5LfF9-46" data-fen="2kr4/pp4p1/2p1ppp1/3n4/3P1q1r/1Q3P2/PPP3PP/1K1RR3 b - - 3 23" data-played="e5" data-fm="23" data-side="black" data-cpb="476" data-cpa="-161" data-spend="14">
+  <div class="body">
+    <h3>Move 23 &middot; you're Black &middot; <span class="ev">+4.8</span> &middot; you thought for 14s</h3>
+    <div class="board" data-fen="2kr4/pp4p1/2p1ppp1/3n4/3P1q1r/1Q3P2/PPP3PP/1K1RR3 b - - 3 23" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Kb1</strong>. You played <strong>e5</strong>.</p>
+    <textarea class="rnote" data-k="R-x1r5LfF9-46" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-x1r5LfF9-46"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +4.8 &rarr; <strong>-1.6</strong>, costing 50 win% points, and the game never recovered.</p>
+      <p class="after">After e5, best for them: <strong>g3 Qxd4 gxh4</strong></p>
+      <p>Instead of e5: <strong>Rxh2 Rxe6 Rxg2</strong></p>
+      <p class="meta dim">vs Brysen (1430) &middot; 2026-03-05 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2kr4/pp4p1/2p1ppp1/3n4/3P1q1r/1Q3P2/PPP3PP/1K1RR3_b_-_-_3_23?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/x1r5LfF9#45" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-wbOMX53r-33" data-k="R-wbOMX53r-33" data-fen="r1b2rk1/pp2bpp1/2p1p2p/q3P2Q/2p2B2/2P1P3/P1B2PPP/1R2K2R w K - 2 17" data-played="Bxh6" data-fm="17" data-side="white" data-cpb="109" data-cpa="-574" data-spend="2">
+  <div class="body">
+    <h3>Move 17 &middot; you're White &middot; <span class="ev">+1.1</span> &middot; you thought for 2s</h3>
+    <div class="board" data-fen="r1b2rk1/pp2bpp1/2p1p2p/q3P2Q/2p2B2/2P1P3/P1B2PPP/1R2K2R w K - 2 17" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qa5</strong>. You played <strong>Bxh6</strong>.</p>
+    <textarea class="rnote" data-k="R-wbOMX53r-33" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-wbOMX53r-33"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.1 &rarr; <strong>-5.7</strong>, costing 49 win% points, and the game never recovered.</p>
+      <p class="after">After Bxh6, best for them: <strong>Qxc3+ Kf1 Qxc2</strong></p>
+      <p>Instead of Bxh6: <strong>O-O f5 Qg6</strong></p>
+      <p class="meta dim">vs memos1978 (1405) &middot; 2026-07-31 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1b2rk1/pp2bpp1/2p1p2p/q3P2Q/2p2B2/2P1P3/P1B2PPP/1R2K2R_w_K_-_2_17?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/wbOMX53r#32" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-6GWSiBPt-29" data-k="R-6GWSiBPt-29" data-fen="r4rk1/p1B2ppp/2Q5/3p2qn/3P4/2P1PP2/P4P1P/R3K2R w KQ - 1 15" data-played="Bf4" data-fm="15" data-side="white" data-cpb="151" data-cpa="-455" data-spend="2">
+  <div class="body">
+    <h3>Move 15 &middot; you're White &middot; <span class="ev">+1.5</span> &middot; you thought for 2s</h3>
+    <div class="board" data-fen="r4rk1/p1B2ppp/2Q5/3p2qn/3P4/2P1PP2/P4P1P/R3K2R w KQ - 1 15" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qg5</strong>. You played <strong>Bf4</strong>.</p>
+    <textarea class="rnote" data-k="R-6GWSiBPt-29" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-6GWSiBPt-29"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.5 &rarr; <strong>-4.5</strong>, costing 48 win% points, and the game never recovered.</p>
+      <p class="after">After Bf4, best for them: <strong>Nxf4 Qd6 Ng6</strong></p>
+      <p>Instead of Bf4: <strong>Be5 Rfd8 Ke2</strong></p>
+      <p class="meta dim">vs hossein1350 (1325) &middot; 2025-04-14 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/p1B2ppp/2Q5/3p2qn/3P4/2P1PP2/P4P1P/R3K2R_w_KQ_-_1_15?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/6GWSiBPt#28" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-P6CmgTjR-43" data-k="R-P6CmgTjR-43" data-fen="r2q1rk1/1p3pp1/p6p/Pb1NP3/1Pn2P2/6B1/4Q1PP/R4RK1 w - - 1 22" data-played="Qf3" data-fm="22" data-side="white" data-cpb="245" data-cpa="-308" data-spend="14">
+  <div class="body">
+    <h3>Move 22 &middot; you're White &middot; <span class="ev">+2.5</span> &middot; you thought for 14s</h3>
+    <div class="board" data-fen="r2q1rk1/1p3pp1/p6p/Pb1NP3/1Pn2P2/6B1/4Q1PP/R4RK1 w - - 1 22" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bb5</strong>. You played <strong>Qf3</strong>.</p>
+    <textarea class="rnote" data-k="R-P6CmgTjR-43" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-P6CmgTjR-43"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +2.5 &rarr; <strong>-3.1</strong>, costing 47 win% points, and the game never recovered.</p>
+      <p class="after">After Qf3, best for them: <strong>Nd2 Nf6+ Kh8</strong></p>
+      <p>Instead of Qf3: <strong>Rfd1 Nb6 Nf6+</strong></p>
+      <p class="meta dim">vs hailong9011 (1288) &middot; 2025-01-17 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2q1rk1/1p3pp1/p6p/Pb1NP3/1Pn2P2/6B1/4Q1PP/R4RK1_w_-_-_1_22?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/P6CmgTjR#42" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-EKtqWkKq-25" data-k="R-EKtqWkKq-25" data-fen="2kr3r/pppbqppp/4p3/4P3/2P1p3/4P1P1/PPQ2PP1/R3KB1R w KQ - 2 13" data-played="Qxe4" data-fm="13" data-side="white" data-cpb="3" data-cpa="-797" data-spend="1">
+  <div class="body">
+    <h3>Move 13 &middot; you're White &middot; <span class="ev">+0.0</span> &middot; you thought for 1s</h3>
+    <div class="board" data-fen="2kr3r/pppbqppp/4p3/4P3/2P1p3/4P1P1/PPQ2PP1/R3KB1R w KQ - 2 13" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>O-O-O</strong>. You played <strong>Qxe4</strong>.</p>
+    <textarea class="rnote" data-k="R-EKtqWkKq-25" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-EKtqWkKq-25"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.0 &rarr; <strong>-8.0</strong>, costing 45 win% points, and the game never recovered.</p>
+      <p class="after">After Qxe4, best for them: <strong>Qb4+ Ke2 Qxb2+</strong></p>
+      <p>Instead of Qxe4: <strong>Qc3 h5 b4</strong></p>
+      <p class="meta dim">vs prodige237 (1399) &middot; 2026-06-29 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2kr3r/pppbqppp/4p3/4P3/2P1p3/4P1P1/PPQ2PP1/R3KB1R_w_KQ_-_2_13?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/EKtqWkKq#24" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-vQvOtLkI-30" data-k="R-vQvOtLkI-30" data-fen="r4rk1/pb2bppp/1pn1pn2/5qN1/3P4/1B3PN1/PP4PP/R1BQ1RK1 b - - 4 15" data-played="Qg6" data-fm="15" data-side="black" data-cpb="145" data-cpa="-408" data-spend="19">
+  <div class="body">
+    <h3>Move 15 &middot; you're Black &middot; <span class="ev">+1.4</span> &middot; you thought for 19s</h3>
+    <div class="board" data-fen="r4rk1/pb2bppp/1pn1pn2/5qN1/3P4/1B3PN1/PP4PP/R1BQ1RK1 b - - 4 15" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Ng3</strong>. You played <strong>Qg6</strong>.</p>
+    <textarea class="rnote" data-k="R-vQvOtLkI-30" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-vQvOtLkI-30"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.4 &rarr; <strong>-4.1</strong>, costing 45 win% points, and the game never recovered.</p>
+      <p class="after">After Qg6, best for them: <strong>Bc2 Qxc2 Qxc2</strong></p>
+      <p>Instead of Qg6: <strong>Qb5 Be3 Rad8</strong></p>
+      <p class="meta dim">vs gat0late (1300) &middot; 2025-06-10 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pb2bppp/1pn1pn2/5qN1/3P4/1B3PN1/PP4PP/R1BQ1RK1_b_-_-_4_15?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/vQvOtLkI#29" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-bdWcvWUA-25" data-k="R-bdWcvWUA-25" data-fen="r2q1rk1/pb3pbp/3p1np1/2p1p3/8/2P1P2P/PP1NBPPB/R2Q1RK1 w - - 0 13" data-played="Bf3" data-fm="13" data-side="white" data-cpb="48" data-cpa="-602" data-spend="4">
+  <div class="body">
+    <h3>Move 13 &middot; you're White &middot; <span class="ev">+0.5</span> &middot; you thought for 4s</h3>
+    <div class="board" data-fen="r2q1rk1/pb3pbp/3p1np1/2p1p3/8/2P1P2P/PP1NBPPB/R2Q1RK1 w - - 0 13" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>c5</strong>. You played <strong>Bf3</strong>.</p>
+    <textarea class="rnote" data-k="R-bdWcvWUA-25" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-bdWcvWUA-25"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.5 &rarr; <strong>-6.0</strong>, costing 45 win% points, and the game never recovered.</p>
+      <p class="after">After Bf3, best for them: <strong>e4 Be2 d5</strong></p>
+      <p>Instead of Bf3: <strong>Nc4 Ba6 Qa4</strong></p>
+      <p class="meta dim">vs christmasbalunywa (1361) &middot; 2026-03-27 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2q1rk1/pb3pbp/3p1np1/2p1p3/8/2P1P2P/PP1NBPPB/R2Q1RK1_w_-_-_0_13?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/bdWcvWUA#24" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-cA2oTuZe-36" data-k="R-cA2oTuZe-36" data-fen="r2q1rk1/p3bppb/2p5/3pNp1P/3P1Pp1/2N5/PPP1Q3/2KR3R b - - 1 18" data-played="g3" data-fm="18" data-side="black" data-cpb="153" data-cpa="-390" data-spend="5">
+  <div class="body">
+    <h3>Move 18 &middot; you're Black &middot; <span class="ev">+1.5</span> &middot; you thought for 5s</h3>
+    <div class="board" data-fen="r2q1rk1/p3bppb/2p5/3pNp1P/3P1Pp1/2N5/PPP1Q3/2KR3R b - - 1 18" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Ne5</strong>. You played <strong>g3</strong>.</p>
+    <textarea class="rnote" data-k="R-cA2oTuZe-36" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-cA2oTuZe-36"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.5 &rarr; <strong>-3.9</strong>, costing 45 win% points, and the game never recovered.</p>
+      <p class="after">After g3, best for them: <strong>Nxc6 Bd6 Nxd8</strong></p>
+      <p>Instead of g3: <strong>Bd6 Nxc6 Bxf4+</strong></p>
+      <p class="meta dim">vs Sandman6969 (1465) &middot; 2026-07-05 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2q1rk1/p3bppb/2p5/3pNp1P/3P1Pp1/2N5/PPP1Q3/2KR3R_b_-_-_1_18?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/cA2oTuZe#35" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-PjDjVZR9-30" data-k="R-PjDjVZR9-30" data-fen="r4rk1/pp2qpp1/1np1pn1p/B7/8/P2P1BPP/1PP3P1/R2Q1RK1 b - - 0 15" data-played="Nfd5" data-fm="15" data-side="black" data-cpb="456" data-cpa="-109" data-spend="4">
+  <div class="body">
+    <h3>Move 15 &middot; you're Black &middot; <span class="ev">+4.6</span> &middot; you thought for 4s</h3>
+    <div class="board" data-fen="r4rk1/pp2qpp1/1np1pn1p/B7/8/P2P1BPP/1PP3P1/R2Q1RK1 b - - 0 15" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>a3</strong>. You played <strong>Nfd5</strong>.</p>
+    <textarea class="rnote" data-k="R-PjDjVZR9-30" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-PjDjVZR9-30"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +4.6 &rarr; <strong>-1.1</strong>, costing 44 win% points, and the game never recovered.</p>
+      <p class="after">After Nfd5, best for them: <strong>Qd2 Qc5+ Rf2</strong></p>
+      <p>Instead of Nfd5: <strong>Qc5+ d4 Qxa5</strong></p>
+      <p class="meta dim">vs cphilipp86 (1427) &middot; 2025-03-23 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pp2qpp1/1np1pn1p/B7/8/P2P1BPP/1PP3P1/R2Q1RK1_b_-_-_0_15?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/PjDjVZR9#29" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-ZRgDesop-28" data-k="R-ZRgDesop-28" data-fen="r4rk1/pp3ppp/1qn1pn2/3p4/1b1P3P/2NQ1BB1/PPP2PP1/1K1R3R b - - 0 14" data-played="Ba3" data-fm="14" data-side="black" data-cpb="112" data-cpa="-450" data-spend="2">
+  <div class="body">
+    <h3>Move 14 &middot; you're Black &middot; <span class="ev">+1.1</span> &middot; you thought for 2s</h3>
+    <div class="board" data-fen="r4rk1/pp3ppp/1qn1pn2/3p4/1b1P3P/2NQ1BB1/PPP2PP1/1K1R3R b - - 0 14" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>h4</strong>. You played <strong>Ba3</strong>.</p>
+    <textarea class="rnote" data-k="R-ZRgDesop-28" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-ZRgDesop-28"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.1 &rarr; <strong>-4.5</strong>, costing 44 win% points, and the game never recovered.</p>
+      <p class="after">After Ba3, best for them: <strong>Na4 Qb4 Qxa3</strong></p>
+      <p>Instead of Ba3: <strong>Rfc8 a3 Bxc3</strong></p>
+      <p class="meta dim">vs Imotepe (1448) &middot; 2026-01-30 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pp3ppp/1qn1pn2/3p4/1b1P3P/2NQ1BB1/PPP2PP1/1K1R3R_b_-_-_0_14?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/ZRgDesop#27" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-cMp7o2xx-34" data-k="R-cMp7o2xx-34" data-fen="rq3rk1/2bn1ppp/p1p1pn2/N7/2PP4/P2QBN2/1P2KPPP/R6R b - - 2 17" data-played="Qxb2+" data-fm="17" data-side="black" data-cpb="463" data-cpa="-95" data-spend="6">
+  <div class="body">
+    <h3>Move 17 &middot; you're Black &middot; <span class="ev">+4.6</span> &middot; you thought for 6s</h3>
+    <div class="board" data-fen="rq3rk1/2bn1ppp/p1p1pn2/N7/2PP4/P2QBN2/1P2KPPP/R6R b - - 2 17" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Na5</strong>. You played <strong>Qxb2+</strong>.</p>
+    <textarea class="rnote" data-k="R-cMp7o2xx-34" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-cMp7o2xx-34"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +4.6 &rarr; <strong>-0.9</strong>, costing 43 win% points, and the game never recovered.</p>
+      <p class="after">After Qxb2+, best for them: <strong>Bd2 Qb8 Nxc6</strong></p>
+      <p>Instead of Qxb2+: <strong>Bxa5 b4 Bc7</strong></p>
+      <p class="meta dim">vs slimax (1392) &middot; 2025-05-29 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/rq3rk1/2bn1ppp/p1p1pn2/N7/2PP4/P2QBN2/1P2KPPP/R6R_b_-_-_2_17?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/cMp7o2xx#33" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-ODQTL7Lp-26" data-k="R-ODQTL7Lp-26" data-fen="r3r1k1/pppbnppp/3b4/8/4NPnP/2P2NPB/PP2P3/R1B1K2R b KQ - 6 13" data-played="Nf6" data-fm="13" data-side="black" data-cpb="38" data-cpa="-582" data-spend="4">
+  <div class="body">
+    <h3>Move 13 &middot; you're Black &middot; <span class="ev">+0.4</span> &middot; you thought for 4s</h3>
+    <div class="board" data-fen="r3r1k1/pppbnppp/3b4/8/4NPnP/2P2NPB/PP2P3/R1B1K2R b KQ - 6 13" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Ne4</strong>. You played <strong>Nf6</strong>.</p>
+    <textarea class="rnote" data-k="R-ODQTL7Lp-26" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-ODQTL7Lp-26"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.4 &rarr; <strong>-5.8</strong>, costing 43 win% points, and the game never recovered.</p>
+      <p class="after">After Nf6, best for them: <strong>Nxf6+ gxf6 Bxd7</strong></p>
+      <p>Instead of Nf6: <strong>h5 Nxd6 cxd6</strong></p>
+      <p class="meta dim">vs Hersalo (1239) &middot; 2025-01-06 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r3r1k1/pppbnppp/3b4/8/4NPnP/2P2NPB/PP2P3/R1B1K2R_b_KQ_-_6_13?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/ODQTL7Lp#25" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-TAlcSMDA-31" data-k="R-TAlcSMDA-31" data-fen="r3k2r/p1q2ppb/2p1p2p/1p2P3/2pN1Pn1/2Q1P1P1/PP4P1/R3KB1R w KQkq - 2 16" data-played="O-O-O" data-fm="16" data-side="white" data-cpb="160" data-cpa="-348" data-spend="8">
+  <div class="body">
+    <h3>Move 16 &middot; you're White &middot; <span class="ev">+1.6</span> &middot; you thought for 8s</h3>
+    <div class="board" data-fen="r3k2r/p1q2ppb/2p1p2p/1p2P3/2pN1Pn1/2Q1P1P1/PP4P1/R3KB1R w KQkq - 2 16" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bh7</strong>. You played <strong>O-O-O</strong>.</p>
+    <textarea class="rnote" data-k="R-TAlcSMDA-31" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-TAlcSMDA-31"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.6 &rarr; <strong>-3.5</strong>, costing 43 win% points, and the game never recovered.</p>
+      <p class="after">After O-O-O, best for them: <strong>Nf2 Be2 O-O</strong></p>
+      <p>Instead of O-O-O: <strong>Be2 Bf5 e4</strong></p>
+      <p class="meta dim">vs AndreyG1987 (1365) &middot; 2025-06-13 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r3k2r/p1q2ppb/2p1p2p/1p2P3/2pN1Pn1/2Q1P1P1/PP4P1/R3KB1R_w_KQkq_-_2_16?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/TAlcSMDA#30" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-3eLsCWEU-33" data-k="R-3eLsCWEU-33" data-fen="r4rk1/p1p2ppp/1p2p3/b2bB1q1/Q2P4/2P1P3/P3BPPP/2R2RK1 w - - 3 17" data-played="f3" data-fm="17" data-side="white" data-cpb="96" data-cpa="-434" data-spend="22">
+  <div class="body">
+    <h3>Move 17 &middot; you're White &middot; <span class="ev">+1.0</span> &middot; you thought for 22s</h3>
+    <div class="board" data-fen="r4rk1/p1p2ppp/1p2p3/b2bB1q1/Q2P4/2P1P3/P3BPPP/2R2RK1 w - - 3 17" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qg5</strong>. You played <strong>f3</strong>.</p>
+    <textarea class="rnote" data-k="R-3eLsCWEU-33" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-3eLsCWEU-33"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.0 &rarr; <strong>-4.3</strong>, costing 42 win% points, and the game never recovered.</p>
+      <p class="after">After f3, best for them: <strong>Qxe3+ Kh1 Qxe2</strong></p>
+      <p>Instead of f3: <strong>Bg3 c5 Ba6</strong></p>
+      <p class="meta dim">vs msyb65 (1310) &middot; 2025-05-19 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/p1p2ppp/1p2p3/b2bB1q1/Q2P4/2P1P3/P3BPPP/2R2RK1_w_-_-_3_17?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/3eLsCWEU#32" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-Ifg6B0mx-30" data-k="R-Ifg6B0mx-30" data-fen="2r2rk1/pp1nq1pp/4p3/5p2/3Pp3/2P5/PP1Q1PPP/R3NRK1 b - - 0 15" data-played="Rf6" data-fm="15" data-side="black" data-cpb="602" data-cpa="-16" data-spend="7">
+  <div class="body">
+    <h3>Move 15 &middot; you're Black &middot; <span class="ev">+6.0</span> &middot; you thought for 7s</h3>
+    <div class="board" data-fen="2r2rk1/pp1nq1pp/4p3/5p2/3Pp3/2P5/PP1Q1PPP/R3NRK1 b - - 0 15" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>c3</strong>. You played <strong>Rf6</strong>.</p>
+    <textarea class="rnote" data-k="R-Ifg6B0mx-30" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-Ifg6B0mx-30"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +6.0 &rarr; <strong>-0.2</strong>, costing 42 win% points, and the game never recovered.</p>
+      <p class="after">After Rf6, best for them: <strong>f3 e5 fxe4</strong></p>
+      <p>Instead of Rf6: <strong>e5 Rd1 Qe6</strong></p>
+      <p class="meta dim">vs ATMACA99 (1387) &middot; 2026-06-29 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2r2rk1/pp1nq1pp/4p3/5p2/3Pp3/2P5/PP1Q1PPP/R3NRK1_b_-_-_0_15?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/Ifg6B0mx#29" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-lmbRC839-40" data-k="R-lmbRC839-40" data-fen="r4rk1/pp3ppp/4p3/3p4/3n4/2NB2P1/PPP3q1/1K1R3R b - - 3 20" data-played="Nc6" data-fm="20" data-side="black" data-cpb="638" data-cpa="0" data-spend="5">
+  <div class="body">
+    <h3>Move 20 &middot; you're Black &middot; <span class="ev">+6.4</span> &middot; you thought for 5s</h3>
+    <div class="board" data-fen="r4rk1/pp3ppp/4p3/3p4/3n4/2NB2P1/PPP3q1/1K1R3R b - - 3 20" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bd3</strong>. You played <strong>Nc6</strong>.</p>
+    <textarea class="rnote" data-k="R-lmbRC839-40" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-lmbRC839-40"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +6.4 &rarr; <strong>+0.0</strong>, costing 41 win% points, and the game never recovered.</p>
+      <p class="after">After Nc6, best for them: <strong>Bxh7+ Kh8 Bd3+</strong></p>
+      <p>Instead of Nc6: <strong>h6 Rh4 Nf3</strong></p>
+      <p class="meta dim">vs JensenDK62 (1382) &middot; 2026-08-13 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pp3ppp/4p3/3p4/3n4/2NB2P1/PPP3q1/1K1R3R_b_-_-_3_20?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/lmbRC839#39" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-qwOlV23r-34" data-k="R-qwOlV23r-34" data-fen="4r1k1/p2p1ppp/bp3q2/2p1n3/2P5/2P5/P3BPPP/R2QR1K1 b - - 1 17" data-played="Nxc4" data-fm="17" data-side="black" data-cpb="-5" data-cpa="-646" data-spend="5">
+  <div class="body">
+    <h3>Move 17 &middot; you're Black &middot; <span class="ev">-0.1</span> &middot; you thought for 5s</h3>
+    <div class="board" data-fen="4r1k1/p2p1ppp/bp3q2/2p1n3/2P5/2P5/P3BPPP/R2QR1K1 b - - 1 17" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Re1</strong>. You played <strong>Nxc4</strong>.</p>
+    <textarea class="rnote" data-k="R-qwOlV23r-34" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-qwOlV23r-34"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval -0.1 &rarr; <strong>-6.5</strong>, costing 41 win% points, and the game never recovered.</p>
+      <p class="after">After Nxc4, best for them: <strong>Bxc4 Qe6 Bxe6</strong></p>
+      <p>Instead of Nxc4: <strong>g5 Qd5 Re6</strong></p>
+      <p class="meta dim">vs baby-josh (1383) &middot; 2024-10-04 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/4r1k1/p2p1ppp/bp3q2/2p1n3/2P5/2P5/P3BPPP/R2QR1K1_b_-_-_1_17?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/qwOlV23r#33" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-1mylWNui-27" data-k="R-1mylWNui-27" data-fen="2rq1rk1/1b2bppp/Bnpppn2/1Q6/3PPB2/2N2N2/PP3PPP/R4RK1 w - - 0 14" data-played="Qa5" data-fm="14" data-side="white" data-cpb="95" data-cpa="-416" data-spend="16">
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+0.9</span> &middot; you thought for 16s</h3>
+    <div class="board" data-fen="2rq1rk1/1b2bppp/Bnpppn2/1Q6/3PPB2/2N2N2/PP3PPP/R4RK1 w - - 0 14" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>c6</strong>. You played <strong>Qa5</strong>.</p>
+    <textarea class="rnote" data-k="R-1mylWNui-27" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-1mylWNui-27"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.9 &rarr; <strong>-4.2</strong>, costing 41 win% points, and the game never recovered.</p>
+      <p class="after">After Qa5, best for them: <strong>Ra8 Rfe1 Bxa6</strong></p>
+      <p>Instead of Qa5: <strong>Qd3 Bxa6 Qxa6</strong></p>
+      <p class="meta dim">vs josemario2 (1275) &middot; 2025-02-05 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2rq1rk1/1b2bppp/Bnpppn2/1Q6/3PPB2/2N2N2/PP3PPP/R4RK1_w_-_-_0_14?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/1mylWNui#26" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-bFQvzzSM-26" data-k="R-bFQvzzSM-26" data-fen="1r1q1rk1/p3bppp/2p1pn2/3p2B1/3P4/2N3Q1/PPP2PPP/1R3RK1 b - - 3 13" data-played="Bd6" data-fm="13" data-side="black" data-cpb="102" data-cpa="-393" data-spend="2">
+  <div class="body">
+    <h3>Move 13 &middot; you're Black &middot; <span class="ev">+1.0</span> &middot; you thought for 2s</h3>
+    <div class="board" data-fen="1r1q1rk1/p3bppp/2p1pn2/3p2B1/3P4/2N3Q1/PPP2PPP/1R3RK1 b - - 3 13" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Rab1</strong>. You played <strong>Bd6</strong>.</p>
+    <textarea class="rnote" data-k="R-bFQvzzSM-26" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-bFQvzzSM-26"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.0 &rarr; <strong>-3.9</strong>, costing 40 win% points, and the game never recovered.</p>
+      <p class="after">After Bd6, best for them: <strong>Bxf6 Qxf6 Qxd6</strong></p>
+      <p>Instead of Bd6: <strong>Rb4 Bh6 Ne8</strong></p>
+      <p class="meta dim">vs stevenabeyta101 (1412) &middot; 2026-06-18 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/1r1q1rk1/p3bppp/2p1pn2/3p2B1/3P4/2N3Q1/PPP2PPP/1R3RK1_b_-_-_3_13?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/bFQvzzSM#25" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-2SVfN1tw-31" data-k="R-2SVfN1tw-31" data-fen="r2q2k1/ppp3pp/2n3r1/3p1p2/Q2PbBB1/2P1P2P/P4PP1/R4RK1 w - - 0 16" data-played="Bh5" data-fm="16" data-side="white" data-cpb="-57" data-cpa="-825" data-spend="4">
+  <div class="body">
+    <h3>Move 16 &middot; you're White &middot; <span class="ev">-0.6</span> &middot; you thought for 4s</h3>
+    <div class="board" data-fen="r2q2k1/ppp3pp/2n3r1/3p1p2/Q2PbBB1/2P1P2P/P4PP1/R4RK1 w - - 0 16" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>f5</strong>. You played <strong>Bh5</strong>.</p>
+    <textarea class="rnote" data-k="R-2SVfN1tw-31" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-2SVfN1tw-31"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval -0.6 &rarr; <strong>-8.2</strong>, costing 40 win% points, and the game never recovered.</p>
+      <p class="after">After Bh5, best for them: <strong>Rxg2+ Kh1 Qh4</strong></p>
+      <p>Instead of Bh5: <strong>f3 fxg4 fxe4</strong></p>
+      <p class="meta dim">vs jarl79 (1290) &middot; 2025-05-30 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2q2k1/ppp3pp/2n3r1/3p1p2/Q2PbBB1/2P1P2P/P4PP1/R4RK1_w_-_-_0_16?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/2SVfN1tw#30" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-KcwgSovn-41" data-k="R-KcwgSovn-41" data-fen="r4rk1/pp1b2p1/1q2p1Qp/3pPp2/5P2/2PBP3/P5PP/2R1R2K w - - 2 21" data-played="g4" data-fm="21" data-side="white" data-cpb="-5" data-cpa="-599" data-spend="2">
+  <div class="body">
+    <h3>Move 21 &middot; you're White &middot; <span class="ev">-0.1</span> &middot; you thought for 2s</h3>
+    <div class="board" data-fen="r4rk1/pp1b2p1/1q2p1Qp/3pPp2/5P2/2PBP3/P5PP/2R1R2K w - - 2 21" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bd7</strong>. You played <strong>g4</strong>.</p>
+    <textarea class="rnote" data-k="R-KcwgSovn-41" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-KcwgSovn-41"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval -0.1 &rarr; <strong>-6.0</strong>, costing 40 win% points, and the game never recovered.</p>
+      <p class="after">After g4, best for them: <strong>Be8 Bxf5 Bxg6</strong></p>
+      <p>Instead of g4: <strong>h3 Be8 Qg3</strong></p>
+      <p class="meta dim">vs kost1604 (1425) &middot; 2026-07-27 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/pp1b2p1/1q2p1Qp/3pPp2/5P2/2PBP3/P5PP/2R1R2K_w_-_-_2_21?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/KcwgSovn#40" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-2QMMesgU-39" data-k="R-2QMMesgU-39" data-fen="r4rk1/1pp2p2/p5p1/5q2/3QN3/4P3/PP3PPP/R5K1 w - - 1 20" data-played="Nc3" data-fm="20" data-side="white" data-cpb="192" data-cpa="-259" data-spend="9">
+  <div class="body">
+    <h3>Move 20 &middot; you're White &middot; <span class="ev">+1.9</span> &middot; you thought for 9s</h3>
+    <div class="board" data-fen="r4rk1/1pp2p2/p5p1/5q2/3QN3/4P3/PP3PPP/R5K1 w - - 1 20" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Kg8</strong>. You played <strong>Nc3</strong>.</p>
+    <textarea class="rnote" data-k="R-2QMMesgU-39" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-2QMMesgU-39"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.9 &rarr; <strong>-2.6</strong>, costing 39 win% points, and the game never recovered.</p>
+      <p class="after">After Nc3, best for them: <strong>Rad8 Qb4 b5</strong></p>
+      <p>Instead of Nc3: <strong>Nf6+ Kh8 e4</strong></p>
+      <p class="meta dim">vs Il-Bee (1371) &middot; 2025-06-27 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/1pp2p2/p5p1/5q2/3QN3/4P3/PP3PPP/R5K1_w_-_-_1_20?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/2QMMesgU#38" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-7DITZaKI-39" data-k="R-7DITZaKI-39" data-fen="r1nq1rk1/5p1p/p1Qp1pp1/2p5/2P5/4PN2/P4PPP/1R3RK1 w - - 2 20" data-played="Rfd1" data-fm="20" data-side="white" data-cpb="556" data-cpa="-5" data-spend="8">
+  <div class="body">
+    <h3>Move 20 &middot; you're White &middot; <span class="ev">+5.6</span> &middot; you thought for 8s</h3>
+    <div class="board" data-fen="r1nq1rk1/5p1p/p1Qp1pp1/2p5/2P5/4PN2/P4PPP/1R3RK1 w - - 2 20" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Nc8</strong>. You played <strong>Rfd1</strong>.</p>
+    <textarea class="rnote" data-k="R-7DITZaKI-39" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-7DITZaKI-39"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +5.6 &rarr; <strong>-0.1</strong>, costing 39 win% points, and the game never recovered.</p>
+      <p class="after">After Rfd1, best for them: <strong>Ra7 Rb8 h5</strong></p>
+      <p>Instead of Rfd1: <strong>Qxa8 Qa5 Qb7</strong></p>
+      <p class="meta dim">vs Catlan2222 (1435) &middot; 2025-06-03 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1nq1rk1/5p1p/p1Qp1pp1/2p5/2P5/4PN2/P4PPP/1R3RK1_w_-_-_2_20?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/7DITZaKI#38" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-T1BHxakK-26" data-k="R-T1BHxakK-26" data-fen="r2q1rk1/pp1b1ppp/1bn1pn2/6B1/2Q1N3/3P1N2/PP2BPPP/R4RK1 b - - 13 13" data-played="Ne7" data-fm="13" data-side="black" data-cpb="34" data-cpa="-488" data-spend="41">
+  <div class="body">
+    <h3>Move 13 &middot; you're Black &middot; <span class="ev">+0.3</span> &middot; you thought for 41s</h3>
+    <div class="board" data-fen="r2q1rk1/pp1b1ppp/1bn1pn2/6B1/2Q1N3/3P1N2/PP2BPPP/R4RK1 b - - 13 13" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bg5</strong>. You played <strong>Ne7</strong>.</p>
+    <textarea class="rnote" data-k="R-T1BHxakK-26" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-T1BHxakK-26"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.3 &rarr; <strong>-4.9</strong>, costing 39 win% points, and the game never recovered.</p>
+      <p class="after">After Ne7, best for them: <strong>Nxf6+ gxf6 Bxf6</strong></p>
+      <p>Instead of Ne7: <strong>Rc8 Qb3 e5</strong></p>
+      <p class="meta dim">vs KMURPHY245 (1261) &middot; 2024-08-27 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2q1rk1/pp1b1ppp/1bn1pn2/6B1/2Q1N3/3P1N2/PP2BPPP/R4RK1_b_-_-_13_13?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/T1BHxakK#25" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-lf47q0Qp-34" data-k="R-lf47q0Qp-34" data-fen="r4r1k/3qbp1p/p3p3/1p1p1p1Q/3P4/2N1R3/PPP2PPP/R5K1 b - - 1 17" data-played="Bf6" data-fm="17" data-side="black" data-cpb="-7" data-cpa="-580" data-spend="5">
+  <div class="body">
+    <h3>Move 17 &middot; you're Black &middot; <span class="ev">-0.1</span> &middot; you thought for 5s</h3>
+    <div class="board" data-fen="r4r1k/3qbp1p/p3p3/1p1p1p1Q/3P4/2N1R3/PPP2PPP/R5K1 b - - 1 17" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qh5</strong>. You played <strong>Bf6</strong>.</p>
+    <textarea class="rnote" data-k="R-lf47q0Qp-34" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-lf47q0Qp-34"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval -0.1 &rarr; <strong>-5.8</strong>, costing 39 win% points, and the game never recovered.</p>
+      <p class="after">After Bf6, best for them: <strong>Rh3 Bh4 Qxh4</strong></p>
+      <p>Instead of Bf6: <strong>Bd6 Rh3 f6</strong></p>
+      <p class="meta dim">vs Vladimir_Em (1426) &middot; 2026-07-29 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4r1k/3qbp1p/p3p3/1p1p1p1Q/3P4/2N1R3/PPP2PPP/R5K1_b_-_-_1_17?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/lf47q0Qp#33" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-owWTo8kf-25" data-k="R-owWTo8kf-25" data-fen="r2qk2r/pppbbpp1/2n4p/1B1p4/3P4/2P1PN1P/P4PPB/2RQK2R w Kkq - 2 13" data-played="Ne5" data-fm="13" data-side="white" data-cpb="92" data-cpa="-380" data-spend="6">
+  <div class="body">
+    <h3>Move 13 &middot; you're White &middot; <span class="ev">+0.9</span> &middot; you thought for 6s</h3>
+    <div class="board" data-fen="r2qk2r/pppbbpp1/2n4p/1B1p4/3P4/2P1PN1P/P4PPB/2RQK2R w Kkq - 2 13" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bd7</strong>. You played <strong>Ne5</strong>.</p>
+    <textarea class="rnote" data-k="R-owWTo8kf-25" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-owWTo8kf-25"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.9 &rarr; <strong>-3.8</strong>, costing 39 win% points, and the game never recovered.</p>
+      <p class="after">After Ne5, best for them: <strong>Nxe5 Qb3 Nc4</strong></p>
+      <p>Instead of Ne5: <strong>O-O Bd6 Qb3</strong></p>
+      <p class="meta dim">vs nascierto2001 (1288) &middot; 2025-02-17 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2qk2r/pppbbpp1/2n4p/1B1p4/3P4/2P1PN1P/P4PPB/2RQK2R_w_Kkq_-_2_13?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/owWTo8kf#24" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-N7B0qVlO-29" data-k="R-N7B0qVlO-29" data-fen="r1bq1rk1/pp4p1/2p1pn1p/3pN3/2PP4/3QPpP1/PPB3P1/R3K2R w KQ - 2 15" data-played="Qg6" data-fm="15" data-side="white" data-cpb="269" data-cpa="-173" data-spend="8">
+  <div class="body">
+    <h3>Move 15 &middot; you're White &middot; <span class="ev">+2.7</span> &middot; you thought for 8s</h3>
+    <div class="board" data-fen="r1bq1rk1/pp4p1/2p1pn1p/3pN3/2PP4/3QPpP1/PPB3P1/R3K2R w KQ - 2 15" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Nf6</strong>. You played <strong>Qg6</strong>.</p>
+    <textarea class="rnote" data-k="R-N7B0qVlO-29" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-N7B0qVlO-29"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +2.7 &rarr; <strong>-1.7</strong>, costing 38 win% points, and the game never recovered.</p>
+      <p class="after">After Qg6, best for them: <strong>fxg2 Rg1 Bd7</strong></p>
+      <p>Instead of Qg6: <strong>gxf3 dxc4 Nxc4</strong></p>
+      <p class="meta dim">vs Ockie28 (1404) &middot; 2025-06-18 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1bq1rk1/pp4p1/2p1pn1p/3pN3/2PP4/3QPpP1/PPB3P1/R3K2R_w_KQ_-_2_15?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/N7B0qVlO#28" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-gY6VhsSN-34" data-k="R-gY6VhsSN-34" data-fen="3r2k1/ppp2ppp/2n5/3q4/3P4/5N1P/PP1Q1PP1/4R1K1 b - - 0 17" data-played="Nxd4" data-fm="17" data-side="black" data-cpb="46" data-cpa="-445" data-spend="5">
+  <div class="body">
+    <h3>Move 17 &middot; you're Black &middot; <span class="ev">+0.5</span> &middot; you thought for 5s</h3>
+    <div class="board" data-fen="3r2k1/ppp2ppp/2n5/3q4/3P4/5N1P/PP1Q1PP1/4R1K1 b - - 0 17" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>h3</strong>. You played <strong>Nxd4</strong>.</p>
+    <textarea class="rnote" data-k="R-gY6VhsSN-34" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-gY6VhsSN-34"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.5 &rarr; <strong>-4.5</strong>, costing 38 win% points, and the game never recovered.</p>
+      <p class="after">After Nxd4, best for them: <strong>Qxd4 Qxd4 Nxd4</strong></p>
+      <p>Instead of Nxd4: <strong>Qxa2 Qf4 f6</strong></p>
+      <p class="meta dim">vs Languedoy (1396) &middot; 2025-04-03 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/3r2k1/ppp2ppp/2n5/3q4/3P4/5N1P/PP1Q1PP1/4R1K1_b_-_-_0_17?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/gY6VhsSN#33" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-zrOBgtud-36" data-k="R-zrOBgtud-36" data-fen="r4rk1/4bppp/4pn2/p5B1/1pBq4/1P3Q1P/P4PP1/3R1RK1 b - - 1 18" data-played="Qe4" data-fm="18" data-side="black" data-cpb="55" data-cpa="-426" data-spend="7">
+  <div class="body">
+    <h3>Move 18 &middot; you're Black &middot; <span class="ev">+0.6</span> &middot; you thought for 7s</h3>
+    <div class="board" data-fen="r4rk1/4bppp/4pn2/p5B1/1pBq4/1P3Q1P/P4PP1/3R1RK1 b - - 1 18" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Rad1</strong>. You played <strong>Qe4</strong>.</p>
+    <textarea class="rnote" data-k="R-zrOBgtud-36" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-zrOBgtud-36"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.6 &rarr; <strong>-4.3</strong>, costing 38 win% points, and the game never recovered.</p>
+      <p class="after">After Qe4, best for them: <strong>Qxe4 Nxe4 Bxe7</strong></p>
+      <p>Instead of Qe4: <strong>Qe5 Bc1 Qe4</strong></p>
+      <p class="meta dim">vs harshilchess_1 (1385) &middot; 2026-06-24 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r4rk1/4bppp/4pn2/p5B1/1pBq4/1P3Q1P/P4PP1/3R1RK1_b_-_-_1_18?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/zrOBgtud#35" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-QriCDwjs-28" data-k="R-QriCDwjs-28" data-fen="r2r2k1/p3bppp/1qp1pn2/3pB3/3P2P1/2N2Q1P/PPP2P2/2KR2R1 b - - 0 14" data-played="h6" data-fm="14" data-side="black" data-cpb="189" data-cpa="-244" data-spend="21">
+  <div class="body">
+    <h3>Move 14 &middot; you're Black &middot; <span class="ev">+1.9</span> &middot; you thought for 21s</h3>
+    <div class="board" data-fen="r2r2k1/p3bppp/1qp1pn2/3pB3/3P2P1/2N2Q1P/PPP2P2/2KR2R1 b - - 0 14" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>g4</strong>. You played <strong>h6</strong>.</p>
+    <textarea class="rnote" data-k="R-QriCDwjs-28" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-QriCDwjs-28"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +1.9 &rarr; <strong>-2.4</strong>, costing 38 win% points, and the game never recovered.</p>
+      <p class="after">After h6, best for them: <strong>Na4 Qb4 g5</strong></p>
+      <p>Instead of h6: <strong>Nd7 Bf4 c5</strong></p>
+      <p class="meta dim">vs Sisomso_Asrevni (1405) &middot; 2025-07-17 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r2r2k1/p3bppp/1qp1pn2/3pB3/3P2P1/2N2Q1P/PPP2P2/2KR2R1_b_-_-_0_14?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/QriCDwjs#27" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-ArBDaoCD-32" data-k="R-ArBDaoCD-32" data-fen="r1r3k1/pp2bppp/3p4/q2Pp3/8/2P2Q1P/PP1B1PP1/R3R1K1 b - - 2 16" data-played="Rc5" data-fm="16" data-side="black" data-cpb="0" data-cpa="-525" data-spend="3">
+  <div class="body">
+    <h3>Move 16 &middot; you're Black &middot; <span class="ev">+0.0</span> &middot; you thought for 3s</h3>
+    <div class="board" data-fen="r1r3k1/pp2bppp/3p4/q2Pp3/8/2P2Q1P/PP1B1PP1/R3R1K1 b - - 2 16" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Bd2</strong>. You played <strong>Rc5</strong>.</p>
+    <textarea class="rnote" data-k="R-ArBDaoCD-32" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-ArBDaoCD-32"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.0 &rarr; <strong>-5.2</strong>, costing 37 win% points, and the game never recovered.</p>
+      <p class="after">After Rc5, best for them: <strong>b4 Qc7 bxc5</strong></p>
+      <p>Instead of Rc5: <strong>Rf8 Qd3 Qc7</strong></p>
+      <p class="meta dim">vs Amir_fts (1278) &middot; 2025-01-28 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r1r3k1/pp2bppp/3p4/q2Pp3/8/2P2Q1P/PP1B1PP1/R3R1K1_b_-_-_2_16?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/ArBDaoCD#31" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-SXNKVcS7-27" data-k="R-SXNKVcS7-27" data-fen="2kr3r/1bpq1ppp/ppn1p3/3nP3/2B5/P3P1B1/1PQ2PPP/RN3RK1 w - - 3 14" data-played="f4" data-fm="14" data-side="white" data-cpb="27" data-cpa="-468" data-spend="10">
+  <div class="body">
+    <h3>Move 14 &middot; you're White &middot; <span class="ev">+0.3</span> &middot; you thought for 10s</h3>
+    <div class="board" data-fen="2kr3r/1bpq1ppp/ppn1p3/3nP3/2B5/P3P1B1/1PQ2PPP/RN3RK1 w - - 3 14" data-flip="0"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>O-O-O</strong>. You played <strong>f4</strong>.</p>
+    <textarea class="rnote" data-k="R-SXNKVcS7-27" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-SXNKVcS7-27"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.3 &rarr; <strong>-4.7</strong>, costing 37 win% points, and the game never recovered.</p>
+      <p class="after">After f4, best for them: <strong>Nxe3 Qc1 Nxf1</strong></p>
+      <p>Instead of f4: <strong>Be2 h5 h3</strong></p>
+      <p class="meta dim">vs Kladowsik (1396) &middot; 2025-04-08 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/2kr3r/1bpq1ppp/ppn1p3/3nP3/2B5/P3P1B1/1PQ2PPP/RN3RK1_w_-_-_3_14?color=white" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/SXNKVcS7#26" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article><article class="rcard" id="dR-Tjx1Tbg9-36" data-k="R-Tjx1Tbg9-36" data-fen="r3rnk1/ppb2ppp/2p2p2/3q4/6Q1/2BB2P1/PPP2P1P/3R1RK1 b - - 5 18" data-played="Ng6" data-fm="18" data-side="black" data-cpb="12" data-cpa="-497" data-spend="6">
+  <div class="body">
+    <h3>Move 18 &middot; you're Black &middot; <span class="ev">+0.1</span> &middot; you thought for 6s</h3>
+    <div class="board" data-fen="r3rnk1/ppb2ppp/2p2p2/3q4/6Q1/2BB2P1/PPP2P1P/3R1RK1 b - - 5 18" data-flip="1"></div>
+    <p class="ask">Your opponent just played the quiet move <strong>Qg4</strong>. You played <strong>Ng6</strong>.</p>
+    <textarea class="rnote" data-k="R-Tjx1Tbg9-36" rows="4" placeholder="What I saw / the plan / what I was worried about&hellip;"></textarea>
+    <p class="rsaved dim" data-k="R-Tjx1Tbg9-36"></p>
+    <details class="spoil"><summary>What happened</summary>
+      <p>Eval +0.1 &rarr; <strong>-5.0</strong>, costing 37 win% points, and the game never recovered.</p>
+      <p class="after">After Ng6, best for them: <strong>Bxg6 hxg6 Rxd5</strong></p>
+      <p>Instead of Ng6: <strong>h5 Qb4 Qf3</strong></p>
+      <p class="meta dim">vs w_1_d4 (1256) &middot; 2025-04-23 &middot; depth 16</p>
+      <div class="acts">
+        <a class="btn ghost" href="https://lichess.org/analysis/standard/r3rnk1/ppb2ppp/2p2p2/3q4/6Q1/2BB2P1/PPP2P1P/3R1RK1_b_-_-_5_18?color=black" target="_blank" rel="noopener">Explore on Lichess</a>
+        <a class="btn ghost" href="https://lichess.org/Tjx1Tbg9#35" target="_blank" rel="noopener">The real game</a>
+      </div>
+    </details>
+  </div>
+</article>
+</section>
+
+<footer>
+  <span>Depth-12 Stockfish over the 220 rated blitz games of 19&ndash;31 Aug 2026 (annotated locally, server evals discarded). Priority set selected by static exchange evaluation (unaffected by search depth) and ranked by Lichess win-probability loss; ranking is 98% stable when every eval beyond &plusmn;5 is clamped, so the depth-12 noise above +5 doesn't move it.</span>
+  <button id="reset">Clear progress</button>
+</footer>
+
+</div>
+<script>
+(function(){
+  var KEY='drills.done.v1', total=260;
+
+  var GL={p:'\u265F\uFE0E',n:'\u265E\uFE0E',b:'\u265D\uFE0E',r:'\u265C\uFE0E',q:'\u265B\uFE0E',k:'\u265A\uFE0E'};
+  function renderBoards(){
+    document.querySelectorAll('.board:not([data-done])').forEach(function(el){
+      var rows=el.dataset.fen.split(' ')[0].split('/'), flip=el.dataset.flip==='1', cells=[];
+      rows.forEach(function(row,r){
+        var f=0;
+        for(var i=0;i<row.length;i++){
+          var c=row[i];
+          if(c>='1'&&c<='8'){ for(var k=0;k<+c;k++){cells.push([r,f++,null]);} }
+          else { cells.push([r,f++,c]); }
+        }
+      });
+      if(flip) cells.reverse();
+      el.innerHTML=cells.map(function(c){
+        var dark=((c[0]+c[1])%2)===1, p=c[2];
+        var g=p?GL[p.toLowerCase()]:'';
+        var white=p&&p===p.toUpperCase();
+        return '<i class="'+(dark?'d':'l')+(white?' w':'')+'">'+g+'</i>';
+      }).join('');
+      el.dataset.done='1';
+    });
+  }
+  renderBoards();
+  function get(){ try{return JSON.parse(localStorage.getItem(KEY))||{} }catch(e){return {} } }
+  function set(s){ try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){} }
+  function paint(){
+    var s=get(),c=0;
+    document.querySelectorAll('.drill').forEach(function(el){
+      var n=el.dataset.n, on=!!s[n];
+      el.classList.toggle('done',on);
+      el.querySelector('input[type=checkbox]').checked=on;
+      if(on)c++;
+    });
+    document.getElementById('ptext').textContent=c+' / '+total;
+    document.getElementById('pbar').style.width=(total?c/total*100:0)+'%';
+  }
+  document.addEventListener('change',function(e){
+    var cb=e.target.closest('input[type=checkbox][data-n]'); if(!cb)return;
+    var s=get(); if(cb.checked)s[cb.dataset.n]=1; else delete s[cb.dataset.n];
+    set(s); paint();
+  });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.fen'); if(!b)return;
+    var t=b.textContent;
+    navigator.clipboard&&navigator.clipboard.writeText(b.dataset.fen).then(function(){
+      b.textContent='FEN copied'; b.classList.add('copied');
+      setTimeout(function(){b.textContent=t;b.classList.remove('copied')},1200);
+    });
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    if(confirm('Clear all 260 ticks?')){ set({}); paint(); }
+  });
+  paint();
+})();
+</script>
+<script>/*R-JS*/
+(function(){
+  var RKEY='drills.reflect.v1';
+  function rget(){ try{return JSON.parse(localStorage.getItem(RKEY))||{} }catch(e){return {} } }
+  function rset(s){ try{localStorage.setItem(RKEY,JSON.stringify(s))}catch(e){} }
+  function rpaint(){
+    var s=rget(),c=0,n=0;
+    document.querySelectorAll('.rcard').forEach(function(el){
+      n++;
+      var k=el.dataset.k, has=s[k]&&s[k].t&&s[k].t.trim();
+      el.classList.toggle('noted',!!has);
+      if(has)c++;
+    });
+    var p=document.getElementById('rprog');
+    if(p)p.textContent=c+' / '+n+' written';
+  }
+  document.querySelectorAll('.rnote').forEach(function(t){
+    var s=rget(),k=t.dataset.k;
+    if(s[k]&&s[k].t)t.value=s[k].t;
+  });
+  var timers={};
+  document.addEventListener('input',function(e){
+    var t=e.target.closest('.rnote'); if(!t)return;
+    var k=t.dataset.k;
+    clearTimeout(timers[k]);
+    timers[k]=setTimeout(function(){
+      var s=rget();
+      if(t.value.trim()) s[k]={t:t.value,ts:Date.now()}; else delete s[k];
+      rset(s); rpaint();
+      var m=document.querySelector('.rsaved[data-k="'+k+'"]');
+      if(m){m.textContent='saved';setTimeout(function(){m.textContent=''},1200);}
+    },600);
+  });
+  var ex=document.getElementById('rexport');
+  if(ex)ex.addEventListener('click',function(){
+    var s=rget(),out=[];
+    document.querySelectorAll('.rcard').forEach(function(el){
+      var k=el.dataset.k, note=s[k]&&s[k].t?s[k].t:'';
+      if(!note.trim())return;
+      out.push({key:k,fen:el.dataset.fen,played:el.dataset.played,
+        move:+el.dataset.fm,side:el.dataset.side,spend:el.dataset.spend,
+        cp_before:+el.dataset.cpb,cp_after:+el.dataset.cpa,note:note});
+    });
+    var txt=JSON.stringify(out,null,1);
+    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject())
+      .then(function(){ex.textContent='Copied '+out.length+' notes as JSON';
+        setTimeout(function(){ex.textContent='Copy my notes as JSON'},1600);})
+      .catch(function(){prompt('Copy:',txt);});
+  });
+  rpaint();
+})();
+/*R-JS-END*/</script>
+</body>
+</html>
