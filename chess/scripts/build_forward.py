@@ -70,6 +70,18 @@ HITS   = sys.argv[2] if len(sys.argv) > 2 else "/home/claude/hits_light.json"
 PAGE   = sys.argv[3] if len(sys.argv) > 3 else os.path.join(REPO, "chess-drills/index.html")
 
 FLOOR = 0.02          # same win%-error floor as build_drills2.py
+
+# Odometer for the pre-registered treatment block (chess/README.md,
+# "Pre-registration: group F"). The page reads the live rated-blitz game
+# count from the public Lichess API and shows (count - ODO_BASE) / ODO_TARGET.
+# ODO_BASE is the API's perfs.blitz.games on the morning after the first F
+# session; it is an odometer only - the block itself is defined by game
+# timestamps, so this number being a few games off changes nothing. The count
+# includes every blitz control, so it only tracks the block while the games
+# being played are 3+2 / 5+0. No rating is fetched or shown, on purpose.
+ODO_USER = "jamorgan"
+ODO_BASE = 5964        # 2026-09-02
+ODO_TARGET = 900
 N_DECOY = 60          # ~20% of the set
 SEED = 23
 
@@ -292,6 +304,7 @@ blurb = f"""<!--F-START--><section class="group" id="gF">
   <p class="blurb"><strong>Run this first, ahead of the P scans.</strong> The P cards tell you something is wrong and ask you to find it. That is the half you are already good at &mdash; when a card forces a look, the look works. What goes wrong in games is that the look never fires: you choose a quiet move, never scan the position it creates, and a capture that was sitting there the whole time finally lands. This drill reproduces that, not the symptom.</p>
   <p class="blurb">Each card replays <strong>a run of moves you actually played</strong>, one at a time, opponent replies included. Before each is shown, pick your own move in your head. Then the move you played appears on the board. <strong>Picture the position it creates. Does anything hang to a capture?</strong> Answer, see the verdict, go on. Somewhere in most cards is a move that cost you a piece; you are not told which, and some threats appear early and only cash in later. About one card in five is a <em>decoy</em> where nothing ever hangs, so <strong>&ldquo;safe&rdquo; has to be a real answer</strong>.</p>
   <p class="blurb dim">{len(cards)} cards ({n_hit} from hanging-material games, {n_dec} decoys), {n_steps} decisions, of which {n_H} hang. Aim to decide in under ten seconds &mdash; the moves that cost you games took eight. Your hit rate here is practice feedback, not the outcome; the outcome is the hanging-material rate in your next games, and that is pre-registered in the README.</p>
+  <div class="fodo" id="fodo"><span class="fodo-t" id="fodo-t">Games toward the test block: checking&hellip;</span><span class="bar"><i id="fodo-b"></i></span></div>
   <div id="fstats" class="fstats"></div>
   <div id="fstage" class="fstage"></div>
   <p class="rexport"><button id="fexport" class="btn ghost">Copy my F results as JSON</button> <button id="freset" class="btn ghost">Reset F progress</button></p>
@@ -300,6 +313,8 @@ blurb = f"""<!--F-START--><section class="group" id="gF">
 <!--F-END-->"""
 
 css = """/*F-CSS*/
+.fodo{display:flex;align-items:baseline;gap:.6rem;margin:.2rem 0 .5rem;font-family:'Roboto Mono',monospace;font-size:.8rem;color:var(--ink)}
+.fodo .bar{flex:1}
 .fstage{margin:.6rem 0 0}
 .fcard{border-top:1px solid var(--rule);padding:1rem 0}
 .fcard h3{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:1.12rem;margin:.1rem 0 .25rem;line-height:1.2}
@@ -331,7 +346,7 @@ margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;fon
 
 js = r"""/*F-JS*/
 (function(){
-  var FKEY='drills.forward.v1';
+  var FKEY='drills.forward.v1', ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d;
   var cards=JSON.parse(document.getElementById('fdata').textContent);
   var GL={p:'\u265F\uFE0E',n:'\u265E\uFE0E',b:'\u265D\uFE0E',r:'\u265C\uFE0E',q:'\u265B\uFE0E',k:'\u265A\uFE0E'};
   var mem={};   // in-memory fallback so a blocked localStorage still lets a session run
@@ -501,8 +516,26 @@ js = r"""/*F-JS*/
     if(confirm('Clear all group F answers? (P/R/endgame progress is untouched.)')){ fset({}); paintStats(); show(firstUnfinished()); }
   });
   paintStats(); show(firstUnfinished());
+
+  // ---- odometer: rated blitz games since the drill began, toward the 900-game block
+  (function(){
+    var t=document.getElementById('fodo-t'), b=document.getElementById('fodo-b');
+    if(!t||!window.fetch)return;
+    fetch('https://lichess.org/api/user/'+ODO_USER,{headers:{'Accept':'application/json'}})
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status)})
+      .then(function(u){
+        var g=u&&u.perfs&&u.perfs.blitz&&u.perfs.blitz.games;
+        if(typeof g!=='number'){t.textContent='Games toward the test block: count unavailable';return;}
+        var n=Math.max(0,g-ODO_BASE), pct=Math.min(100,100*n/ODO_TARGET);
+        t.innerHTML=(n>=ODO_TARGET?'<strong>'+n+' / '+ODO_TARGET+' &mdash; block is full; test it when you are ready</strong>':n+' / '+ODO_TARGET+' rated blitz games since the drill began');
+        b.style.width=pct+'%';
+      })
+      .catch(function(){t.textContent='Games toward the test block: could not reach Lichess';});
+  })();
 })();
 /*F-JS-END*/"""
+js = js.replace("ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d",
+                f"ODO_USER={ODO_USER!r}, ODO_BASE={ODO_BASE}, ODO_TARGET={ODO_TARGET}")
 
 src = open(PAGE).read()
 

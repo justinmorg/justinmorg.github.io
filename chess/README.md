@@ -2263,8 +2263,14 @@ the drill entirely — is pre-intervention and may be folded into the baseline
 or left out; it may not be counted as treatment.
 
 **Block size.** The treatment block is annotated and tested once, when it
-reaches **≥900 games** (~3,000 eligible moves), the threshold under "When it
-is worth pulling a fresh batch". **No interim look at the outcome metric.**
+has reached **≥900 games** (~3,000 eligible moves), the threshold under "When
+it is worth pulling a fresh batch". 900 is a floor, not a target: the block is
+*whatever has accumulated when the test is run*, provided it is over 900, and
+a later, larger block is a sharper test, not a deviation. Decided 2026-09-02,
+before any treatment game was annotated — at the August pace (~17 games/day)
+900 arrives in late October, well before the 299-card set is finished, and
+the plan is to let the block run past that rather than test at the floor.
+**No interim look at the outcome metric.**
 Interim looks are how the June 2025 dip nearly became a finding. If the
 rating triggers fire earlier, `ratingexcursion.py` may be run on the existing
 corpus, but the hanging-material rate on the partial treatment block is not
@@ -2307,6 +2313,16 @@ extended to the treatment block:
    the published 17.74%. This is the stale-threat mechanism F is built around.
 3. H2 share among permanent hot-zone first drops (`forcingtest.py`), against
    the published 57%. Underpowered on one block; logged only.
+
+**Odometer.** The F section of the drill page reads `perfs.blitz.games` from
+the public Lichess user API (`/api/user/jamorgan`, CORS-open) and shows
+`(count − 5,964) / 900`. 5,964 is the API's rated-blitz count on 2026-09-02,
+the morning after the first F session; the profile page had been read as
+5,862, which is off by 102 for reasons not chased. It is a progress display
+only: the block is defined by timestamps, not by this count, and the count
+includes every blitz control, so it tracks the block only while the games
+being played are 3+2 / 5+0. The page deliberately fetches and shows no
+rating. Constants live at the top of `build_forward.py`.
 
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
