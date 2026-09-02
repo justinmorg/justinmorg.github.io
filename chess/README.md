@@ -107,6 +107,7 @@ chess/
     ├── openings.py                             recover the played book from move times
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
+    ├── build_forward.py                      rebuild the /chess-drills F (play-forward) set
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -2166,6 +2167,163 @@ at 0.00 but only 3.6 at +7.0. Re-ranking with every eval clamped to ±5 leaves
 the top 50 **98% unchanged** and the full ordered set identical. So the +5
 noise the caveat warns about does not move this finding.
 
+### Group F: play-forward, and why the P scan trains the wrong half
+
+Added Sep 2026. `build_forward.py`. The argument, assembled from results already
+in this file rather than from anything new:
+
+- Group P shows a position and says, in effect, "something is wrong here, find
+  it." That is a *pre-flagged* task.
+- The pre-flagged task is the one he is already good at. In matched controls
+  where the best move was a capture or check he played it 87% of the time
+  (`forcingtest.py`); in the R notes, when a card forced a look, the look
+  usually found the answer before the spoiler ("I would only find it by knowing
+  something was there").
+- The failure in games is the unflagged case: a considered quiet move (median
+  8s) in a position with nothing obviously hanging, where the scan never runs
+  on the position the move *creates* (H2, 57% of hot-zone drops) or never
+  re-runs on a threat that was already there (standing threats +6.28 pp worse
+  than fresh ones, `oppmove.py`).
+- The think-time section already noted that the 15-second-scan format trains
+  the ≤2s slice, which is 10% of floored hits.
+
+So years of puzzles not moving the rate is what this model predicts, not
+evidence against it: a puzzle is the flagged task. Group F is built to
+reproduce the mechanism instead:
+
+- Each card is a **window of consecutive own moves actually played**, replayed
+  one at a time with the opponent's replies. At each step: choose your move in
+  your head; the move you played is shown; picture the position it creates;
+  answer *safe* or *something hangs*; see the verdict.
+- Windows start **3–5 own moves before a floored group P hit** and run **0–2
+  own moves past it**, both seeded from the game id, so where the error sits
+  inside the card is not knowable. A threat that appears mid-window and is not
+  handled is stale by the time it costs material — the standing-threat
+  mechanism, reproduced rather than described.
+- **60 of the 299 cards are decoys**: windows of 4–7 eligible winning-middlegame
+  moves from games where nothing hangs at any step and no move costs more than
+  0.10 win-probability. If "safe" is never the right answer, the card is doing
+  the scanning.
+- Every step carries a ground truth from `hanging.py`'s own SEE probes: **H**
+  (SEE ≥150 after the move and `wp_error` > 0.02 — the group P definition
+  without the +150 eval gate), **C** (SEE finds material, eval does not move —
+  compensation; correct answer *safe*, and the verdict says why), **S** (nothing
+  hangs; if the engine disliked the move anyway the verdict says that is a
+  different error). The 1,747 decisions split 345 H / 62 C / 1,340 S, so the
+  base rate of "hangs" is ~20%.
+
+Progress is `localStorage` `drills.forward.v1`, keyed `F-{gid}-{ply}` (hit
+windows) or `F-{gid}-{ply}-d` (decoys). F cards carry no `class="drill"` and no
+tick box, so the 260 counter and reset button never touch them — the group R
+precedent. Per answered decision the page stores the answer, whether it was
+right, the label and milliseconds taken; **Copy my F results as JSON** exports
+it, and the earliest `ts` in that export is the intervention start date used
+by the pre-registration below.
+
+```bash
+python3 chess/scripts/hanging.py corpus.pgn light                 # -> hits_light.json
+python3 chess/scripts/build_forward.py corpus.pgn hits_light.json  # -> chess-drills/index.html
+```
+
+The build **hard-exits unless replaying every card's moves from its first FEN
+with python-chess reproduces every stored intermediate position**; the page
+replays the same UCI moves on a plain 64-square array with its own
+castling/en-passant/promotion handling, and that JS was cross-checked against
+python-chess on all 1,747 positions before commit. Running the script twice is
+byte-identical, and `build_drills2.py` / `build_reflect.py` leave the F block
+untouched (verified both directions). The page is ~740 KB, most of it the
+embedded card data.
+
+**The in-page hit rate is not an outcome.** It will rise with familiarity
+whether or not anything transfers, and the cards are the tail of the
+distribution. It is practice feedback. The outcome is below.
+
+## Pre-registration: does group F move the hanging-material rate?
+
+Written 2026-09-01, before any F session and before any new block was
+annotated. This is the first intervention this project has tried, and the
+corpus has three retracted findings from post-hoc reads of small blocks, so
+the rule is fixed here and not revisited after the data arrives.
+
+**Intervention.** Group F sessions, run ahead of the P scans. Dose is Justin's
+to set and must be written on the line below *before* the treatment block
+begins; any change to the F protocol or the card set mid-block restarts the
+block.
+
+> Dose (set by Justin, 2026-09-01, before the first session): **at least five
+> sessions a week, at least three cards a session.** That is ~15 cards a week,
+> so the 299-card set takes ~20 weeks — about the same time the treatment
+> block needs to reach 900 games.
+
+**Start.** The intervention starts at the earliest `ts` in the exported
+`drills.forward.v1`. The treatment block is every rated Lichess 3+2/5+0 game
+with `UTCDate`/`UTCTime` after that timestamp. Everything before it —
+including the 220-game pending batch (2026-08-19 → 08-31), which predates
+the drill entirely — is pre-intervention and may be folded into the baseline
+or left out; it may not be counted as treatment.
+
+**Block size.** The treatment block is annotated and tested once, when it
+reaches **≥900 games** (~3,000 eligible moves), the threshold under "When it
+is worth pulling a fresh batch". **No interim look at the outcome metric.**
+Interim looks are how the June 2025 dip nearly became a finding. If the
+rating triggers fire earlier, `ratingexcursion.py` may be run on the existing
+corpus, but the hanging-material rate on the partial treatment block is not
+computed.
+
+**Primary outcome.** Floored hanging-material rate per eligible
+winning-middlegame move (`hanging.py` denominator, 0.02 floor), corpus-default
+scope (3+2 and 5+0, as `features.py` produces it), Lichess only. Baseline is
+the six settled Lichess blocks (2024 H2 through 2026) at the same scope,
+computed by `blockstats.py shuffle` at test time rather than quoted from a
+3+2-only table. Format is not a confound: both formats sit with their era, not
+their format (see "Complete 3+2 / 5+0 coverage").
+
+**Decision rule.** `blockstats.py shuffle` with the treatment block added as a
+seventh block, `--metric hang`, seed 23, 20,000 draws. Conclude "F moved the
+rate" only if the treatment block is the **minimum** block and the
+minimum-block p is **< 0.05**. The direction is pre-declared, so this is a
+one-sided test on the one block that was singled out in advance; the spread p
+is reported alongside but does not decide. A treatment block that is not the
+minimum is a null regardless of its p.
+
+**Resolution, stated now so the null means something.** The pooled settled
+rate is ~4.6% on the 3+2-only table over 12,952 eligible moves (the
+pooled-scope figure is computed at test time and will sit slightly lower, as
+2026's 4.33% against 4.73% shows). Against that baseline a 3,000-move
+block detects a drop of about **1.1 pp** (4.6% → 3.5%, a cut of roughly a
+quarter) at 80% power. A 1,500-move block would detect ~1.4 pp (→ 3.2%). A
+real effect smaller than that is invisible to this design, and the honest
+reading of a null is "no transfer of the size the drill claims to target," not
+"no transfer."
+
+**Secondary outcomes — flags, not decisions.** Reported with the primary, no
+decision rides on them, and each needs the seven-block `features.py` run
+extended to the treatment block:
+
+1. `hung it myself` rate, same test (`--metric hungself`). F targets both
+   halves of group P equally; if only one moves, that is worth knowing.
+2. The standing-threat failure rate — blunder rate on the `see_standing >= 150,
+   opp_created_threat == 0` arm, standardized as in `oppmove.py` — against
+   the published 17.74%. This is the stale-threat mechanism F is built around.
+3. H2 share among permanent hot-zone first drops (`forcingtest.py`), against
+   the published 57%. Underpowered on one block; logged only.
+
+**What is not an outcome.** Rating (150 points of movement with no change in
+play is the calibration). Score rate (matchmaking holds it at 50%). The
+in-page F hit rate or false-alarm rate. Any metric first examined after the
+block was annotated — the Q4 2025 `reached` cell is the record of what
+happens otherwise.
+
+**If it is null.** The conclusion is that rehearsal on cards does not install
+the trigger at the size the test can see. The next thing to try is *at-board*
+practice — a run of games at a slower control with the single instruction to
+run the H2 check on every move — not more cards, and not a re-cut of this
+block. That would be pre-registered the same way.
+
+**If it is positive.** Replicate on the following block before it enters the
+"What two years actually changed" table as an effect; one block is exactly
+the shape of the three retracted findings.
+
 ## Position-level feature tables
 
 `features.py` makes one pass over the annotated blocks and emits two flat
@@ -4048,7 +4206,9 @@ it's ever wanted, it needs a hand-labelled validation subset built first.
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is
-the main identified weakness. Current focus (updated Aug 2026, after threads 1
+the main identified weakness. Group F (play-forward, Sep 2026) now runs
+ahead of the P scans; see "Group F" and the pre-registration above. Current
+focus (updated Aug 2026, after threads 1
 and 2) is early-middlegame judgment in level, piece-heavy positions — the
 largest loss flow — alongside the standing-threat re-scan and small-edge
 endgame conversion. The earlier focus statement, kept for the record: endgame
