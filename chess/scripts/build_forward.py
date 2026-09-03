@@ -302,7 +302,7 @@ data = json.dumps(cards, separators=(",", ":"))
 blurb = f"""<!--F-START--><section class="group" id="gF">
   <header class="ghead"><span class="gletter alt">F</span><h2>Play forward &mdash; the check before you commit</h2></header>
   <p class="blurb"><strong>Run this first, ahead of the P scans.</strong> The P cards tell you something is wrong and ask you to find it. That is the half you are already good at &mdash; when a card forces a look, the look works. What goes wrong in games is that the look never fires: you choose a quiet move, never scan the position it creates, and a capture that was sitting there the whole time finally lands. This drill reproduces that, not the symptom.</p>
-  <p class="blurb">Each card replays <strong>a run of moves you actually played</strong>, one at a time, opponent replies included. Before each is shown, pick your own move in your head. Then the move you played appears on the board. <strong>Picture the position it creates. Does anything hang to a capture?</strong> Answer, see the verdict, go on. Somewhere in most cards is a move that cost you a piece; you are not told which, and some threats appear early and only cash in later. About one card in five is a <em>decoy</em> where nothing ever hangs, so <strong>&ldquo;safe&rdquo; has to be a real answer</strong>.</p>
+  <p class="blurb">Each card replays <strong>a run of moves you actually played</strong>, one at a time, opponent replies included. First pick your own move in your head. Then the move you played is <em>named, not shown</em> &mdash; the board stays put. <strong>Picture the position that move creates. Does anything hang to a capture?</strong> Answer, then the move appears with the verdict, then the opponent replies and you go again. Somewhere in most cards is a move that cost you a piece; you are not told which, and some threats appear early and only cash in later. About one card in five is a <em>decoy</em> where nothing ever hangs, so <strong>&ldquo;safe&rdquo; has to be a real answer</strong>.</p>
   <p class="blurb dim">{len(cards)} cards ({n_hit} from hanging-material games, {n_dec} decoys), {n_steps} decisions, of which {n_H} hang. Aim to decide in under ten seconds &mdash; the moves that cost you games took eight. Your hit rate here is practice feedback, not the outcome; the outcome is the hanging-material rate in your next games, and that is pre-registered in the README.</p>
   <div class="fodo" id="fodo"><span class="fodo-t" id="fodo-t">Games toward the test block: checking&hellip;</span><span class="bar"><i id="fodo-b"></i></span></div>
   <div id="fstats" class="fstats"></div>
@@ -440,12 +440,13 @@ js = r"""/*F-JS*/
       if(pm){hl=[sq(pm.slice(0,2)),sq(pm.slice(2,4))];}
       ask='<p class="fask">'+(ps?'They played <span class="fmove">'+ps+'</span>. ':'')+'Your move. Choose it in your head'+(st.chk?' <span class="flag">you are in check</span>':'')+'.</p>';
       btns='<div class="fbtns"><button class="btn play" data-act="reveal">Show what I played</button></div>';
+    } else if(phase===1){
+      // board stays on the pre-move position: the move is named, not shown
+      ask='<p class="fask">You played <span class="fmove">'+st.s+'</span>. <strong>Without seeing it, picture the position after that move. What can they take or check?</strong> Does anything hang?</p>';
+      btns='<div class="fbtns"><button class="btn ghost" data-act="ans" data-a="S">Safe</button><button class="btn warn" data-act="ans" data-a="H">Something hangs</button></div>';
     } else {
       b=apply(b,st.m); hl=[sq(st.m.slice(0,2)),sq(st.m.slice(2,4))]; cls='hl';
-      if(phase===1){
-        ask='<p class="fask">You played <span class="fmove">'+st.s+'</span>. Picture this position. <strong>What can they take or check?</strong> Does anything hang?</p>';
-        btns='<div class="fbtns"><button class="btn ghost" data-act="ans" data-a="S">Safe</button><button class="btn warn" data-act="ans" data-a="H">Something hangs</button></div>';
-      } else {
+      {
         ask=verdictHtml(st, card._last);
         btns='<div class="fbtns"><button class="btn play" data-act="next">'+(si+1<n?'Next move':'Finish card')+'</button></div>';
       }

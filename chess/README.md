@@ -2193,8 +2193,10 @@ reproduce the mechanism instead:
 
 - Each card is a **window of consecutive own moves actually played**, replayed
   one at a time with the opponent's replies. At each step: choose your move in
-  your head; the move you played is shown; picture the position it creates;
-  answer *safe* or *something hangs*; see the verdict.
+  your head; the move you played is **named, not shown** (the board stays on
+  the pre-move position — Justin's change, 2026-09-03, so the safety call is
+  made on a visualized position, as at the board); answer *safe* or
+  *something hangs*; the move then appears with the verdict.
 - Windows start **3–5 own moves before a floored group P hit** and run **0–2
   own moves past it**, both seeded from the game id, so where the error sits
   inside the card is not knowable. A threat that appears mid-window and is not
