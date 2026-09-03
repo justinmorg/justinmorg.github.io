@@ -69,7 +69,18 @@ CORPUS = sys.argv[1] if len(sys.argv) > 1 else "/home/claude/corpus.pgn"
 HITS   = sys.argv[2] if len(sys.argv) > 2 else "/home/claude/hits_light.json"
 PAGE   = sys.argv[3] if len(sys.argv) > 3 else os.path.join(REPO, "chess-drills/index.html")
 
-FLOOR = 0.02          # same win%-error floor as build_drills2.py
+# Floor on the win-probability drop for "this move lost material". Raised
+# 0.02 -> 0.05 on 2026-09-03: at 0.02, 41% of labelled-H steps in the
+# <=0.05 band are not losses at depth 18, because 2 win% points is inside
+# depth-12's own wobble. At 0.05 that falls to 2.5%, keeping 80% of the
+# volume. See verify_labels.py and the README's "Label audit".
+FLOOR = 0.05
+
+# Fresh depth-18 evals for every SEE>=150 step, keyed "FEN|uci". Committed, so
+# the build needs no engine. Preferred over the depth-12 corpus evals when
+# labelling, because SEE cannot see a counter-threat elsewhere and the label
+# then rests entirely on the eval being right.
+VERIFY = os.path.join(REPO, "chess/data/depth18_verify.json")
 
 # Odometer for the pre-registered treatment block (chess/README.md,
 # "Pre-registration: group F"). The page reads the live rated-blitz game
@@ -89,8 +100,12 @@ def h(s):
     return int(hashlib.sha1(s.encode()).hexdigest(), 16)
 
 # ---------------------------------------------------------------- per-move labelling
-def label_move(board, move, cp_before_me, cp_after_me, in_check):
-    """Ground truth for one own move, using hanging.py's exact probes."""
+def label_move(board, move, cp_before_me, cp_after_me, in_check, verify=None):
+    """Ground truth for one own move, using hanging.py's exact probes.
+
+    When a depth-18 verification entry exists for this (position, move) it
+    overrides the depth-12 evals for the H/C decision - see verify_labels.py.
+    """
     nb = board.copy(stack=False)
     nb.push(chess.Move.null())
     my_king = board.king(board.turn)
@@ -105,6 +120,10 @@ def label_move(board, move, cp_before_me, cp_after_me, in_check):
     after.push(move)
     after_see, after_mv = threat_after(board, move, after)
     wp_err = winprob(cp_before_me) - winprob(cp_after_me)
+    v = (verify or {}).get(board.fen() + "|" + move.uci()) if after_see >= 150 else None
+    if v:
+        cp_before_me, cp_after_me = v["fb"], v["fa"]
+        wp_err = winprob(cp_before_me) - winprob(cp_after_me)
 
     if after_see >= 150 and wp_err > FLOOR:
         lab = "H"
@@ -143,7 +162,7 @@ def walk(game, me):
             cp_b = prev_eval if me == chess.WHITE else -prev_eval
             cp_a_w = e if e is not None else prev_eval
             cp_a = cp_a_w if me == chess.WHITE else -cp_a_w
-            r = label_move(board, move, cp_b, cp_a, board.is_check())
+            r = label_move(board, move, cp_b, cp_a, board.is_check(), VER)
             r.update({
                 "ply": ply, "fm": board.fullmove_number,
                 "fen": board.fen(), "m": move.uci(), "s": board.san(move),
@@ -161,6 +180,10 @@ def walk(game, me):
 
 
 # ---------------------------------------------------------------- build windows
+VER = json.load(open(VERIFY))["evals"] if os.path.exists(VERIFY) else {}
+if not VER:
+    print("WARNING: no depth-18 verification cache; labels fall back to depth-12 evals")
+
 hits = [r for r in json.load(open(HITS)) if r["wp_error"] > FLOOR]
 hit_keys = {(r["gid"], r["ply"]) for r in hits}
 hit_by_gid = {}
@@ -201,6 +224,7 @@ def pack(recs, lo, hi):
     return out
 
 cards = []
+cleared = []
 walked = {}
 def get_recs(gid):
     if gid not in walked:
@@ -217,7 +241,11 @@ for r in hits:
     idx = next((i for i, x in enumerate(recs) if x["ply"] == ply), None)
     if idx is None:
         continue
-    assert recs[idx]["L"] == "H", (gid, ply, recs[idx]["L"])
+    if recs[idx]["L"] != "H":
+        # depth-18 verification cleared the anchor: this was never a blunder.
+        # Drop the card rather than build a window around a phantom error.
+        cleared.append((gid, ply, recs[idx]["s"]))
+        continue
     seed = h(f"{gid}-{ply}")
     kb = 3 + seed % 3            # 3..5 own moves before
     ka = (seed // 3) % 3         # 0..2 own moves after
@@ -563,5 +591,7 @@ else:
     src = src.replace("/*R-JS-END*/</script>", "/*R-JS-END*/</script>\n<script>" + js + "</script>", 1)
 
 open(PAGE, "w").write(src)
+if cleared:
+    print(f"cleared by depth-18 verification (not errors): {len(cleared)}")
 print(f"cards: {len(cards)} ({n_hit} hit windows, {n_dec} decoys)  steps: {n_steps}  "
       f"H: {n_H} ({100*n_H/n_steps:.1f}%)  C: {n_C}  page: {len(src):,} bytes")

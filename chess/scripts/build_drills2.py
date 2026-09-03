@@ -27,7 +27,7 @@ Usage:  python3 build_drills2.py [hits_light.json] [index.html]
 Both arguments default relative to this script's location in the repo, so it
 works from any clone directory without editing.
 """
-import json, html, os, sys, re, chess
+import json, re, html, os, sys, re, chess
 HERE = os.path.dirname(os.path.abspath(__file__))          # <repo>/chess/scripts
 REPO = os.path.dirname(os.path.dirname(HERE))              # <repo>
 sys.path.insert(0, HERE)
@@ -115,12 +115,21 @@ def card(r, mode, key):
 # ---------------------------------------------------------------- build
 rows = json.load(open(HITS))
 
-# The 0.02 win%-error floor. hanging.py's raw output includes hits where SEE
-# finds material but the eval doesn't move (compensation elsewhere), and the
-# correct answer in those is "ignore it" - the opposite of the reflex being
-# drilled. TIERS below start at 0.02, so unfiltered input would render the
-# right cards under the wrong headline counts. Filter here so they agree.
-rows = [r for r in rows if r["wp_error"] > 0.02]
+# The win%-error floor. hanging.py's raw output includes hits where SEE finds
+# material but the eval doesn't move (compensation elsewhere), and the correct
+# answer in those is "ignore it" - the opposite of the reflex being drilled.
+# TIERS below start at the floor, so unfiltered input would render the right
+# cards under the wrong headline counts. Filter here so they agree.
+#
+# Raised 0.02 -> 0.05 on 2026-09-03. SEE looks at one square and cannot see a
+# counter-threat elsewhere, so the "is it compensated" question rests entirely
+# on the eval; at a 2-point floor that is inside depth-12's own wobble. A
+# depth-18 audit of all 239 cards found 21 (8.8%) were not errors at all, 8 of
+# them the engine's top move. In the <=0.05 band the false-positive rate is
+# 41%; above 0.10 it is 0.5%. See verify_labels.py and the README's
+# "Label audit".
+FLOOR = 0.05
+rows = [r for r in rows if r["wp_error"] > FLOOR]
 
 A = sorted([r for r in rows if r["label"] == "missed their threat"], key=lambda r: -r["wp_error"])
 B = sorted([r for r in rows if r["label"] == "hung it myself"],      key=lambda r: -r["wp_error"])
@@ -131,7 +140,7 @@ TIERS = [(0.50, 1.01, "Threw the game outright",
           "Still alive afterwards, but you handed back the bulk of it in a single move."),
          (0.10, 0.30, "Real damage",
           "A clear chunk of the win gone &mdash; a comfortable game turned into a fight."),
-         (0.02, 0.10, "Leaks",
+         (FLOOR, 0.10, "Leaks",
           "Small individually, common collectively. Skim for the recurring shape.")]
 
 
@@ -211,6 +220,16 @@ margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;fon
 """
     src = src.replace("footer{margin-top:3rem;", css + "footer{margin-top:3rem;", 1)
     src = src.replace("  function get(){", js + "  function get(){", 1)
+
+# The tick counter total is written into three places in the page and was
+# hardcoded at 260. Raising the floor changed how many P cards exist, so it is
+# now derived from the page itself on every build - a stale denominator is a
+# silently wrong progress bar.
+n_drills = src.count('class="drill"')
+src = re.sub(r'(<span id="ptext">0 / )\d+(</span>)', lambda m: m.group(1) + str(n_drills) + m.group(2), src)
+src = re.sub(r"(var KEY='drills\.done\.v1', total=)\d+", lambda m: m.group(1) + str(n_drills), src)
+src = re.sub(r"(Clear all )\d+( ticks\?)", lambda m: m.group(1) + str(n_drills) + m.group(2), src)
+print(f"tick counter total: {n_drills}")
 
 open(PAGE, "w").write(src)
 print(f"Mode A: {len(A)}   Mode B: {len(B)}   total {len(A)+len(B)}")

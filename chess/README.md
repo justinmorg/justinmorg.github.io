@@ -108,6 +108,7 @@ chess/
     ├── build_drills2.py                      rebuild the /chess-drills P set
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_forward.py                      rebuild the /chess-drills F (play-forward) set
+    ├── verify_labels.py                      depth-18 re-eval of every F SEE>=150 step
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -2167,6 +2168,70 @@ at 0.00 but only 3.6 at +7.0. Re-ranking with every eval clamped to ±5 leaves
 the top 50 **98% unchanged** and the full ordered set identical. So the +5
 noise the caveat warns about does not move this finding.
 
+### Label audit: the 0.02 floor was letting through ~10% false positives
+
+Found 2026-09-03 by Justin, playing card 8 (`F-DrQ8aRNG-43`). The card marked
+21.bxc7 as hanging material and marked "safe" wrong. It is not: **bxc7 is
+Stockfish's top move at depth 12 and depth 18**, taking White from about +4.6
+to +4.8. The c7 pawn attacks the queen on d8 and promotes, so Bxf3 winning the
+queen is answered by cxd8=Q winning it back with a piece over. Justin's
+reasoning ("it threatens the black queen even though my queen is threatened")
+was correct and the drill was wrong.
+
+**Mechanism.** The H label ANDs a SEE probe (opponent capture >= 150) with a
+drop in the stored eval. SEE looks at *one square*; it cannot see a bigger
+counter-threat elsewhere. The C label exists for exactly that case and rests
+entirely on the eval, so any depth-12 wobble bigger than the floor converts a
+compensated move into "you hung a piece". Here the corpus carries +1.12 ->
++0.77 (`wp_error` 0.031, just over the 0.02 floor) where fresh Stockfish gives
++4.65 -> +4.75 at both depths. This is *not* the corrupt-eval failure
+documented above — both numbers are ordinary shallow-search misjudgment of a
+tactical position, exactly what the depth-12 caveat predicts. The earlier audit
+looked for gross single-position corruption and so could not have caught this.
+
+**Rate, measured on all 407 SEE≥150 steps in the F card set at depth 18**
+(`verify_labels.py`):
+
+| band | H steps | not a loss at depth 18 |
+|---|---|---|
+| corpus `wp_error` ≤ 0.05 | 70 | 29 (41.4%) |
+| corpus `wp_error` > 0.10 | 212 | 1 (0.5%) |
+| **all H steps** | **345** | **36 (10.4%)** |
+
+In 15 of the 36 the played move was the engine's own first choice. Of 62 C
+steps, 1 goes the other way and does lose material. On the **239 group P hit
+plies specifically, 21 (8.8%) are not errors**, 8 of them the engine's top
+move.
+
+The bottom band is roughly 40% junk and the top band is sound — the failure is
+concentrated exactly where it should be, since 2 win-percentage points is
+inside depth-12's own noise.
+
+**Fixes applied 2026-09-03:**
+
+1. **Floor 0.02 → 0.05** in `build_drills2.py` and `build_forward.py`. Takes H
+   false positives from 10.4% to 2.5% while keeping 80% of the volume (hits
+   239 → 196). Group P is now 196 cards, and the tick-counter total is derived
+   from the page on each build rather than hardcoded at 260 — now 217.
+2. **Depth-18 verification for drill labels.** `verify_labels.py` writes
+   `chess/data/depth18_verify.json` (committed, ~280 entries, keyed
+   `FEN|uci`); `build_forward.py` prefers those evals over depth-12 when
+   labelling. 16 group F cards were cleared outright — their anchor was never
+   an error — leaving 243 cards / 1,409 decisions / 256 H. Post-build check:
+   **zero** label/depth-18 disagreements remain, no decoy contains an H, and
+   every hit card still contains one.
+3. Not re-annotating the corpus. The floor change is free and uniform;
+   per-position verification is only affordable on hit sets.
+
+**What this changes.** The published hanging-material rate is inflated by
+something on the order of 5–10% of its own value — the ~4.6% figure is nearer
+4.2–4.4% under the new floor. That is a **level shift applying to every block
+roughly equally**, so block-to-block comparisons — the shuffle tests, the era
+comparison, the pre-registered outcome — survive it. No published finding is
+retracted; absolute rate statements should carry the caveat. Note `winprob`
+clamps at ±1000, so a drop from +16 to +7 is correctly not a "loss"; that
+convention is unchanged and intended.
+
 ### Group F: play-forward, and why the P scan trains the wrong half
 
 Added Sep 2026. `build_forward.py`. The argument, assembled from results already
@@ -2202,21 +2267,24 @@ reproduce the mechanism instead:
   inside the card is not knowable. A threat that appears mid-window and is not
   handled is stale by the time it costs material — the standing-threat
   mechanism, reproduced rather than described.
-- **60 of the 299 cards are decoys**: windows of 4–7 eligible winning-middlegame
+- **60 of the 243 cards are decoys**: windows of 4–7 eligible winning-middlegame
   moves from games where nothing hangs at any step and no move costs more than
   0.10 win-probability. If "safe" is never the right answer, the card is doing
   the scanning.
 - Every step carries a ground truth from `hanging.py`'s own SEE probes: **H**
-  (SEE ≥150 after the move and `wp_error` > 0.02 — the group P definition
+  (SEE ≥150 after the move and `wp_error` > 0.05 — the group P definition
   without the +150 eval gate), **C** (SEE finds material, eval does not move —
   compensation; correct answer *safe*, and the verdict says why), **S** (nothing
   hangs; if the engine disliked the move anyway the verdict says that is a
-  different error). The 1,747 decisions split 345 H / 62 C / 1,340 S, so the
-  base rate of "hangs" is ~20%.
+  different error). **Labels come from `chess/data/depth18_verify.json` where an
+  entry exists**, not from the depth-12 corpus evals — see "Label audit" above;
+  without that, ~10% of H labels are wrong. After verification the set is 243
+  cards / 1,409 decisions, split 256 H / 64 C / 1,089 S, so the base rate of
+  "hangs" is ~18%.
 
 Progress is `localStorage` `drills.forward.v1`, keyed `F-{gid}-{ply}` (hit
 windows) or `F-{gid}-{ply}-d` (decoys). F cards carry no `class="drill"` and no
-tick box, so the 260 counter and reset button never touch them — the group R
+tick box, so the 217-drill counter and reset button never touch them — the group R
 precedent. Per answered decision the page stores the answer, whether it was
 right, the label and milliseconds taken; **Copy my F results as JSON** exports
 it, and the earliest `ts` in that export is the intervention start date used
@@ -2225,15 +2293,21 @@ by the pre-registration below.
 ```bash
 python3 chess/scripts/hanging.py corpus.pgn light                 # -> hits_light.json
 python3 chess/scripts/build_forward.py corpus.pgn hits_light.json  # -> chess-drills/index.html
+python3 chess/scripts/verify_labels.py                             # -> depth18_verify.json
 ```
+
+Run build and verify alternately until the card count stops changing (usually
+two passes): labels decide which cards exist, so a new card can need a new
+cache entry. The cache accumulates and is never trimmed to the current card
+set — trimming it makes the two oscillate.
 
 The build **hard-exits unless replaying every card's moves from its first FEN
 with python-chess reproduces every stored intermediate position**; the page
 replays the same UCI moves on a plain 64-square array with its own
 castling/en-passant/promotion handling, and that JS was cross-checked against
-python-chess on all 1,747 positions before commit. Running the script twice is
+python-chess on all 1,747 positions of the pre-audit set before commit. Running the script twice is
 byte-identical, and `build_drills2.py` / `build_reflect.py` leave the F block
-untouched (verified both directions). The page is ~740 KB, most of it the
+untouched (verified in all directions). The page is ~626 KB, most of it the
 embedded card data.
 
 **The in-page hit rate is not an outcome.** It will rise with familiarity
@@ -2279,7 +2353,9 @@ corpus, but the hanging-material rate on the partial treatment block is not
 computed.
 
 **Primary outcome.** Floored hanging-material rate per eligible
-winning-middlegame move (`hanging.py` denominator, 0.02 floor), corpus-default
+winning-middlegame move (`hanging.py` denominator, **0.05 floor** — amended
+2026-09-03, see "Label audit"; the baseline is recomputed at the same floor so
+both sides of the comparison use one rule), corpus-default
 scope (3+2 and 5+0, as `features.py` produces it), Lichess only. Baseline is
 the six settled Lichess blocks (2024 H2 through 2026) at the same scope,
 computed by `blockstats.py shuffle` at test time rather than quoted from a
@@ -2316,14 +2392,38 @@ extended to the treatment block:
 3. H2 share among permanent hot-zone first drops (`forcingtest.py`), against
    the published 57%. Underpowered on one block; logged only.
 
+**Amendments, and why this is not a restart (2026-09-03).** Two changes landed
+after the dose was set: the judgment step now names the played move without
+showing it (Justin's change — the safety call is made on a visualized position,
+as at the board), and the outcome floor moved 0.02 → 0.05. Both are legitimate
+amendments rather than a broken pre-registration, for one reason: **no outcome
+data existed or was inspected.** The treatment block had two days of
+unannotated games, nothing was computed on them, and the floor change was
+forced by a bug Justin found in a card, not by looking at results. The
+integrity condition is that the rule is fixed before the data is seen, and it
+was.
+
+What is reset, to keep it clean: **the intervention start moves to 2026-09-03**,
+the date the card set and protocol reached their current form. Cost is two days
+of games. The 16 cleared cards and ~40 corrected verdicts mean sessions before
+that date were partly drilling on wrong labels, so they are not treatment
+either. Everything else stands — dose, decision rule, block size, the
+no-interim-look rule.
+
+The rule going forward is stricter now that the block is real: **any further
+change to the card set, the F protocol, or the outcome definition restarts the
+block, bug fixes included.** If a card looks wrong, check it against a live
+engine and say so — that is how this one was caught — but the fix lands in the
+*next* block once the current one has started accumulating.
+
 **Odometer.** The F section of the drill page reads `perfs.blitz.games` from
 the public Lichess user API (`/api/user/jamorgan`, CORS-open) and shows
-`(count − 5,964) / 900`. 5,964 is the API's rated-blitz count on 2026-09-02,
-the morning after the first F session; the profile page had been read as
-5,862, which is off by 102 for reasons not chased. It is a progress display
-only: the block is defined by timestamps, not by this count, and the count
-includes every blitz control, so it tracks the block only while the games
-being played are 3+2 / 5+0. The page deliberately fetches and shows no
+`(count − 5,964) / 900`. 5,964 is the API's rated-blitz count on 2026-09-02;
+with the start reset to 2026-09-03 the bar now runs slightly ahead, which is
+acceptable for a progress display — the block is defined by timestamps, not by
+this count. (The profile page had been read as 5,862, off by 102 for reasons
+not chased.) The count includes every blitz control, so it tracks the block
+only while the games being played are 3+2 / 5+0. The page deliberately fetches and shows no
 rating. Constants live at the top of `build_forward.py`.
 
 **What is not an outcome.** Rating (150 points of movement with no change in
