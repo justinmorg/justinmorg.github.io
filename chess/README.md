@@ -109,6 +109,7 @@ chess/
     ├── build_reflect.py                      rebuild the /chess-drills R (reflection) set
     ├── build_forward.py                      rebuild the /chess-drills F (play-forward) set
     ├── verify_labels.py                      depth-18 re-eval of every F SEE>=150 step
+    ├── gap.py                                scope measurement: what the SEE rule misses
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -2232,6 +2233,63 @@ retracted; absolute rate statements should carry the caveat. Note `winprob`
 clamps at ±1000, so a drop from +16 to +7 is correctly not a "loss"; that
 convention is unchanged and intended.
 
+### Scope: what "hanging material" does and does not cover — settled, do not re-litigate
+
+Raised by Justin 2026-09-03 after noticing a move labelled safe that dropped a
+pawn. Three separate questions, measured before deciding, across all **5,529
+eligible winning-middlegame moves** in the 2026 block (`gap.py`, sample
+classified at depth 18 by playing the engine's PV out and comparing own
+material balance at both ends):
+
+| bucket | moves | share losing ≥150 by force |
+|---|---|---|
+| SEE ≥150 available (the current rule, `wp_error` > 0.05) | 196 | — (this *is* the caught set) |
+| pawn-only capture available, `wp_error` > 0.05 | 303 | 25% (30/120 sampled) |
+| no capture available, `wp_error` > 0.10 | 761 | 22% (33/150 sampled) |
+
+Three findings:
+
+1. **Two-move tactics are not detected at all.** `threat_after` iterates
+   `after.legal_moves` and `continue`s on anything that is not a capture, so a
+   fork, skewer or discovered attack that begins with a quiet move is
+   invisible. About a third of the forced losses in the "no capture" bucket
+   start with a non-capture — `Qb5+`, `Nf7+`, `Rh2`. Roughly 60 instances in
+   this block.
+2. **The rule catches about half the forced material losses.** ~170 of the 761
+   missed moves (95% CI roughly 115–220) lose a piece or more by force. Against
+   196 caught, the metric sees something like half of the real total.
+3. **"A pawn is capturable" is not a usable rule either.** Three-quarters of
+   that bucket loses nothing real — the pawn is defended, poisoned, or given up
+   for compensation. Lowering the threshold to 100 adds mostly noise.
+
+The principle that would cover all of it is *material lost by force that a scan
+of the resulting position would reveal*, implementable as a shallow forced
+material-balance test rather than a static SEE probe. It excludes positional
+drift automatically, since drift does not move the material count (78% of the
+"no capture" bucket loses nothing and is correctly excluded today).
+
+**Decision (Justin, 2026-09-03): keep the narrow scope.** Immediate loss of a
+piece or more only. Reasons: redefining the primary outcome means recomputing
+the baseline across seven blocks and restarting the treatment block, and this
+would have been the second scope change in two days. The failure mode being
+avoided is not a bad change but an endless series of good ones that never
+accumulates a block.
+
+So the metric is knowingly a **lower bound on forced material loss, covering
+roughly half of it**, and the drill trains the immediate-capture case only.
+That is a scope limit, not a bias: it applies to every block equally, so
+block-to-block comparison is unaffected. State it as a lower bound in any
+absolute claim. The forced-material-loss version is the obvious next metric —
+build it *after* this block resolves, never during.
+
+Consequence for the drill wording: the ask now reads "can they win a piece or
+more, right now?" and says explicitly that a loose pawn does not count and
+neither does a tactic needing a quiet move first. 139 of 1,089 safe steps (13%)
+have a pawn capturable, and on those the verdict names it — "Rxe4 wins a pawn,
+which is below this drill's threshold". Without that, a correct chess instinct
+gets marked wrong once every eight cards, which is the fastest way to stop
+trusting the tool.
+
 ### Group F: play-forward, and why the P scan trains the wrong half
 
 Added Sep 2026. `build_forward.py`. The argument, assembled from results already
@@ -2392,10 +2450,18 @@ extended to the treatment block:
 3. H2 share among permanent hot-zone first drops (`forcingtest.py`), against
    the published 57%. Underpowered on one block; logged only.
 
-**Amendments, and why this is not a restart (2026-09-03).** Two changes landed
+**Scope frozen 2026-09-03.** The definition of the outcome, the card set and
+the F protocol are now fixed for the duration of this block. Anything found
+after this date — including bugs and including scope gaps as real as the
+two-move-tactic gap above — gets written down and waits for the next block.
+Three changes landed on 2026-09-03 (visualization step, label audit, piece-
+threshold wording); that is the complete list, and the count is the point.
+
+**Amendments, and why this is not a restart (2026-09-03).** Three changes landed
 after the dose was set: the judgment step now names the played move without
 showing it (Justin's change — the safety call is made on a visualized position,
-as at the board), and the outcome floor moved 0.02 → 0.05. Both are legitimate
+as at the board), the outcome floor moved 0.02 → 0.05, and the ask was reworded
+to state the piece threshold. All three are legitimate
 amendments rather than a broken pre-registration, for one reason: **no outcome
 data existed or was inspected.** The treatment block had two days of
 unannotated games, nothing was computed on them, and the floor change was
@@ -2404,8 +2470,9 @@ integrity condition is that the rule is fixed before the data is seen, and it
 was.
 
 What is reset, to keep it clean: **the intervention start moves to 2026-09-03**,
-the date the card set and protocol reached their current form. Cost is two days
-of games. The 16 cleared cards and ~40 corrected verdicts mean sessions before
+the date the card set and protocol reached their current form — that is, the
+first session run against the current cards and the current wording. Cost is
+two days of games. The 16 cleared cards and ~40 corrected verdicts mean sessions before
 that date were partly drilling on wrong labels, so they are not treatment
 either. Everything else stands — dose, decision rule, block size, the
 no-interim-look rule.

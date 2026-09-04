@@ -470,8 +470,8 @@ js = r"""/*F-JS*/
       btns='<div class="fbtns"><button class="btn play" data-act="reveal">Show what I played</button></div>';
     } else if(phase===1){
       // board stays on the pre-move position: the move is named, not shown
-      ask='<p class="fask">You played <span class="fmove">'+st.s+'</span>. <strong>Without seeing it, picture the position after that move. What can they take or check?</strong> Does anything hang?</p>';
-      btns='<div class="fbtns"><button class="btn ghost" data-act="ans" data-a="S">Safe</button><button class="btn warn" data-act="ans" data-a="H">Something hangs</button></div>';
+      ask='<p class="fask">You played <span class="fmove">'+st.s+'</span>. <strong>Without seeing it, picture the position after that move. Can they win a piece or more, right now?</strong> <span class="dim">A loose pawn does not count, and neither does a tactic that needs a quiet move first.</span></p>';
+      btns='<div class="fbtns"><button class="btn ghost" data-act="ans" data-a="S">Safe</button><button class="btn warn" data-act="ans" data-a="H">A piece hangs</button></div>';
     } else {
       b=apply(b,st.m); hl=[sq(st.m.slice(0,2)),sq(st.m.slice(2,4))]; cls='hl';
       {
@@ -500,7 +500,8 @@ js = r"""/*F-JS*/
     } else if(st.L==='C'){
       out='<p><strong class="tag">'+tag+'.</strong> '+st.cap+' does take material ('+pawns(st.sv)+'), but the engine says the move is fine: '+ev(st.cb)+' &rarr; '+ev(st.ca)+'. There is compensation &mdash; a bigger capture, a check, or a counter-threat. The scan should find the capture <em>and</em> conclude it does not matter.</p>';
     } else {
-      out='<p><strong class="tag">'+tag+'.</strong> Nothing hangs.'+
+      out='<p><strong class="tag">'+tag+'.</strong> '+
+        (st.sv>=100?'<strong>'+st.cap+'</strong> wins a pawn, which is below this drill\'s threshold &mdash; nothing worth a piece hangs.':'Nothing hangs.')+
         (st.fixed?' There <em>was</em> a threat before this move'+(st.bcap?' ('+st.bcap+')':'')+' and this dealt with it.':'')+
         (st.we>0.10?' The engine still disliked the move ('+ev(st.cb)+' &rarr; '+ev(st.ca)+'), but no material was loose &mdash; that is a different error and not what this drill checks.':'')+'</p>';
     }
