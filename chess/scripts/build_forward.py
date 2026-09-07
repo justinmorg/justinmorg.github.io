@@ -335,6 +335,7 @@ blurb = f"""<!--F-START--><section class="group" id="gF">
   <div class="fodo" id="fodo"><span class="fodo-t" id="fodo-t">Games toward the test block: checking&hellip;</span><span class="bar"><i id="fodo-b"></i></span></div>
   <div id="fstats" class="fstats"></div>
   <div id="fstage" class="fstage"></div>
+  <details class="flog" id="flog"><summary>Cards you have done (<span id="flog-n">0</span>)</summary><div id="flog-body"></div></details>
   <p class="rexport"><button id="fexport" class="btn ghost">Copy my F results as JSON</button> <button id="freset" class="btn ghost">Reset F progress</button></p>
 </section>
 <script type="application/json" id="fdata">{data}</script>
@@ -368,6 +369,15 @@ margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;fon
 .fverdict strong.tag{font-family:'Saira Condensed',sans-serif;text-transform:uppercase;letter-spacing:.04em}
 .fsum{font-family:'Roboto Mono',monospace;font-size:.85rem;margin:.4rem 0}
 .fstats{font-family:'Roboto Mono',monospace;font-size:.8rem;color:var(--muted);margin:.2rem 0 .6rem;line-height:1.5}
+.flog{margin:.8rem 0 .2rem;border-top:1px solid var(--rule);padding-top:.5rem}
+.flog summary{cursor:pointer;font-family:'Saira Condensed',sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:.9rem;color:var(--muted)}
+.flog table{border-collapse:collapse;width:100%;margin:.5rem 0 .2rem;font-family:'Roboto Mono',monospace;font-size:.76rem}
+.flog td{padding:.3rem .35rem;border-bottom:1px solid var(--rule);vertical-align:top}
+.flog td.dots{letter-spacing:.08em;white-space:nowrap}
+.flog td.sc{text-align:right;white-space:nowrap}
+.flog .yes{color:var(--board)} .flog .no{color:var(--flag);font-weight:700}
+.flog .dc{color:var(--muted)}
+.flog .empty{color:var(--muted);font-size:.8rem;margin:.4rem 0}
 .fnav{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0 0}
 .fnav .btn{cursor:pointer}
 /*F-CSS-END*/"""
@@ -437,6 +447,33 @@ js = r"""/*F-JS*/
     return {n:n,h:h,hc:hc,sf:sf,sfc:sfc,med:tt.length?tt[Math.floor(tt.length/2)]:0,
       cards:Object.keys(s).filter(function(k){return s[k].done}).length};
   }
+  function paintLog(){
+    var s=fget(), body=document.getElementById('flog-body'), cnt=document.getElementById('flog-n');
+    if(!body)return;
+    var byKey={}; cards.forEach(function(c){byKey[c.k]=c});
+    var rows=Object.keys(s).filter(function(k){return s[k].done})
+      .map(function(k){return {k:k,e:s[k],c:byKey[k]}})
+      .sort(function(a,b){return (b.e.done||0)-(a.e.done||0)});
+    cnt.textContent=rows.length;
+    if(!rows.length){ body.innerHTML='<p class="empty">Nothing finished yet. Cards show up here once you reach the end of one.</p>'; return; }
+    var stale=0, html='<table>';
+    rows.forEach(function(r){
+      if(!r.c){stale++;return;}
+      var st=(r.e.steps||[]).slice().sort(function(a,b){return a.ply-b.ply});
+      var dots=st.map(function(x){
+        return '<span class="'+(x.c?'yes':'no')+'" title="'+(x.L==='H'?'a piece hung':'safe')+', you said '+(x.a==='H'?'hangs':'safe')+'">'+(x.c?'✓':'✗')+'</span>';
+      }).join('');
+      var ok=st.filter(function(x){return x.c}).length;
+      var d=new Date(r.e.done), when=(d.getMonth()+1)+'/'+d.getDate();
+      html+='<tr><td>'+when+'</td><td class="dots">'+dots+'</td><td class="sc">'+ok+'/'+st.length+
+        (r.c.decoy?' <span class="dc">decoy</span>':'')+'</td>'+
+        '<td><a href="https://lichess.org/'+r.c.gid+'" target="_blank" rel="noopener">game</a> <span class="dc">'+r.c.date+'</span></td></tr>';
+    });
+    html+='</table>';
+    if(stale)html+='<p class="empty">'+stale+' card'+(stale>1?'s':'')+' from an older version of the set, no longer shown.</p>';
+    body.innerHTML=html;
+  }
+
   function paintStats(){
     var d=stepsDone();
     if(!d.n){stats.textContent=cards.length+' cards. Nothing answered yet.';return;}
@@ -525,7 +562,7 @@ js = r"""/*F-JS*/
       ent.steps=ent.steps.filter(function(x){return x.ply!==st.ply});
       ent.steps.push({ply:st.ply,L:st.L,a:a,c:right?1:0,t:t,ts:Date.now()});
       if(si+1>=card.steps.length){ent.done=Date.now();}
-      s[card.k]=ent; fset(s); card._last=a; phase=2; paintStats(); draw(); return;
+      s[card.k]=ent; fset(s); card._last=a; phase=2; paintStats(); paintLog(); draw(); return;
     }
     if(act==='next'){
       if(si+1>=card.steps.length){ show(firstUnfinished()); return; }
@@ -543,9 +580,9 @@ js = r"""/*F-JS*/
       .catch(function(){prompt('Copy:',txt);});
   });
   document.getElementById('freset').addEventListener('click',function(){
-    if(confirm('Clear all group F answers? (P/R/endgame progress is untouched.)')){ fset({}); paintStats(); show(firstUnfinished()); }
+    if(confirm('Clear all group F answers? (P/R/endgame progress is untouched.)')){ fset({}); paintStats(); paintLog(); show(firstUnfinished()); }
   });
-  paintStats(); show(firstUnfinished());
+  paintStats(); paintLog(); show(firstUnfinished());
 
   // ---- odometer: rated blitz games since the drill began, toward the 900-game block
   (function(){

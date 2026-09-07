@@ -2340,6 +2340,13 @@ reproduce the mechanism instead:
   cards / 1,409 decisions, split 256 H / 64 C / 1,089 S, so the base rate of
   "hangs" is ~18%.
 
+A collapsed **"Cards you have done"** block sits under the stage: one row per
+finished card, most recent first — date, a tick/cross per decision (hover gives
+the label and the answer given), the tally, `decoy` where applicable, and a
+link to the game on Lichess. Keys left over from an earlier version of the card
+set are counted and named rather than silently dropped, so a rebuild does not
+make progress appear to vanish.
+
 Progress is `localStorage` `drills.forward.v1`, keyed `F-{gid}-{ply}` (hit
 windows) or `F-{gid}-{ply}-d` (decoys). F cards carry no `class="drill"` and no
 tick box, so the 217-drill counter and reset button never touch them — the group R
