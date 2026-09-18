@@ -49,7 +49,8 @@ different denominators.
 A single value still works. The published Q4 table is a 180+2,300+0 run.
 Eligibility mirrors longitudinal.py exactly: own move, fullmove > 12,
 npm(board,'light') > 14, eval before the move >= +150cp. Floor is
-wp_error >= 0.02.
+wp_error >= 0.02 by default (every published table); --floor 0.05 is the
+pre-registered outcome floor.
 
 Examples
 --------
@@ -84,7 +85,7 @@ def parse_tc(tc):
     return {t.strip() for t in tc.split(",") if t.strip()}
 
 
-def per_game(path, user, tc=None, need_hits=True):
+def per_game(path, user, tc=None, need_hits=True, floor=0.02):
     """Per game: (eligible, floored_hits, hung_it_myself, n_elig_mg, peak).
 
     The first three mirror longitudinal.py.  The last two mirror *outcomes.py*
@@ -96,6 +97,11 @@ def per_game(path, user, tc=None, need_hits=True):
 
     `need_hits=False` skips the SEE probe entirely, which is the whole cost of
     this pass.  The game-level metrics do not need it.
+
+    `floor` is the win%-error floor a hit must clear to count.  0.02 is the
+    value every README table was published at; the pre-registration
+    (amended 2026-09-03) fixes the *outcome* floor at 0.05, so the
+    pre-registered test is `--floor 0.05` and nothing else changes.
     """
     stats = {"games": 0, "user_moves": 0, "in_check": 0, "matched": 0}
     rows = []
@@ -140,7 +146,7 @@ def per_game(path, user, tc=None, need_hits=True):
                                 hits.append(r)
                 board.push(move)
                 prev = ev if ev is not None else prev
-            fl = [r for r in hits if r["wp_error"] >= 0.02]
+            fl = [r for r in hits if r["wp_error"] >= floor]
             rows.append((elig, len(fl),
                          sum(1 for r in fl if r["label"] == "hung it myself"),
                          n_elig_mg, peak))
@@ -198,14 +204,15 @@ def cmd_shuffle(args):
     labels, pairs, sizes = [], [], {}
     for spec in args.blocks:
         name, path = spec.split("=", 1)
-        rows = per_game(path, args.user, parse_tc(args.tc), need_hits=need)
+        rows = per_game(path, args.user, parse_tc(args.tc), need_hits=need,
+                        floor=args.floor)
         sizes[name] = len(rows)
         for r in rows:
             labels.append(name)
             pairs.append(metric_pair(r, m))
     obs = rates(labels, pairs)
-    print("metric: %s   (%d games across %d blocks)\n"
-          % (m, len(labels), len(sizes)))
+    print("metric: %s   floor %.2f   (%d games across %d blocks)\n"
+          % (m, args.floor, len(labels), len(sizes)))
     print("%-12s %7s %15s %8s"
           % ("block", "games", unit_label(m), "rate%"))
     for name in sizes:
@@ -249,7 +256,7 @@ def cmd_pools(args):
         head, path = spec.split("=", 1)
         window, pool = head.split(":", 1)
         rows = per_game(path, users.get(pool, args.user), parse_tc(args.tc),
-                        need_hits=need)
+                        need_hits=need, floor=args.floor)
         for r in rows:
             win[window].append((pool, metric_pair(r, m)))
     pools = []
@@ -348,6 +355,10 @@ def main():
     ap.add_argument("--tc", default=None,
                     help="comma-separated TimeControl allow-list, "
                          "e.g. 180+2,300+0. A single value still works.")
+    ap.add_argument("--floor", type=float, default=0.02,
+                    help="win%%-error floor for hang/hungself hits. 0.02 is "
+                         "what the README tables were published at; the "
+                         "pre-registered outcome uses 0.05.")
     ap.add_argument("--n", type=int, default=20000, help="permutations")
     ap.add_argument("--seed", type=int, default=23)
     ap.add_argument("--user", default=os.environ.get("CHESS_USER", "jamorgan"))
