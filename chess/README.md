@@ -102,6 +102,9 @@ chess/
     ├── ratingexcursion.py                     was a rating peak real, or a random walk?
     ├── pawnpiece.py                            are pawn moves more dangerous than piece moves?
     ├── pawnpiece_prespec.md                    pre-spec for the above (pre-specified; null)
+    ├── eglevel.py                              block homogeneity of the level-endgame score
+    ├── eglevel_prespec.md                      pre-spec for the above (pre-specified; null)
+    ├── q4hang_prespec.md                       Q4 2025 as a held-out hanging-material replication block
     ├── quiet43.py                              characterizing the 43% H2 doesn't cover
     ├── pvplayout.py                            delayed tactic or positional decay?
     ├── openings.py                             recover the played book from move times
@@ -207,7 +210,11 @@ opponent 1317); Q3 is the plateau onset (1399 / 1396).
 
 The corpus default filter is a **no-op** on this window — every game in
 Oct–Dec 2025 is already `rated blitz game` at 180+2, so there are no arena
-games, no 5+0 and no 3+0 to drop. Three checks beyond the table: zero GameId
+games, no 5+0 and no 3+0 to drop. Re-verified 2026-09-18 in a fresh sandbox
+against the raw 2025 file, every row of the table and all three checks below
+reproducing exactly; the raw file itself is 2,527 at 180+2 and 2 at 300+0, so
+the 3+2/5+0 filter removes **zero** games from calendar 2025. Three checks
+beyond the table: zero GameId
 overlap with any other annotated block; ply count and the complete `[%clk]`
 series byte-identical to the raw slice, so annotation added evals and touched
 nothing else; and the source carried no server evals, so every eval here is
@@ -511,6 +518,73 @@ game here is outside it by construction.
 
 The `> +300` row sits above the depth-12 reliable band. The other three are
 within it.
+
+#### The 42.7% is one number across blocks — pre-specified, null
+
+Run 2026-09-18. **Pre-specified in `chess/scripts/eglevel_prespec.md`,
+written and committed before any per-block value of this metric existed.**
+Script `eglevel.py`, on the eight-block `features.py` run, gated on the
+seven-block subset reproducing 5,404 games, endgame entry 1,073 / 401 / 774 /
+1,443, level 42.7%, the site split 641 / 133 and the Lichess format split
+529 / 112 — all pass.
+
+```bash
+python3 chess/scripts/eglevel.py /home/claude/features8   # eight-block run
+```
+
+Metric: score per game among games whose endgame-entry eval is level
+(`outcomes.bucket_of`, −100 < cp ≤ +100, entry checked on every ply). Test:
+`blockstats.py shuffle`'s scheme on `games.csv` — game-level label shuffle
+across the seven published blocks, spread statistic, 20,000 draws, seed 23.
+Q4 2025 held out as a replication block, two-sided.
+
+| block | level-endgame games | score |
+|---|---|---|
+| 2024 H2 | 72 | 38.9% |
+| Q1 2025 | 56 | 44.6% |
+| Q2 2025 | 245 | 43.5% |
+| Q3 2025 | 59 | 44.1% |
+| 2026 | 209 | 43.3% |
+| cc 2024 Q4 | 114 | 42.5% |
+| cc 2026 | 19 | 31.6% |
+| **Q4 2025 (held out)** | **35** | **47.1%** (16 W / 1 D / 18 L) |
+
+- Seven-block spread 13.1 pp, **p = 0.70**. Min-block (cc 2026) p = 0.26,
+  max-block (Q1 2025) p = 0.99 — reported, not deciding. **Null on the
+  pre-specified rule** (spread p < 0.05). Lichess-only five blocks: spread
+  5.8 pp, p = 0.92.
+- Q4 held out: +4.4 pp against the pooled 42.7%, **two-sided p = 0.65.
+  Replicates** on the pre-specified rule.
+
+**Resolution, and it is poor — read this before quoting the null.** By
+simulation at the actual block sizes, the spread test would have rejected at
+80% power only if one block sat about **28 pp** (largest block, n = 245) to
+**32 pp** (smallest, n = 19) away from 42.7%. Q4's replication read detects
+**±23 pp** on 35 games. So the honest statement is: no block is off by
+something like thirty points; a block-to-block difference of five or ten
+points is invisible to this design. The cause is the spread statistic with a
+19-game block in it — that block's sampling noise alone sets the null
+distribution. Lesson for the next block-comparison test, recorded rather than
+applied post hoc: **drop blocks under ~50 games from a spread test, or use a
+statistic that weights by n.** The Lichess-only secondary, whose smallest
+block is 56 games, is the better-powered read here and is also null.
+
+**Selection caveat, and it shows up in the data.** The population is
+conditioned on *reaching* a level endgame, and the road there differs by
+block. The pre-spec flagged Q4's elevated early-simplification share as the
+specific hazard; in the level-endgame set the effect is large: **42.9% of
+Q4's level-endgame games enter the endgame at fullmove 13** (the earliest
+possible ply, i.e. queenless middlegames) against **23.4%** across the seven
+blocks. Q4's 47.1% is therefore partly a different population, not just a
+different sample. This comparison compares destinations, not roads, and
+nothing about endgame *technique* can be read off a block difference in it
+even where one exists.
+
+**What it changes: nothing.** The pooled 774 / 42.7% stands as one number,
+and pooling it was legitimate. The endgame track's priority was already set
+by the `material.py` benchmark argument (roughly par for the material on the
+board), which this does not touch. No drill-queue change follows, and none
+could during the frozen treatment block anyway.
 
 #### Flag wins
 
@@ -1107,6 +1181,62 @@ that a known number reproduces.
 Do not act on it, do not build a mechanism story around it, and do not let it
 into a summary as "Q4 2025 converted fewer games."
 
+### Q4 2025 at the pre-registered floor
+
+Run 2026-09-18, on the rule in `chess/scripts/q4hang_prespec.md` (committed
+before the number existed): Q4 read as a **held-out replication block** for
+the flat hanging-material rate, at the pre-registration's own definitions —
+0.05 floor, corpus-default 3+2/5+0 scope, Lichess only, six settled blocks,
+`blockstats.py shuffle --metric hang --floor 0.05 --seed 23`. Two-sided on
+Q4, since it was declared in advance rather than picked for being extreme.
+
+Tripwire first: the published 3+2 / 0.02 run reproduces to the digit through
+the new `--floor` default (spread 0.92 pp, p = 0.8585).
+
+| block | games | eligible | hang, 0.02 floor | **hang, 0.05 floor** | hungself, 0.05 |
+|---|---|---|---|---|---|
+| 2024 H2 | 651 | 2,090 | 5.02% | **4.45%** | 0.96% |
+| Q1 2025 | 375 | 1,228 | 5.21% | **4.15%** | 0.98% |
+| Q2 2025 | 1,559 | 5,005 | 4.40% | **3.66%** | 1.22% |
+| Q3 2025 | 363 | 1,300 | 4.31% | **3.54%** | 1.08% |
+| **Q4 2025** | 232 | 693 | 4.33% | **4.04%** | 1.30% |
+| 2026 | 1,511 | 5,517 | 4.33% | **3.55%** | 0.89% |
+
+Scope is 3+2 *and* 5+0, so the 0.02 column is the `features.py` view (2026
+at 4.33%, not the 3+2 table's 4.73%); it agrees with `features.py` on every
+block. Six-block shuffle, 20,000 draws, seed 23:
+
+| | 0.02 floor | **0.05 floor** |
+|---|---|---|
+| hang: spread | 0.90 pp, p = 0.84 | **0.91 pp, p = 0.79** |
+| hungself: spread | — | 0.41 pp, p = 0.84 |
+| Q4 vs other five pooled, hang | 4.33 vs 4.52%, −0.19 pp, p = 0.83 | **4.04 vs 3.76%, +0.28 pp, p = 0.73** |
+| Q4 vs other five pooled, hungself | 1.44 vs 1.11%, +0.33 pp, p = 0.43 | 1.30 vs 1.03%, +0.27 pp, p = 0.51 |
+
+**Q4 replicates on the pre-specified rule (p ≥ 0.05), and the flatness
+result is unchanged at the pre-registered floor.** Two things worth having
+on the record:
+
+- **The level shift is as the label audit predicted.** Every block drops by
+  0.6–1.1 pp moving from 0.02 to 0.05, the ordering barely changes, and the
+  spread is identical to two decimals (0.90 → 0.91 pp). The pooled six-block
+  baseline at the pre-registered floor is **~3.8%** (3.76% over the five
+  non-Q4 blocks; the pre-registration's "~4.6%" was the 3+2 / 0.02 figure
+  and should be read as ~3.8% now). This is the baseline the group F test
+  will be computed against; it is recomputed at test time regardless.
+- **Resolution.** At 693 eligible moves against ~3.8%, Q4 detects a
+  difference of about **±2.0 pp** at 80% power — it could only have failed
+  by reading below ~1.8% or above ~5.8%. So "replicates" means "is not
+  wildly off", exactly as the pre-spec said it would. The pre-registration's
+  own resolution table (1.1 pp on 3,000 moves) is the number that matters
+  for the treatment block, and Q4 is not that block.
+- Q4's `hungself` is again the maximum block (1.30% at 0.05, max-block
+  p = 0.59), as it was at 0.02. It is noise at every floor and every scope it
+  has been measured at. Do not raise it again.
+
+This computed nothing on the treatment block, which is not in the
+repository; the no-interim-look rule is untouched.
+
 ### The Jan/Feb 2026 rating peak was a random walk
 
 Aug 2026. On **2026-02-06 the rating hit 1508**, the all-time Lichess blitz high
@@ -1334,6 +1464,14 @@ It carries two families of metric with **different denominators**: `hang` and
 `hungself` are per eligible winning-middlegame move, while `reached`, `noelig`
 and `reached_mg` are per game and mirror `outcomes.py`'s eligibility (no `cp`
 gate). Do not compare across the families.
+
+`--floor` (added 2026-09-18) sets the win%-error floor for `hang`/`hungself`.
+It defaults to **0.02**, the value every table and p-value in this file was
+published at, so existing invocations are unchanged — verified: the six-block
+3+2 run below still returns spread 0.92 pp, p = 0.8585. **`--floor 0.05` is
+the pre-registered outcome floor** and is the invocation the group F test
+must use; see "Q4 2025 at the pre-registered floor" for the baseline blocks
+at that setting. The flag changes only which hits count, never eligibility.
 
 
 
@@ -4069,7 +4207,9 @@ were built against — keep using it to validate a fresh environment. Adding
 `Q4-2025=jamorgan_blitz_2025q4_analyzed.pgn` gives **5,636 games / 186,191
 own-move rows**, and the seven old blocks reproduce inside it unchanged
 (verified: reached 2,865 / 63.9%; endgame entry 1,073 / 401 / 774 / 1,443; flag
-wins 434 of 2,619; all seven per-block hang rates identical). Q4 is folded into
+wins 434 of 2,619; all seven per-block hang rates identical — and verified
+again 2026-09-18 in a fresh sandbox, both runs, every figure to the digit;
+`hanging.py` on the 2026 corpus gave 368 / 290 / 78 first). Q4 is folded into
 `longitudinal.py` and `outcomes.py` above; it is **not** folded into
 `phases.py`, `material.py`, think-time, `oppmove.py`, `firstdrop.py` or
 `forcingtest.py`, which remain seven-block results.
@@ -4345,6 +4485,14 @@ without its resolution attached.
 
 ### Do not re-chase
 
+- **Block heterogeneity in the level-endgame score.** Pre-specified, null:
+  seven-block spread p = 0.70, Lichess-only p = 0.92, Q4 held out at p = 0.65.
+  Resolution is coarse (a single block would have to be off by ~30 pp), so
+  this rules out a large block effect only — but the metric is conditioned on
+  reaching a level endgame, and Q4 shows how strongly composition drives who
+  gets there (42.9% vs 23.4% entering at move 13), so a block difference here
+  would not be a technique finding anyway. If it is ever re-tested, weight by
+  n or drop blocks under ~50 games; do not re-run this design.
 - **Pawn moves being more dangerous than piece moves.** Pre-specified, null:
   standardized +0.40 pp on a ~9.5% base at p = 0.12 over 106,237 rows, and the
   exploratory hot-zone cut is +0.11 pp. Note the raw comparison runs the *other*
