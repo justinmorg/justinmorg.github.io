@@ -2517,6 +2517,50 @@ embedded card data.
 whether or not anything transfers, and the cards are the tail of the
 distribution. It is practice feedback. The outcome is below.
 
+### Known mislabels found during the frozen block — do not fix until it ends
+
+Cards are **not** edited while the treatment block runs (see "Scope frozen"
+below). Wrong labels found in play are recorded here and fixed in the next
+card set.
+
+**Card 33, `F-QMTTIZzN-36`, decision 5 — 18...Ne4. Labelled H; should be
+safe.** Found 2026-09-27 by Justin. The H label rests on 19.fxe4 (SEE 300),
+but fxe4 opens the h5–e2 diagonal and 19...Bxe2 wins White's queen (Black
++5.95 at depth 22). White's real best is 19.Nxe4 dxe4 20.Qxe4 — a knight trade
+that nets one pawn. The move did cost something (depth 24: best Nd7/Bf7 ~+3.97,
+after Ne4 +3.11, so ~0.9 of a pawn), but it is a loose pawn, below the drill's
+piece threshold. Decisions 1–4 (S) are correct.
+
+**This is a new failure class, distinct from the 2026-09-03 label audit.**
+That audit caught *wrong evals* — depth-12 wobble turning a compensated move
+into a drop. Here the eval is *right*: the drop is real and survives depth 18
+and 24. What is wrong is the *explanation* attached to it. SEE finds a
+capture on one square, the eval finds a drop, and the label ANDs them — but
+the capture is refuted elsewhere (a counter-capture of a bigger piece) and the
+drop comes from something else entirely (a pawn lost to a different line).
+`verify_labels.py` cannot catch this, because it only re-checks whether the
+eval dropped. Its cache entry for this step (`fb` 401 / `fa` 279) agrees with
+the corpus.
+
+Fix for the next card set, not this one: for an H label, **play the flagged
+SEE capture and evaluate the resulting position at depth 18**; label H only if
+the capture actually leaves the opponent up ≥150 cp of material by force.
+Otherwise C (refuted capture) or S with the pawn note.
+
+Consequence for the outcome metric: `hanging.py` uses the same one-square
+probe, so this class also inflates the primary hanging-material count. Like
+the floor issue, it should apply to every block about equally, so block
+comparisons survive; its rate is unmeasured. Measure it when the next card set
+is built, not before the treatment block is tested.
+
+**Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
+every decision marked wrong in the `drills.forward.v1` export**, in both
+directions — H answered safe (possible false H, as here) and S answered
+hangs (possible missed hang). This is review for learning plus a cheap audit;
+it touches nothing in the treatment block. Blind spot, noted so it is not
+mistaken for a full audit: a mislabel the answer *agreed with* is never
+flagged by this pass.
+
 ## Pre-registration: does group F move the hanging-material rate?
 
 Written 2026-09-01, before any F session and before any new block was
