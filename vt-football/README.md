@@ -27,3 +27,13 @@ Past seasons already on disk are skipped unless `--force` is given.
 import duckdb
 duckdb.sql("select * from read_parquet('data/plays/*.parquet') limit 5")
 ```
+
+## Second source: hokiesports.com (TAS/StatCrew XML)
+VT's official stats site (statistics.hokiesports.com, box score IDs like 5295) serves the
+original stat-crew game files: every play includes tacklers, penalties, fumble recoveries,
+and drive summaries. Used to fill CFBD gaps (2002) and possibly pre-2001 seasons.
+- `parse_tas.py <file.xml> --source-id <hokiesports id>` writes
+  `data/hokiesports/{games,drives,plays,players}/<id>.parquet` and keeps the raw XML in
+  `hokiesports/raw/`.
+- The play `clock` is the last clock the scorer logged (drive start, scores, timeouts),
+  not an exact per-play time.
