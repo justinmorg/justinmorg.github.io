@@ -44,7 +44,7 @@ def main():
     LABELS = ("Kickoff time", "End of Game", "Total elapsed time", "Temperature", "Wind", "Weather",
               "Attendance", "Referee", "Umpire", "Linesman", "Line judge", "Back judge", "Field judge", "Side judge")
     nxt = "|".join(re.escape(l) + ": " for l in LABELS)
-    field = lambda k: (re.search(rf"(?<![A-Za-z]){re.escape(k)}: (.*?)(?={nxt}|$)", details) or [None, None])[1]
+    field = lambda k: (re.search(rf"{re.escape(k)}: (.*?)(?={nxt}|$)", details) or [None, None])[1]
     officials = "; ".join(f"{k}: {field(k)}" for k in ("Referee", "Umpire", "Linesman", "Line judge",
                           "Back judge", "Field judge", "Side judge") if field(k))
     game = dict(gameId=a.id, cfbdGameId=a.cfbd_id,
