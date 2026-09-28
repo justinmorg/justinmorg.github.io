@@ -14,7 +14,8 @@ starts in 2001.
 ## Known gaps in the CFBD source
 - 2002: no play-by-play for any regular-season game (drives are also mostly missing).
   Filled from hokiesports.com (`data/hokiesports/`, IDs 5295-5308) for all 13 games except
-  West Virginia (Nov. 20), which has no XML on the official site either.
+  West Virginia (Nov. 20), which has no play-by-play anywhere found so far. A partial record
+  (scoring summary, team stats, game details) is in `data/stats_hokiesports/` (box 5988).
 - 2003 Boston College: no plays; 2003 at Virginia: plays stop after the 3rd quarter. Both are
   filled from hokiesports.com (IDs 5319, 5320).
 - 2004 Sugar Bowl vs. Auburn (Jan. 3, 2005): no plays in CFBD and no box score on hokiesports.com.
@@ -78,3 +79,12 @@ chart, play-by-play) can still be parsed.
 - No players table (the text report's stat tables aren't parsed).
 - 2005 Sugar Bowl (`20050103-AU`, CFBD 250030259): all team totals, individual rushing and
   receiving lines, drive play counts, and the score by quarter match the report's own box score.
+
+## Fourth source: stats.hokiesports.com box scores (partial records)
+`https://stats.hokiesports.com/football/box/?<id>=` pages have a line score, game details,
+scoring summary and team stats, but no play-by-play. IDs are sequential by game (2000 WVU is
+5959; 2002 is 5977-5991; 2003 starts at 5992).
+- `parse_stats_hokiesports.py <id> [--cfbd-id ...]` saves the page to `stats_hokiesports/raw/`
+  and writes `data/stats_hokiesports/{games,scoring,teamstats}/<id>.parquet`.
+- Used for 2002 West Virginia (5988, CFBD 223240259). Matches CFBD's line score and attendance.
+- The site's derived averages are sometimes wrong (VT "Average Per Rush 0.0"); stored as published.
