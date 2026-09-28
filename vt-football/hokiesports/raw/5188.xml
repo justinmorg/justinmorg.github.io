@@ -1,0 +1,1655 @@
+<fbgame source="Tas Football" version="1.3.5" generated="9/17/2010">
+ <venue gameid="19930918" visid="VT" homeid="MIAMI" visname="Virginia Tech" homename="Miami"
+      date="9/18/1993" location="Miami, Fl." stadium="Orange Bowl"
+      start="4:06 pm" end="7:23 pm" leaguegame="Y"
+      duration="3:17" attend="55753" temp="88" wind="12 E" weather="partly sunny,63% hum">
+  <officials ref="John Smith" ump="Ron Abdow" line="Tom Stabile" lj="M. Scherrens" bj="Jeff Triplette" fj="John Daniels" sj="Roger Parramore"></officials>
+  <rules qtrs="4" mins="15" downs="4" yds="10" kospot="35" tbspot="20" patspot="3" safspot="20" td="6" fg="3" pat="1" patx="2" saf="2" defpat="2" rouge="1" field="100" toh="3" sackrush="Y" fgaplay="Y" netpunttb="Y"></rules>
+ </venue>
+ <team vh="V" code="" id="VT" name="Virginia Tech" record="2-1" conf-record="1-1" abb="V">
+  <linescore prds="4" line="0,0,0,2" score="2">
+   <lineprd prd="1" score="0"></lineprd>
+   <lineprd prd="2" score="0"></lineprd>
+   <lineprd prd="3" score="0"></lineprd>
+   <lineprd prd="4" score="2"></lineprd>
+  </linescore>
+  <totals totoff_plays="59" totoff_yards="176" totoff_avg="3.0">
+   <firstdowns no="12" rush="7" pass="4" penalty="1"></firstdowns>
+   <penalties no="14" yds="112"></penalties>
+   <conversions thirdconv="4" thirdatt="14" fourthconv="0" fourthatt="1"></conversions>
+   <fumbles no="3" lost="3"></fumbles>
+   <misc yds="0" top="27:24" ona="0" onm="0"></misc>
+   <redzone att="2" scores="0" points="0" tdrush="0" tdpass="0" fgmade="0" endfga="0" enddowns="1" endint="1" endfumb="0" endhalf="0" endgame="0"></redzone>
+   <rush att="45" yds="125" gain="174" loss="49" td="0" long="38"></rush>
+   <pass comp="6" att="14" int="2" yds="51" td="0" long="13" sacks="5" sackyds="27"></pass>
+   <rcv no="6" yds="51" td="0" long="13"></rcv>
+   <punt no="6" yds="254" long="49" blkd="0" tb="1" fc="0" plus50="0" inside20="4" avg="42.3"></punt>
+   <ko no="1" yds="68" ob="0" tb="0"></ko>
+   <defense tackua="58" tacka="50" tot_tack="108" tflua="10" tfla="0" tflyds="26" sacks="5" sackyds="34" brup="3" qbh="12" saf="1" blkd="1" ff="1" fr="2" fryds="0" int="1" intyds="5"></defense>
+   <kr no="3" yds="52" td="0" long="25"></kr>
+   <pr no="3" yds="11" td="0" long="0"></pr>
+   <ir no="1" yds="5" td="0" long="5"></ir>
+   <scoring saf="1"></scoring>
+  </totals>
+  <player name="Michael Williams" shortname="Williams,M." checkname="WILLIAMS,M" uni="1" gp="1" code="1"></player>
+  <player name="Robbie Colley" shortname="Colley,R." checkname="COLLEY,R" uni="2" gp="1" code="2">
+   <punt no="6" yds="254" long="49" blkd="0" tb="1" fc="0" plus50="0" inside20="4" avg="42.3"></punt>
+  </player>
+  <player name="Steve Sanders" shortname="Sanders,S." checkname="SANDERS,S" uni="3" gp="1" gs="1" opos="FL" code="3">
+   <rcv no="2" yds="18" td="0" long="13"></rcv>
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Cornelius White" shortname="White,C." checkname="WHITE,C" uni="4" gp="1" code="4">
+   <rcv no="1" yds="11" td="0" long="11"></rcv>
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Ryan J. Williams" shortname="Williams,Ry." checkname="WILLIAMS,RY" uni="5" gp="1" code="5">
+   <ko no="1" yds="68" ob="0" tb="0"></ko>
+  </player>
+  <player name="Hank Coleman" shortname="Coleman,H." checkname="COLEMAN,H" uni="6" gp="1" gs="1" dpos="DE" code="6">
+   <defense tackua="2" tacka="0" tot_tack="2" tflua="1" tfla="0" tflyds="5" sackua="1" sacka="0" sackyds="7" qbh="2"></defense>
+  </player>
+  <player name="Bernard Basham" shortname="Basham,B." checkname="BASHAM,B" uni="8" gp="1" gs="1" dpos="DT" code="8">
+   <defense tackua="2" tacka="5" tot_tack="7" brup="1" qbh="1"></defense>
+  </player>
+  <player name="Scott Jones" shortname="Jones,S." checkname="JONES,S" uni="9" gp="1" gs="1" dpos="RC" code="9">
+   <defense tackua="5" tacka="0" tot_tack="5" sackua="1" sacka="0" sackyds="4" ff="1"></defense>
+  </player>
+  <player name="Maurice DeShazo" shortname="DeShazo,M." checkname="DESHAZO,M" uni="12" gp="1" gs="1" opos="QB" code="12">
+   <rush att="9" yds="-4" gain="18" loss="22" td="0" long="11"></rush>
+   <pass comp="6" att="13" int="1" yds="51" td="0" long="13" sacks="3" sackyds="17"></pass>
+   <fumbles no="1" lost="1"></fumbles>
+  </player>
+  <player name="Torrian Gray" shortname="Gray,T." checkname="GRAY,T" uni="14" gp="1" gs="1" dpos="FS" code="14">
+   <defense tackua="3" tacka="5" tot_tack="8" tflua="1" tfla="0" tflyds="1"></defense>
+  </player>
+  <player name="Jim Druckenmiller" shortname="Druckenmiller,J" checkname="DRUCKENMILLER,J" uni="16" gp="1" code="16">
+   <rush att="1" yds="-7" gain="0" loss="7" td="0" long="0"></rush>
+   <pass comp="0" att="1" int="1" yds="0" td="0" long="0" sacks="2" sackyds="10"></pass>
+   <fumbles no="1" lost="1"></fumbles>
+  </player>
+  <player name="Bryan Still" shortname="Still,B." checkname="STILL,B" uni="17" gp="1" code="17">
+   <rcv no="1" yds="11" td="0" long="11"></rcv>
+  </player>
+  <player name="Lenarick Thomas" shortname="Thomas,L." checkname="THOMAS,L" uni="18" gp="1" code="18"></player>
+  <player name="DeWayne Knight" shortname="Knight,D." checkname="KNIGHT,D" uni="20" gp="1" gs="1" dpos="LB" code="20">
+   <defense tackua="3" tacka="6" tot_tack="9" tflua="1" tfla="0" tflyds="2"></defense>
+  </player>
+  <player name="Brandon Semones" shortname="Semones,B." checkname="SEMONES,B" uni="21" gp="1" code="21">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Rafael Williams" shortname="Williams,Ra." checkname="WILLIAMS,RA" uni="23" gp="1" code="23"></player>
+  <player name="William Yarborough" shortname="Yarborough,W." checkname="YARBOROUGH,W" uni="24" gp="1" gs="1" dpos="LC" code="24">
+   <defense tackua="5" tacka="2" tot_tack="7" brup="1"></defense>
+  </player>
+  <player name="William Ferrell" shortname="Ferrell,W." checkname="FERRELL,W" uni="25" gp="1" code="25"></player>
+  <player name="Okesa Smith" shortname="Smith,O." checkname="SMITH,O" uni="28" gp="1" code="28"></player>
+  <player name="Ranall White" shortname="White,R" checkname="WHITE,R" uni="29" gp="1" code="29">
+   <rush att="1" yds="3" gain="3" loss="0" td="0" long="3"></rush>
+  </player>
+  <player name="Vernon Dozier" shortname="Dozier,V." checkname="DOZIER,V" uni="30" gp="1" code="30">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Stacy Henley" shortname="Henley,S." checkname="HENLEY,S" uni="31" gp="1" gs="1" dpos="ROV" code="31">
+   <defense tackua="4" tacka="3" tot_tack="7" sackua="1" sacka="0" sackyds="10"></defense>
+  </player>
+  <player name="Brian Edmonds" shortname="Edmonds,B." checkname="EDMONDS,B" uni="32" gp="1" code="32">
+   <rush att="4" yds="17" gain="17" loss="0" td="0" long="8"></rush>
+  </player>
+  <player name="Tommy Edwards" shortname="Edwards,T." checkname="EDWARDS,T" uni="33" gp="1" code="33">
+   <rush att="10" yds="28" gain="37" loss="9" td="0" long="13"></rush>
+  </player>
+  <player name="Joe Swarm" shortname="Swarm,J." checkname="SWARM,J" uni="34" gp="1" gs="1" opos="FB" code="34">
+   <rush att="5" yds="9" gain="11" loss="2" td="0" long="5"></rush>
+  </player>
+  <player name="Ken Landrum" shortname="Landrum,K." checkname="LANDRUM,K" uni="35" gp="1" code="35"></player>
+  <player name="Marcus McClung" shortname="McClung,M." checkname="MCCLUNG,M" uni="37" gp="1" code="37">
+   <defense tackua="0" tacka="2" tot_tack="2"></defense>
+  </player>
+  <player name="Willie Wilkins" shortname="Wilkins,W." checkname="WILKINS,W" uni="38" gp="1" code="38">
+   <defense blkd="1"></defense>
+   <pr no="1" yds="18" td="0" long="0"></pr>
+  </player>
+  <player name="Andy Miller" shortname="Miller,A." checkname="MILLER,A" uni="39" gp="1" gs="1" dpos="LB" code="39">
+   <defense tackua="2" tacka="3" tot_tack="5"></defense>
+  </player>
+  <player name="Shaine Miles" shortname="Miles,S." checkname="MILES,S" uni="40" gp="1" code="40"></player>
+  <player name="George DelRicco" shortname="DelRicco,G." checkname="DELRICCO,G" uni="41" gp="1" code="41">
+   <defense tackua="2" tacka="6" tot_tack="8" tflua="1" tfla="0" tflyds="3" qbh="2"></defense>
+  </player>
+  <player name="Dwayne Thomas" shortname="Thomas,D." checkname="THOMAS,D" uni="42" gp="1" gs="1" opos="TB" code="42">
+   <rush att="14" yds="41" gain="50" loss="9" td="0" long="10"></rush>
+   <rcv no="1" yds="2" td="0" long="2"></rcv>
+   <kr no="3" yds="52" td="0" long="25"></kr>
+  </player>
+  <player name="Larry Green" shortname="Green,L." checkname="GREEN,L" uni="43" gp="1" code="43">
+   <defense tackua="3" tacka="1" tot_tack="4" qbh="1"></defense>
+  </player>
+  <player name="Ken Brown" shortname="Brown,K." checkname="BROWN,K" uni="44" gp="1" gs="1" dpos="LB" code="44">
+   <defense tackua="10" tacka="4" tot_tack="14" tflua="2" tfla="0" tflyds="4" qbh="1" fr="1" fryds="0" int="1" intyds="5"></defense>
+   <ir no="1" yds="5" td="0" long="5"></ir>
+  </player>
+  <player name="Tewon Stevens" shortname="Stevens,T." checkname="STEVENS,T" uni="45" gp="1" code="45"></player>
+  <player name="Chris Malone" shortname="Malone,C." checkname="MALONE,C" uni="51" gp="1" gs="1" opos="SG" code="51"></player>
+  <player name="Chris Peduzzi" shortname="Peduzzi,C." checkname="PEDUZZI,C" uni="53" gp="1" code="53"></player>
+  <player name="Damien McMahon" shortname="McMahon,D." checkname="MCMAHON,D" uni="54" gp="1" gs="1" opos="TG" code="54"></player>
+  <player name="Keith Gray" shortname="Gray,K." checkname="GRAY,K" uni="55" gp="1" code="55"></player>
+  <player name="Lawrence Lewis" shortname="Lewis,L." checkname="LEWIS,L" uni="56" gp="1" gs="1" dpos="DE" code="56">
+   <defense tackua="4" tacka="0" tot_tack="4" sackua="2" sacka="0" sackyds="13"></defense>
+  </player>
+  <player name="Chris Barry" shortname="Barry,C." checkname="BARRY,C" uni="57" gp="1" gs="1" opos="TT" code="57"></player>
+  <player name="Cornell Brown" shortname="Brown,C." checkname="BROWN,C" uni="58" gp="1" code="58">
+   <defense tackua="4" tacka="1" tot_tack="5"></defense>
+  </player>
+  <player name="J.C. Price" shortname="Price,J.C." checkname="PRICE,JC" uni="59" gp="1" code="59">
+   <defense tackua="3" tacka="3" tot_tack="6" tflua="2" tfla="0" tflyds="9" qbh="2"></defense>
+  </player>
+  <player name="Billy Conaty" shortname="Conaty,B." checkname="CONATY,B" uni="61" gp="1" gs="1" opos="ST" code="61">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Jim Petrovich" shortname="Petrovich,J." checkname="PETROVICH,J" uni="63" gp="1" code="63"></player>
+  <player name="Jared Hamlin" shortname="Hamlin,J." checkname="HAMLIN,J" uni="66" gp="1" code="66"></player>
+  <player name="Jay Hagood" shortname="Hagood,J." checkname="HAGOOD,J" uni="71" gp="1" code="71"></player>
+  <player name="Tim Wade" shortname="Wade,T." checkname="WADE,T" uni="72" gp="1" code="72"></player>
+  <player name="Jim Pyne" shortname="Pyne,J." checkname="PYNE,J" uni="73" gp="1" gs="1" opos="C" code="73"></player>
+  <player name="Jeff Holland" shortname="Holland,J." checkname="HOLLAND,J" uni="74" gp="1" gs="1" dpos="DT" code="74">
+   <defense tackua="1" tacka="2" tot_tack="3" tflua="1" tfla="0" tflyds="1" fr="1" fryds="0"></defense>
+  </player>
+  <player name="Mike Bianchin" shortname="Bianchin,M." checkname="BIANCHIN,M" uni="77" gp="1" code="77"></player>
+  <player name="Antonio Freeman" shortname="Freeman,A." checkname="FREEMAN,A" uni="80" gp="1" gs="1" opos="SE" code="80">
+   <rush att="1" yds="38" gain="38" loss="0" td="0" long="38"></rush>
+   <rcv no="1" yds="9" td="0" long="9"></rcv>
+   <pr no="2" yds="-7" td="0" long="0"></pr>
+   <fumbles no="1" lost="1"></fumbles>
+  </player>
+  <player name="Bryan Jennings" shortname="Jennings,B." checkname="JENNINGS,B" uni="81" gp="1" code="81"></player>
+  <player name="John Burke" shortname="Burke,J." checkname="BURKE,J" uni="83" gp="1" gs="1" opos="TE" code="83"></player>
+  <player name="Matt Morrell" shortname="Morrell,M." checkname="MORRELL,M" uni="85" gp="1" code="85"></player>
+  <player name="Kevin Martin" shortname="Martin,K." checkname="MARTIN,K" uni="86" gp="1" code="86"></player>
+  <player name="Steve Roberts" shortname="Roberts,S." checkname="ROBERTS,S" uni="87" gp="1" code="87"></player>
+  <player name="Waverly Jackson" shortname="Jackson,W." checkname="JACKSON,W" uni="98" gp="1" code="98">
+   <defense tackua="2" tacka="5" tot_tack="7" tflua="1" tfla="0" tflyds="1" brup="1" qbh="3"></defense>
+  </player>
+  <player name="Team" shortname="Team" checkname="TEAM" uni="TM" gp="1" code="198">
+   <defense saf="1"></defense>
+   <scoring saf="1"></scoring>
+  </player>
+ </team>
+ <team vh="H" code="" id="MIAMI" name="Miami" record="2-0" conf-record="2-0" abb="H" rank="3">
+  <linescore prds="4" line="7,0,7,7" score="21">
+   <lineprd prd="1" score="7"></lineprd>
+   <lineprd prd="2" score="0"></lineprd>
+   <lineprd prd="3" score="7"></lineprd>
+   <lineprd prd="4" score="7"></lineprd>
+  </linescore>
+  <totals totoff_plays="75" totoff_yards="333" totoff_avg="4.4">
+   <firstdowns no="20" rush="5" pass="13" penalty="2"></firstdowns>
+   <penalties no="12" yds="118"></penalties>
+   <conversions thirdconv="5" thirdatt="16" fourthconv="2" fourthatt="3"></conversions>
+   <fumbles no="2" lost="2"></fumbles>
+   <misc yds="0" top="32:36" ona="0" onm="0"></misc>
+   <redzone att="4" scores="2" points="14" tdrush="2" tdpass="0" fgmade="0" endfga="0" enddowns="0" endint="1" endfumb="1" endhalf="0" endgame="0"></redzone>
+   <rush att="34" yds="54" gain="107" loss="53" td="2" long="20"></rush>
+   <pass comp="20" att="41" int="1" yds="279" td="1" long="45" sacks="5" sackyds="34"></pass>
+   <rcv no="20" yds="279" td="1" long="45"></rcv>
+   <punt no="6" yds="199" long="47" blkd="1" tb="0" fc="3" plus50="0" inside20="0" avg="33.2"></punt>
+   <ko no="5" yds="283" ob="0" tb="2"></ko>
+   <pat kickatt="3" kickmade="3"></pat>
+   <defense tackua="25" tacka="56" tot_tack="81" tflua="6" tfla="16" tflyds="44" sacks="5" sackyds="27" brup="2" ff="3" fr="3" fryds="0" int="2" intyds="0"></defense>
+   <kr no="1" yds="13" td="0" long="13"></kr>
+   <pr no="3" yds="16" td="0" long="10"></pr>
+   <ir no="2" yds="0" td="0" long="0"></ir>
+   <scoring td="3" patkick="3"></scoring>
+  </totals>
+  <player name="Danyell Ferguson" shortname="Ferguson,D." checkname="FERGUSON,D" uni="1" gp="1" code="1">
+   <rush att="7" yds="-8" gain="8" loss="16" td="0" long="4"></rush>
+   <rcv no="1" yds="4" td="0" long="4"></rcv>
+   <fumbles no="1" lost="1"></fumbles>
+  </player>
+  <player name="Rohan Marley" shortname="Marley,R." checkname="MARLEY,R" uni="2" gp="1" gs="1" dpos="WLB" code="2">
+   <defense tackua="1" tacka="5" tot_tack="6" tflua="0" tfla="2" tflyds="2"></defense>
+  </player>
+  <player name="Jonathan Harris" shortname="Harris,J." checkname="HARRIS,J" uni="3" gp="1" gs="1" opos="FL" code="3">
+   <rcv no="2" yds="18" td="0" long="17"></rcv>
+   <pr no="3" yds="16" td="0" long="10"></pr>
+  </player>
+  <player name="Paul White" shortname="White,P." checkname="WHITE,P" uni="4" gp="1" gs="1" dpos="CB" code="4">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Trent Harris" shortname="Harris,T." checkname="HARRIS,T" uni="6" gp="1" gs="1" dpos="FS" code="6">
+   <defense tackua="3" tacka="1" tot_tack="4"></defense>
+  </player>
+  <player name="Jammi German" shortname="German,J." checkname="GERMAN,J" uni="7" gp="1" code="7">
+   <rcv no="3" yds="43" td="0" long="21"></rcv>
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Ryan Collins" shortname="Collins,R." checkname="COLLINS,R" uni="8" gp="1" code="8">
+   <rush att="1" yds="-5" gain="0" loss="5" td="0" long="0"></rush>
+   <pass comp="1" att="4" int="1" yds="14" td="0" long="14" sacks="1" sackyds="5"></pass>
+  </player>
+  <player name="Frank Costa" shortname="Costa,F." checkname="COSTA,F" uni="11" gp="1" gs="1" opos="QB" code="11">
+   <rush att="5" yds="-30" gain="0" loss="30" td="0" long="0"></rush>
+   <pass comp="19" att="37" int="0" yds="265" td="1" long="45" sacks="4" sackyds="29"></pass>
+   <fumbles no="1" lost="1"></fumbles>
+  </player>
+  <player name="Carlos Jones" shortname="Jones,C." checkname="JONES,C" uni="12" gp="1" code="12">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Mike Crissy" shortname="Crissy,M." checkname="CRISSY,M" uni="13" gp="1" code="13">
+   <punt no="5" yds="199" long="47" blkd="0" tb="0" fc="3" plus50="0" inside20="0" avg="39.8"></punt>
+  </player>
+  <player name="Earl Little" shortname="Little,E." checkname="LITTLE,E" uni="15" gp="1" code="15">
+   <defense tackua="3" tacka="0" tot_tack="3" tflua="1" tfla="0" tflyds="0" ff="1"></defense>
+  </player>
+  <player name="A.C. Tellison" shortname="Tellison,A.C." checkname="TELLISON,AC" uni="18" gp="1" gs="1" opos="WR" code="18">
+   <rcv no="2" yds="60" td="1" long="45"></rcv>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="C.J. Richardson" shortname="Richardson,C.J." checkname="RICHARDSON,CJ" uni="19" gp="1" gs="1" dpos="SS" code="19">
+   <defense tackua="3" tacka="5" tot_tack="8" brup="1" fr="1" fryds="0" int="1" intyds="0"></defense>
+   <ir no="1" yds="0" td="0" long="0"></ir>
+  </player>
+  <player name="Dane Prewitt" shortname="Prewitt,D." checkname="PREWITT,D" uni="21" gp="1" code="21">
+   <pat kickatt="3" kickmade="3"></pat>
+   <scoring patkick="3"></scoring>
+  </player>
+  <player name="Larry Jones" shortname="Jones,L." checkname="JONES,L" uni="23" gp="1" gs="1" opos="FB" code="23">
+   <rush att="5" yds="23" gain="23" loss="0" td="1" long="14"></rush>
+   <rcv no="2" yds="12" td="0" long="15"></rcv>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Antonio Coley" shortname="Coley,A." checkname="COLEY,A" uni="27" gp="1" code="27">
+   <defense tackua="0" tacka="2" tot_tack="2" tflua="0" tfla="1" tflyds="3" sackua="0" sacka="1" sackyds="3"></defense>
+  </player>
+  <player name="James Stewart" shortname="Stewart,J." checkname="STEWART,J" uni="28" gp="1" code="28">
+   <rush att="3" yds="22" gain="23" loss="1" td="0" long="20"></rush>
+  </player>
+  <player name="Alfred Shipman" shortname="Shipman,A." checkname="SHIPMAN,A" uni="32" gp="1" code="32">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Donnell Bennett" shortname="Bennett,D." checkname="BENNETT,D" uni="33" gp="1" gs="1" opos="TB" code="33">
+   <rush att="8" yds="40" gain="41" loss="1" td="0" long="20"></rush>
+   <rcv no="1" yds="7" td="0" long="7"></rcv>
+  </player>
+  <player name="Dexter Seigler" shortname="Seigler,D." checkname="SEIGLER,D" uni="34" gp="1" gs="1" dpos="CB" code="34">
+   <defense tackua="0" tacka="1" tot_tack="1" brup="1" int="1" intyds="0"></defense>
+   <kr no="1" yds="13" td="0" long="13"></kr>
+   <ir no="1" yds="0" td="0" long="0"></ir>
+  </player>
+  <player name="Scott Barnwell" shortname="Barnwell,S." checkname="BARNWELL,S" uni="39" gp="1" code="39">
+   <ko no="5" yds="283" ob="0" tb="2"></ko>
+  </player>
+  <player name="Derrick Harris" shortname="Harris,D." checkname="HARRIS,D" uni="40" gp="1" code="40">
+   <rush att="5" yds="12" gain="12" loss="0" td="1" long="7"></rush>
+   <rcv no="1" yds="-3" td="0" long="0"></rcv>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Patrick Riley" shortname="Riley,P." checkname="RILEY,P" uni="43" gp="1" code="43">
+   <defense tackua="1" tacka="1" tot_tack="2" tflua="0" tfla="1" tflyds="3" sackua="0" sacka="1" sackyds="3"></defense>
+  </player>
+  <player name="Robert Bass" shortname="Bass,R." checkname="BASS,R" uni="49" gp="1" gs="1" dpos="MLB" code="49">
+   <defense tackua="1" tacka="2" tot_tack="3" tflua="0" tfla="1" tflyds="1"></defense>
+  </player>
+  <player name="Baraka Short" shortname="Short,B." checkname="SHORT,B" uni="50" gp="1" code="50">
+   <defense tackua="1" tacka="1" tot_tack="2" tflua="1" tfla="1" tflyds="5"></defense>
+  </player>
+  <player name="Tirrell Greene" shortname="Greene,T." checkname="GREENE,T" uni="51" gp="1" gs="1" opos="SG" code="51"></player>
+  <player name="Ray Lewis" shortname="Lewis,R." checkname="LEWIS,R" uni="52" gp="1" code="52">
+   <defense tackua="4" tacka="8" tot_tack="12" tflua="0" tfla="2" tflyds="1"></defense>
+  </player>
+  <player name="Booker Pickett" shortname="Pickett,B." checkname="PICKETT,B" uni="53" gp="1" code="53">
+   <defense tackua="0" tacka="1" tot_tack="1" fr="1" fryds="0"></defense>
+  </player>
+  <player name="James Burgess" shortname="Burgess,J." checkname="BURGESS,J" uni="54" gp="1" code="54">
+   <defense tackua="2" tacka="1" tot_tack="3" tflua="1" tfla="0" tflyds="7" sackua="1" sacka="0" sackyds="7" ff="1"></defense>
+  </player>
+  <player name="Corwin Francis" shortname="Francis,C." checkname="FRANCIS,C" uni="58" gp="1" gs="1" dpos="SLB" code="58">
+   <defense tackua="2" tacka="7" tot_tack="9" tflua="1" tfla="3" tflyds="3" ff="1"></defense>
+  </player>
+  <player name="Rudy Barber" shortname="Barber,R." checkname="BARBER,R" uni="60" gp="1" gs="1" opos="WG" code="60"></player>
+  <player name="K.C. Jones" shortname="Jones,K.C." checkname="JONES,KC" uni="63" gp="1" gs="1" opos="C" code="63"></player>
+  <player name="Kenny Lopez" shortname="Lopez,K." checkname="LOPEZ,K" uni="71" gp="1" gs="1" dpos="LT" code="71"></player>
+  <player name="Ricky Perry" shortname="Perry,R." checkname="PERRY,R" uni="73" gp="1" gs="1" opos="WT" code="73"></player>
+  <player name="Warren Sapp" shortname="Sapp,W." checkname="SAPP,W" uni="76" gp="1" gs="1" dpos="RT" code="76">
+   <defense tackua="0" tacka="6" tot_tack="6" tflua="0" tfla="1" tflyds="5" sackua="0" sacka="1" sackyds="5" fr="1" fryds="0"></defense>
+  </player>
+  <player name="Zev Lumelski" shortname="Lumelski,Z." checkname="LUMELSKI,Z" uni="77" gp="1" gs="1" opos="ST" code="77"></player>
+  <player name="Syii Tucker" shortname="Tucker,S." checkname="TUCKER,S" uni="81" gp="1" gs="1" opos="TE" code="81">
+   <rcv no="1" yds="11" td="0" long="11"></rcv>
+  </player>
+  <player name="Chris T. Jones" shortname="Jones,Chris T." checkname="JONES,CHRIS T" uni="85" gp="1" code="85">
+   <rcv no="6" yds="108" td="0" long="21"></rcv>
+  </player>
+  <player name="Kevin Patrick" shortname="Patrick,K." checkname="PATRICK,K" uni="86" gp="1" gs="1" dpos="RE" code="86">
+   <defense tackua="0" tacka="4" tot_tack="4" tflua="0" tfla="2" tflyds="5" sackua="0" sacka="1" sackyds="4"></defense>
+  </player>
+  <player name="Marcus Wimberly" shortname="Wimberly,M." checkname="WIMBERLY,M" uni="88" gp="1" code="88">
+   <rcv no="1" yds="19" td="0" long="19"></rcv>
+  </player>
+  <player name="Kenny Holmes" shortname="Holmes,K." checkname="HOLMES,K" uni="90" gp="1" code="90">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Darren Krein" shortname="Krein,D." checkname="KREIN,D" uni="91" gp="1" gs="1" dpos="LE" code="91">
+   <defense tackua="2" tacka="3" tot_tack="5" tflua="2" tfla="1" tflyds="8" sackua="1" sacka="1" sackyds="5"></defense>
+  </player>
+  <player name="Dwayne Johnson" shortname="Johnson,D." checkname="JOHNSON,D" uni="94" gp="1" code="94">
+   <defense tackua="1" tacka="4" tot_tack="5" tflua="0" tfla="1" tflyds="1"></defense>
+  </player>
+  <player name="TEAM" shortname="TEAM" checkname="TEAM" uni="TM" gp="1" code="198">
+   <punt no="1" yds="0" long="0" blkd="1" tb="0" fc="0" plus50="0" inside20="0" avg="0.0"></punt>
+  </player>
+ </team>
+ <scores>
+  <score vh="H" team="MIAMI" qtr="1" clock="03:54" type="TD" how="RUSH" yds="1" scorer="Jones,L." patby="Prewitt,D." pattype="KICK" patres="GOOD" vscore="0" hscore="7" driveindex="1"></score>
+  <score vh="H" team="MIAMI" qtr="3" clock="10:57" type="TD" how="PASS" yds="45" scorer="Tellison,A.C." passer="Costa,F." patby="Prewitt,D." pattype="KICK" patres="GOOD" vscore="0" hscore="14" driveindex="16"></score>
+  <score vh="H" team="MIAMI" qtr="4" clock="12:14" type="TD" how="RUSH" yds="1" scorer="Harris,D." patby="Prewitt,D." pattype="KICK" patres="GOOD" vscore="0" hscore="21" driveindex="20"></score>
+  <score vh="V" team="VT" qtr="4" clock="04:35" type="SAF" yds="18" scorer="Team" vscore="2" hscore="21" driveindex="24"></score>
+ </scores>
+ <drives>
+  <drive vh="H" team="MIAMI" start="KO,1,15:00,15" end="TD,1,03:54,100" plays="20" yards="85" top="11:06" start_how="KO" start_qtr="1" start_time="15:00" start_spot="MIAMI15" end_how="TD" end_qtr="1" end_time="03:54" end_spot="VT00" rz="1" driveindex="1"></drive>
+  <drive vh="V" team="VT" start="KO,1,03:54,17" end="PUNT,1,01:12,32" plays="5" yards="15" top="2:42" start_how="KO" start_qtr="1" start_time="03:54" start_spot="VT17" end_how="PUNT" end_qtr="1" end_time="01:12" end_spot="VT32" driveindex="2"></drive>
+  <drive vh="H" team="MIAMI" start="PUNT,1,01:12,18" end="PUNT,1,00:06,8" plays="3" yards="-10" top="1:06" start_how="PUNT" start_qtr="1" start_time="01:12" start_spot="MIAMI18" end_how="PUNT" end_qtr="1" end_time="00:06" end_spot="MIAMI08" driveindex="3"></drive>
+  <drive vh="V" team="VT" start="PUNT,1,00:06,56" end="FUMB,1,00:00,55" plays="1" yards="-1" top="0:06" start_how="PUNT" start_qtr="1" start_time="00:06" start_spot="MIAMI44" end_how="FUMB" end_qtr="1" end_time="00:00" end_spot="MIAMI45" driveindex="4"></drive>
+  <drive vh="H" team="MIAMI" start="FUMB,2,15:00,45" end="FUMB,2,14:02,39" plays="3" yards="-6" top="0:58" start_how="FUMB" start_qtr="2" start_time="15:00" start_spot="MIAMI45" end_how="FUMB" end_qtr="2" end_time="14:02" end_spot="MIAMI39" driveindex="5"></drive>
+  <drive vh="V" team="VT" start="FUMB,2,14:02,61" end="PUNT,2,12:43,61" plays="3" yards="0" top="1:19" start_how="FUMB" start_qtr="2" start_time="14:02" start_spot="MIAMI39" end_how="PUNT" end_qtr="2" end_time="12:43" end_spot="MIAMI39" driveindex="6"></drive>
+  <drive vh="H" team="MIAMI" start="PUNT,2,12:43,6" end="PUNT,2,12:01,5" plays="3" yards="-1" top="0:42" start_how="PUNT" start_qtr="2" start_time="12:43" start_spot="MIAMI06" end_how="PUNT" end_qtr="2" end_time="12:01" end_spot="MIAMI05" driveindex="7"></drive>
+  <drive vh="V" team="VT" start="PUNT,2,12:01,58" end="PUNT,2,09:38,54" plays="3" yards="-4" top="2:23" start_how="PUNT" start_qtr="2" start_time="12:01" start_spot="MIAMI42" end_how="PUNT" end_qtr="2" end_time="09:38" end_spot="MIAMI46" driveindex="8"></drive>
+  <drive vh="H" team="MIAMI" start="PUNT,2,09:38,3" end="PUNT,2,08:02,6" plays="3" yards="3" top="1:36" start_how="PUNT" start_qtr="2" start_time="09:38" start_spot="MIAMI03" end_how="PUNT" end_qtr="2" end_time="08:02" end_spot="MIAMI06" driveindex="9"></drive>
+  <drive vh="V" team="VT" start="PUNT,2,00:00,47" end="FUMB,2,08:02,32" plays="0" yards="-15" top="0:00" start_how="PUNT" start_qtr="2" start_time="00:00" start_spot="VT47" end_how="FUMB" end_qtr="2" end_time="08:02" end_spot="VT32" driveindex="10"></drive>
+  <drive vh="H" team="MIAMI" start="FUMB,2,08:02,68" end="FUMB,2,06:50,83" plays="3" yards="15" top="1:12" start_how="FUMB" start_qtr="2" start_time="08:02" start_spot="VT32" end_how="FUMB" end_qtr="2" end_time="06:50" end_spot="VT17" rz="1" driveindex="11"></drive>
+  <drive vh="V" team="VT" start="FUMB,2,06:50,17" end="PUNT,2,00:41,63" plays="12" yards="46" top="6:09" start_how="FUMB" start_qtr="2" start_time="06:50" start_spot="VT17" end_how="PUNT" end_qtr="2" end_time="00:41" end_spot="MIAMI37" driveindex="12"></drive>
+  <drive vh="H" team="MIAMI" start="PUNT,2,00:41,20" end="DOWNS,2,00:00,64" plays="8" yards="44" top="0:41" start_how="PUNT" start_qtr="2" start_time="00:41" start_spot="MIAMI20" end_how="DOWNS" end_qtr="2" end_time="00:00" end_spot="VT36" driveindex="13"></drive>
+  <drive vh="V" team="VT" start="DOWNS,2,00:00,36" end="HALF,2,00:00,36" plays="0" yards="0" top="0:00" start_how="DOWNS" start_qtr="2" start_time="00:00" start_spot="VT36" end_how="HALF" end_qtr="2" end_time="00:00" end_spot="VT36" driveindex="14"></drive>
+  <drive vh="V" team="VT" start="KO,3,15:00,20" end="PUNT,3,12:14,33" plays="5" yards="13" top="2:46" start_how="KO" start_qtr="3" start_time="15:00" start_spot="VT20" end_how="PUNT" end_qtr="3" end_time="12:14" end_spot="VT33" driveindex="15"></drive>
+  <drive vh="H" team="MIAMI" start="PUNT,3,12:14,34" end="TD,3,10:57,100" plays="3" yards="66" top="1:17" start_how="PUNT" start_qtr="3" start_time="12:14" start_spot="MIAMI34" end_how="TD" end_qtr="3" end_time="10:57" end_spot="VT00" driveindex="16"></drive>
+  <drive vh="V" team="VT" start="KO,3,10:57,20" end="INT,3,10:11,22" plays="3" yards="2" top="0:46" start_how="KO" start_qtr="3" start_time="10:57" start_spot="VT20" end_how="INT" end_qtr="3" end_time="10:11" end_spot="VT22" driveindex="17"></drive>
+  <drive vh="H" team="MIAMI" start="INT,3,10:11,35" end="PUNT,3,08:34,44" plays="3" yards="9" top="1:37" start_how="INT" start_qtr="3" start_time="10:11" start_spot="MIAMI35" end_how="PUNT" end_qtr="3" end_time="08:34" end_spot="MIAMI44" driveindex="18"></drive>
+  <drive vh="V" team="VT" start="PUNT,3,08:34,20" end="INT,3,03:12,79" plays="12" yards="59" top="5:22" start_how="PUNT" start_qtr="3" start_time="08:34" start_spot="VT20" end_how="INT" end_qtr="3" end_time="03:12" end_spot="MIAMI21" rz="1" driveindex="19"></drive>
+  <drive vh="H" team="MIAMI" start="INT,3,03:12,20" end="TD,4,12:14,100" plays="10" yards="80" top="5:58" start_how="INT" start_qtr="3" start_time="03:12" start_spot="MIAMI20" end_how="TD" end_qtr="4" end_time="12:14" end_spot="VT00" rz="1" driveindex="20"></drive>
+  <drive vh="V" team="VT" start="KO,4,12:14,20" end="PUNT,4,09:33,39" plays="7" yards="19" top="2:41" start_how="KO" start_qtr="4" start_time="12:14" start_spot="VT20" end_how="PUNT" end_qtr="4" end_time="09:33" end_spot="VT39" driveindex="21"></drive>
+  <drive vh="H" team="MIAMI" start="PUNT,4,09:33,11" end="PUNT,4,08:34,25" plays="4" yards="14" top="0:59" start_how="PUNT" start_qtr="4" start_time="09:33" start_spot="MIAMI11" end_how="PUNT" end_qtr="4" end_time="08:34" end_spot="MIAMI25" driveindex="22"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,08:34,32" end="DOWNS,4,06:36,77" plays="5" yards="45" top="1:58" start_how="PUNT" start_qtr="4" start_time="08:34" start_spot="VT32" end_how="DOWNS" end_qtr="4" end_time="06:36" end_spot="MIAMI23" rz="1" driveindex="23"></drive>
+  <drive vh="H" team="MIAMI" start="DOWNS,4,06:36,24" end="SAF,4,04:35,18" plays="3" yards="-6" top="2:01" start_how="DOWNS" start_qtr="4" start_time="06:36" start_spot="MIAMI24" end_how="SAF" end_qtr="4" end_time="04:35" end_spot="MIAMI18" driveindex="24"></drive>
+  <drive vh="V" team="VT" start="KO,4,04:35,52" end="FUMB,4,03:45,34" plays="2" yards="-18" top="0:50" start_how="KO" start_qtr="4" start_time="04:35" start_spot="MIAMI48" end_how="FUMB" end_qtr="4" end_time="03:45" end_spot="VT34" driveindex="25"></drive>
+  <drive vh="H" team="MIAMI" start="FUMB,4,03:45,66" end="INT,4,00:22,91" plays="9" yards="25" top="3:23" start_how="FUMB" start_qtr="4" start_time="03:45" start_spot="VT34" end_how="INT" end_qtr="4" end_time="00:22" end_spot="VT09" rz="1" driveindex="26"></drive>
+  <drive vh="V" team="VT" start="INT,4,00:22,5" end="HALF,4,00:00,5" plays="1" yards="0" top="0:22" start_how="INT" start_qtr="4" start_time="00:22" start_spot="VT05" end_how="HALF" end_qtr="4" end_time="00:00" end_spot="VT05" driveindex="27"></drive>
+ </drives>
+ <plays format="summary">
+  <qtr number="1" text="1st">
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="0,1,0"
+      text="Miami Captains- 6-T.Harris, 33-D.Bennett, 49-R.Bass, 71-K.Lopez" newcontext="V,1,10,V35">
+   </play>
+   <comment text="VT Captains: 34-J.Swarm, 73-J.Pyne, 83-J.Burke, 8-B.Basham"></comment>
+   <comment text="VT wins toss and defers to 2nd half. Miami to receive and defend West."></comment>
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="0,2,3" type="E"
+      text="Williams,Ry. kickoff 65 yards to the MIAMI0, touchback, PENALTY VT offside 5 yards to the VT30, NO PLAY." newcontext="V,1,10,V30">
+    <p_pn vh="V" code="OS" type="offside" result="ACCEPT" at="V35" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT30" context="V,1,10,V30" playid="0,3,4" type="K"
+      text="Williams,Ry. kickoff 68 yards to the MIAMI2, Seigler,D. return 13 yards to the MIAMI15 (Dozier,V.)." newcontext="H,1,10,H15">
+    <p_ko vh="V" name="Williams,Ry." gain="68"></p_ko>
+    <p_kr vh="H" name="Seigler,D." gain="13"></p_kr>
+    <p_tk vh="V" name="Dozier,V."></p_tk>
+   </play>
+   <drivestart poss="H,H15,15:00" vh="H" spot="H15" clock="15:00" driveindex="1,4"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI15" context="H,1,10,H15" playid="1,1,5" type="R" first="R"
+      text="Bennett,D. rush for 13 yards to the MIAMI28, 1ST DOWN MIAMI (Yarborough,W.)." newcontext="H,1,10,H28">
+    <p_ru vh="H" name="Bennett,D." gain="13"></p_ru>
+    <p_tk vh="V" name="Yarborough,W."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI28" context="H,1,10,H28" playid="1,2,6" type="P" first="P"
+      text="Costa,F. pass complete to Jones,L. for 15 yards to the MIAMI43, 1ST DOWN MIAMI (Gray,T.;Brown,K.)." newcontext="H,1,10,H43">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,L." gain="15"></p_pa>
+    <p_tk vh="V" name="Gray,T." assist="Y"></p_tk>
+    <p_tk vh="V" name="Brown,K." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI43" context="H,1,10,H43" playid="1,3,7" type="P"
+      text="Costa,F. pass incomplete to Tucker,S.." newcontext="H,2,10,H43">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Tucker,S."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="2" togo="10" spot="MIAMI43" context="H,2,10,H43" playid="1,4,8" type="P"
+      text="Costa,F. sacked for loss of 7 yards to the MIAMI36 (Coleman,H.)." newcontext="H,3,17,H36">
+    <p_pa vh="H" qb="Costa,F." result="SACK" gain="-7"></p_pa>
+    <p_tk vh="V" name="Coleman,H." sack="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="17" spot="MIAMI36" context="H,3,17,H36" playid="1,5,9" type="P" first="P"
+      text="Costa,F. pass complete to Jones,Chris T. for 20 yards to the VT44, 1ST DOWN MIAMI." newcontext="H,1,10,V44">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,Chris T." gain="20"></p_pa>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT44" context="H,1,10,V44" playid="1,6,10" type="E"
+      text="PENALTY MIAMI illegal procedure 5 yards to the VT49." newcontext="H,1,15,V49">
+    <p_pn vh="H" code="PR" type="illegal procedure" result="ACCEPT" at="V44" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="15" spot="VT49" context="H,1,15,V49" playid="1,7,11" type="E"
+      text="Costa,F. pass complete to Tellison,A.C. for loss of 1 yard to the 50 yardline, PENALTY VT holding 10 yards to the VT39, NO PLAY." newcontext="H,1,5,V39">
+    <p_pn vh="V" code="HO" type="holding" result="ACCEPT" at="V49" yards="10"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="5" spot="VT39" context="H,1,5,V39" playid="1,8,12" type="R"
+      text="Jones,L. rush for 4 yards to the VT35 (Gray,T.;Brown,K.)." newcontext="H,2,1,V35">
+    <p_ru vh="H" name="Jones,L." gain="4"></p_ru>
+    <p_tk vh="V" name="Gray,T." assist="Y"></p_tk>
+    <p_tk vh="V" name="Brown,K." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="1" spot="VT35" context="H,2,1,V35" playid="1,9,13" type="E"
+      text="PENALTY MIAMI illegal procedure 4 yards to the VT39." newcontext="H,2,5,V39">
+    <p_pn vh="H" code="PR" type="illegal procedure" result="ACCEPT" at="V35" yards="4"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="2" togo="5" spot="VT39" context="H,2,5,V39" playid="1,10,14" type="E"
+      text="Costa,F. pass complete to Stewart,J. for 5 yards to the VT34, PENALTY MIAMI illegal use of hands 15 yards to the MIAMI46, NO PLAY." newcontext="H,2,20,H46">
+    <p_pn vh="H" code="UH" type="illegal use of hands" result="ACCEPT" at="V39" yards="15"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="2" togo="20" spot="MIAMI46" context="H,2,20,H46" playid="1,11,15" type="P" first="P"
+      text="Costa,F. pass complete to German,J. for 21 yards to the VT33, 1ST DOWN MIAMI (Henley,S.)." newcontext="H,1,10,V33">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="German,J." gain="21"></p_pa>
+    <p_tk vh="V" name="Henley,S."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT33" context="H,1,10,V33" playid="1,12,16" type="R"
+      text="Bennett,D. rush for 4 yards to the VT29 (Knight,D.)." newcontext="H,2,6,V29">
+    <p_ru vh="H" name="Bennett,D." gain="4"></p_ru>
+    <p_tk vh="V" name="Knight,D."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="6" spot="VT29" context="H,2,6,V29" playid="1,13,17" type="R"
+      text="Jones,L. rush for 4 yards to the VT25 (Knight,D.)." newcontext="H,3,2,V25">
+    <p_ru vh="H" name="Jones,L." gain="4"></p_ru>
+    <p_tk vh="V" name="Knight,D."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="2" spot="VT25" context="H,3,2,V25" playid="1,14,18" type="R" first="R"
+      text="Harris,D. rush for 3 yards to the VT22, 1ST DOWN MIAMI (Miller,A.)." newcontext="H,1,10,V22">
+    <p_ru vh="H" name="Harris,D." gain="3"></p_ru>
+    <p_tk vh="V" name="Miller,A."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT22" context="H,1,10,V22" playid="1,15,19" type="R"
+      text="Ferguson,D. rush for loss of 5 yards to the VT27 (Coleman,H.)." newcontext="H,2,15,V27">
+    <p_ru vh="H" name="Ferguson,D." gain="-5"></p_ru>
+    <p_tk vh="V" name="Coleman,H."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="15" spot="VT27" context="H,2,15,V27" playid="1,16,20" type="P"
+      text="Costa,F. pass incomplete to Ferguson,D.." newcontext="H,3,15,V27">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Ferguson,D."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="3" togo="15" spot="VT27" context="H,3,15,V27" playid="1,17,21" type="P" first="P"
+      text="Costa,F. pass complete to Jones,Chris T. for 21 yards to the VT6, 1ST DOWN MIAMI (Yarborough,W.)." newcontext="H,1,0,V06">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,Chris T." gain="21"></p_pa>
+    <p_tk vh="V" name="Yarborough,W."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT06" context="H,1,0,V06" playid="1,18,22" type="E"
+      text="PENALTY MIAMI unsportsmanlike conduct 15 yards to the VT21." newcontext="H,1,0,V21">
+    <p_pn vh="H" code="UC" type="unsportsmanlike conduct" result="ACCEPT" at="V06" yards="15"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT21" context="H,1,0,V21" playid="1,19,23"
+      text="1st and 10." newcontext="H,1,10,V21">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT21" context="H,1,10,V21" playid="1,20,24" type="P"
+      text="Costa,F. pass complete to Jones,L. for loss of 3 yards to the VT24 (DelRicco,G.)." newcontext="H,2,13,V24">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,L." gain="-3"></p_pa>
+    <p_tk vh="V" name="DelRicco,G."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="13" spot="VT24" context="H,2,13,V24" playid="1,21,25" type="E" pcode="RR"
+      text="Bennett,D. rush right for 8 yards to the VT16 (Jones,S.;Knight,D.), PENALTY VT offside defense 5 yards to the VT19, NO PLAY." newcontext="H,2,8,V19">
+    <p_pn vh="V" code="OD" type="offside defense" result="ACCEPT" at="V24" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="2" togo="8" spot="VT19" context="H,2,8,V19" playid="1,22,26" type="P"
+      text="Costa,F. pass incomplete to Harris,J.." newcontext="H,3,8,V19">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Harris,J."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="3" togo="8" spot="VT19" context="H,3,8,V19" playid="1,23,27" type="P" first="P"
+      text="Costa,F. pass complete to Tellison,A.C. for 15 yards to the VT4, 1ST DOWN MIAMI (Gray,T.;Henley,S.)." newcontext="H,1,0,V04">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Tellison,A.C." gain="15"></p_pa>
+    <p_tk vh="V" name="Gray,T." assist="Y"></p_tk>
+    <p_tk vh="V" name="Henley,S." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT04" context="H,1,0,V04" playid="1,24,28" type="R" pcode="MI"
+      text="Ferguson,D. rush up middle for 3 yards to the VT1 (Jackson,W.)." newcontext="H,2,0,V01">
+    <p_ru vh="H" name="Ferguson,D." gain="3"></p_ru>
+    <p_tk vh="V" name="Jackson,W."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="0" spot="VT01" context="H,2,0,V01" playid="1,25,29" type="R"
+      text="Bennett,D. rush for no gain to the VT1 (Basham,B.)." newcontext="H,3,0,V01">
+    <p_ru vh="H" name="Bennett,D." gain="0"></p_ru>
+    <p_tk vh="V" name="Basham,B."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="0" spot="VT01" context="H,3,0,V01" playid="1,26,30"
+      text="Timeout Miami." newcontext="H,3,0,V01">
+    <p_to vh="H" team="Miami"></p_to>
+   </play>
+   <play hasball="MIAMI" down="3" togo="0" spot="VT01" context="H,3,0,V01" playid="1,27,31" type="R"
+      text="Jones,L. rush for no gain to the VT1 (Basham,B.;Gray,T.)." newcontext="H,4,0,V01">
+    <p_ru vh="H" name="Jones,L." gain="0"></p_ru>
+    <p_tk vh="V" name="Basham,B." assist="Y"></p_tk>
+    <p_tk vh="V" name="Gray,T." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="4" togo="0" spot="VT01" context="H,4,0,V01" playid="1,28,32" type="R" score="Y" clock="03:54"
+      text="Jones,L. rush for 1 yard to the VT0, TOUCHDOWN, clock 03:54." newcontext="H,1,0,V03">
+    <p_ru vh="H" name="Jones,L." gain="1"></p_ru>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="1,29,33" type="X" score="Y"
+      text="Prewitt,D. kick attempt good." newcontext="H,1,0,H35">
+    <p_pat vh="H" name="Prewitt,D." qb="Prewitt,D." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="0" H="7"></score>
+   <play hasball="MIAMI" down="1" togo="0" spot="MIAMI35" context="H,1,0,H35" playid="1,30,34" type="E"
+      text="PENALTY VT roughing the kicker 5 yards to the MIAMI40." newcontext="H,1,0,H40">
+    <p_pn vh="V" code="RK" type="roughing the kicker" result="ACCEPT" at="H35" yards="5"></p_pn>
+   </play>
+   <drivesum plays="20" yards="85" top="15:00" driveindex="1" complete="Y"></drivesum>
+   <play hasball="MIAMI" down="1" togo="0" spot="MIAMI40" context="H,1,0,H40" playid="1,31,35" type="K"
+      text="Barnwell,S. kickoff 60 yards to the VT0, Thomas,D. return 17 yards to the VT17 (Richardson,C.J.)." newcontext="V,1,10,V17">
+    <p_ko vh="H" name="Barnwell,S." gain="60"></p_ko>
+    <p_kr vh="V" name="Thomas,D." gain="17"></p_kr>
+    <p_tk vh="H" name="Richardson,C.J."></p_tk>
+   </play>
+   <drivestart poss="V,V17,03:54" vh="V" spot="V17" clock="03:54" driveindex="2,35"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT17" context="V,1,10,V17" playid="2,1,36" clock="03:54"
+      text="VIRGINIA TECH drive start at 03:54." newcontext="V,1,10,V17">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT17" context="V,1,10,V17" playid="2,2,37" type="R"
+      text="Thomas,D. rush for 8 yards to the VT25 (Marley,R.)." newcontext="V,2,2,V25">
+    <p_ru vh="V" name="Thomas,D." gain="8"></p_ru>
+    <p_tk vh="H" name="Marley,R."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="2" spot="VT25" context="V,2,2,V25" playid="2,3,38" type="R" first="R"
+      text="Swarm,J. rush for 3 yards to the VT28, 1ST DOWN VT (Bass,R.)." newcontext="V,1,10,V28">
+    <p_ru vh="V" name="Swarm,J." gain="3"></p_ru>
+    <p_tk vh="H" name="Bass,R."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT28" context="V,1,10,V28" playid="2,4,39" type="R"
+      text="Thomas,D. rush for loss of 1 yard to the VT27 (Bass,R.;Francis,C.)." newcontext="V,2,11,V27">
+    <p_ru vh="V" name="Thomas,D." gain="-1"></p_ru>
+    <p_tk vh="H" name="Bass,R." assist="Y"></p_tk>
+    <p_tk vh="H" name="Francis,C." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="11" spot="VT27" context="V,2,11,V27" playid="2,5,40" type="R" pcode="MI"
+      text="Swarm,J. rush up middle for 5 yards to the VT32 (Bass,R.;Sapp,W.)." newcontext="V,3,6,V32">
+    <p_ru vh="V" name="Swarm,J." gain="5"></p_ru>
+    <p_tk vh="H" name="Bass,R." assist="Y"></p_tk>
+    <p_tk vh="H" name="Sapp,W." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="6" spot="VT32" context="V,3,6,V32" playid="2,6,41" type="P"
+      text="DeShazo,M. pass incomplete to Sanders,S.." newcontext="V,4,6,V32">
+    <p_pa vh="V" qb="DeShazo,M." result="INC" rcv="Sanders,S."></p_pa>
+   </play>
+   <comment text="Robert Bass (Miami) shaken up on the play."></comment>
+   <play hasball="VT" down="4" togo="6" spot="VT32" context="V,4,6,V32" playid="2,7,43" type="U"
+      text="Colley,R. punt 49 yards to the MIAMI19, Harris,J. return -1 yards to the MIAMI18." newcontext="H,1,10,H18">
+    <p_pu vh="V" name="Colley,R." gain="49" in20="Y"></p_pu>
+    <p_pr vh="H" name="Harris,J." gain="-1"></p_pr>
+   </play>
+   <drivesum plays="5" yards="15" top="0:00" driveindex="2" complete="Y"></drivesum>
+   <drivestart poss="H,H18,01:12" vh="H" spot="H18" clock="01:12" driveindex="3,43"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI18" context="H,1,10,H18" playid="3,1,44" clock="01:12"
+      text="MIAMI drive start at 01:12." newcontext="H,1,10,H18">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI18" context="H,1,10,H18" playid="3,2,45" type="P"
+      text="Costa,F. sacked for loss of 10 yards to the MIAMI8 (Henley,S.)." newcontext="H,2,20,H08">
+    <p_pa vh="H" qb="Costa,F." result="SACK" gain="-10"></p_pa>
+    <p_tk vh="V" name="Henley,S." sack="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="20" spot="MIAMI08" context="H,2,20,H08" playid="3,3,46"
+      text="Timeout Miami." newcontext="H,2,20,H08">
+    <p_to vh="H" team="Miami"></p_to>
+   </play>
+   <play hasball="MIAMI" down="2" togo="20" spot="MIAMI08" context="H,2,20,H08" playid="3,4,47" type="P"
+      text="Costa,F. pass incomplete (Jackson,W.)." newcontext="H,3,20,H08">
+    <p_pa vh="H" qb="Costa,F." result="BRUP"></p_pa>
+    <p_bu vh="V" name="Jackson,W."></p_bu>
+   </play>
+   <play hasball="MIAMI" down="3" togo="20" spot="MIAMI08" context="H,3,20,H08" playid="3,5,48" type="P"
+      text="Costa,F. pass incomplete to Tellison,A.C.." newcontext="H,4,20,H08">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Tellison,A.C."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="4" togo="20" spot="MIAMI08" context="H,4,20,H08" playid="3,6,49" type="U"
+      text="Crissy,M. punt 36 yards to the MIAMI44, Freeman,A. return 0 yards to the MIAMI44 (Richardson,C.J.)." newcontext="V,1,10,H44">
+    <p_pu vh="H" name="Crissy,M." gain="36"></p_pu>
+    <p_pr vh="V" name="Freeman,A." gain="0"></p_pr>
+    <p_tk vh="H" name="Richardson,C.J."></p_tk>
+   </play>
+   <drivesum plays="3" yards="-10" top="0:00" driveindex="3" complete="Y"></drivesum>
+   <drivestart poss="V,H44,00:06" vh="V" spot="H44" clock="00:06" driveindex="4,49"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI44" context="V,1,10,H44" playid="4,1,50" clock="00:06"
+      text="VIRGINIA TECH drive start at 00:06." newcontext="V,1,10,H44">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI44" context="V,1,10,H44" playid="4,2,51" type="R" turnover="F"
+      text="DeShazo,M. rush for 2 yards to the MIAMI42, fumble forced by Francis,C., fumble by DeShazo,M. recovered by MIAMI Sapp,W. at MIAMI45." newcontext="H,1,10,H45">
+    <p_ru vh="V" name="DeShazo,M." gain="2"></p_ru>
+    <p_fumb vh="V" name="DeShazo,M." at="H45" frvh="H" frname="Sapp,W."></p_fumb>
+    <p_tk vh="H" name="Francis,C." ff="Y"></p_tk>
+   </play>
+   <drivesum plays="1" yards="-1" top="0:00" driveindex="4" complete="Y"></drivesum>
+   <drivestart poss="H,H45,00:00" vh="H" spot="H45" clock="00:00" driveindex="5,51"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI45" context="H,1,10,H45" playid="5,1,52" clock="00:00"
+      text="MIAMI drive start at 00:00." newcontext="H,1,10,H45">
+   </play>
+   <score qtr="1" V="0" H="7"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="1" rush="1" pass="0" penalty="0"></firstdowns>
+    <penalties no="4" yds="25"></penalties>
+    <conversions thirdconv="0" thirdatt="1" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="1" lost="1"></fumbles>
+    <misc yds="0" top="02:48"></misc>
+    <rush att="5" yds="14" gain="16" loss="2" td="0" long="8"></rush>
+    <pass comp="0" att="1" int="0" yds="0" td="0" long="0" sacks="0" sackyds="0"></pass>
+    <punt no="1" yds="49" long="49" blkd="0" tb="0" fc="0" plus50="0" inside20="1" avg="49.0"></punt>
+    <ko no="1" yds="68" ob="0" tb="0"></ko>
+    <defense tackua="13" tacka="8" tot_tack="21" tflua="4" tfla="0" tflyds="25" sacks="2" sackyds="17" brup="1"></defense>
+    <kr no="1" yds="17" td="0" long="17"></kr>
+    <pr no="1" yds="0" td="0" long="0"></pr>
+    <fumbles no="1" lost="1"></fumbles>
+   </qtrsummary>
+   <qtrsummary vh="H" id="MIAMI">
+    <firstdowns no="7" rush="2" pass="5" penalty="0"></firstdowns>
+    <penalties no="4" yds="39"></penalties>
+    <conversions thirdconv="4" thirdatt="6" fourthconv="1" fourthatt="1"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="12:12"></misc>
+    <rush att="12" yds="10" gain="32" loss="22" td="1" long="13"></rush>
+    <pass comp="6" att="11" int="0" yds="89" td="0" long="21" sacks="2" sackyds="17"></pass>
+    <rcv no="6" yds="89" td="0" long="21"></rcv>
+    <punt no="1" yds="36" long="36" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="36.0"></punt>
+    <ko no="1" yds="60" ob="0" tb="0"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="5" tacka="4" tot_tack="9" tflua="0" tfla="2" tflyds="1" sacks="0" sackyds="0" ff="1" fr="1" fryds="0"></defense>
+    <kr no="1" yds="13" td="0" long="13"></kr>
+    <pr no="1" yds="-1" td="0" long="0"></pr>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+  </qtr>
+  <qtr number="2" text="2nd">
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI45" context="H,1,10,H45" playid="5,2,53" type="#" clock="15:00"
+      text="Start of 2nd quarter, clock 15:00." newcontext="H,1,10,H45">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI45" context="H,1,10,H45" playid="5,3,54" type="R" pcode="RR"
+      text="Stewart,J. rush right for loss of 1 yard to the MIAMI44 (Holland,J.)." newcontext="H,2,11,H44">
+    <p_ru vh="H" name="Stewart,J." gain="-1"></p_ru>
+    <p_tk vh="V" name="Holland,J."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="11" spot="MIAMI44" context="H,2,11,H44" playid="5,4,55" type="P" pcode="DP"
+      text="Costa,F. deep pass incomplete to Tellison,A.C.." newcontext="H,3,11,H44">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Tellison,A.C."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="3" togo="11" spot="MIAMI44" context="H,3,11,H44" playid="5,5,56" type="P" turnover="F"
+      text="Costa,F. sacked for loss of 4 yards to the MIAMI40 (Jones,S.), fumble by Costa,F. recovered by VT Holland,J. at MIAMI39." newcontext="V,1,10,H39">
+    <p_pa vh="H" qb="Costa,F." result="FUMB" gain="-4"></p_pa>
+    <p_fumb vh="H" name="Costa,F." at="H39" frvh="V" frname="Holland,J."></p_fumb>
+    <p_tk vh="V" name="Jones,S." sack="Y"></p_tk>
+   </play>
+   <drivesum plays="3" yards="-6" top="0:00" driveindex="5" complete="Y"></drivesum>
+   <drivestart poss="V,H39,14:02" vh="V" spot="H39" clock="14:02" driveindex="6,56"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI39" context="V,1,10,H39" playid="6,1,57" clock="14:02"
+      text="VIRGINIA TECH drive start at 14:02." newcontext="V,1,10,H39">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI39" context="V,1,10,H39" playid="6,2,58" type="R"
+      text="Thomas,D. rush for loss of 2 yards to the MIAMI41 (Francis,C.;Patrick,K.)." newcontext="V,2,12,H41">
+    <p_ru vh="V" name="Thomas,D." gain="-2"></p_ru>
+    <p_tk vh="H" name="Francis,C." assist="Y"></p_tk>
+    <p_tk vh="H" name="Patrick,K." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="12" spot="MIAMI41" context="V,2,12,H41" playid="6,3,59" type="P"
+      text="DeShazo,M. pass incomplete to Thomas,D.." newcontext="V,3,12,H41">
+    <p_pa vh="V" qb="DeShazo,M." result="INC" rcv="Thomas,D."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="12" spot="MIAMI41" context="V,3,12,H41" playid="6,4,60" type="P"
+      text="DeShazo,M. pass complete to Thomas,D. for 2 yards to the MIAMI39 (Marley,R.)." newcontext="V,4,10,H39">
+    <p_pa vh="V" qb="DeShazo,M." result="COMP" rcv="Thomas,D." gain="2"></p_pa>
+    <p_tk vh="H" name="Marley,R."></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="10" spot="MIAMI39" context="V,4,10,H39" playid="6,5,61" type="U"
+      text="Colley,R. punt 33 yards to the MIAMI6, downed." newcontext="H,1,10,H06">
+    <p_pu vh="V" name="Colley,R." gain="33" in20="Y"></p_pu>
+   </play>
+   <drivesum plays="3" yards="0" top="0:00" driveindex="6" complete="Y"></drivesum>
+   <drivestart poss="H,H06,12:43" vh="H" spot="H06" clock="12:43" driveindex="7,61"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI06" context="H,1,10,H06" playid="7,1,62" clock="12:43"
+      text="MIAMI drive start at 12:43." newcontext="H,1,10,H06">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI06" context="H,1,10,H06" playid="7,2,63" type="R"
+      text="Bennett,D. rush for no gain to the MIAMI6 (McClung,M.;Green,L.), PENALTY MIAMI holding declined." newcontext="H,2,10,H06">
+    <p_ru vh="H" name="Bennett,D." gain="0"></p_ru>
+    <p_tk vh="V" name="McClung,M." assist="Y"></p_tk>
+    <p_tk vh="V" name="Green,L." assist="Y"></p_tk>
+    <p_pn vh="H" code="HO" type="holding" name="Riley,P." result="DECLINE"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="2" togo="10" spot="MIAMI06" context="H,2,10,H06" playid="7,3,64" type="R" pcode="SC"
+      text="Costa,F. rush quarterback scramble for loss of 1 yard to the MIAMI5, out-of-bounds." ob="Y" newcontext="H,3,11,H05">
+    <p_ru vh="H" name="Costa,F." gain="-1"></p_ru>
+   </play>
+   <play hasball="MIAMI" down="3" togo="11" spot="MIAMI05" context="H,3,11,H05" playid="7,4,65" type="P"
+      text="Costa,F. pass incomplete." newcontext="H,4,11,H05">
+    <p_pa vh="H" qb="Costa,F." result="INC"></p_pa>
+   </play>
+   <play hasball="MIAMI" down="4" togo="11" spot="MIAMI05" context="H,4,11,H05" playid="7,5,66" type="U"
+      text="Crissy,M. punt 37 yards to the MIAMI42, fair catch by Freeman,A.." newcontext="V,1,10,H42">
+    <p_pu vh="H" name="Crissy,M." gain="37" fc="Freeman,A."></p_pu>
+   </play>
+   <drivesum plays="3" yards="-1" top="0:00" driveindex="7" complete="Y"></drivesum>
+   <drivestart poss="V,H42,12:01" vh="V" spot="H42" clock="12:01" driveindex="8,66"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI42" context="V,1,10,H42" playid="8,1,67" clock="12:01"
+      text="VIRGINIA TECH drive start at 12:01." newcontext="V,1,10,H42">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI42" context="V,1,10,H42" playid="8,2,68" type="E"
+      text="PENALTY MIAMI offside defense 5 yards to the MIAMI37." newcontext="V,1,5,H37">
+    <p_pn vh="H" code="OD" type="offside defense" result="ACCEPT" at="H42" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="5" spot="MIAMI37" context="V,1,5,H37" playid="8,3,69" type="E" pcode="LL"
+      text="Thomas,D. rush left for no gain to the MIAMI37 (Francis,C.;Richardson,C.J.), PENALTY VT holding 12 yards to the MIAMI49, NO PLAY." newcontext="V,1,17,H49">
+    <p_pn vh="V" code="HO" type="holding" result="ACCEPT" at="H37" yards="12"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="17" spot="MIAMI49" context="V,1,17,H49" playid="8,4,70" type="R"
+      text="Thomas,D. rush for loss of 1 yard to the 50 yardline (Lewis,R.;Marley,R.)." newcontext="V,2,18,V50">
+    <p_ru vh="V" name="Thomas,D." gain="-1"></p_ru>
+    <p_tk vh="H" name="Lewis,R." assist="Y"></p_tk>
+    <p_tk vh="H" name="Marley,R." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="18" spot="VT50" context="V,2,18,V50" playid="8,5,71" type="P"
+      text="DeShazo,M. sacked for loss of 7 yards to the VT43 (Patrick,K.;Riley,P.)." newcontext="V,3,25,V43">
+    <p_pa vh="V" qb="DeShazo,M." result="SACK" gain="-7"></p_pa>
+    <p_tk vh="H" name="Patrick,K." sack="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Riley,P." sack="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="25" spot="VT43" context="V,3,25,V43" playid="8,6,72" type="R"
+      text="DeShazo,M. rush for 11 yards to the MIAMI46 (Harris,T.)." newcontext="V,4,14,H46">
+    <p_ru vh="V" name="DeShazo,M." gain="11"></p_ru>
+    <p_tk vh="H" name="Harris,T."></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="14" spot="MIAMI46" context="V,4,14,H46" playid="8,7,73" type="U"
+      text="Colley,R. punt 43 yards to the MIAMI3, downed." newcontext="H,1,10,H03">
+    <p_pu vh="V" name="Colley,R." gain="43" in20="Y"></p_pu>
+   </play>
+   <drivesum plays="3" yards="-4" top="0:00" driveindex="8" complete="Y"></drivesum>
+   <drivestart poss="H,H03,09:38" vh="H" spot="H03" clock="09:38" driveindex="9,73"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI03" context="H,1,10,H03" playid="9,1,74" clock="09:38"
+      text="MIAMI drive start at 09:38." newcontext="H,1,10,H03">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI03" context="H,1,10,H03" playid="9,2,75" type="E"
+      text="Bennett,D. rush for 7 yards to the MIAMI10 (Brown,K.), PENALTY VT offside defense off-setting, PENALTY MIAMI holding off-setting, NO PLAY." newcontext="H,1,10,H03">
+    <p_pn vh="V" code="OD" type="offside defense" result="OFFSET"></p_pn>
+    <p_pn vh="H" code="HO" type="holding" result="OFFSET"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI03" context="H,1,10,H03" playid="9,3,76" type="R" pcode="MI"
+      text="Bennett,D. rush up middle for 2 yards to the MIAMI5 (Brown,K.)." newcontext="H,2,8,H05">
+    <p_ru vh="H" name="Bennett,D." gain="2"></p_ru>
+    <p_tk vh="V" name="Brown,K."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="8" spot="MIAMI05" context="H,2,8,H05" playid="9,4,77" type="P"
+      text="Costa,F. pass complete to Harris,J. for 1 yard to the MIAMI6 (Henley,S.)." newcontext="H,3,7,H06">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Harris,J." gain="1"></p_pa>
+    <p_tk vh="V" name="Henley,S."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="7" spot="MIAMI06" context="H,3,7,H06" playid="9,5,78" type="P" pcode="MI"
+      text="Costa,F. middle pass incomplete to Tucker,S.." newcontext="H,4,7,H06">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Tucker,S."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="4" togo="7" spot="MIAMI06" context="H,4,7,H06" playid="9,6,79" type="U" turnover="F"
+      text="Crissy,M. punt 47 yards to the VT47, Freeman,A. return 0 yards to the VT47, fumble forced by Little,E., fumble by Freeman,A. recovered by MIAMI Richardson,C.J. at VT32." newcontext="H,1,10,V32">
+    <p_pu vh="H" name="Crissy,M." gain="47"></p_pu>
+    <p_pr vh="V" name="Freeman,A." gain="0"></p_pr>
+    <p_fumb vh="V" name="Freeman,A." at="V32" frvh="H" frname="Richardson,C.J."></p_fumb>
+    <p_tk vh="H" name="Little,E." ff="Y"></p_tk>
+   </play>
+   <drivesum plays="3" yards="3" top="0:00" driveindex="9" complete="Y"></drivesum>
+   <drivestart poss="H,V32,08:02" vh="H" spot="V32" clock="08:02" driveindex="11,79"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT32" context="H,1,10,V32" playid="11,1,80" clock="08:02"
+      text="MIAMI drive start at 08:02." newcontext="H,1,10,V32">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT32" context="H,1,10,V32" playid="11,2,81" type="R"
+      text="Ferguson,D. rush for loss of 2 yards to the VT34 (DelRicco,G.;Price,J.C.)." newcontext="H,2,12,V34">
+    <p_ru vh="H" name="Ferguson,D." gain="-2"></p_ru>
+    <p_tk vh="V" name="DelRicco,G." assist="Y"></p_tk>
+    <p_tk vh="V" name="Price,J.C." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="12" spot="VT34" context="H,2,12,V34" playid="11,3,82" type="P" first="P"
+      text="Costa,F. pass complete to Jones,Chris T. for 19 yards to the VT15, 1ST DOWN MIAMI (Gray,T.)." newcontext="H,1,10,V15">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,Chris T." gain="19"></p_pa>
+    <p_tk vh="V" name="Gray,T."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT15" context="H,1,10,V15" playid="11,4,83" type="R" turnover="F"
+      text="Ferguson,D. rush for loss of 2 yards to the VT17, fumble by Ferguson,D. recovered by VT Knight,D. at VT17." newcontext="V,1,10,V17">
+    <p_ru vh="H" name="Ferguson,D." gain="-2"></p_ru>
+    <p_fumb vh="H" name="Ferguson,D." at="V17" frvh="V" frname="Knight,D."></p_fumb>
+   </play>
+   <drivesum plays="3" yards="15" top="0:00" driveindex="11" complete="Y"></drivesum>
+   <drivestart poss="V,V17,06:50" vh="V" spot="V17" clock="06:50" driveindex="12,83"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT17" context="V,1,10,V17" playid="12,1,84" clock="06:50"
+      text="VIRGINIA TECH drive start at 06:50." newcontext="V,1,10,V17">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT17" context="V,1,10,V17" playid="12,2,85" type="R"
+      text="Edwards,T. rush for 6 yards to the VT23." newcontext="V,2,4,V23">
+    <p_ru vh="V" name="Edwards,T." gain="6"></p_ru>
+   </play>
+   <play hasball="VT" down="2" togo="4" spot="VT23" context="V,2,4,V23" playid="12,3,86" type="R"
+      text="Edmonds,B. rush for 2 yards to the VT25." newcontext="V,3,2,V25">
+    <p_ru vh="V" name="Edmonds,B." gain="2"></p_ru>
+   </play>
+   <play hasball="VT" down="3" togo="2" spot="VT25" context="V,3,2,V25" playid="12,4,87" type="R" first="R"
+      text="Edwards,T. rush for 10 yards to the VT35, 1ST DOWN VT (White,P.;Francis,C.)." newcontext="V,1,10,V35">
+    <p_ru vh="V" name="Edwards,T." gain="10"></p_ru>
+    <p_tk vh="H" name="White,P." assist="Y"></p_tk>
+    <p_tk vh="H" name="Francis,C." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="12,5,88" type="R"
+      text="Edwards,T. rush for 4 yards to the VT39 (Krein,D.;Marley,R.)." newcontext="V,2,6,V39">
+    <p_ru vh="V" name="Edwards,T." gain="4"></p_ru>
+    <p_tk vh="H" name="Krein,D." assist="Y"></p_tk>
+    <p_tk vh="H" name="Marley,R." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="6" spot="VT39" context="V,2,6,V39" playid="12,6,89" type="R" pcode="LL"
+      text="Edmonds,B. rush left for 5 yards to the VT44 (Richardson,C.J.;Lewis,R.)." newcontext="V,3,1,V44">
+    <p_ru vh="V" name="Edmonds,B." gain="5"></p_ru>
+    <p_tk vh="H" name="Richardson,C.J." assist="Y"></p_tk>
+    <p_tk vh="H" name="Lewis,R." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="1" spot="VT44" context="V,3,1,V44" playid="12,7,90" type="R" first="R"
+      text="Edwards,T. rush for 2 yards to the VT46, 1ST DOWN VT (Krein,D.;Richardson,C.J.)." newcontext="V,1,10,V46">
+    <p_ru vh="V" name="Edwards,T." gain="2"></p_ru>
+    <p_tk vh="H" name="Krein,D." assist="Y"></p_tk>
+    <p_tk vh="H" name="Richardson,C.J." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT46" context="V,1,10,V46" playid="12,8,91" type="R"
+      text="DeShazo,M. rush for 5 yards to the MIAMI49 (Lewis,R.)." newcontext="V,2,5,H49">
+    <p_ru vh="V" name="DeShazo,M." gain="5"></p_ru>
+    <p_tk vh="H" name="Lewis,R."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="MIAMI49" context="V,2,5,H49" playid="12,9,92" type="R"
+      text="Thomas,D. rush for 1 yard to the MIAMI48 (Lewis,R.;Sapp,W.)." newcontext="V,3,4,H48">
+    <p_ru vh="V" name="Thomas,D." gain="1"></p_ru>
+    <p_tk vh="H" name="Lewis,R." assist="Y"></p_tk>
+    <p_tk vh="H" name="Sapp,W." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="4" spot="MIAMI48" context="V,3,4,H48" playid="12,10,93" type="R" first="R"
+      text="Thomas,D. rush for 7 yards to the MIAMI41, 1ST DOWN VT (White,P.)." newcontext="V,1,10,H41">
+    <p_ru vh="V" name="Thomas,D." gain="7"></p_ru>
+    <p_tk vh="H" name="White,P."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI41" context="V,1,10,H41" playid="12,11,94" type="P"
+      text="DeShazo,M. sacked for loss of 8 yards to the MIAMI49 (Sapp,W.;Krein,D.)." newcontext="V,2,18,H49">
+    <p_pa vh="V" qb="DeShazo,M." result="SACK" gain="-8"></p_pa>
+    <p_tk vh="H" name="Sapp,W." sack="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Krein,D." sack="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="18" spot="MIAMI49" context="V,2,18,H49" playid="12,12,95" type="R" pcode="LL"
+      text="Thomas,D. rush left for 10 yards to the MIAMI39 (Harris,T.;Marley,R.)." newcontext="V,3,8,H39">
+    <p_ru vh="V" name="Thomas,D." gain="10"></p_ru>
+    <p_tk vh="H" name="Harris,T." assist="Y"></p_tk>
+    <p_tk vh="H" name="Marley,R." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="MIAMI39" context="V,3,8,H39" playid="12,13,96" type="R"
+      text="DeShazo,M. rush for 2 yards to the MIAMI37 (Riley,P.;Sapp,W.)." newcontext="V,4,6,H37">
+    <p_ru vh="V" name="DeShazo,M." gain="2"></p_ru>
+    <p_tk vh="H" name="Riley,P." assist="Y"></p_tk>
+    <p_tk vh="H" name="Sapp,W." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="6" spot="MIAMI37" context="V,4,6,H37" playid="12,14,97"
+      text="Timeout Miami." newcontext="V,4,6,H37">
+    <p_to vh="H" team="Miami"></p_to>
+   </play>
+   <play hasball="VT" down="4" togo="6" spot="MIAMI37" context="V,4,6,H37" playid="12,15,98" type="U"
+      text="Colley,R. punt 37 yards to the MIAMI0, touchback." newcontext="H,1,10,H20">
+    <p_pu vh="V" name="Colley,R." gain="37" tb="Y"></p_pu>
+   </play>
+   <drivesum plays="12" yards="46" top="0:00" driveindex="12" complete="Y"></drivesum>
+   <drivestart poss="H,H20,00:41" vh="H" spot="H20" clock="00:41" driveindex="13,98"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI20" context="H,1,10,H20" playid="13,1,99" clock="00:41"
+      text="MIAMI drive start at 00:41." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI20" context="H,1,10,H20" playid="13,2,100" type="P" first="P"
+      text="Costa,F. pass complete to Jones,Chris T. for 12 yards to the MIAMI32, 1ST DOWN MIAMI (Henley,S.)." newcontext="H,1,10,H32">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,Chris T." gain="12"></p_pa>
+    <p_tk vh="V" name="Henley,S."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI32" context="H,1,10,H32" playid="13,3,101" type="P" first="E"
+      text="Costa,F. pass complete to Bennett,D. for 7 yards to the MIAMI39 (Green,L.), PENALTY VT personal foul 14 yards to the VT47, 1ST DOWN MIAMI." newcontext="H,1,10,V47">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Bennett,D." gain="7"></p_pa>
+    <p_tk vh="V" name="Green,L."></p_tk>
+    <p_pn vh="V" code="PF" type="personal foul" result="ACCEPT" at="H39" yards="14"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT47" context="H,1,10,V47" playid="13,4,102"
+      text="1st and 10." newcontext="H,1,10,V47">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT47" context="H,1,10,V47" playid="13,5,103" type="P"
+      text="Costa,F. pass incomplete to Jones,Chris T.." newcontext="H,2,10,V47">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Jones,Chris T."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="2" togo="10" spot="VT47" context="H,2,10,V47" playid="13,6,104" type="P" first="P"
+      text="Costa,F. pass complete to Tucker,S. for 11 yards to the VT36, 1ST DOWN MIAMI (DelRicco,G.)." newcontext="H,1,10,V36">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Tucker,S." gain="11"></p_pa>
+    <p_tk vh="V" name="DelRicco,G."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT36" context="H,1,10,V36" playid="13,7,105" type="P"
+      text="Costa,F. pass incomplete." newcontext="H,2,10,V36">
+    <p_pa vh="H" qb="Costa,F." result="INC"></p_pa>
+   </play>
+   <play hasball="MIAMI" down="2" togo="10" spot="VT36" context="H,2,10,V36" playid="13,8,106" type="P"
+      text="Costa,F. pass incomplete to Tucker,S.." newcontext="H,3,10,V36">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Tucker,S."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="3" togo="10" spot="VT36" context="H,3,10,V36" playid="13,9,107" type="P"
+      text="Costa,F. pass incomplete to Jones,Chris T., dropped pass." newcontext="H,4,10,V36">
+    <p_pa vh="H" qb="Costa,F." result="DROP" rcv="Jones,Chris T."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="4" togo="10" spot="VT36" context="H,4,10,V36" playid="13,10,108" type="P"
+      text="Costa,F. pass incomplete to Jones,Chris T.." newcontext="V,1,10,V36">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Jones,Chris T."></p_pa>
+   </play>
+   <drivesum plays="8" yards="44" top="0:00" driveindex="13" complete="Y"></drivesum>
+   <drivestart poss="V,V36,00:00" vh="V" spot="V36" clock="00:00" driveindex="14,108"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="14,1,109" clock="00:00"
+      text="VIRGINIA TECH drive start at 00:00." newcontext="V,1,10,V36">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="14,2,110" type="#" clock="00:00"
+      text="End of half, clock 00:00." newcontext="V,1,10,V36">
+   </play>
+   <drivesum plays="0" yards="0" top="0:00" driveindex="14" complete="Y"></drivesum>
+   <score qtr="2" V="0" H="7"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="3" rush="3" pass="0" penalty="0"></firstdowns>
+    <penalties no="2" yds="26"></penalties>
+    <conversions thirdconv="3" thirdatt="6" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="1" lost="1"></fumbles>
+    <misc yds="0" top="09:51"></misc>
+    <rush att="16" yds="47" gain="65" loss="18" td="0" long="3"></rush>
+    <pass comp="1" att="2" int="0" yds="2" td="0" long="2" sacks="2" sackyds="15"></pass>
+    <rcv no="1" yds="2" td="0" long="2"></rcv>
+    <punt no="3" yds="113" long="0" blkd="0" tb="1" fc="0" plus50="0" inside20="2" avg="37.7"></punt>
+    <defense tackua="8" tacka="4" tot_tack="12" tflua="2" tfla="2" tflyds="7" sacks="3" sackyds="21" ff="1" fr="2" fryds="0"></defense>
+    <pr no="1" yds="-15" td="0" long="0"></pr>
+    <fumbles no="1" lost="1"></fumbles>
+   </qtrsummary>
+   <qtrsummary vh="H" id="MIAMI">
+    <firstdowns no="4" rush="0" pass="3" penalty="1"></firstdowns>
+    <penalties no="1" yds="5"></penalties>
+    <conversions thirdconv="0" thirdatt="4" fourthconv="0" fourthatt="1"></conversions>
+    <fumbles no="2" lost="2"></fumbles>
+    <misc yds="0" top="05:09"></misc>
+    <rush att="7" yds="-9" gain="2" loss="11" td="0" long="0"></rush>
+    <pass comp="5" att="13" int="0" yds="50" td="0" long="0" sacks="1" sackyds="4"></pass>
+    <rcv no="5" yds="50" td="0" long="0"></rcv>
+    <punt no="2" yds="84" long="11" blkd="0" tb="0" fc="1" plus50="0" inside20="0" avg="42.0"></punt>
+    <defense tackua="5" tacka="22" tot_tack="27" tflua="0" tfla="8" tflyds="18" sacks="2" sackyds="15" ff="1" fr="1" fryds="0"></defense>
+    <fumbles no="2" lost="2"></fumbles>
+   </qtrsummary>
+  </qtr>
+  <qtr number="3" text="3rd">
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="14,3,111" type="#" clock="15:00"
+      text="Start of 3rd quarter, clock 15:00, MIAMI ball on MIAMI35." newcontext="H,1,10,H35">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI35" context="H,1,10,H35" playid="14,4,112" type="K"
+      text="Barnwell,S. kickoff 65 yards to the VT0, touchback." newcontext="V,1,10,V20">
+    <p_ko vh="H" name="Barnwell,S." gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="V,V20,15:00" vh="V" spot="V20" clock="15:00" driveindex="15,112"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="15,1,113" clock="15:00"
+      text="VIRGINIA TECH drive start at 15:00." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="15,2,114" type="R"
+      text="Thomas,D. rush for 4 yards to the VT24." newcontext="V,2,6,V24">
+    <p_ru vh="V" name="Thomas,D." gain="4"></p_ru>
+   </play>
+   <play hasball="VT" down="2" togo="6" spot="VT24" context="V,2,6,V24" playid="15,3,115" type="R" first="R"
+      text="Thomas,D. rush for 10 yards to the VT34, 1ST DOWN VT." newcontext="V,1,10,V34">
+    <p_ru vh="V" name="Thomas,D." gain="10"></p_ru>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT34" context="V,1,10,V34" playid="15,4,116" type="R"
+      text="Thomas,D. rush for no gain to the VT34 (Lewis,R.)." newcontext="V,2,10,V34">
+    <p_ru vh="V" name="Thomas,D." gain="0"></p_ru>
+    <p_tk vh="H" name="Lewis,R."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT34" context="V,2,10,V34" playid="15,5,117" type="R"
+      text="Swarm,J. rush for 1 yard to the VT35 (Sapp,W.;Lewis,R.)." newcontext="V,3,9,V35">
+    <p_ru vh="V" name="Swarm,J." gain="1"></p_ru>
+    <p_tk vh="H" name="Sapp,W." assist="Y"></p_tk>
+    <p_tk vh="H" name="Lewis,R." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="9" spot="VT35" context="V,3,9,V35" playid="15,6,118" type="P"
+      text="DeShazo,M. sacked for loss of 2 yards to the VT33 (Krein,D.;Sapp,W.)." newcontext="V,4,11,V33">
+    <p_pa vh="V" qb="DeShazo,M." result="SACK" gain="-2"></p_pa>
+    <p_tk vh="H" name="Krein,D." sack="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Sapp,W." sack="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="11" spot="VT33" context="V,4,11,V33" playid="15,7,119" type="U"
+      text="Colley,R. punt 43 yards to the MIAMI24, Harris,J. return 10 yards to the MIAMI34 (Miller,A.)." newcontext="H,1,10,H34">
+    <p_pu vh="V" name="Colley,R." gain="43"></p_pu>
+    <p_pr vh="H" name="Harris,J." gain="10"></p_pr>
+    <p_tk vh="V" name="Miller,A."></p_tk>
+   </play>
+   <drivesum plays="5" yards="13" top="0:00" driveindex="15" complete="Y"></drivesum>
+   <drivestart poss="H,H34,12:14" vh="H" spot="H34" clock="12:14" driveindex="16,119"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI34" context="H,1,10,H34" playid="16,1,120" clock="12:14"
+      text="MIAMI drive start at 12:14." newcontext="H,1,10,H34">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI34" context="H,1,10,H34" playid="16,2,121" type="R"
+      text="Bennett,D. rush for 2 yards to the MIAMI36 (Brown,C.;DelRicco,G.)." newcontext="H,2,8,H36">
+    <p_ru vh="H" name="Bennett,D." gain="2"></p_ru>
+    <p_tk vh="V" name="Brown,C." assist="Y"></p_tk>
+    <p_tk vh="V" name="DelRicco,G." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="8" spot="MIAMI36" context="H,2,8,H36" playid="16,3,122" type="P" first="P"
+      text="Costa,F. pass complete to Wimberly,M. for 19 yards to the VT45, 1ST DOWN MIAMI (Henley,S.)." newcontext="H,1,10,V45">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Wimberly,M." gain="19"></p_pa>
+    <p_tk vh="V" name="Henley,S."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT45" context="H,1,10,V45" playid="16,4,123" type="P" first="P" score="Y" clock="10:57"
+      text="Costa,F. pass complete to Tellison,A.C. for 45 yards to the VT0, 1ST DOWN MIAMI, TOUCHDOWN, clock 10:57." newcontext="H,1,0,V03">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Tellison,A.C." gain="45"></p_pa>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="16,5,124" type="X" score="Y"
+      text="Prewitt,D. kick attempt good." newcontext="H,1,0,H35">
+    <p_pat vh="H" name="Prewitt,D." qb="Prewitt,D." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="0" H="14"></score>
+   <play hasball="MIAMI" down="1" togo="0" spot="MIAMI35" context="H,1,0,H35" playid="16,6,125" type="E"
+      text="PENALTY VT pass interference 15 yards to the 50 yardline." newcontext="H,1,0,H50">
+    <p_pn vh="V" code="PI" type="pass interference" result="ACCEPT" at="H35" yards="15"></p_pn>
+   </play>
+   <comment text="The pass interference took place on the touchdown pass."></comment>
+   <drivesum plays="3" yards="66" top="0:00" driveindex="16" complete="Y"></drivesum>
+   <play hasball="MIAMI" down="1" togo="0" spot="MIAMI50" context="H,1,0,H50" playid="16,7,127" type="K"
+      text="Barnwell,S. kickoff 50 yards to the VT0, touchback." newcontext="V,1,10,V20">
+    <p_ko vh="H" name="Barnwell,S." gain="50" result="T"></p_ko>
+   </play>
+   <drivestart poss="V,V20,10:57" vh="V" spot="V20" clock="10:57" driveindex="17,127"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="17,1,128" clock="10:57"
+      text="VIRGINIA TECH drive start at 10:57." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="17,2,129" type="R" pcode="LL"
+      text="Edwards,T. rush left for 2 yards to the VT22 (Sapp,W.;Patrick,K.)." newcontext="V,2,8,V22">
+    <p_ru vh="V" name="Edwards,T." gain="2"></p_ru>
+    <p_tk vh="H" name="Sapp,W." assist="Y"></p_tk>
+    <p_tk vh="H" name="Patrick,K." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="VT22" context="V,2,8,V22" playid="17,3,130" type="P"
+      text="DeShazo,M. pass incomplete to Sanders,S.." newcontext="V,3,8,V22">
+    <p_pa vh="V" qb="DeShazo,M." result="INC" rcv="Sanders,S."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="VT22" context="V,3,8,V22" playid="17,4,131" type="P" pcode="DP" turnover="I"
+      text="DeShazo,M. deep pass intercepted by Richardson,C.J. at the MIAMI35, Richardson,C.J. return 0 yards to the MIAMI35." newcontext="H,1,10,H35">
+    <p_pa vh="V" qb="DeShazo,M." result="INT"></p_pa>
+    <p_ir vh="H" name="Richardson,C.J." at="H35" gain="0"></p_ir>
+   </play>
+   <drivesum plays="3" yards="2" top="0:00" driveindex="17" complete="Y"></drivesum>
+   <drivestart poss="H,H35,10:11" vh="H" spot="H35" clock="10:11" driveindex="18,131"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI35" context="H,1,10,H35" playid="18,1,132" clock="10:11"
+      text="MIAMI drive start at 10:11." newcontext="H,1,10,H35">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI35" context="H,1,10,H35" playid="18,2,133" type="E"
+      text="Costa,F. pass complete to Jones,Chris T. for 8 yards to the MIAMI43, PENALTY MIAMI holding 15 yards to the MIAMI20, NO PLAY." newcontext="H,1,25,H20">
+    <p_pn vh="H" code="HO" type="holding" result="ACCEPT" at="H35" yards="15"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="25" spot="MIAMI20" context="H,1,25,H20" playid="18,3,134" type="P"
+      text="Costa,F. pass incomplete to Jones,Chris T. (Basham,B.)." newcontext="H,2,25,H20">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Jones,Chris T."></p_pa>
+    <p_bu vh="V" name="Basham,B."></p_bu>
+   </play>
+   <play hasball="MIAMI" down="2" togo="25" spot="MIAMI20" context="H,2,25,H20" playid="18,4,135" type="E"
+      text="Costa,F. pass incomplete to Jones,Chris T., PENALTY VT offside defense 5 yards to the MIAMI25, NO PLAY." newcontext="H,2,20,H25">
+    <p_pn vh="V" code="OD" type="offside defense" result="ACCEPT" at="H20" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="2" togo="20" spot="MIAMI25" context="H,2,20,H25" playid="18,5,136" type="P"
+      text="Costa,F. pass complete to German,J. for 8 yards to the MIAMI33 (Yarborough,W.)." newcontext="H,3,12,H33">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="German,J." gain="8"></p_pa>
+    <p_tk vh="V" name="Yarborough,W."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="12" spot="MIAMI33" context="H,3,12,H33" playid="18,6,137" type="E"
+      text="PENALTY MIAMI delay of game 5 yards to the MIAMI28." newcontext="H,3,17,H28">
+    <p_pn vh="H" code="DG" type="delay of game" result="ACCEPT" at="H33" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="3" togo="17" spot="MIAMI28" context="H,3,17,H28" playid="18,7,138" type="P"
+      text="Costa,F. pass complete to Jones,Chris T. for 16 yards to the MIAMI44 (Jones,S.)." newcontext="H,4,1,H44">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,Chris T." gain="16"></p_pa>
+    <p_tk vh="V" name="Jones,S."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="4" togo="1" spot="MIAMI44" context="H,4,1,H44" playid="18,8,139" type="U"
+      text="Crissy,M. punt 36 yards to the VT20, fair catch by Freeman,A.." newcontext="V,1,10,V20">
+    <p_pu vh="H" name="Crissy,M." gain="36" fc="Freeman,A."></p_pu>
+   </play>
+   <drivesum plays="3" yards="9" top="0:00" driveindex="18" complete="Y"></drivesum>
+   <drivestart poss="V,V20,08:34" vh="V" spot="V20" clock="08:34" driveindex="19,139"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="19,1,140" clock="08:34"
+      text="VIRGINIA TECH drive start at 08:34." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="19,2,141" type="R"
+      text="Thomas,D. rush for 6 yards to the VT26 (Harris,T.)." newcontext="V,2,4,V26">
+    <p_ru vh="V" name="Thomas,D." gain="6"></p_ru>
+    <p_tk vh="H" name="Harris,T."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="4" spot="VT26" context="V,2,4,V26" playid="19,3,142" type="R"
+      text="Swarm,J. rush for 2 yards to the VT28 (Lewis,R.)." newcontext="V,3,2,V28">
+    <p_ru vh="V" name="Swarm,J." gain="2"></p_ru>
+    <p_tk vh="H" name="Lewis,R."></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="2" spot="VT28" context="V,3,2,V28" playid="19,4,143" type="R"
+      text="Swarm,J. rush for loss of 2 yards to the VT26 (Johnson,D.;Francis,C.)." newcontext="V,4,4,V26">
+    <p_ru vh="V" name="Swarm,J." gain="-2"></p_ru>
+    <p_tk vh="H" name="Johnson,D." assist="Y"></p_tk>
+    <p_tk vh="H" name="Francis,C." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="4" spot="VT26" context="V,4,4,V26" playid="19,5,144" type="E" first="E"
+      text="PENALTY MIAMI illegal participation 15 yards to the VT41, 1ST DOWN VT." newcontext="V,1,10,V41">
+    <p_pn vh="H" code="PA" type="illegal participation" result="ACCEPT" at="V26" yards="15"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT41" context="V,1,10,V41" playid="19,6,145" type="R" pcode="LL" first="R"
+      text="Edwards,T. rush left for 13 yards to the MIAMI46, 1ST DOWN VT (Harris,T.)." newcontext="V,1,10,H46">
+    <p_ru vh="V" name="Edwards,T." gain="13"></p_ru>
+    <p_tk vh="H" name="Harris,T."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI46" context="V,1,10,H46" playid="19,7,146" type="R"
+      text="Edwards,T. rush for 2 yards to the MIAMI44 (Lewis,R.;Richardson,C.J.)." newcontext="V,2,8,H44">
+    <p_ru vh="V" name="Edwards,T." gain="2"></p_ru>
+    <p_tk vh="H" name="Lewis,R." assist="Y"></p_tk>
+    <p_tk vh="H" name="Richardson,C.J." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="MIAMI44" context="V,2,8,H44" playid="19,8,147" type="P" first="P"
+      text="DeShazo,M. pass complete to White,C. for 11 yards to the MIAMI33, 1ST DOWN VT (Francis,C.)." newcontext="V,1,10,H33">
+    <p_pa vh="V" qb="DeShazo,M." result="COMP" rcv="White,C." gain="11"></p_pa>
+    <p_tk vh="H" name="Francis,C."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI33" context="V,1,10,H33" playid="19,9,148" type="R"
+      text="Edwards,T. rush for loss of 3 yards to the MIAMI36 (Krein,D.)." newcontext="V,2,13,H36">
+    <p_ru vh="V" name="Edwards,T." gain="-3"></p_ru>
+    <p_tk vh="H" name="Krein,D."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="13" spot="MIAMI36" context="V,2,13,H36" playid="19,10,149" type="P"
+      text="DeShazo,M. pass complete to Sanders,S. for 5 yards to the MIAMI31 (Francis,C.)." newcontext="V,3,8,H31">
+    <p_pa vh="V" qb="DeShazo,M." result="COMP" rcv="Sanders,S." gain="5"></p_pa>
+    <p_tk vh="H" name="Francis,C."></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="MIAMI31" context="V,3,8,H31" playid="19,11,150" type="P" first="P"
+      text="DeShazo,M. pass complete to Sanders,S. for 13 yards to the MIAMI18, 1ST DOWN VT (Richardson,C.J.)." newcontext="V,1,10,H18">
+    <p_pa vh="V" qb="DeShazo,M." result="COMP" rcv="Sanders,S." gain="13"></p_pa>
+    <p_tk vh="H" name="Richardson,C.J."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI18" context="V,1,10,H18" playid="19,12,151" type="R"
+      text="DeShazo,M. rush for no gain to the MIAMI18 (Holmes,K.)." newcontext="V,2,10,H18">
+    <p_ru vh="V" name="DeShazo,M." gain="0"></p_ru>
+    <p_tk vh="H" name="Holmes,K."></p_tk>
+   </play>
+   <comment text="DeShazo on the option, crushed by Holmes, injured on the play."></comment>
+   <play hasball="VT" down="2" togo="10" spot="MIAMI18" context="V,2,10,H18" playid="19,13,153"
+      text="Druckenmiller,J at QB for Virginia Tech." newcontext="V,2,10,H18">
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="MIAMI18" context="V,2,10,H18" playid="19,14,154" type="R"
+      text="Edwards,T. rush for loss of 3 yards to the MIAMI21." newcontext="V,3,13,H21">
+    <p_ru vh="V" name="Edwards,T." gain="-3"></p_ru>
+   </play>
+   <play hasball="VT" down="3" togo="13" spot="MIAMI21" context="V,3,13,H21" playid="19,15,155" type="P" turnover="I"
+      text="Druckenmiller,J pass intercepted by Seigler,D. at the MIAMI0, Seigler,D. return 0 yards to the MIAMI0, touchback." newcontext="H,1,10,H20">
+    <p_pa vh="V" qb="Druckenmiller,J" result="INT"></p_pa>
+    <p_ir vh="H" name="Seigler,D." at="H00" gain="0"></p_ir>
+   </play>
+   <drivesum plays="12" yards="59" top="0:00" driveindex="19" complete="Y"></drivesum>
+   <drivestart poss="H,H20,03:12" vh="H" spot="H20" clock="03:12" driveindex="20,155"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI20" context="H,1,10,H20" playid="20,1,156" clock="03:12"
+      text="MIAMI drive start at 03:12." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI20" context="H,1,10,H20" playid="20,2,157" type="R" pcode="MI"
+      text="Ferguson,D. rush up middle for 4 yards to the MIAMI24 (Brown,K.), PENALTY VT face mask 5 yards to the MIAMI29." newcontext="H,1,1,H29">
+    <p_ru vh="H" name="Ferguson,D." gain="4"></p_ru>
+    <p_tk vh="V" name="Brown,K."></p_tk>
+    <p_pn vh="V" code="FM" type="face mask" result="ACCEPT" at="H24" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="1" spot="MIAMI29" context="H,1,1,H29" playid="20,3,158"
+      text="1st and 1." newcontext="H,1,1,H29">
+   </play>
+   <play hasball="MIAMI" down="1" togo="1" spot="MIAMI29" context="H,1,1,H29" playid="20,4,159" type="P" first="P"
+      text="Costa,F. pass complete to Jones,Chris T. for 20 yards to the MIAMI49, 1ST DOWN MIAMI (Yarborough,W.)." newcontext="H,1,10,H49">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Jones,Chris T." gain="20"></p_pa>
+    <p_tk vh="V" name="Yarborough,W."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI49" context="H,1,10,H49" playid="20,5,160" type="E"
+      text="PENALTY MIAMI holding 8 yards to the MIAMI41." newcontext="H,1,18,H41">
+    <p_pn vh="H" code="HO" type="holding" result="ACCEPT" at="H49" yards="8"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="18" spot="MIAMI41" context="H,1,18,H41" playid="20,6,161" type="P"
+      text="Costa,F. pass complete to Ferguson,D. for 4 yards to the MIAMI45 (DelRicco,G.)." newcontext="H,2,14,H45">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Ferguson,D." gain="4"></p_pa>
+    <p_tk vh="V" name="DelRicco,G."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="14" spot="MIAMI45" context="H,2,14,H45" playid="20,7,162" type="E"
+      text="Costa,F. sacked for loss of 2 yards to the MIAMI43, PENALTY VT offside defense 5 yards to the 50 yardline, NO PLAY." newcontext="H,2,9,H50">
+    <p_pn vh="V" code="OD" type="offside defense" result="ACCEPT" at="H45" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="2" togo="9" spot="MIAMI50" context="H,2,9,H50" playid="20,8,163" type="P" first="P"
+      text="Costa,F. pass complete to Harris,J. for 17 yards to the VT33, 1ST DOWN MIAMI (Yarborough,W.)." newcontext="H,1,10,V33">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Harris,J." gain="17"></p_pa>
+    <p_tk vh="V" name="Yarborough,W."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT33" context="H,1,10,V33" playid="20,9,164" type="E" first="E"
+      text="Costa,F. pass incomplete to Harris,J., PENALTY VT personal foul 15 yards to the VT18, 1ST DOWN MIAMI, NO PLAY." newcontext="H,1,10,V18">
+    <p_pn vh="V" code="PF" type="personal foul" result="ACCEPT" at="V33" yards="15"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT18" context="H,1,10,V18" playid="20,10,165" type="E"
+      text="Costa,F. pass incomplete to Jones,Chris T., PENALTY VT offside defense 5 yards to the VT13, NO PLAY." newcontext="H,1,5,V13">
+    <p_pn vh="V" code="OD" type="offside defense" result="ACCEPT" at="V18" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="5" spot="VT13" context="H,1,5,V13" playid="20,11,166"
+      text="1st and 5." newcontext="H,1,5,V13">
+   </play>
+   <play hasball="MIAMI" down="1" togo="5" spot="VT13" context="H,1,5,V13" playid="20,12,167" type="R" pcode="RT"
+      text="Stewart,J. rush over right tackle for 3 yards to the VT10 (Green,L.)." newcontext="H,2,2,V10">
+    <p_ru vh="H" name="Stewart,J." gain="3"></p_ru>
+    <p_tk vh="V" name="Green,L."></p_tk>
+   </play>
+   <score qtr="3" V="0" H="14"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="5" rush="2" pass="2" penalty="1"></firstdowns>
+    <penalties no="6" yds="50"></penalties>
+    <conversions thirdconv="1" thirdatt="5" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="08:54"></misc>
+    <rush att="14" yds="30" gain="40" loss="10" td="0" long="2"></rush>
+    <pass comp="3" att="6" int="2" yds="29" td="0" long="11" sacks="1" sackyds="2"></pass>
+    <rcv no="3" yds="29" td="0" long="11"></rcv>
+    <punt no="1" yds="43" long="0" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="43.0"></punt>
+    <defense tackua="9" tacka="2" tot_tack="11" sacks="3" sackyds="21" brup="1"></defense>
+   </qtrsummary>
+   <qtrsummary vh="H" id="MIAMI">
+    <firstdowns no="5" rush="0" pass="4" penalty="1"></firstdowns>
+    <penalties no="4" yds="43"></penalties>
+    <conversions thirdconv="0" thirdatt="1" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="06:06"></misc>
+    <rush att="3" yds="9" gain="9" loss="0" td="0" long="0"></rush>
+    <pass comp="7" att="8" int="0" yds="129" td="1" long="24" sacks="0" sackyds="0"></pass>
+    <rcv no="7" yds="129" td="1" long="24"></rcv>
+    <punt no="1" yds="36" long="0" blkd="0" tb="0" fc="1" plus50="0" inside20="0" avg="36.0"></punt>
+    <ko no="2" yds="115" ob="0" tb="2"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="9" tacka="10" tot_tack="19" tflua="1" tfla="4" tflyds="7" sacks="3" sackyds="17" int="2" intyds="0"></defense>
+    <pr no="1" yds="10" td="0" long="10"></pr>
+    <ir no="2" yds="0" td="0" long="0"></ir>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+  </qtr>
+  <qtr number="4" text="4th">
+   <play hasball="MIAMI" down="2" togo="2" spot="VT10" context="H,2,2,V10" playid="20,13,168" type="#" clock="15:00"
+      text="Start of 4th quarter, clock 15:00." newcontext="H,2,2,V10">
+   </play>
+   <play hasball="MIAMI" down="2" togo="2" spot="VT10" context="H,2,2,V10" playid="20,14,169" type="R" pcode="MI" first="R"
+      text="Harris,D. rush up middle for 7 yards to the VT3, 1ST DOWN MIAMI (Brown,K.)." newcontext="H,1,0,V03">
+    <p_ru vh="H" name="Harris,D." gain="7"></p_ru>
+    <p_tk vh="V" name="Brown,K."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="20,15,170" type="R"
+      text="Harris,D. rush for 1 yard to the VT2 (Price,J.C.;DelRicco,G.)." newcontext="H,2,0,V02">
+    <p_ru vh="H" name="Harris,D." gain="1"></p_ru>
+    <p_tk vh="V" name="Price,J.C." assist="Y"></p_tk>
+    <p_tk vh="V" name="DelRicco,G." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="0" spot="VT02" context="H,2,0,V02" playid="20,16,171" type="R"
+      text="Ferguson,D. rush for 1 yard to the VT1 (Henley,S.)." newcontext="H,3,0,V01">
+    <p_ru vh="H" name="Ferguson,D." gain="1"></p_ru>
+    <p_tk vh="V" name="Henley,S."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="0" spot="VT01" context="H,3,0,V01" playid="20,17,172" type="R"
+      text="Harris,D. rush for no gain to the VT1." newcontext="H,4,0,V01">
+    <p_ru vh="H" name="Harris,D." gain="0"></p_ru>
+   </play>
+   <play hasball="MIAMI" down="4" togo="0" spot="VT01" context="H,4,0,V01" playid="20,18,173" type="R" score="Y" clock="12:14"
+      text="Harris,D. rush for 1 yard to the VT0, TOUCHDOWN, clock 12:14." newcontext="H,1,0,V03">
+    <p_ru vh="H" name="Harris,D." gain="1"></p_ru>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="20,19,174" type="X" score="Y"
+      text="Prewitt,D. kick attempt good." newcontext="H,1,0,H35">
+    <p_pat vh="H" name="Prewitt,D." qb="Prewitt,D." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="0" H="21"></score>
+   <drivesum plays="10" yards="80" top="0:00" driveindex="20" complete="Y"></drivesum>
+   <play hasball="MIAMI" down="1" togo="0" spot="MIAMI35" context="H,1,0,H35" playid="20,20,175" type="K"
+      text="Barnwell,S. kickoff 55 yards to the VT10, Thomas,D. return 10 yards to the VT20 (Little,E.)." newcontext="V,1,10,V20">
+    <p_ko vh="H" name="Barnwell,S." gain="55"></p_ko>
+    <p_kr vh="V" name="Thomas,D." gain="10"></p_kr>
+    <p_tk vh="H" name="Little,E."></p_tk>
+   </play>
+   <drivestart poss="V,V20,12:14" vh="V" spot="V20" clock="12:14" driveindex="21,175"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="21,1,176" clock="12:14"
+      text="VIRGINIA TECH drive start at 12:14." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="21,2,177"
+      text="DeShazo,M. at QB for Virginia Tech." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="21,3,178" type="R"
+      text="Thomas,D. rush for 2 yards to the VT22 (Johnson,D.)." newcontext="V,2,8,V22">
+    <p_ru vh="V" name="Thomas,D." gain="2"></p_ru>
+    <p_tk vh="H" name="Johnson,D."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="VT22" context="V,2,8,V22" playid="21,4,179" type="P" first="P"
+      text="DeShazo,M. pass complete to Freeman,A. for 9 yards to the VT31, 1ST DOWN VT (Richardson,C.J.)." newcontext="V,1,10,V31">
+    <p_pa vh="V" qb="DeShazo,M." result="COMP" rcv="Freeman,A." gain="9"></p_pa>
+    <p_tk vh="H" name="Richardson,C.J."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT31" context="V,1,10,V31" playid="21,5,180" type="R"
+      text="Thomas,D. rush for 2 yards to the VT33 (Burgess,J.;Johnson,D.)." newcontext="V,2,8,V33">
+    <p_ru vh="V" name="Thomas,D." gain="2"></p_ru>
+    <p_tk vh="H" name="Burgess,J." assist="Y"></p_tk>
+    <p_tk vh="H" name="Johnson,D." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="VT33" context="V,2,8,V33" playid="21,6,181" type="P" first="P"
+      text="DeShazo,M. pass complete to Still,B. for 11 yards to the VT44, 1ST DOWN VT." newcontext="V,1,10,V44">
+    <p_pa vh="V" qb="DeShazo,M." result="COMP" rcv="Still,B." gain="11"></p_pa>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT44" context="V,1,10,V44" playid="21,7,182" type="R"
+      text="Thomas,D. rush for loss of 5 yards to the VT39 (Short,B.)." newcontext="V,2,15,V39">
+    <p_ru vh="V" name="Thomas,D." gain="-5"></p_ru>
+    <p_tk vh="H" name="Short,B."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="15" spot="VT39" context="V,2,15,V39" playid="21,8,183" type="P"
+      text="DeShazo,M. pass incomplete to Still,B.." newcontext="V,3,15,V39">
+    <p_pa vh="V" qb="DeShazo,M." result="INC" rcv="Still,B."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="15" spot="VT39" context="V,3,15,V39" playid="21,9,184" type="P"
+      text="DeShazo,M. pass incomplete to Freeman,A.." newcontext="V,4,15,V39">
+    <p_pa vh="V" qb="DeShazo,M." result="INC" rcv="Freeman,A."></p_pa>
+   </play>
+   <play hasball="VT" down="4" togo="15" spot="VT39" context="V,4,15,V39" playid="21,10,185" type="U"
+      text="Colley,R. punt 47 yards to the MIAMI14, Harris,J. return 7 yards to the MIAMI21, PENALTY MIAMI illegal use of hands 10 yards to the MIAMI11, 1st and 10, MIAMI ball on MIAMI11." newcontext="H,1,10,H11">
+    <p_pu vh="V" name="Colley,R." gain="47" in20="Y"></p_pu>
+    <p_pr vh="H" name="Harris,J." gain="7"></p_pr>
+    <p_pn vh="H" code="UH" type="illegal use of hands" result="ACCEPT" at="H21" yards="10"></p_pn>
+   </play>
+   <drivesum plays="7" yards="19" top="0:00" driveindex="21" complete="Y"></drivesum>
+   <drivestart poss="H,H11,09:33" vh="H" spot="H11" clock="09:33" driveindex="22,185"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI11" context="H,1,10,H11" playid="22,1,186" clock="09:33"
+      text="MIAMI drive start at 09:33." newcontext="H,1,10,H11">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI11" context="H,1,10,H11" playid="22,2,187" type="R" first="R"
+      text="Jones,L. rush for 14 yards to the MIAMI25, 1ST DOWN MIAMI (Basham,B.;Gray,T.)." newcontext="H,1,10,H25">
+    <p_ru vh="H" name="Jones,L." gain="14"></p_ru>
+    <p_tk vh="V" name="Basham,B." assist="Y"></p_tk>
+    <p_tk vh="V" name="Gray,T." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI25" context="H,1,10,H25" playid="22,3,188" type="P" pcode="DP"
+      text="Costa,F. deep pass incomplete to German,J.." newcontext="H,2,10,H25">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="German,J."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="2" togo="10" spot="MIAMI25" context="H,2,10,H25" playid="22,4,189" type="P"
+      text="Costa,F. pass incomplete to Harris,J.." newcontext="H,3,10,H25">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Harris,J."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="3" togo="10" spot="MIAMI25" context="H,3,10,H25" playid="22,5,190" type="P"
+      text="Costa,F. pass incomplete to Jones,Chris T., dropped pass." newcontext="H,4,10,H25">
+    <p_pa vh="H" qb="Costa,F." result="DROP" rcv="Jones,Chris T."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="4" togo="10" spot="MIAMI25" context="H,4,10,H25" playid="22,6,191" type="U"
+      text="Crissy,M. punt 43 yards to the VT32, fair catch by Freeman,A.." newcontext="V,1,10,V32">
+    <p_pu vh="H" name="Crissy,M." gain="43" fc="Freeman,A."></p_pu>
+   </play>
+   <drivesum plays="4" yards="14" top="0:00" driveindex="22" complete="Y"></drivesum>
+   <drivestart poss="V,V32,08:34" vh="V" spot="V32" clock="08:34" driveindex="23,191"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT32" context="V,1,10,V32" playid="23,1,192" clock="08:34"
+      text="VIRGINIA TECH drive start at 08:34." newcontext="V,1,10,V32">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT32" context="V,1,10,V32" playid="23,2,193" type="R" pcode="RV" first="R"
+      text="Freeman,A. rush reverse for 39 yards to the MIAMI29, 1ST DOWN VT (Burgess,J.)." newcontext="V,1,10,H29">
+    <p_ru vh="V" name="Freeman,A." gain="39"></p_ru>
+    <p_tk vh="H" name="Burgess,J."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI29" context="V,1,10,H29" playid="23,3,194" type="R"
+      text="Edwards,T. rush for 1 yard to the MIAMI28 (Francis,C.)." newcontext="V,2,9,H28">
+    <p_ru vh="V" name="Edwards,T." gain="1"></p_ru>
+    <p_tk vh="H" name="Francis,C."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="9" spot="MIAMI28" context="V,2,9,H28" playid="23,4,195" type="P"
+      text="DeShazo,M. pass incomplete to Burke,J.." newcontext="V,3,9,H28">
+    <p_pa vh="V" qb="DeShazo,M." result="INC" rcv="Burke,J."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="9" spot="MIAMI28" context="V,3,9,H28" playid="23,5,196" type="R" pcode="DR"
+      text="Edmonds,B. rush draw play for 8 yards to the MIAMI20 (Seigler,D.;Francis,C.)." newcontext="V,4,1,H20">
+    <p_ru vh="V" name="Edmonds,B." gain="8"></p_ru>
+    <p_tk vh="H" name="Seigler,D." assist="Y"></p_tk>
+    <p_tk vh="H" name="Francis,C." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="1" spot="MIAMI20" context="V,4,1,H20" playid="23,6,197" type="R"
+      text="DeShazo,M. rush for loss of 3 yards to the MIAMI23 (Marley,R.;Francis,C.)." newcontext="H,1,10,H23">
+    <p_ru vh="V" name="DeShazo,M." gain="-3"></p_ru>
+    <p_tk vh="H" name="Marley,R." assist="Y"></p_tk>
+    <p_tk vh="H" name="Francis,C." assist="Y"></p_tk>
+   </play>
+   <drivesum plays="5" yards="45" top="0:00" driveindex="23" complete="Y"></drivesum>
+   <drivestart poss="H,H23,06:36" vh="H" spot="H23" clock="06:36" driveindex="24,197"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI23" context="H,1,10,H23" playid="24,1,198" clock="06:36"
+      text="MIAMI drive start at 06:36." newcontext="H,1,10,H23">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI23" context="H,1,10,H23" playid="24,2,199"
+      text="MIAMI ball on MIAMI24." newcontext="H,1,10,H24">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="MIAMI24" context="H,1,10,H24" playid="24,3,200" type="P"
+      text="Costa,F. pass complete to Harris,D. for loss of 3 yards to the MIAMI21 (Brown,K.)." newcontext="H,2,13,H21">
+    <p_pa vh="H" qb="Costa,F." result="COMP" rcv="Harris,D." gain="-3"></p_pa>
+    <p_tk vh="V" name="Brown,K."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="13" spot="MIAMI21" context="H,2,13,H21" playid="24,4,201" type="P"
+      text="Costa,F. pass incomplete to Shipman,A.." newcontext="H,3,13,H21">
+    <p_pa vh="H" qb="Costa,F." result="INC" rcv="Shipman,A."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="3" togo="13" spot="MIAMI21" context="H,3,13,H21" playid="24,5,202" type="E"
+      text="Costa,F. sacked for loss of 4 yards to the MIAMI17, fumble by Costa,F. recovered by VT Team at MIAMI17, PENALTY VT offside defense 5 yards to the MIAMI26, NO PLAY." newcontext="H,3,8,H26">
+    <p_fumb vh="H" name="Costa,F." at="H17" frvh="V" frname="Team"></p_fumb>
+    <p_pn vh="V" code="OD" type="offside defense" result="ACCEPT" at="H21" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="3" togo="8" spot="MIAMI26" context="H,3,8,H26" playid="24,6,203" type="P"
+      text="Costa,F. sacked for loss of 8 yards to the MIAMI18 (Lewis,L.)." newcontext="H,4,16,H18">
+    <p_pa vh="H" qb="Costa,F." result="SACK" gain="-8"></p_pa>
+    <p_tk vh="V" name="Lewis,L." sack="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="4" togo="16" spot="MIAMI18" context="H,4,16,H18" playid="24,7,204" type="U" score="Y" clock="04:35"
+      text="TEAM punt BLOCKED, recovered by MIAMI TEAM at MIAMI0 (blocked by Wilkins,W.), Team safety, clock 04:35." newcontext="H,1,0,H20">
+    <p_pu vh="H" name="TEAM" gain="0" blkd="Y"></p_pu>
+   </play>
+   <score V="2" H="21"></score>
+   <drivesum plays="3" yards="-6" top="0:00" driveindex="24" complete="Y"></drivesum>
+   <play hasball="MIAMI" down="1" togo="0" spot="MIAMI20" context="H,1,0,H20" playid="24,8,205" type="K"
+      text="Barnwell,S. kickoff 53 yards to the VT27, Thomas,D. return 25 yards to the MIAMI48." newcontext="V,1,10,H48">
+    <p_ko vh="H" name="Barnwell,S." gain="53"></p_ko>
+    <p_kr vh="V" name="Thomas,D." gain="25"></p_kr>
+   </play>
+   <drivestart poss="V,H48,04:35" vh="V" spot="H48" clock="04:35" driveindex="25,205"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI48" context="V,1,10,H48" playid="25,1,206" clock="04:35"
+      text="VIRGINIA TECH drive start at 04:35." newcontext="V,1,10,H48">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI48" context="V,1,10,H48" playid="25,2,207"
+      text="Druckenmiller,J at QB for Virginia Tech." newcontext="V,1,10,H48">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="MIAMI48" context="V,1,10,H48" playid="25,3,208" type="P"
+      text="Druckenmiller,J sacked for loss of 3 yards to the VT49 (Coley,A.)." newcontext="V,2,13,V49">
+    <p_pa vh="V" qb="Druckenmiller,J" result="SACK" gain="-3"></p_pa>
+    <p_tk vh="H" name="Coley,A." sack="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="13" spot="VT49" context="V,2,13,V49" playid="25,4,209" type="P" turnover="F"
+      text="Druckenmiller,J sacked for loss of 7 yards to the VT42 (Burgess,J.), fumble by Druckenmiller,J recovered by MIAMI Pickett,B. at VT34." newcontext="H,1,10,V34">
+    <p_pa vh="V" qb="Druckenmiller,J" result="FUMB" gain="-7"></p_pa>
+    <p_fumb vh="V" name="Druckenmiller,J" at="V34" frvh="H" frname="Pickett,B."></p_fumb>
+    <p_tk vh="H" name="Burgess,J." sack="Y"></p_tk>
+   </play>
+   <drivesum plays="2" yards="-18" top="0:00" driveindex="25" complete="Y"></drivesum>
+   <drivestart poss="H,V34,03:45" vh="H" spot="V34" clock="03:45" driveindex="26,209"></drivestart>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT34" context="H,1,10,V34" playid="26,1,210" clock="03:45"
+      text="MIAMI drive start at 03:45." newcontext="H,1,10,V34">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT34" context="H,1,10,V34" playid="26,2,211"
+      text="Collins,R. at QB for Miami." newcontext="H,1,10,V34">
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT34" context="H,1,10,V34" playid="26,3,212" type="P"
+      text="Collins,R. pass incomplete to Wimberly,M.." newcontext="H,2,10,V34">
+    <p_pa vh="H" qb="Collins,R." result="INC" rcv="Wimberly,M."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="2" togo="10" spot="VT34" context="H,2,10,V34" playid="26,4,213" type="R" pcode="LL" first="R"
+      text="Stewart,J. rush left for 20 yards to the VT14, 1ST DOWN MIAMI (Gray,T.)." newcontext="H,1,10,V14">
+    <p_ru vh="H" name="Stewart,J." gain="20"></p_ru>
+    <p_tk vh="V" name="Gray,T."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="10" spot="VT14" context="H,1,10,V14" playid="26,5,214" type="E"
+      text="PENALTY MIAMI delay of game 5 yards to the VT19." newcontext="H,1,15,V19">
+    <p_pn vh="H" code="DG" type="delay of game" result="ACCEPT" at="V14" yards="5"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="15" spot="VT19" context="H,1,15,V19" playid="26,6,215" type="E"
+      text="Collins,R. sacked for loss of 4 yards to the VT23 (Holland,J.), PENALTY VT offside defense 5 yards to the VT14, NO PLAY, PENALTY MIAMI personal foul 16 yards to the VT30, NO PLAY." newcontext="H,1,26,V30">
+    <p_pn vh="V" code="OD" type="offside defense" result="ACCEPT" at="V19" yards="5"></p_pn>
+    <p_pn vh="H" code="PF" type="personal foul" result="ACCEPT" at="V14" yards="16"></p_pn>
+   </play>
+   <play hasball="MIAMI" down="1" togo="26" spot="VT30" context="H,1,26,V30" playid="26,7,216" type="P"
+      text="Collins,R. sacked for loss of 5 yards to the VT35 (Lewis,L.)." newcontext="H,2,31,V35">
+    <p_pa vh="H" qb="Collins,R." result="SACK" gain="-5"></p_pa>
+    <p_tk vh="V" name="Lewis,L." sack="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="31" spot="VT35" context="H,2,31,V35" playid="26,8,217" type="R"
+      text="Bennett,D. rush for 20 yards to the VT15 (Brown,K.;Green,L.)." newcontext="H,3,11,V15">
+    <p_ru vh="H" name="Bennett,D." gain="20"></p_ru>
+    <p_tk vh="V" name="Brown,K." assist="Y"></p_tk>
+    <p_tk vh="V" name="Green,L." assist="Y"></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="11" spot="VT15" context="H,3,11,V15" playid="26,9,218" type="P" first="P"
+      text="Collins,R. pass complete to German,J. for 14 yards to the VT1, 1ST DOWN MIAMI (Green,L.)." newcontext="H,1,0,V01">
+    <p_pa vh="H" qb="Collins,R." result="COMP" rcv="German,J." gain="14"></p_pa>
+    <p_tk vh="V" name="Green,L."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="1" togo="0" spot="VT01" context="H,1,0,V01" playid="26,10,219" type="R" pcode="RR"
+      text="Bennett,D. rush right for loss of 1 yard to the VT2 (Gray,T.)." newcontext="H,2,0,V02">
+    <p_ru vh="H" name="Bennett,D." gain="-1"></p_ru>
+    <p_tk vh="V" name="Gray,T."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="2" togo="0" spot="VT02" context="H,2,0,V02" playid="26,11,220" type="R"
+      text="Ferguson,D. rush for loss of 7 yards to the VT9 (Price,J.C.)." newcontext="H,3,0,V09">
+    <p_ru vh="H" name="Ferguson,D." gain="-7"></p_ru>
+    <p_tk vh="V" name="Price,J.C."></p_tk>
+   </play>
+   <play hasball="MIAMI" down="3" togo="0" spot="VT09" context="H,3,0,V09" playid="26,12,221"
+      text="Timeout Virginia Tech." newcontext="H,3,0,V09">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="MIAMI" down="3" togo="0" spot="VT09" context="H,3,0,V09" playid="26,13,222" type="P"
+      text="Collins,R. pass incomplete to Shipman,A.." newcontext="H,4,0,V09">
+    <p_pa vh="H" qb="Collins,R." result="INC" rcv="Shipman,A."></p_pa>
+   </play>
+   <play hasball="MIAMI" down="4" togo="0" spot="VT09" context="H,4,0,V09" playid="26,14,223"
+      text="Timeout Miami." newcontext="H,4,0,V09">
+    <p_to vh="H" team="Miami"></p_to>
+   </play>
+   <play hasball="MIAMI" down="4" togo="0" spot="VT09" context="H,4,0,V09" playid="26,15,224" type="P" turnover="I"
+      text="Collins,R. pass intercepted by Brown,K. at the VT0, Brown,K. return 5 yards to the VT5." newcontext="V,1,10,V05">
+    <p_pa vh="H" qb="Collins,R." result="INT"></p_pa>
+    <p_ir vh="V" name="Brown,K." at="V00" gain="5"></p_ir>
+   </play>
+   <drivesum plays="9" yards="25" top="0:00" driveindex="26" complete="Y"></drivesum>
+   <drivestart poss="V,V05,00:22" vh="V" spot="V05" clock="00:22" driveindex="27,224"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT05" context="V,1,10,V05" playid="27,1,225" clock="00:22"
+      text="VIRGINIA TECH drive start at 00:22." newcontext="V,1,10,V05">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT05" context="V,1,10,V05" playid="27,2,226" type="R"
+      text="White,R rush for no gain to the VT5." newcontext="V,2,10,V05">
+    <p_ru vh="V" name="White,R" gain="0"></p_ru>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT05" context="V,2,10,V05" playid="27,3,227" type="#" clock="00:00"
+      text="End of game, clock 00:00." newcontext="V,2,10,V05">
+   </play>
+   <drivesum plays="1" yards="0" top="0:00" driveindex="27" complete="Y"></drivesum>
+   <score final="Y" V="2" H="21"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="3" rush="1" pass="2" penalty="0"></firstdowns>
+    <penalties no="2" yds="10"></penalties>
+    <conversions thirdconv="0" thirdatt="2" fourthconv="0" fourthatt="1"></conversions>
+    <fumbles no="1" lost="1"></fumbles>
+    <misc yds="0" top="05:51"></misc>
+    <rush att="10" yds="26" gain="52" loss="26" td="0" long="26"></rush>
+    <pass comp="2" att="5" int="0" yds="20" td="0" long="0" sacks="2" sackyds="10"></pass>
+    <rcv no="2" yds="20" td="0" long="0"></rcv>
+    <punt no="1" yds="47" long="0" blkd="0" tb="0" fc="0" plus50="0" inside20="1" avg="47.0"></punt>
+    <defense tackua="9" tacka="6" tot_tack="15" tflua="5" tfla="0" tflyds="24" sacks="5" sackyds="34" saf="1" blkd="1" int="1" intyds="5"></defense>
+    <kr no="2" yds="35" td="0" long="8"></kr>
+    <pr no="1" yds="18" td="0" long="0"></pr>
+    <ir no="1" yds="5" td="0" long="5"></ir>
+    <fumbles no="1" lost="1"></fumbles>
+    <scoring saf="1"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="MIAMI">
+    <firstdowns no="4" rush="3" pass="1" penalty="0"></firstdowns>
+    <penalties no="3" yds="31"></penalties>
+    <conversions thirdconv="1" thirdatt="5" fourthconv="1" fourthatt="2"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="09:09"></misc>
+    <rush att="12" yds="43" gain="64" loss="21" td="1" long="7"></rush>
+    <pass comp="2" att="9" int="1" yds="11" td="0" long="0" sacks="2" sackyds="13"></pass>
+    <rcv no="2" yds="11" td="0" long="0"></rcv>
+    <punt no="2" yds="43" long="0" blkd="1" tb="0" fc="1" plus50="0" inside20="0" avg="21.5"></punt>
+    <ko no="2" yds="108" ob="0" tb="0"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="8" tacka="6" tot_tack="14" tflua="3" tfla="2" tflyds="18" sacks="5" sackyds="27" ff="1" fr="1" fryds="0"></defense>
+    <pr no="1" yds="7" td="0" long="0"></pr>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+  </qtr>
+  <downtogo hasball="V" id="VT" down="2" togo="10" spot="VT05" context="V,2,10,V05" qtr="4" clock="00:00" vtoh="1" htoh="1"
+       lastplay="End of game, clock 00:00."></downtogo>
+ </plays>
+ <message text=""></message>
+ <dnp vh="V" id="VT">
+  <player name="Rhasheyd Williams" checkname="WILLIAMS,RH" uni="13" gp="0" code="13"></player>
+  <player name="Treg Koel" checkname="KOEL,T" uni="15" gp="0" code="15"></player>
+  <player name="Tyronne Drakeford" checkname="DRAKEFORD,T" uni="22" gp="0" code="22"></player>
+  <player name="Antonio Banks" checkname="BANKS,A" uni="27" gp="0" code="27"></player>
+  <player name="Ben Scott" checkname="SCOTT,B" uni="46" gp="0" code="46"></player>
+  <player name="Sal Colangelo" checkname="COLANGELO,S" uni="47" gp="0" code="47"></player>
+  <player name="Chris Glick" checkname="GLICK,C" uni="62" gp="0" code="62"></player>
+  <player name="Trenton Bass" checkname="BASS,T" uni="65" gp="0" code="65"></player>
+  <player name="T.J. Washington" checkname="WASHINGTON,TJ" uni="76" gp="0" code="76"></player>
+  <player name="Jermaine Holmes" checkname="HOLMES,J" uni="82" gp="0" code="82"></player>
+  <player name="Richard Strong" checkname="STRONG,R" uni="88" gp="0" code="88"></player>
+  <player name="Jon Bishock" checkname="BISHOCK,J" uni="89" gp="0" code="89"></player>
+  <player name="Jon Shields" checkname="SHIELDS,J" uni="94" gp="0" code="94"></player>
+  <player name="Leroy Charlton" checkname="CHARLTON,L" uni="96" gp="0" code="96"></player>
+  <player name="Marco Thomas" checkname="THOMAS,M" uni="99" gp="0" code="99"></player>
+  <player name="11" checkname="" uni="11" gp="0" code="11"></player>
+ </dnp>
+ <dnp vh="H" id="MIAMI">
+  <player name="Lamont Cain" checkname="CAIN,L" uni="5" gp="0" code="5"></player>
+  <player name="Chad Wilson" checkname="WILSON,C" uni="9" gp="0" code="9"></player>
+  <player name="Chris Walsh" checkname="WALSH,C" uni="16" gp="0" code="16"></player>
+  <player name="Bryce Erickson" checkname="ERICKSON,B" uni="17" gp="0" code="17"></player>
+  <player name="Chris Gibson" checkname="GIBSON,C" uni="20" gp="0" code="20"></player>
+  <player name="Tremain Mack" checkname="MACK,T" uni="24" gp="0" code="24"></player>
+  <player name="Dennis Scott" checkname="SCOTT,D" uni="25" gp="0" code="25"></player>
+  <player name="Aaron Jones" checkname="JONES,A" uni="26" gp="0" code="26"></player>
+  <player name="Eugene Ridgley" checkname="RIDGLEY,E" uni="29" gp="0" code="29"></player>
+  <player name="Trent Jones" checkname="JONES,T" uni="30" gp="0" code="30"></player>
+  <player name="Darius McCullum" checkname="MCCULLUM,D" uni="31" gp="0" code="31"></player>
+  <player name="Taj Johnson" checkname="JOHNSON,T" uni="35" gp="0" code="35"></player>
+  <player name="Malcolm Pearson" checkname="PEARSON,M" uni="38" gp="0" code="38"></player>
+  <player name="Kevin Brinkworth" checkname="BRINKWORTH,K" uni="41" gp="0" code="41"></player>
+  <player name="Jack Hallmon" checkname="HALLMON,J" uni="44" gp="0" code="44"></player>
+  <player name="Twan Russell" checkname="RUSSELL,T" uni="45" gp="0" code="45"></player>
+  <player name="Dinavon Bythwood" checkname="BYTHWOOD,D" uni="46" gp="0" code="46"></player>
+  <player name="Marcus Carey" checkname="CAREY,M" uni="48" gp="0" code="48"></player>
+  <player name="Willie Phillips" checkname="PHILLIPS,W" uni="55" gp="0" code="55"></player>
+  <player name="Marlin Barnes" checkname="BARNES,M" uni="56" gp="0" code="56"></player>
+  <player name="Tom Patterson" checkname="PATTERSON,T" uni="57" gp="0" code="57"></player>
+  <player name="Corries Hardy" checkname="HARDY,C" uni="59" gp="0" code="59"></player>
+  <player name="J. Ina" checkname="INA,J" uni="61" gp="0" code="61"></player>
+  <player name="Stephen Hochman" checkname="HOCHMAN,S" uni="62" gp="0" code="62"></player>
+  <player name="Anthony Lewis" checkname="LEWIS,A" uni="64" gp="0" code="64"></player>
+  <player name="Robert Woodus" checkname="WOODUS,R" uni="65" gp="0" code="65"></player>
+  <player name="Alan Symonette" checkname="SYMONETTE,A" uni="66" gp="0" code="66"></player>
+  <player name="Omar Andes" checkname="ANDES,O" uni="67" gp="0" code="67"></player>
+  <player name="Mike Wehner" checkname="WEHNER,M" uni="68" gp="0" code="68"></player>
+  <player name="Jason Budroni" checkname="BUDRONI,J" uni="69" gp="0" code="69"></player>
+  <player name="Bedros Alboyadjian" checkname="ALBOYADJIAN,B" uni="70" gp="0" code="70"></player>
+  <player name="Carlos Callejas" checkname="CALLEJAS,C" uni="72" gp="0" code="72"></player>
+  <player name="J Johnson" checkname="JOHNSON,J" uni="74" gp="0" code="74"></player>
+  <player name="Jason Owens" checkname="OWENS,J" uni="75" gp="0" code="75"></player>
+  <player name="Freeman Brown" checkname="BROWN,F" uni="78" gp="0" code="78"></player>
+  <player name="Kerlin Blaise" checkname="BLAISE,K" uni="79" gp="0" code="79"></player>
+  <player name="Jermaine Chambers" checkname="CHAMBERS,J" uni="80" gp="0" code="80"></player>
+  <player name="Gerard Daphnis" checkname="DAPHNIS,G" uni="82" gp="0" code="82"></player>
+  <player name="Dietrich Clausell" checkname="CLAUSELL,D" uni="83" gp="0" code="83"></player>
+  <player name="Chris C. Jones" checkname="JONES,CHRIS C" uni="84" gp="0" code="84"></player>
+  <player name="Yatil Green" checkname="GREEN,Y" uni="87" gp="0" code="87"></player>
+  <player name="David Holliman" checkname="HOLLIMAN,D" uni="92" gp="0" code="92"></player>
+  <player name="Marvin Davis" checkname="DAVIS,M" uni="93" gp="0" code="93"></player>
+  <player name="Kenard Lang" checkname="LANG,K" uni="96" gp="0" code="96"></player>
+  <player name="Shabaka Abdul-majid" checkname="ABDUL-MAJID,S" uni="97" gp="0" code="97"></player>
+  <player name="Rusty Medearis" checkname="MEDEARIS,R" uni="98" gp="0" code="98"></player>
+  <player name="Denny Fortney" checkname="FORTNEY,D" uni="99" gp="0" code="99"></player>
+ </dnp>
+ <longplays thresh="70">
+ </longplays>
+</fbgame>

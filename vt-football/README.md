@@ -60,7 +60,7 @@ and drive summaries. Used to fill CFBD gaps (2002) and possibly pre-2001 seasons
   IDs in the range all 404.
 - Coverage: full play-by-play from 1987 through part of 2020 (retro-keyed in 2009-2011 for
   older seasons). Late 2020 on, box scores move to wmt.games and this endpoint 404s.
-  Known holes: 1998 (6 of 12 games), 2002 West Virginia, 2005 (2 games), 2006 (1), 2007 (none).
+  Known holes: 1997 Gator Bowl, 1998 (6 of 12 games), 2002 West Virginia, 2005 (2 games), 2006 (1), 2007 (none).
 
 ### Crawl
 ```bash
@@ -81,6 +81,13 @@ chart, play-by-play) can still be parsed.
 - No players table (the text report's stat tables aren't parsed).
 - 2005 Sugar Bowl (`20050103-AU`, CFBD 250030259): all team totals, individual rushing and
   receiving lines, drive play counts, and the score by quarter match the report's own box score.
+
+## 1987-1998 (hokiesports.com only)
+131 games in `data/hokiesports/` (IDs 5120-5257), every game with a box score link on the
+schedule pages. Each game's line score sums to its final, every game has four quarters of plays
+(plus the 1998 overtime at Miami, 27-20), and season records match VT's official ones through 1996.
+Missing: the 1997 Gator Bowl vs. North Carolina (VT 7-4 here, 7-5 officially) and 6 of 12 games in
+1998 (the 6 present are all wins; the 9-3 season's three losses have no box score).
 
 ## 1999-2000 (hokiesports.com only; CFBD starts in 2001)
 All 23 games with a box score link are in `data/hokiesports/` (1999 IDs 5258-5269, including
