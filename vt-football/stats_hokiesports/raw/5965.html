@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+  <head>
+<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZG9Q2V2KEC"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'G-ZG9Q2V2KEC');
+	</script>
+	<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+	<script src="/assets/js/googleads.js"></script>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+<script type="text/javascript">
+var cachebuster = Math.round(new Date().getTime() / 1000);
+document.write('<link rel="stylesheet" href="/assets/css/bootstrap.css?cb=' +cachebuster+'">');
+document.write('<link rel="stylesheet" href="/assets/css/fonts.css?cb=' +cachebuster+'">');
+document.write('<link rel="stylesheet" href="/assets/css/master.css?cb=' +cachebuster+'">');
+document.write('<link rel="stylesheet" href="/assets/css/stats.css?cb=' +cachebuster+'">');
+document.write('<link rel="stylesheet" href="/assets/css/tables.css?cb=' +cachebuster+'">');
+document.write('<link rel="stylesheet" href="/assets/css/records.css?cb=' +cachebuster+'">');
+document.write('<link rel="stylesheet" href="/assets/css/livestats.css?cb=' +cachebuster+'">');
+</script>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/7549b652b6.js" crossorigin="anonymous"></script>
+	
+	<title>Hokies Stats & Info</title>
+
+  </head>
+  <body>
+  	
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark" style="background-color: #640031 !important">
+				<a class="home" href="/">
+				<div class="vtLogo"></div>
+				<div class="titleBox">
+				<div class="title"></div>
+				</div>
+				</a>
+				
+				<div class="banner">
+				<span data-bind="text: currentTitle"> </span>
+				</div>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav-1" aria-controls="main-nav-1" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+			<div class="navbar-collapse collapse" id="main-nav-1">
+				<ul class="navbar-nav ml-auto">
+					<!-- li.position-static gets rid of relative position -->
+					<li class="nav-item dropdown position-static"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#">Sports</a>
+						<!-- div.w-100 make it mega menu, div.top-auto opens the mega menu exactly as position like other normal menu -->
+						<div class="dropdown-menu w-100 top-auto">
+							<div>
+								<!-- div.w-100 is also needed in certain circumstances to make this menu a mega menu -->
+								<div class="row w-100 nav-back" style="margin: 0px;">
+									<div class="col-12 col-md-6">
+									<ul class="nav-items">
+										 <li>
+											<div class="nav-sect-one">
+											  <span class="nv-spo">Baseball</span>
+											</div>
+											<div class="nav-sect-two">
+												<a class="nv-ros" href="/baseball/live/">Live Stats</a>
+												<a class="nv-sch" href="/baseball/season/">Season Stats</a>
+												<a class="nv-sch" href="/baseball/players/">Player Stats</a>
+												<a class="nv-sch" href="/baseball/records/">Record Book</a>
+											</div>
+										 </li>
+							
+										 <li>
+											<div class="nav-sect-one">
+											  <span class="nv-spo">Men's Basketball</span>
+											</div>
+											<div class="nav-sect-two">
+												<a class="nv-ros" href="/mbasketball/live/">Live Stats</a>
+												<a class="nv-sch" href="/mbasketball/season/">Season Stats</a>
+												<a class="nv-sch" href="/mbasketball/players/">Player Stats</a>
+												<a class="nv-sch" href="/mbasketball/records/">Record Book</a>
+											</div>
+										 </li>
+							
+										<li>
+											 <div class="nav-sect-one">
+												<span class="nv-spo">Women's Basketball</span>
+											 </div>
+											 <div class="nav-sect-two">
+												  <a class="nv-ros" href="/wbasketball/live/">Live Stats</a>
+												  <a class="nv-sch" href="/wbasketball/season/">Season Stats</a>
+												  <a class="nv-sch" href="/wbasketball/players/">Player Stats</a>
+												  <a class="nv-sch" href="/wbasketball/records/">Record Book</a>
+											 </div>
+										</li>
+							
+										<li>
+										  <div class="nav-sect-one">
+											<span class="nv-spo">Football</span>
+										  </div>
+										  <div class="nav-sect-two">
+											  <a class="nv-ros" href="/football/live/">Live Stats</a>
+											  <a class="nv-sch" href="/football/season/">Season Stats</a>
+											  <a class="nv-sch" href="/football/players/">Player Stats</a>
+											  <a class="nv-sch" href="/football/records/">Record Book</a>
+											  <a class="nv-sch" href="/football/scorigami/">Scorigami</a>
+										  </div>
+										</li>
+							
+										<li>
+										  <div class="nav-sect-one">
+											<span class="nv-spo">Golf</span>
+
+										  </div>
+										  <div class="nav-sect-two">
+											  <a class="nv-sch" href="/mgolf/season/">Men's Season Stats</a>
+											  <a class="nv-sch" href="/wgolf/season/">Women's Season Stats</a>
+
+										  </div>
+										</li>
+																
+										<li>
+											 <div class="nav-sect-one">
+												<span class="nv-spo">Lacrosse</span>
+											 </div>
+											 <div class="nav-sect-two">
+												  <a class="nv-ros" href="/lax/live/">Live Stats</a>
+												  <a class="nv-sch" href="/lax/season/">Season Stats</a>
+												  <a class="nv-sch" href="/lax/records/">History</a>
+										
+											 </div>
+										</li>
+									 <li>
+										<div class="nav-sect-one">
+										  <span class="nv-spo">Men's Soccer</span>
+										</div>
+										<div class="nav-sect-two">
+											<a class="nv-ros" href="/msoccer/live/">Live Stats</a>
+											<a class="nv-sch" href="/msoccer/season/">Season Stats</a>
+											<a class="nv-sch" href="/msoccer/players/">Player Stats</a>
+											<a class="nv-sch" href="/msoccer/records/">Record Book</a>
+
+										</div>
+									  </li>
+									</ul></div>
+									  <div class="col-12 col-md-6">
+										  <ul class="nav-items">
+									  
+						
+									   <li>
+										  <div class="nav-sect-one">
+											<span class="nv-spo">Women's Soccer</span>
+										  </div>
+										  <div class="nav-sect-two">
+											  <a class="nv-ros" href="/wsoccer/live/">Live Stats</a>
+											  <a class="nv-sch" href="/wsoccer/season/">Season Stats</a>
+											  <a class="nv-sch" href="/wsoccer/players/">Player Stats</a>
+											  <a class="nv-sch" href="/wsoccer/records/">Record Book</a>
+
+										  </div>
+										</li>
+										 <li>
+												<div class="nav-sect-one">
+												  <span class="nv-spo">Softball</span>
+												</div>
+												<div class="nav-sect-two">
+													<a class="nv-ros" href="/softball/live/">Live Stats</a>
+													<a class="nv-sch" href="/softball/season/">Season Stats</a>
+													<a class="nv-sch" href="/softball/players/">Player Stats</a>
+													<a class="nv-sch" href="/softball/records/">Record Book</a>
+													
+												</div>
+											 </li>
+											
+										 <li>
+												 <div class="nav-sect-one">
+												   <span class="nv-spo">Men's Tennis</span>
+												 </div>
+												 <div class="nav-sect-two">
+													 <a class="nv-ros" href="/mtennis/live/">Live Stats</a>
+													 <a class="nv-sch" href="/mtennis/season/2026">Season Stats</a>
+													 
+												 </div>
+											  </li>
+											 
+										 <li>
+												  <div class="nav-sect-one">
+													<span class="nv-spo">Women's Tennis</span>
+												  </div>
+												  <div class="nav-sect-two">
+													  <a class="nv-ros" href="/wtennis/live/">Live Stats</a>
+													  <a class="nv-sch" href="/wtennis/season/2026">Season Stats</a>
+													  
+												  </div>
+											   </li>
+											  
+										 <li>
+											 <div class="nav-sect-one">
+												<span class="nv-spo">Volleyball</span>
+											 </div>
+											 <div class="nav-sect-two">
+												  <a class="nv-ros" href="/volleyball/live/">Live Stats</a>
+												  <a class="nv-sch" href="/volleyball/season/">Season Stats</a>
+												  <a class="nv-sch" href="/volleyball/players/">Player Stats</a>
+												  <a class="nv-sch" href="/volleyball/records/">History</a>
+
+											 </div>
+										</li>
+																
+										  <li>
+											  <div class="nav-sect-one">
+												 <span class="nv-spo">Wrestling</span>
+											  </div>
+											  <div class="nav-sect-two">
+												  <a class="nv-sch" href="/wrestling/records/">History</a>
+											  </div>
+										 </li>
+
+																
+										   <li>
+											   <div class="nav-sect-one">
+												  <span class="nv-spo">Field Hockey <i>(1977-1981)</i></span>
+											   </div>
+											   <div class="nav-sect-two">
+													<a class="nv-ros" href="/fieldhockey/records/">History</a>
+										  
+											   </div>
+										  </li>
+
+									</ul>
+								</div>
+							</div>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="http://stats.hokiesports.com/records/football/search/">Football Stats History Search</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="http://stats.hokiesports.com/records/lasttime/">All Sports Scores Search</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+
+
+<div class="container-fluid pr-0 pl-0">
+
+<div id="scorebar"><div class="row" style="margin: 0px;">
+              <div class="col-4 col-md-5" id="colorVisit" style="height: 65px; background: #f66733 url('/assets/img/hokieStone.jpg'); background-blend-mode: multiply; color: #fff; font-family: webHeadingCond; font-size: 34pt;">
+                <div class="row">
+                  <div class="col-6 col-md-2 text-center" style="padding: 0px 0px 0px 0px;">
+                    <img src="/livelogos/120/228.png" id="logoVisit">
+                  </div>
+                  <div class="col-md-7 d-none d-sm-none d-md-block text-left">
+                    <div style="padding-top: 2px; line-height: 15pt; font-size: 26pt; white-space: nowrap; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);">
+                      <span id="nameVisit" style="font-size: 10pt;">Clemson</span><br><span id="nicknameVisit">Tigers</span>
+                    </div>
+                <div id="visitTO1" class="timeout-fb-on hidden" style="clear: left; float: left; position: relative; left: -5px;"> </div>
+                <div id="visitTO2" class="timeout-fb-on hidden" style="float: left; position: relative; left: -15px;"> </div>
+                <div id="visitTO3" class="timeout-fb-on hidden" style="float: left; position: relative; left: -25px;"> </div>
+                  </div>
+                  <div id="scoreVisit" class="col-6 col-md-3 text-center" style="font-family: 'Virginia Tech Nameplate'; height: 100%; background-color: rgba(0,0,0,0.25); height: 65px; overflow: hidden; text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);"><div style="padding-top: 8px; display: inline-block;">20</div></div>
+                </div>
+              </div>
+        
+              <div class="col-4 col-md-2" style="height: 65px; line-height: 14pt; font-size: 26pt; padding: 0px; overflow: hidden; background-color: #000; color: #fff; font-family: Strait; text-transform: uppercase; font-weight: bold; position: relative;">
+                <div style="text-align:center;">
+                  <div style="padding-top: 10px; display: block;">
+                    <span id="clock" style="font-size: 18pt; font-weight: normal;">Final</span>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="col-4 col-md-5" id="colorHome" style="height: 65px; background: #640031 url('/assets/img/hokieStone.jpg'); background-blend-mode: multiply; color: #fff; font-family: webHeadingCond; font-size: 34pt;">
+                <div class="row">
+                  <div id="scoreHome" class="col-6 col-md-3 text-center" style="font-family: 'Virginia Tech Nameplate'; height: 100%; background-color: rgba(0,0,0,0.25); height: 65px; overflow: hidden; text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);"><div style="padding-top: 8px; display: inline-block;">41</div></div>
+                  <div class="col-md-7 d-none d-sm-none d-md-block text-right">
+                    <div style="padding-top: 2px; line-height: 15pt; font-size: 26pt; white-space: nowrap; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0, 0, 0, 1);">
+                      <span id="nameHome" style="font-size: 10pt;">Virginia Tech</span><br><span id="nicknameHome">Hokies</span>
+                    </div>
+                <div id="homeTO3" class="timeout-fb-on hidden" style="clear: right; float: right; position: relative; right: -5px;"> </div>
+                <div id="homeTO2" class="timeout-fb-on hidden" style="float: right; position: relative; right: -25px;"> </div>
+                <div id="homeTO1" class="timeout-fb-on hidden" style="float: right; position: relative; right: -35px;"> </div>
+                  </div>
+                  <div class="col-6 col-md-2 text-center" style="padding: 0px 0px 0px 0px;">
+                    <img src="/livelogos/120/259.png" id="logoHome">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="row m-2"><div class="col-12 col-md-6"><table class="sidearm-table"><thead class="sidearm-primary"><tr><th></th><th class="text-center">1</th><th class="text-center">2</th><th class="text-center">3</th><th class="text-center">4</th><th class="emphasize text-center">T</th>
+</tr></thead><tbody><tr><th scope="row"><img src="/livelogos/120w/228.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"> Clemson <span class="statsbox-record">(9-2)</span> </th><td class="text-center">0</td><td class="text-center">10</td><td class="text-center">3</td><td class="text-center">7</td><td class="emphasize text-center">20</td></tr>
+<tr><th scope="row"><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"> Virginia Tech <span class="statsbox-record">(10-1)</span>  <i class="fa fa-caret-left" style="color: #ea5329;" aria-hidden="true"></i></th><td class="text-center">14</td><td class="text-center">7</td><td class="text-center">13</td><td class="text-center">7</td><td class="emphasize text-center">41</td></tr>
+<tr><td colspan="6" class="statsbox-extras"><ul><li><b>January 1, 2001</b></li><li><b>Alltel, Jacksonville, FL</b></li></ul></td></tr></tbody></table>
+</div><div class="col-12 col-md-6"><table class="statsbox-table"><tr><td class="statsbox-extras"><ul><li><b>Kickoff time:</b> 12:37:00</li><li><b>End of Game:</b> 16:05:00</li><li><b>Total elapsed time:</b> 3:28</li></ul><ul><li><b>Temperature:</b> 45</li><li><b>Wind:</b> SW 5 mph</li><li><b>Weather:</b> Sunny</li></ul><ul><li><b>Attendance:</b> 68,741</li></ul><ul><li><b>Referee:</b> Steve Shaw</li><li><b>Umpire:</b> Mike Wallace</li><li><b>Linesman:</b> Bert Ackermann</li><li><b>Line judge:</b> Al Matthews</li><li><b>Back judge:</b> Steve Freeman</li><li><b>Field judge:</b> Tom Szymanski</li><li><b>Side judge:</b> Don Shanks</li></td></tr></tbody></table>
+</div></div><div class="row m-2">
+      <div class="col-12">
+        <div class="section-header">
+          <h2 class="section-title "><span>Scoring Summary</span></h2>
+        </div>  
+      </div>
+    </div>
+    <div class="row m-2"><div class="col-12">
+    <table cellpadding="3" cellspacing="1" class="tablehead"><tr class="colhead" class="text-center"><td class="text-left" colspan="4">First Quarter</td><td style="width:30px;">CLEMSON</td><td style="width:30px;">VT</td></tr><tr class="evenrow"><td><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>13:23</td><td>Ferguson,J. 23 yd Pass From Vick,M. (Warley,C. Kick)<span style="float:right;"><i>Drive:</i> 1 plays, 23 yds, </span></td><td class="text-center">0</td><td class="text-center">7</td></tr><tr class="evenrow"><td><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>01:08</td><td>Vick,M. 6 yd Rush (Warley,C. Kick)<span style="float:right;"><i>Drive:</i> 11 plays, 59 yds, </span></td><td class="text-center">0</td><td class="text-center">14</td></tr><tr class="colhead" class="text-center"><td class="text-left" colspan="4">Second Quarter</td><td style="width:30px;">CLEMSON</td><td style="width:30px;">VT</td></tr><tr class="oddrow"><td><img src="/livelogos/120w/228.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>13:34</td><td>Zachery,T. 23 yd Pass From Dantzler,W. (Hunt,A. Kick)<span style="float:right;"><i>Drive:</i> 9 plays, 74 yds, </span></td><td class="text-center">7</td><td class="text-center">14</td></tr><tr class="oddrow"><td><img src="/livelogos/120w/228.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>FG</td><td>05:45</td><td>Hunt,A. 28 yd Field Goal<span style="float:right;"><i>Drive:</i> 4 plays, 2 yds, </span></td><td class="text-center">10</td><td class="text-center">14</td></tr><tr class="evenrow"><td><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>02:26</td><td>Suggs,L. 3 yd Rush (Warley,C. Kick)<span style="float:right;"><i>Drive:</i> 7 plays, 78 yds, </span></td><td class="text-center">10</td><td class="text-center">21</td></tr><tr class="colhead" class="text-center"><td class="text-left" colspan="4">Third Quarter</td><td style="width:30px;">CLEMSON</td><td style="width:30px;">VT</td></tr><tr class="evenrow"><td><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>12:19</td><td>Suggs,L. 1 yd Rush (Warley,C. Kick Failed)<span style="float:right;"><i>Drive:</i> 5 plays, 80 yds, </span></td><td class="text-center">10</td><td class="text-center">27</td></tr><tr class="oddrow"><td><img src="/livelogos/120w/228.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>FG</td><td>07:19</td><td>Hunt,A. 26 yd Field Goal<span style="float:right;"><i>Drive:</i> 6 plays, 12 yds, </span></td><td class="text-center">13</td><td class="text-center">27</td></tr><tr class="evenrow"><td><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>05:14</td><td>Ferguson,J. 5 yd Rush (Warley,C. Kick)<span style="float:right;"><i>Drive:</i> 5 plays, 74 yds, </span></td><td class="text-center">13</td><td class="text-center">34</td></tr><tr class="colhead" class="text-center"><td class="text-left" colspan="4">Fourth Quarter</td><td style="width:30px;">CLEMSON</td><td style="width:30px;">VT</td></tr><tr class="oddrow"><td><img src="/livelogos/120w/228.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>07:19</td><td>Gardner,R. 14 yd Pass From Simmons,W. (Hunt,A. Kick)<span style="float:right;"><i>Drive:</i> 11 plays, 71 yds, </span></td><td class="text-center">20</td><td class="text-center">34</td></tr><tr class="evenrow"><td><img src="/livelogos/120w/259.png" height="15" style="position: relative; top: -3px; height: 15px; width: 15px;"></td><td>TD</td><td>03:41</td><td>Suggs,L. 5 yd Rush (Warley,C. Kick)<span style="float:right;"><i>Drive:</i> 7 plays, 44 yds, </span></td><td class="text-center">20</td><td class="text-center">41</td></tr></table>
+    </div>
+    </div><div class="row m-2">
+      <div class="col-12">
+        <div class="section-header">
+          <h2 class="section-title "><span>Team Stats</span></h2>
+        </div>  
+      </div>
+    </div><div class="row m-2"><div class="col-12 col-md-6">
+    <table cellpadding="3" cellspacing="1" class="tablehead">
+    <tr class="colhead" class="text-center">
+    <td class="text-left"></td>
+    <td class="text-right">CLEMSON</td>
+    <td class="text-right">VT</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>FIRST DOWNS</b></td>
+    <td class="text-right">21</td>
+    <td class="text-right">19</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Rushing</td>
+    <td class="text-right">8</td>
+    <td class="text-right">10</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Passing</td>
+    <td class="text-right">13</td>
+    <td class="text-right">6</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Penalty</td>
+    <td class="text-right">0</td>
+    <td class="text-right">3</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>NET YARDS RUSHING</b></td>
+    <td class="text-right">88</td>
+    <td class="text-right">211</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Rushing Attempts</td>
+    <td class="text-right">35</td>
+    <td class="text-right">47</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Per Rush</td><td class="text-right">2.5</td>
+    <td class="text-right">0.0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Rushing Touchdowns</td>
+    <td class="text-right">0</td>
+    <td class="text-right">5</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Yards Gained Rushing</td>
+    <td class="text-right">124</td>
+    <td class="text-right">235</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Yards Lost Rushing</td>
+    <td class="text-right">36</td>
+    <td class="text-right">24</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>NET YARDS PASSING</b></td>
+    <td class="text-right">243</td>
+    <td class="text-right">205</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Completions-Attempts-Int</td>
+    <td class="text-right">21-44-2</td>
+    <td class="text-right">10-18-1</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Per Attempt</td><td class="text-right">5.5</td>
+    <td class="text-right">11.4</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Per Completion</td><td class="text-right">11.6</td>
+    <td class="text-right">20.5</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Passing Touchdowns</td>
+    <td class="text-right">2</td>
+    <td class="text-right">1</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>TOTAL OFFENSIVE YARDS</b></td>
+    <td class="text-right">331</td>
+    <td class="text-right">416</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Total offensive plays</td>
+    <td class="text-right">79</td>
+    <td class="text-right">65</td>
+    </tr>
+    
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Gain Per Play</td><td class="text-right">0.0</td>
+    <td class="text-right">0.0</td>
+    </tr>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Fumbles: Number-Lost</b></td>
+    <td class="text-right">2-0</td>
+    <td class="text-right">2-2</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Penalties: Number-Yards</b></td>
+    <td class="text-right">7-50</td>
+    <td class="text-right">2-20</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>PUNTS-YARDS</b></td>
+    <td class="text-right">5-192</td>
+    <td class="text-right">2-64</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Yards Per Punt</td><td class="text-right">38.4</td>
+    <td class="text-right">32.0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Net Yards Per Punt</td><td class="text-right">38.4</td>
+    <td class="text-right">30.0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Inside 20</td>
+    <td class="text-right">1</td>
+    <td class="text-right">1</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;50+ Yards</td>
+    <td class="text-right">0</td>
+    <td class="text-right">0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Touchbacks</td>
+    <td class="text-right">0</td>
+    <td class="text-right">0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Fair catch</td>
+    <td class="text-right">0</td>
+    <td class="text-right">0</td>
+    </tr>
+    </table>
+    </div>
+    
+    <div class="col-12 col-md-6">
+    <table cellpadding="3" cellspacing="1" class="tablehead">
+    <tr class="colhead" class="text-center">
+    <td class="text-left"></td>
+    <td class="text-right">CLEMSON</td>
+    <td class="text-right">VT</td>
+    </tr>
+    
+    <tr>
+    <td class="text-left"><b>KICKOFFS-YARDS</b></td>
+    <td class="text-right">4-253</td>
+    <td class="text-right">7-390</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Yards Per Kickoff</td><td class="text-right">63.3</td>
+    <td class="text-right">55.7</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Net Yards Per Kickoff</td><td class="text-right">0.0</td>
+    <td class="text-right">0.0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Touchbacks</td>
+    <td class="text-right">0</td>
+    <td class="text-right">0</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Punt returns: Number-Yards-TD</b></td>
+    <td class="text-right">0-0-0</td>
+    <td class="text-right">3-4-0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Per Return</td><td class="text-right">0.0</td>
+    <td class="text-right">0.0</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Kickoff returns: Number-Yds-TD</b></td>
+    <td class="text-right">6-94-0</td>
+    <td class="text-right">4-96-0</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Average Per Return</td><td class="text-right">15.7</td>
+    <td class="text-right">23.5</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Interceptions: Number-Yds-TD</b></td>
+    <td class="text-right">1-0-0</td>
+    <td class="text-right">2-27-0</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Fumble Returns: Number-Yds-TD</b></td>
+    <td class="text-right">0-0-0</td>
+    <td class="text-right">0-0-0</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Miscellaneous Yards</b></td>
+    <td class="text-right">0</td>
+    <td class="text-right">0</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Possession Time</b></td>
+    <td class="text-right">28:24</td>
+    <td class="text-right">31:36</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Third-Down Conversions</b></td>
+    <td class="text-right">5 of 16</td>
+    <td class="text-right">6 of 12</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Fourth-Down Conversions</b></td>
+    <td class="text-right">1 of 4</td>
+    <td class="text-right">0 of 1</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Red-Zone Scores-Chances</b></td>
+    <td class="text-right">3-3</td>
+    <td class="text-right">5-6</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Touchdowns</td><td class="text-right">1-3</td>
+    <td class="text-right">5-6</td>
+    </tr>
+    <tr>
+    <td class="text-left">&nbsp;&nbsp;Field Goals</td><td class="text-right">2-2</td>
+    <td class="text-right">0-1</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Sacks By: Number-Yards</b></td>
+    <td class="text-right">2-22</td>
+    <td class="text-right">6-28</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>PAT Kicks</b></td>
+    <td class="text-right">2-2</td>
+    <td class="text-right">5-6</td>
+    </tr>
+    <tr>
+    <td class="text-left"><b>Field Goals</b></td>
+    <td class="text-right">2-3</td>
+    <td class="text-right">0-1</td>
+    </tr></table></div>
+    </div>
+
+</div>	
+
+	<div class="container-fluid pr-0 pl-0 footer w-100 justify-content-center text-uppercase">
+		<div class="col-xs mr-auto">
+			<hr>
+			<p class="ml-4">&copy; 2026 Virginia Tech Athletics - All Rights Reserved.</p>
+		</div>
+	</div>
+  </body>
+</html>

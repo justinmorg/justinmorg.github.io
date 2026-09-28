@@ -47,6 +47,8 @@ and drive summaries. Used to fill CFBD gaps (2002) and possibly pre-2001 seasons
   not an exact per-play time.
 - Every game's plays table has the same columns (`PLAY_COLS` in `parse_tas.py`), even when a
   game has no field goals, interceptions, etc.
+- On a touchdown, `nextPossession` is the scoring team; use it to credit return and defensive
+  TDs. A blocked PAT returned for 2 is typed `X` with "defensive PAT" in the text.
 - Special-teams scores are credited to the kicking team's `offense` in TAS (e.g. a VT punt
   return TD shows `offense` = the punting team); use the play text or `nextPossession`.
 
@@ -80,11 +82,20 @@ chart, play-by-play) can still be parsed.
 - 2005 Sugar Bowl (`20050103-AU`, CFBD 250030259): all team totals, individual rushing and
   receiving lines, drive play counts, and the score by quarter match the report's own box score.
 
+## 1999-2000 (hokiesports.com only; CFBD starts in 2001)
+All 23 games with a box score link are in `data/hokiesports/` (1999 IDs 5258-5269, including
+the Sugar Bowl vs. Florida State; 2000 IDs 5271-5281). Every game's scoring plays reconcile with
+its line score, and line scores and attendance match stats.hokiesports.com for the 21 games
+it has (it has no stats for 1999 Clemson or 2000 Miami). The 2000 Gator Bowl vs. Clemson has no
+play-by-play; a partial record is in `data/stats_hokiesports/` (box 5965).
+
 ## Fourth source: stats.hokiesports.com box scores (partial records)
 `https://stats.hokiesports.com/football/box/?<id>=` pages have a line score, game details,
-scoring summary and team stats, but no play-by-play. IDs are sequential by game (2000 WVU is
-5959; 2002 is 5977-5991; 2003 starts at 5992).
+scoring summary and team stats, but no play-by-play. IDs are mostly sequential by game (1998 bowl
+5940, 1999 5941-5952, 2000 5954-5965, 2001 from 5966, 2002 5977-5991; 5943 and 5953 are empty
+and 5962 holds a 2005 game).
 - `parse_stats_hokiesports.py <id> [--cfbd-id ...]` saves the page to `stats_hokiesports/raw/`
   and writes `data/stats_hokiesports/{games,scoring,teamstats}/<id>.parquet`.
-- Used for 2002 West Virginia (5988, CFBD 223240259). Matches CFBD's line score and attendance.
+- Used for 2002 West Virginia (5988, CFBD 223240259; matches CFBD's line score and attendance)
+  and the 2000 Gator Bowl vs. Clemson (5965).
 - The site's derived averages are sometimes wrong (VT "Average Per Rush 0.0"); stored as published.
