@@ -37,3 +37,23 @@ and drive summaries. Used to fill CFBD gaps (2002) and possibly pre-2001 seasons
   `hokiesports/raw/`.
 - The play `clock` is the last clock the scorer logged (drive start, scores, timeouts),
   not an exact per-play time.
+- Special-teams scores are credited to the kicking team's `offense` in TAS (e.g. a VT punt
+  return TD shows `offense` = the punting team); use the play text or `nextPossession`.
+
+### Where the XML lives
+- `statistics.hokiesports.com/stats/game/<id>` is a JS app; it loads the raw file from
+  `https://statistics.hokiesports.com/api/v1/game/xml/<id>` (plain `<fbgame>` XML, no auth).
+- Box score IDs come from `https://hokiesports.com/sports/football/schedule/season/<year>`
+  (`href="/boxscore/<id>"`). IDs start at 5120 (1987) and are mostly sequential; unlinked
+  IDs in the range all 404.
+- Coverage: full play-by-play from 1987 through part of 2020 (retro-keyed in 2009-2011 for
+  older seasons). Late 2020 on, box scores move to wmt.games and this endpoint 404s.
+  Known holes: 1998 (6 of 12 games), 2002 West Virginia, 2005 (2 games), 2006 (1), 2007 (none).
+
+### Crawl
+```bash
+python crawl_hokiesports.py 1987 2002 --dry-run   # list IDs
+python crawl_hokiesports.py 1987 2020             # 34 schedule pages + ~366 games, ~14 min at 2s
+```
+Skips games already in `hokiesports/raw/` + `data/hokiesports/games/`; status per ID in
+`hokiesports/manifest.csv`. Needs `pyarrow`.
