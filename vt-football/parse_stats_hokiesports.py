@@ -41,7 +41,10 @@ def main():
     away, away_rec = name_rec(line.iloc[0, 0]); home, home_rec = name_rec(line.iloc[1, 0])
     date_site = line.iloc[2, 0]
     dm = re.match(r"^(\w+ \d+, \d{4})(.*)$", date_site)
-    field = lambda k: (re.search(rf"{k}: (.*?)(?=[A-Z][A-Za-z ]+: |$)", details) or [None, None])[1]
+    LABELS = ("Kickoff time", "End of Game", "Total elapsed time", "Temperature", "Wind", "Weather",
+              "Attendance", "Referee", "Umpire", "Linesman", "Line judge", "Back judge", "Field judge", "Side judge")
+    nxt = "|".join(re.escape(l) + ": " for l in LABELS)
+    field = lambda k: (re.search(rf"(?<![A-Za-z]){re.escape(k)}: (.*?)(?={nxt}|$)", details) or [None, None])[1]
     officials = "; ".join(f"{k}: {field(k)}" for k in ("Referee", "Umpire", "Linesman", "Line judge",
                           "Back judge", "Field judge", "Side judge") if field(k))
     game = dict(gameId=a.id, cfbdGameId=a.cfbd_id,
