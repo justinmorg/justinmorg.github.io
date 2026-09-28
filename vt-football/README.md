@@ -17,7 +17,8 @@ starts in 2001.
   West Virginia (Nov. 20), which has no XML on the official site either.
 - 2003 Boston College: no plays; 2003 at Virginia: plays stop after the 3rd quarter. Both are
   filled from hokiesports.com (IDs 5319, 5320).
-- 2004 Sugar Bowl vs. Auburn (Jan. 4, 2005): no plays in CFBD and no box score on hokiesports.com.
+- 2004 Sugar Bowl vs. Auburn (Jan. 3, 2005): no plays in CFBD and no box score on hokiesports.com.
+  Filled from Auburn's StatCrew text report (`data/statcrew_text/`, game id `20050103-AU`).
 - CFBD's `offenseScore`/`defenseScore` don't always match the final score (some look pre-play,
   a few are just wrong), so don't use them to check completeness.
 
@@ -65,3 +66,15 @@ python crawl_hokiesports.py 1987 2020             # 34 schedule pages + ~366 gam
 ```
 Skips games already in `hokiesports/raw/` + `data/hokiesports/games/`; status per ID in
 `hokiesports/manifest.csv`. Needs `pyarrow`.
+
+## Third source: StatCrew text reports
+For games with no `<fbgame>` XML anywhere, the plain-text StatCrew report (box score, drive
+chart, play-by-play) can still be parsed.
+- `parse_statcrew_text.py <report.txt> --game-id ... --cfbd-id ... --season ... --date ...
+  --visitor ... --vcode ... --vletter ... --home ... --hcode ... --hletter ...` writes
+  `data/statcrew_text/{games,drives,plays}/<game-id>.parquet` with the same play columns as the
+  XML games (`PLAY_COLS`), plus `shotgun`, `patType`, `passDefender`.
+- Raw reports live in `statcrew_text/raw/`.
+- No players table (the text report's stat tables aren't parsed).
+- 2005 Sugar Bowl (`20050103-AU`, CFBD 250030259): all team totals, individual rushing and
+  receiving lines, drive play counts, and the score by quarter match the report's own box score.
