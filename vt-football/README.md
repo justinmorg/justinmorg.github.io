@@ -15,7 +15,11 @@ starts in 2001.
 - 2002: no play-by-play for any regular-season game (drives are also mostly missing).
   Filled from hokiesports.com (`data/hokiesports/`, IDs 5295-5308) for all 13 games except
   West Virginia (Nov. 20), which has no XML on the official site either.
-- 2003 Boston College (week 14) and the 2004 Sugar Bowl vs. Auburn: no plays
+- 2003 Boston College: no plays; 2003 at Virginia: plays stop after the 3rd quarter. Both are
+  filled from hokiesports.com (IDs 5319, 5320).
+- 2004 Sugar Bowl vs. Auburn (Jan. 4, 2005): no plays in CFBD and no box score on hokiesports.com.
+- CFBD's `offenseScore`/`defenseScore` don't always match the final score (some look pre-play,
+  a few are just wrong), so don't use them to check completeness.
 
 ## Refresh
 ```bash
