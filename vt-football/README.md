@@ -12,7 +12,9 @@ starts in 2001.
 - `fetch.py`: refresh script
 
 ## Known gaps in the CFBD source
-- 2002: no play-by-play for any regular-season game (drives are also mostly missing)
+- 2002: no play-by-play for any regular-season game (drives are also mostly missing).
+  Filled from hokiesports.com (`data/hokiesports/`, IDs 5295-5308) for all 13 games except
+  West Virginia (Nov. 20), which has no XML on the official site either.
 - 2003 Boston College (week 14) and the 2004 Sugar Bowl vs. Auburn: no plays
 
 ## Refresh
@@ -37,6 +39,8 @@ and drive summaries. Used to fill CFBD gaps (2002) and possibly pre-2001 seasons
   `hokiesports/raw/`.
 - The play `clock` is the last clock the scorer logged (drive start, scores, timeouts),
   not an exact per-play time.
+- Every game's plays table has the same columns (`PLAY_COLS` in `parse_tas.py`), even when a
+  game has no field goals, interceptions, etc.
 - Special-teams scores are credited to the kicking team's `offense` in TAS (e.g. a VT punt
   return TD shows `offense` = the punting team); use the play text or `nextPossession`.
 

@@ -23,6 +23,14 @@ def clock_secs(c):
     if not c or ":" not in c: return None
     mm, ss = c.split(":"); return int(mm) * 60 + int(ss)
 
+PLAY_COLS = ["gameId", "quarter", "clock", "clockSeconds", "drive", "playId", "offense", "defense",
+             "down", "distance", "spot", "yardsToGoal", "type", "pcode", "first", "scoring", "turnover",
+             "outOfBounds", "text", "nextPossession", "rusher", "yards", "passer", "receiver", "passResult",
+             "punter", "punterYards", "kicker", "kickerYards", "puntReturner", "kickReturner",
+             "fgKicker", "fgKickerYards", "fgKickerResult", "patKicker", "patKickerResult",
+             "tacklers", "sackBy", "penalties", "fumbleBy", "fumbleRecoveredBy",
+             "interceptedBy", "intReturnYards"]
+
 def parse(path, source_id=None):
     root = ET.parse(path).getroot()
     v = root.find("venue")
@@ -77,7 +85,7 @@ def parse(path, source_id=None):
                 e = el.find(tag)
                 if e is not None:
                     r[key] = e.get("name")
-                    if tag in ("p_pu", "p_ko", "p_fg"): r[key + "Yards"] = e.get("gain") or e.get("dist")
+                    if tag in ("p_pu", "p_ko", "p_fg"): r[key + "Yards"] = e.get("gain") or e.get("distance")
                     if tag in ("p_fg", "p_pat"): r[key + "Result"] = e.get("result")
             tk = el.findall("p_tk")
             r["tacklers"] = ";".join(t.get("name") for t in tk) or None
@@ -102,7 +110,11 @@ def parse(path, source_id=None):
 
     for tbl, rows in (("games", [game]), ("drives", drives), ("plays", plays), ("players", players)):
         os.makedirs(os.path.join(OUT, tbl), exist_ok=True)
-        pd.DataFrame(rows).to_parquet(os.path.join(OUT, tbl, f"{gid}.parquet"), index=False)
+        df = pd.DataFrame(rows)
+        if tbl == "plays":  # same columns in every game, even with no FGs/INTs/fumbles
+            extra = [c for c in df.columns if c not in PLAY_COLS]
+            df = df.reindex(columns=PLAY_COLS + extra)
+        df.to_parquet(os.path.join(OUT, tbl, f"{gid}.parquet"), index=False)
     os.makedirs(RAW, exist_ok=True)
     dest = os.path.join(RAW, f"{gid}.xml")
     if os.path.abspath(path) != os.path.abspath(dest): shutil.copy(path, dest)
