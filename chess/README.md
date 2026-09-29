@@ -2539,8 +2539,32 @@ capture on one square, the eval finds a drop, and the label ANDs them — but
 the capture is refuted elsewhere (a counter-capture of a bigger piece) and the
 drop comes from something else entirely (a pawn lost to a different line).
 `verify_labels.py` cannot catch this, because it only re-checks whether the
-eval dropped. Its cache entry for this step (`fb` 401 / `fa` 279) agrees with
-the corpus.
+eval dropped. Its depth-18 entry for this step (`fb` 401 / `fa` 279) does show
+the drop; the drop is just not the knight.
+
+**Card 34, `F-fhmnBsNB-56`, decisions 3 and 4 — 27...Rc2 and 28...Rxc3.
+Both labelled H; both should be C (safe).** Found 2026-09-29 by Justin. All
+three of decisions 2–4 have the same exposed bishop on g5, attacked by the
+Ne4, and in all three Nxg5 is answered by a rook taking White's queen or
+winning the queen trade. Decision 2 (26...Rxc1) is correctly C. At depth 22,
+Nxg5 gains White nothing in any of them: after 27...Rc2 28.Nxg5 Rxd2 Black is
++5.6; after 28...Rxc3 29.Nxg5 h6 Black is +5.8, about the same as the quiet
+29.Nxc3. What 3 and 4 have that 2 does not is a **better move passed up** —
+27...dxe4 (the Ne4 was en prise to the d5 pawn, +6.4) and 28...Rxd2 (+7.2).
+The eval drop is the missed win; the labeller attributed it to the bishop
+because a SEE≥150 capture existed. Decision 2 escaped only because Rxc1 was
+the engine's top move, so there was no drop to misattribute.
+
+This is the same failure class as card 33, and it shows the mechanism more
+cleanly: **the H rule is "a capture ≥150 exists" AND "the move was worse than
+best", and nothing ties the two together.** So "safe" in practice silently
+also meant "best or near-best" whenever something was capturable.
+
+Both are also floor-marginal. Depth 18 (the cache) gives win-prob drops of
+0.055 and 0.055; depth 22 gives 0.025 and 0.048 — under the 0.05 floor, so at
+depth 22 neither would be flagged at all. Decision 4 is the card's anchor
+(ply 56), so the whole card was built around a false hit, and that ply counts
+in the 2026 block's hanging-material numerator.
 
 Fix for the next card set, not this one: for an H label, **play the flagged
 SEE capture and evaluate the resulting position at depth 18**; label H only if
