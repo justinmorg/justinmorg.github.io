@@ -1,8 +1,11 @@
 # Virginia Tech football play-by-play
 
-Games, drives, and plays for every Virginia Tech game from 2001 on, pulled from the
-[CollegeFootballData API](https://collegefootballdata.com). Play-by-play coverage
-starts in 2001.
+Games, drives, and plays for Virginia Tech football: 1987-2000 from VT's official stat-crew
+files (hokiesports.com), 2001 on from the [CollegeFootballData API](https://collegefootballdata.com),
+with the stat-crew files also covering most of 2001-2019.
+
+**For analysis, query `data/unified/`** (see "Unified play table" below). It picks the best source
+for each game and repairs known CFBD coding problems; the raw per-source tables stay as pulled.
 
 ## Layout
 - `data/games/<season>.parquet`: schedule, scores, line scores, venue, Elo
@@ -10,6 +13,9 @@ starts in 2001.
 - `data/plays/<season>.parquet`: every play: down, distance, yard line, play type,
   play text, PPA/EPA (`ppa`, available in later seasons), game clock in seconds
 - `fetch.py`: refresh script
+- `data/unified/games.parquet`, `data/unified/plays/<season>.parquet`: one row per game and one
+  row per scrimmage play across all sources (built by `normalize.py`)
+- `data/unified/validation.csv`: per-game check against official box scores (`validate_box.py`)
 
 ## Known gaps in the CFBD source
 - 2002: no play-by-play for any regular-season game (drives are also mostly missing).
@@ -23,6 +29,44 @@ starts in 2001.
 - CFBD's `offenseScore`/`defenseScore` don't always match the final score (some look pre-play,
   a few are just wrong), so don't use them to check completeness.
 
+## Unified play table
+`python normalize.py` rebuilds `data/unified/`; `python validate_box.py` checks it. Run both after
+any refresh or new crawl.
+
+- **Source per game:** hokiesports XML if the game has one, else the StatCrew text report, else
+  CFBD. `games.source` records the choice; every play row has `source`, `cfbdGameId`, `hsGameId`.
+  This also removes the 2003-at-Virginia double count (CFBD partial + hokiesports full).
+- **Plays:** scrimmage plays only (downs 1-4), `category` = rush / sack / comp / inc / int,
+  `yards` NCAA-style (sacks negative, incompletions and interceptions 0), `fumble` flag,
+  `vtOffense` flag, `opponent`. Goal-to-go `distance` is set to yards to goal.
+- **Validation:** team plays and yards per game vs. the `<totals>` block of each XML. Unified
+  totals are within 1.1% of the official box scores in every season 1987-2019 (most under 0.7%).
+- Coverage by source (games with play-by-play / games played):
+
+  | Seasons | Source |
+  |---|---|
+  | 1987-2000 | hokiesports (gaps: 1997 Gator Bowl, 6 of 12 games in 1998, 2000 Gator Bowl) |
+  | 2001-2004 | hokiesports, except 2001 Gator Bowl and 2003 Insight Bowl (CFBD), 2004 Sugar Bowl (StatCrew text); 2002 West Virginia has none |
+  | 2005-2007 | CFBD (repaired), except 2 games in 2005 and 1 in 2006 |
+  | 2008-2019 | hokiesports for 10-14 games a season; the rest CFBD (repaired) |
+  | 2020 on | CFBD (repaired) |
+
+## CFBD data quality
+Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
+repairs what the play text allows.
+
+| Problem | Seasons | Handling |
+|---|---|---|
+| Sacks recorded as 0 yards; the loss is only in the text | 2006-2012; 26 of 50 in 2021 | yards parsed from text |
+| Every pass typed plain `Pass`; interceptions carry return yards as offense yards; sacks 0 yards | 2005 | classified and repaired from text |
+| Sacks missing entirely (~71 plays) | 2013 | hokiesports used for all 13 games |
+| Fumble plays carry the return yardage in `yardsGained` | 2014 on | scrimmage yards parsed from text |
+| Different, coarser play-by-play feed; many plays off by a few yards | 2001 | hokiesports used for 11 of 12 games |
+| Occasional play credited to the wrong team | e.g. 2014 Boston College, Georgia Tech | not repaired |
+
+After repair, CFBD is within about 1-2% of the box scores for 2004, 2008-2012 and 2015-2019;
+2014 is about 3%. Don't use raw `data/plays/` yardage for 2005-2016 without these fixes.
+
 ## Refresh
 ```bash
 export CFBD_API_KEY=...   # never commit the key
@@ -33,7 +77,8 @@ Past seasons already on disk are skipped unless `--force` is given.
 ## Query
 ```python
 import duckdb
-duckdb.sql("select * from read_parquet('data/plays/*.parquet') limit 5")
+duckdb.sql("select * from read_parquet('data/unified/plays/*.parquet') limit 5")   # analysis
+duckdb.sql("select * from read_parquet('data/plays/*.parquet') limit 5")           # raw CFBD
 ```
 
 ## Second source: hokiesports.com (TAS/StatCrew XML)
@@ -60,7 +105,12 @@ and drive summaries. Used to fill CFBD gaps (2002) and possibly pre-2001 seasons
   IDs in the range all 404.
 - Coverage: full play-by-play from 1987 through part of 2020 (retro-keyed in 2009-2011 for
   older seasons). Late 2020 on, box scores move to wmt.games and this endpoint 404s.
-  Known holes: 1997 Gator Bowl, 1998 (6 of 12 games), 2002 West Virginia, 2005 (2 games), 2006 (1), 2007 (none).
+  Known holes: 1997 Gator Bowl, 1998 (6 of 12 games), 2000 Gator Bowl, 2002 West Virginia. Only
+  2 games exist for 2005, 1 for 2006, none for 2007. Crawled through 2019; games per season with
+  XML, 2001-2019: 11, 13, 12, 12, 2, 1, 0, 11, 12, 14, 13, 12, 13, 13, 12, 14, 13, 10, 13.
+- Source errors handled in `parse_tas.py`: `DATE_OVERRIDES` fixes ID 5285 (2001 at Rutgers, dated
+  2002-09-22 in the XML, so it used to be filed under 2002). The 2013 Sun Bowl (5455) keys each
+  touchdown and its PAT as one `X` record; `normalize.py` keeps the scrimmage part of those.
 
 ### Crawl
 ```bash
