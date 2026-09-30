@@ -31,6 +31,11 @@ PLAY_COLS = ["gameId", "quarter", "clock", "clockSeconds", "drive", "playId", "o
              "tacklers", "sackBy", "penalties", "fumbleBy", "fumbleRecoveredBy",
              "interceptedBy", "intReturnYards"]
 
+# Known date errors in the source XML, keyed by hokiesports box score ID.
+DATE_OVERRIDES = {
+    "5285": "2001-09-22",  # 2001 at Rutgers (50-0); the XML says 2002-09-22
+}
+
 def parse(path, source_id=None):
     root = ET.parse(path).getroot()
     v = root.find("venue")
@@ -38,7 +43,7 @@ def parse(path, source_id=None):
     code = {vh: t.get("id") for vh, t in teams.items()}
     name = {vh: t.get("name") for vh, t in teams.items()}
     gid = source_id or v.get("gameid")
-    date = pd.to_datetime(v.get("date"))
+    date = pd.to_datetime(DATE_OVERRIDES.get(str(gid), v.get("date")))
     game = dict(gameId=str(gid), tasGameId=v.get("gameid"), season=date.year if date.month > 2 else date.year - 1,
                 date=date.date().isoformat(), home=name["H"], away=name["V"],
                 homeCode=code["H"], awayCode=code["V"],

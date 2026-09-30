@@ -1,0 +1,1576 @@
+<fbgame source="Tas Football" version="1.3.4" generated="7/3/2009">
+ <venue gameid="USC" visid="VT" homeid="USC" visname="Virginia Tech" homename="Southern California"
+      date="8/28/2004" location="Landover, Md." stadium="FedExField"
+      start="7:53 PM" end="11:14 PM" neutralgame="Y" nitegame="Y" schednote="!"
+      duration="3:21" attend="91665" temp="82 F" wind="8 N" weather="74% Humidity">
+  <officials ref="Rocky Goode" ump="Doug Linebarger" line="Joe Dawson" lj="Allama Matthews" bj="Dale Keneipp" fj="Gerald Hodges" sj="Chris Conley"></officials>
+  <notes>
+   <note text="ID-246276"></note>
+   <note text="Tonight's sell-out attendance is a FedExField record and"></note>
+   <note text="the largest crowd to see Virginia Tech play."></note>
+  </notes>
+  <rules qtrs="4" mins="15" downs="4" yds="10" kospot="35" tbspot="20" patspot="3" safspot="20" td="6" fg="3" pat="1" patx="2" saf="2" defpat="2" rouge="1" field="100" toh="3" sackrush="Y" fgaplay="Y" netpunttb="Y"></rules>
+ </venue>
+ <team vh="V" code="" id="VT" name="Virginia Tech" record="0-1" abb="T">
+  <linescore prds="4" line="3,7,0,3" score="13">
+   <lineprd prd="1" score="3"></lineprd>
+   <lineprd prd="2" score="7"></lineprd>
+   <lineprd prd="3" score="0"></lineprd>
+   <lineprd prd="4" score="3"></lineprd>
+  </linescore>
+  <totals totoff_plays="63" totoff_yards="294" totoff_avg="4.7">
+   <firstdowns no="18" rush="7" pass="8" penalty="3"></firstdowns>
+   <penalties no="6" yds="50"></penalties>
+   <conversions thirdconv="5" thirdatt="13" fourthconv="0" fourthatt="0"></conversions>
+   <fumbles no="1" lost="1"></fumbles>
+   <misc yds="0" top="31:31" ona="0" onm="0"></misc>
+   <redzone att="2" scores="2" points="10" tdrush="0" tdpass="1" fgmade="1" endfga="0" enddowns="0" endint="0" endfumb="0" endhalf="0" endgame="0"></redzone>
+   <rush att="34" yds="141" gain="177" loss="36" td="0" long="23"></rush>
+   <pass comp="14" att="29" int="1" yds="153" td="1" long="22" sacks="5" sackyds="28"></pass>
+   <rcv no="14" yds="153" td="1" long="22"></rcv>
+   <punt no="5" yds="229" long="58" blkd="0" tb="0" fc="0" plus50="2" inside20="0" avg="45.8"></punt>
+   <ko no="4" yds="257" ob="0" tb="1"></ko>
+   <fg made="2" att="2" long="42" blkd="0"></fg>
+   <pat kickatt="1" kickmade="1"></pat>
+   <defense tackua="33" tacka="38" tot_tack="71" tflua="5" tfla="2" tflyds="19" sacks="2" sackyds="12" brup="5" qbh="9" ff="1"></defense>
+   <kr no="3" yds="70" td="0" long="30"></kr>
+   <pr no="1" yds="10" td="0" long="10"></pr>
+   <scoring td="1" fg="2" patkick="1"></scoring>
+  </totals>
+  <player name="Eric Green" shortname="Green,E." checkname="GREEN,E" uni="1" gp="1" gs="1" dpos="FC" code="1">
+   <defense tackua="3" tacka="3" tot_tack="6" tflua="1" tfla="0" tflyds="1" brup="2"></defense>
+  </player>
+  <player name="Jimmy Williams" shortname="Williams,J." checkname="WILLIAMS,J" uni="2" gp="1" gs="1" dpos="BC" code="2">
+   <defense tackua="2" tacka="2" tot_tack="4" brup="1"></defense>
+  </player>
+  <player name="Bryan Randall" shortname="Randall,B." checkname="RANDALL,B" uni="3" gp="1" gs="1" opos="QB" code="3">
+   <rush att="17" yds="82" gain="114" loss="32" td="0" long="23"></rush>
+   <pass comp="14" att="29" int="1" yds="153" td="1" long="22" sacks="5" sackyds="28"></pass>
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+   <fumbles no="1" lost="1"></fumbles>
+  </player>
+  <player name="Eddie Royal" shortname="Royal,E." checkname="ROYAL,E" uni="4" gp="1" code="4">
+   <kr no="2" yds="58" td="0" long="30"></kr>
+  </player>
+  <player name="Vincent Fuller" shortname="Fuller,V." checkname="FULLER,V" uni="8" gp="1" gs="1" dpos="FS" code="8">
+   <defense tackua="4" tacka="2" tot_tack="6"></defense>
+  </player>
+  <player name="Vince Hall" shortname="Hall,V." checkname="HALL,V" uni="9" gp="1" code="9">
+   <defense tackua="1" tacka="4" tot_tack="5"></defense>
+  </player>
+  <player name="Xavier Adibi" shortname="Adibi,X." checkname="ADIBI,X" uni="11" gp="1" code="11">
+   <defense tackua="1" tacka="1" tot_tack="2" qbh="1"></defense>
+  </player>
+  <player name="Richard Johnson" shortname="Johnson,R." checkname="JOHNSON,R" uni="12" gp="1" code="12">
+   <rcv no="3" yds="27" td="0" long="16"></rcv>
+   <pr no="1" yds="10" td="0" long="10"></pr>
+  </player>
+  <player name="Lance Goff" shortname="Goff,L." checkname="GOFF,L" uni="13" gp="1" code="13"></player>
+  <player name="Roland Minor" shortname="Minor,R." checkname="MINOR,R" uni="15" gp="1" code="15"></player>
+  <player name="Chris Clifton" shortname="Clifton,C." checkname="CLIFTON,C" uni="16" gp="1" gs="1" opos="SE" code="16">
+  </player>
+  <player name="Josh Hyman" shortname="Hyman,J." checkname="HYMAN,J" uni="19" gp="1" gs="1" opos="FL" code="19">
+   <rcv no="1" yds="12" td="1" long="12"></rcv>
+   <kr no="1" yds="12" td="0" long="12"></kr>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Chris Ceasar" shortname="Ceasar,C." checkname="CEASAR,C" uni="21" gp="1" code="21"></player>
+  <player name="James Griffin" shortname="Griffin,J." checkname="GRIFFIN,J" uni="22" gp="1" gs="1" dpos="ROV" code="22">
+   <defense tackua="3" tacka="0" tot_tack="3" tflua="1" tfla="0" tflyds="1" brup="1" ff="1"></defense>
+  </player>
+  <player name="D.J. Parker" shortname="J. Parker,D" checkname="J. PARKER,D" uni="25" gp="1" code="25"></player>
+  <player name="Ryan Hash" shortname="Hash,R." checkname="HASH,R" uni="26" gp="1" code="26"></player>
+  <player name="Justin Hamilton" shortname="Hamilton,J." checkname="HAMILTON,J" uni="27" gp="1" code="27">
+   <rush att="8" yds="33" gain="37" loss="4" td="0" long="16"></rush>
+   <rcv no="1" yds="3" td="0" long="3"></rcv>
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Cary Wade" shortname="Wade,C." checkname="WADE,C" uni="30" gp="1" code="30"></player>
+  <player name="Mike Daniels" shortname="Daniels,M." checkname="DANIELS,M" uni="31" gp="1" code="31"></player>
+  <player name="Cedric Humes" shortname="Humes,C." checkname="HUMES,C" uni="32" gp="1" gs="1" opos="TB" code="32">
+   <rush att="9" yds="26" gain="26" loss="0" td="0" long="8"></rush>
+   <rcv no="2" yds="9" td="0" long="5"></rcv>
+  </player>
+  <player name="Chad Cooper" shortname="Cooper,C." checkname="COOPER,C" uni="33" gp="1" code="33"></player>
+  <player name="Stevie Ray Lloyd" shortname="Lloyd,S.R." checkname="LLOYD,SR" uni="35" gp="1" code="35">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Aaron Rouse" shortname="Rouse,A." checkname="ROUSE,A" uni="36" gp="1" code="36">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Jesse Allen" shortname="Allen,J." checkname="ALLEN,J" uni="37" gp="1" code="37"></player>
+  <player name="Vinnie Burns" shortname="Burns,V." checkname="BURNS,V" uni="38" gp="1" code="38">
+   <punt no="5" yds="229" long="58" blkd="0" tb="0" fc="0" plus50="2" inside20="0" avg="45.8"></punt>
+  </player>
+  <player name="Blake Warren" shortname="Warren,Bl." checkname="WARREN,BL" uni="40" gp="1" gs="1" dpos="ILB" code="40">
+   <defense tackua="3" tacka="3" tot_tack="6" brup="1"></defense>
+  </player>
+  <player name="James Anderson" shortname="Anderson,J." checkname="ANDERSON,J" uni="42" gp="1" gs="1" dpos="OLB" code="42">
+   <defense tackua="2" tacka="4" tot_tack="6"></defense>
+  </player>
+  <player name="John Kinzer" shortname="Kinzer,J." checkname="KINZER,J" uni="43" gp="1" code="43">
+   <rcv no="1" yds="8" td="0" long="8"></rcv>
+  </player>
+  <player name="Mikal Baaqee" shortname="Baaqee,M." checkname="BAAQEE,M" uni="45" gp="1" gs="1" dpos="ILB" code="45">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Brandon Pace" shortname="Pace,B." checkname="PACE,B" uni="46" gp="1" code="46">
+   <fg made="2" att="2" long="42" blkd="0"></fg>
+   <pat kickatt="1" kickmade="1"></pat>
+   <scoring fg="2" patkick="1"></scoring>
+  </player>
+  <player name="Brett Warren" shortname="Warren,Br." checkname="WARREN,BR" uni="47" gp="1" code="47"></player>
+  <player name="Brandon Manning" shortname="Manning,B." checkname="MANNING,B" uni="48" gp="1" code="48">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Chris Ellis" shortname="Ellis,C." checkname="ELLIS,C" uni="49" gp="1" code="49">
+   <defense tackua="3" tacka="0" tot_tack="3" qbh="2"></defense>
+  </player>
+  <player name="Jimmy Martin" shortname="Martin,J." checkname="MARTIN,J" uni="52" gp="1" gs="1" opos="LT" code="52"></player>
+  <player name="Bob Ruff" shortname="Ruff,B." checkname="RUFF,B" uni="54" gp="1" code="54"></player>
+  <player name="Darryl Tapp" shortname="Tapp,D." checkname="TAPP,D" uni="55" gp="1" gs="1" dpos="DE" code="55">
+   <defense tackua="3" tacka="6" tot_tack="9" tflua="1" tfla="1" tflyds="7" sackua="1" sacka="0" sackyds="6" qbh="1"></defense>
+  </player>
+  <player name="Jonathan Lewis" shortname="Lewis,J." checkname="LEWIS,J" uni="56" gp="1" gs="1" dpos="DT" code="56">
+   <defense tackua="0" tacka="2" tot_tack="2" qbh="2"></defense>
+  </player>
+  <player name="Tripp Carroll" shortname="Carroll,T." checkname="CARROLL,T" uni="57" gp="1" code="57"></player>
+  <player name="Reggie Butler" shortname="Butler,R." checkname="BUTLER,R" uni="61" gp="1" gs="1" opos="LG" code="61"></player>
+  <player name="Travis Conway" shortname="Conway,T." checkname="CONWAY,T" uni="62" gp="1" code="62">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Will Montgomery" shortname="Montgomery,W." checkname="MONTGOMERY,W" uni="66" gp="1" gs="1" opos="C" code="66"></player>
+  <player name="Kevin Lewis" shortname="Lewis,K." checkname="LEWIS,K" uni="70" gp="1" code="70">
+   <defense tackua="0" tacka="1" tot_tack="1" qbh="1"></defense>
+  </player>
+  <player name="Tim Sandidge" shortname="Sandidge,T." checkname="SANDIDGE,T" uni="71" gp="1" code="71"></player>
+  <player name="Kory Robertson" shortname="Robertson,K." checkname="ROBERTSON,K" uni="75" gp="1" code="75">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="James Miller" shortname="Miller,J." checkname="MILLER,J" uni="76" gp="1" gs="1" opos="RG" code="76"></player>
+  <player name="Brandon Gore" shortname="Gore,B." checkname="GORE,B" uni="77" gp="1" code="77"></player>
+  <player name="Jon Dunn" shortname="Dunn,J." checkname="DUNN,J" uni="79" gp="1" gs="1" opos="RT" code="79"></player>
+  <player name="Robert Parker" shortname="Parker,R." checkname="PARKER,R" uni="80" gp="1" code="80">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Justin Harper" shortname="Harper,J." checkname="HARPER,J" uni="81" gp="1" code="81"></player>
+  <player name="Jared Mazzetta" shortname="Mazzetta,J." checkname="MAZZETTA,J" uni="85" gp="1" gs="1" opos="TE" code="85">
+   <rcv no="1" yds="22" td="0" long="22"></rcv>
+  </player>
+  <player name="David Clowney" shortname="Clowney,D." checkname="CLOWNEY,D" uni="87" gp="1" code="87">
+   <rcv no="1" yds="7" td="0" long="7"></rcv>
+  </player>
+  <player name="Michael Malone" shortname="Malone,M." checkname="MALONE,M" uni="88" gp="1" code="88"></player>
+  <player name="Duane Brown" shortname="Brown,D." checkname="BROWN,D" uni="89" gp="1" code="89"></player>
+  <player name="Jeff King" shortname="King,J." checkname="KING,J" uni="90" gp="1" gs="1" opos="TE" code="90">
+   <rcv no="4" yds="65" td="0" long="22"></rcv>
+  </player>
+  <player name="Jason Lallis" shortname="Lallis,J." checkname="LALLIS,J" uni="91" gp="1" code="91"></player>
+  <player name="Jim Davis" shortname="Davis,J." checkname="DAVIS,J" uni="95" gp="1" gs="1" dpos="DT" code="95">
+   <defense tackua="2" tacka="1" tot_tack="3" tflua="1" tfla="0" tflyds="6" sackua="1" sacka="0" sackyds="6"></defense>
+  </player>
+  <player name="Noland Burchette" shortname="Burchette,N." checkname="BURCHETTE,N" uni="96" gp="1" gs="1" dpos="DE" code="96">
+   <defense tackua="1" tacka="2" tot_tack="3" tflua="1" tfla="1" tflyds="4" qbh="1"></defense>
+  </player>
+  <player name="Jared Develli" shortname="Develli,J." checkname="DEVELLI,J" uni="98" gp="1" code="98">
+   <ko no="4" yds="257" ob="0" tb="1"></ko>
+  </player>
+  <player name="Carlton Powell" shortname="Powell,C." checkname="POWELL,C" uni="99" gp="1" code="99">
+   <defense qbh="1"></defense>
+  </player>
+  <player name="Team" shortname="Team" checkname="TEAM" uni="TM" gp="1" code="198"></player>
+ </team>
+ <team vh="H" code="" id="USC" name="Southern California" record="1-0" abb="U" rank="1">
+  <linescore prds="4" line="7,0,7,10" score="24">
+   <lineprd prd="1" score="7"></lineprd>
+   <lineprd prd="2" score="0"></lineprd>
+   <lineprd prd="3" score="7"></lineprd>
+   <lineprd prd="4" score="10"></lineprd>
+  </linescore>
+  <totals totoff_plays="58" totoff_yards="373" totoff_avg="6.4">
+   <firstdowns no="16" rush="7" pass="8" penalty="1"></firstdowns>
+   <penalties no="7" yds="60"></penalties>
+   <conversions thirdconv="6" thirdatt="14" fourthconv="0" fourthatt="1"></conversions>
+   <fumbles no="3" lost="0"></fumbles>
+   <misc yds="0" top="28:29" ona="0" onm="0"></misc>
+   <redzone att="1" scores="0" points="0" tdrush="0" tdpass="0" fgmade="0" endfga="1" enddowns="0" endint="0" endfumb="0" endhalf="0" endgame="0"></redzone>
+   <rush att="29" yds="101" gain="119" loss="18" td="0" long="23"></rush>
+   <pass comp="19" att="29" int="0" yds="272" td="3" long="53" sacks="2" sackyds="12"></pass>
+   <rcv no="19" yds="272" td="3" long="53"></rcv>
+   <punt no="5" yds="214" long="53" blkd="0" tb="1" fc="0" plus50="1" inside20="1" avg="42.8"></punt>
+   <ko no="5" yds="325" ob="0" tb="2"></ko>
+   <fg made="1" att="2" long="41" blkd="0"></fg>
+   <pat kickatt="3" kickmade="3"></pat>
+   <defense tackua="35" tacka="22" tot_tack="57" tflua="7" tfla="4" tflyds="36" sacks="5" sackyds="28" brup="3" ff="1" fr="1" fryds="0" int="1" intyds="32"></defense>
+   <kr no="3" yds="44" td="0" long="15"></kr>
+   <pr no="4" yds="60" td="0" long="27"></pr>
+   <ir no="1" yds="32" td="0" long="32"></ir>
+   <scoring td="3" fg="1" patkick="3"></scoring>
+  </totals>
+  <player name="Smith, Steve" shortname="Smith, Steve" checkname="SMITH,STEVE" uni="2" gp="1" gs="1" opos="FL" code="2">
+   <rush att="1" yds="-1" gain="0" loss="1" td="0" long="0"></rush>
+   <rcv no="4" yds="68" td="0" long="46"></rcv>
+  </player>
+  <player name="Bush, Reggie" shortname="Bush, Reggie" checkname="BUSH,REGGIE" uni="5" gp="1" code="5">
+   <rush att="9" yds="27" gain="32" loss="5" td="0" long="6"></rush>
+   <rcv no="5" yds="127" td="3" long="53"></rcv>
+   <kr no="3" yds="44" td="0" long="15"></kr>
+   <pr no="4" yds="60" td="0" long="27"></pr>
+   <fumbles no="2" lost="0"></fumbles>
+   <scoring td="3"></scoring>
+  </player>
+  <player name="Grootegoed, M." shortname="Grootegoed, M." checkname="GROOTEGOED,M" uni="6" gp="1" gs="1" dpos="WLB" code="6">
+   <defense tackua="4" tacka="2" tot_tack="6"></defense>
+  </player>
+  <player name="Jarrett, Dwayne" shortname="Jarrett, Dwayne" checkname="JARRETT,DWAYNE" uni="8" gp="1" code="8">
+   <rcv no="2" yds="8" td="0" long="9"></rcv>
+  </player>
+  <player name="Leinart, Matt" shortname="Leinart, Matt" checkname="LEINART,MATT" uni="11" gp="1" gs="1" opos="QB" code="11">
+   <rush att="4" yds="-3" gain="9" loss="12" td="0" long="7"></rush>
+   <pass comp="19" att="29" int="0" yds="272" td="3" long="53" sacks="2" sackyds="12"></pass>
+  </player>
+  <player name="Malone, Tom" shortname="Malone, Tom" checkname="MALONE,TOM" uni="14" gp="1" code="14">
+   <punt no="5" yds="214" long="53" blkd="0" tb="1" fc="0" plus50="1" inside20="1" avg="42.8"></punt>
+  </player>
+  <player name="Killeen, Ryan" shortname="Killeen, Ryan" checkname="KILLEEN,RYAN" uni="16" gp="1" code="16">
+   <ko no="5" yds="325" ob="0" tb="2"></ko>
+   <fg made="1" att="2" long="41" blkd="0"></fg>
+   <pat kickatt="3" kickmade="3"></pat>
+   <scoring fg="1" patkick="3"></scoring>
+  </player>
+  <player name="Walker, John" shortname="Walker, John" checkname="WALKER,JOHN" uni="18" gp="1" code="18"></player>
+  <player name="Carlson, Greig" shortname="Carlson, Greig" checkname="CARLSON,GREIG" uni="19" gp="1" code="19"></player>
+  <player name="Bing, Darnell" shortname="Bing, Darnell" checkname="BING,DARNELL" uni="20" gp="1" gs="1" dpos="SS" code="20">
+   <defense tackua="6" tacka="1" tot_tack="7" tflua="1" tfla="0" tflyds="3"></defense>
+  </player>
+  <player name="White, LenDale" shortname="White, LenDale" checkname="WHITE,LENDALE" uni="21" gp="1" gs="1" opos="TB" code="21">
+   <rush att="15" yds="78" gain="78" loss="0" td="0" long="23"></rush>
+  </player>
+  <player name="Reed, Desmond" shortname="Reed, Desmond" checkname="REED,DESMOND" uni="22" gp="1" code="22"></player>
+  <player name="Nunn, Ronald" shortname="Nunn, Ronald" checkname="NUNN,RONALD" uni="23" gp="1" gs="1" dpos="CB" code="23">
+   <defense tackua="1" tacka="1" tot_tack="2" fr="1" fryds="0"></defense>
+  </player>
+  <player name="Wyatt, Justin" shortname="Wyatt, Justin" checkname="WYATT,JUSTIN" uni="24" gp="1" gs="1" dpos="CB" code="24">
+   <defense tackua="2" tacka="1" tot_tack="3" brup="1"></defense>
+  </player>
+  <player name="Wright, Eric" shortname="Wright, Eric" checkname="WRIGHT,ERIC" uni="25" gp="1" code="25">
+   <defense tackua="2" tacka="0" tot_tack="2"></defense>
+  </player>
+  <player name="Leach, Jason" shortname="Leach, Jason" checkname="LEACH,JASON" uni="27" gp="1" gs="1" dpos="FS" code="27">
+   <defense tackua="3" tacka="2" tot_tack="5" brup="1"></defense>
+  </player>
+  <player name="Arbet, Kevin" shortname="Arbet, Kevin" checkname="ARBET,KEVIN" uni="30" gp="1" code="30">
+   <defense tackua="2" tacka="0" tot_tack="2"></defense>
+  </player>
+  <player name="Buchanon, W." shortname="Buchanon, W." checkname="BUCHANON,W" uni="31" gp="1" code="31"></player>
+  <player name="Dennis, Hershel" shortname="Dennis, Hershel" checkname="DENNIS,HERSHEL" uni="34" gp="1" code="34"></player>
+  <player name="Webb, Lee" shortname="Webb, Lee" checkname="WEBB,LEE" uni="35" gp="1" gs="1" opos="FB" code="35">
+   <rcv no="1" yds="14" td="0" long="14"></rcv>
+  </player>
+  <player name="Pinkard, Josh" shortname="Pinkard, Josh" checkname="PINKARD,JOSH" uni="36" gp="1" code="36"></player>
+  <player name="Kirtman, David" shortname="Kirtman, David" checkname="KIRTMAN,DAVID" uni="37" gp="1" code="37">
+   <rcv no="3" yds="32" td="0" long="26"></rcv>
+  </player>
+  <player name="Ting, Brandon" shortname="Ting, Brandon" checkname="TING,BRANDON" uni="38" gp="1" code="38"></player>
+  <player name="Williams, T." shortname="Williams, T." checkname="WILLIAMS,T" uni="41" gp="1" code="41"></player>
+  <player name="Sartz, Dallas" shortname="Sartz, Dallas" checkname="SARTZ,DALLAS" uni="42" gp="1" gs="1" dpos="SLB" code="42">
+   <defense tackua="1" tacka="2" tot_tack="3"></defense>
+  </player>
+  <player name="Lua, Oscar" shortname="Lua, Oscar" checkname="LUA,OSCAR" uni="45" gp="1" code="45">
+   <defense tackua="0" tacka="2" tot_tack="2"></defense>
+  </player>
+  <player name="Ellis, Sedrick" shortname="Ellis, Sedrick" checkname="ELLIS,SEDRICK" uni="49" gp="1" code="49"></player>
+  <player name="Collins, Will" shortname="Collins, Will" checkname="COLLINS,WILL" uni="50" gp="1" code="50"></player>
+  <player name="Matua, Fred" shortname="Matua, Fred" checkname="MATUA,FRED" uni="51" gp="1" gs="1" opos="RG" code="51"></player>
+  <player name="Byers, Jeff" shortname="Byers, Jeff" checkname="BYERS,JEFF" uni="53" gp="1" code="53"></player>
+  <player name="Schweiger, Jeff" shortname="Schweiger, Jeff" checkname="SCHWEIGER,JEFF" uni="54" gp="1" code="54">
+   <defense tackua="1" tacka="2" tot_tack="3" tflua="1" tfla="0" tflyds="11" sackua="1" sacka="0" sackyds="11"></defense>
+  </player>
+  <player name="Rivers, Keith" shortname="Rivers, Keith" checkname="RIVERS,KEITH" uni="55" gp="1" code="55"></player>
+  <player name="Powdrell, Ryan" shortname="Powdrell, Ryan" checkname="POWDRELL,RYAN" uni="56" gp="1" code="56"></player>
+  <player name="Tatupu, Lofa" shortname="Tatupu, Lofa" checkname="TATUPU,LOFA" uni="58" gp="1" gs="1" dpos="MLB" code="58">
+   <defense tackua="6" tacka="2" tot_tack="8" tflua="2" tfla="1" tflyds="4" sackua="1" sacka="0" sackyds="1" brup="1" int="1" intyds="32"></defense>
+   <ir no="1" yds="32" td="0" long="32"></ir>
+  </player>
+  <player name="Ashton, Collin" shortname="Ashton, Collin" checkname="ASHTON,COLLIN" uni="59" gp="1" code="59">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Watkins, Travis" shortname="Watkins, Travis" checkname="WATKINS,TRAVIS" uni="63" gp="1" code="63"></player>
+  <player name="Kalil, Ryan" shortname="Kalil, Ryan" checkname="KALIL,RYAN" uni="67" gp="1" gs="1" opos="C" code="67"></player>
+  <player name="Spanos, Matt" shortname="Spanos, Matt" checkname="SPANOS,MATT" uni="69" gp="1" code="69"></player>
+  <player name="Lutui, Taitusi" shortname="Lutui, Taitusi" checkname="LUTUI,TAITUSI" uni="71" gp="1" gs="1" opos="RT" code="71"></player>
+  <player name="Drake, John" shortname="Drake, John" checkname="DRAKE,JOHN" uni="73" gp="1" gs="1" opos="LG" code="73"></player>
+  <player name="Williams, Kyle" shortname="Williams, Kyle" checkname="WILLIAMS,KYLE" uni="75" gp="1" code="75"></player>
+  <player name="Baker, Sam" shortname="Baker, Sam" checkname="BAKER,SAM" uni="79" gp="1" gs="1" opos="LT" code="79"></player>
+  <player name="Holmes, Alex" shortname="Holmes, Alex" checkname="HOLMES,ALEX" uni="81" gp="1" gs="1" opos="TE" code="81">
+   <rcv no="2" yds="12" td="0" long="8"></rcv>
+   <fumbles no="1" lost="0"></fumbles>
+  </player>
+  <player name="McFoy, Chris" shortname="McFoy, Chris" checkname="MCFOY,CHRIS" uni="82" gp="1" gs="1" opos="SE" code="82">
+   <rcv no="2" yds="11" td="0" long="7"></rcv>
+  </player>
+  <player name="Davis, Fred" shortname="Davis, Fred" checkname="DAVIS,FRED" uni="83" gp="1" code="83"></player>
+  <player name="Cody, Shaun" shortname="Cody, Shaun" checkname="CODY,SHAUN" uni="84" gp="1" gs="1" dpos="DT" code="84">
+   <defense tackua="1" tacka="2" tot_tack="3"></defense>
+  </player>
+  <player name="Vanderboom, N." shortname="Vanderboom, N." checkname="VANDERBOOM,N" uni="87" gp="1" code="87"></player>
+  <player name="Rucker, Frostee" shortname="Rucker, Frostee" checkname="RUCKER,FROSTEE" uni="90" gp="1" gs="1" dpos="DE" code="90">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Wright, Manuel" shortname="Wright, Manuel" checkname="WRIGHT,MANUEL" uni="92" gp="1" code="92"></player>
+  <player name="Tofi, Thomas" shortname="Tofi, Thomas" checkname="TOFI,THOMAS" uni="95" gp="1" code="95">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Jackson, L." shortname="Jackson, L." checkname="JACKSON,L" uni="96" gp="1" gs="1" dpos="DE" code="96">
+   <defense tackua="1" tacka="1" tot_tack="2" tflua="0" tfla="1" tflyds="2" sackua="0" sacka="1" sackyds="2"></defense>
+  </player>
+  <player name="Patterson, Mike" shortname="Patterson, Mike" checkname="PATTERSON,MIKE" uni="99" gp="1" gs="1" dpos="NT" code="99">
+   <defense tackua="3" tacka="3" tot_tack="6" tflua="3" tfla="2" tflyds="16" sackua="2" sacka="1" sackyds="14" ff="1"></defense>
+  </player>
+  <player name="Team" shortname="Team" checkname="TEAM" uni="TM" gp="1" code="198"></player>
+ </team>
+ <scores>
+  <score vh="H" team="USC" qtr="1" clock="05:59" type="TD" how="PASS" yds="35" scorer="Bush, Reggie" passer="Leinart, Matt" patby="Killeen, Ryan" pattype="KICK" patres="GOOD" plays="5" drive="47" top="2:35" vscore="0" hscore="7" driveindex="4"></score>
+  <score vh="V" team="VT" qtr="1" clock="01:42" type="FG" yds="35" scorer="Pace,B." plays="9" drive="62" top="4:17" vscore="3" hscore="7" driveindex="5"></score>
+  <score vh="V" team="VT" qtr="2" clock="06:19" type="TD" how="PASS" yds="12" scorer="Hyman,J." passer="Randall,B." patby="Pace,B." pattype="KICK" patres="GOOD" plays="10" drive="80" top="5:14" vscore="10" hscore="7" driveindex="7"></score>
+  <score vh="H" team="USC" qtr="3" clock="01:55" type="TD" how="PASS" yds="53" scorer="Bush, Reggie" passer="Leinart, Matt" patby="Killeen, Ryan" pattype="KICK" patres="GOOD" plays="2" drive="67" top="0:32" vscore="10" hscore="14" driveindex="14"></score>
+  <score vh="V" team="VT" qtr="4" clock="07:55" type="FG" yds="42" scorer="Pace,B." plays="9" drive="45" top="4:02" vscore="13" hscore="14" driveindex="17"></score>
+  <score vh="H" team="USC" qtr="4" clock="05:35" type="TD" how="PASS" yds="29" scorer="Bush, Reggie" passer="Leinart, Matt" patby="Killeen, Ryan" pattype="KICK" patres="GOOD" plays="5" drive="86" top="2:20" vscore="13" hscore="21" driveindex="18"></score>
+  <score vh="H" team="USC" qtr="4" clock="00:54" type="FG" yds="41" scorer="Killeen, Ryan" plays="4" drive="3" top="1:07" vscore="13" hscore="24" driveindex="22"></score>
+ </scores>
+ <fgas>
+  <fga vh="V" team="VT" kicker="Pace,B." qtr="1" clock="01:42" distance="35" result="good"></fga>
+  <fga vh="H" team="USC" kicker="Killeen, Ryan" qtr="2" clock="11:33" distance="35" result="missed"></fga>
+  <fga vh="V" team="VT" kicker="Pace,B." qtr="4" clock="07:55" distance="42" result="good"></fga>
+  <fga vh="H" team="USC" kicker="Killeen, Ryan" qtr="4" clock="00:54" distance="41" result="good"></fga>
+ </fgas>
+ <drives>
+  <drive vh="V" team="VT" start="KO,1,15:00,28" end="PUNT,1,12:31,42" plays="5" yards="14" top="2:29" start_how="KO" start_qtr="1" start_time="15:00" start_spot="VT28" end_how="PUNT" end_qtr="1" end_time="12:31" end_spot="VT42" driveindex="1"></drive>
+  <drive vh="H" team="USC" start="PUNT,1,12:31,21" end="PUNT,1,10:55,58" plays="8" yards="37" top="1:36" start_how="PUNT" start_qtr="1" start_time="12:31" start_spot="USC21" end_how="PUNT" end_qtr="1" end_time="10:55" end_spot="VT42" driveindex="2"></drive>
+  <drive vh="V" team="VT" start="PUNT,1,10:55,20" end="INT,1,08:34,66" plays="7" yards="46" top="2:21" start_how="PUNT" start_qtr="1" start_time="10:55" start_spot="VT20" end_how="INT" end_qtr="1" end_time="08:34" end_spot="USC34" driveindex="3"></drive>
+  <drive vh="H" team="USC" start="INT,1,08:34,53" end="TD,1,05:59,100" plays="5" yards="47" top="2:35" start_how="INT" start_qtr="1" start_time="08:34" start_spot="VT47" end_how="TD" end_qtr="1" end_time="05:59" end_spot="VT00" driveindex="4"></drive>
+  <drive vh="V" team="VT" start="KO,1,05:59,20" end="FG,1,01:42,82" plays="9" yards="62" top="4:17" start_how="KO" start_qtr="1" start_time="05:59" start_spot="VT20" end_how="FG" end_qtr="1" end_time="01:42" end_spot="USC18" rz="1" driveindex="5"></drive>
+  <drive vh="H" team="USC" start="KO,1,01:42,3" end="FGA,2,11:33,83" plays="11" yards="80" top="5:09" start_how="KO" start_qtr="1" start_time="01:42" start_spot="USC03" end_how="FGA" end_qtr="2" end_time="11:33" end_spot="VT17" rz="1" driveindex="6"></drive>
+  <drive vh="V" team="VT" start="FGA,2,11:33,20" end="TD,2,06:19,100" plays="10" yards="80" top="5:14" start_how="FGA" start_qtr="2" start_time="11:33" start_spot="VT20" end_how="TD" end_qtr="2" end_time="06:19" end_spot="USC00" rz="1" driveindex="7"></drive>
+  <drive vh="H" team="USC" start="KO,2,06:19,15" end="DOWNS,2,00:46,66" plays="11" yards="51" top="5:33" start_how="KO" start_qtr="2" start_time="06:19" start_spot="USC15" end_how="DOWNS" end_qtr="2" end_time="00:46" end_spot="VT34" driveindex="8"></drive>
+  <drive vh="V" team="VT" start="DOWNS,2,00:46,34" end="HALF,2,00:00,39" plays="2" yards="5" top="0:46" start_how="DOWNS" start_qtr="2" start_time="00:46" start_spot="VT34" end_how="HALF" end_qtr="2" end_time="00:00" end_spot="VT39" driveindex="9"></drive>
+  <drive vh="H" team="USC" start="KO,3,15:00,20" end="PUNT,3,13:16,15" plays="3" yards="-5" top="1:44" start_how="KO" start_qtr="3" start_time="15:00" start_spot="USC20" end_how="PUNT" end_qtr="3" end_time="13:16" end_spot="USC15" driveindex="10"></drive>
+  <drive vh="V" team="VT" start="PUNT,3,13:16,43" end="PUNT,3,11:22,49" plays="3" yards="6" top="1:54" start_how="PUNT" start_qtr="3" start_time="13:16" start_spot="VT43" end_how="PUNT" end_qtr="3" end_time="11:22" end_spot="VT49" driveindex="11"></drive>
+  <drive vh="H" team="USC" start="PUNT,3,11:22,27" end="PUNT,3,07:50,41" plays="5" yards="14" top="3:32" start_how="PUNT" start_qtr="3" start_time="11:22" start_spot="USC27" end_how="PUNT" end_qtr="3" end_time="07:50" end_spot="USC41" driveindex="12"></drive>
+  <drive vh="V" team="VT" start="PUNT,3,07:50,6" end="PUNT,3,02:27,36" plays="8" yards="30" top="5:23" start_how="PUNT" start_qtr="3" start_time="07:50" start_spot="VT06" end_how="PUNT" end_qtr="3" end_time="02:27" end_spot="VT36" driveindex="13"></drive>
+  <drive vh="H" team="USC" start="PUNT,3,02:27,33" end="TD,3,01:55,100" plays="2" yards="67" top="0:32" start_how="PUNT" start_qtr="3" start_time="02:27" start_spot="USC33" end_how="TD" end_qtr="3" end_time="01:55" end_spot="VT00" driveindex="14"></drive>
+  <drive vh="V" team="VT" start="KO,3,01:55,20" end="PUNT,4,14:14,27" plays="3" yards="7" top="2:41" start_how="KO" start_qtr="3" start_time="01:55" start_spot="VT20" end_how="PUNT" end_qtr="4" end_time="14:14" end_spot="VT27" driveindex="15"></drive>
+  <drive vh="H" team="USC" start="PUNT,4,14:14,25" end="PUNT,4,11:57,34" plays="3" yards="9" top="2:17" start_how="PUNT" start_qtr="4" start_time="14:14" start_spot="USC25" end_how="PUNT" end_qtr="4" end_time="11:57" end_spot="USC34" driveindex="16"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,11:57,30" end="FG,4,07:55,75" plays="9" yards="45" top="4:02" start_how="PUNT" start_qtr="4" start_time="11:57" start_spot="VT30" end_how="FG" end_qtr="4" end_time="07:55" end_spot="USC25" driveindex="17"></drive>
+  <drive vh="H" team="USC" start="KO,4,07:55,14" end="TD,4,05:35,100" plays="5" yards="86" top="2:20" start_how="KO" start_qtr="4" start_time="07:55" start_spot="USC14" end_how="TD" end_qtr="4" end_time="05:35" end_spot="VT00" driveindex="18"></drive>
+  <drive vh="V" team="VT" start="KO,4,05:35,30" end="PUNT,4,04:25,32" plays="3" yards="2" top="1:10" start_how="KO" start_qtr="4" start_time="05:35" start_spot="VT30" end_how="PUNT" end_qtr="4" end_time="04:25" end_spot="VT32" driveindex="19"></drive>
+  <drive vh="H" team="USC" start="PUNT,4,04:25,39" end="PUNT,4,02:21,33" plays="3" yards="-6" top="2:04" start_how="PUNT" start_qtr="4" start_time="04:25" start_spot="USC39" end_how="PUNT" end_qtr="4" end_time="02:21" end_spot="USC33" driveindex="20"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,02:21,36" end="FUMB,4,02:01,26" plays="3" yards="-10" top="0:20" start_how="PUNT" start_qtr="4" start_time="02:21" start_spot="VT36" end_how="FUMB" end_qtr="4" end_time="02:01" end_spot="VT26" driveindex="21"></drive>
+  <drive vh="H" team="USC" start="FUMB,4,02:01,74" end="FG,4,00:54,77" plays="4" yards="3" top="1:07" start_how="FUMB" start_qtr="4" start_time="02:01" start_spot="VT26" end_how="FG" end_qtr="4" end_time="00:54" end_spot="VT23" driveindex="22"></drive>
+  <drive vh="V" team="VT" start="KO,4,00:54,12" end="HALF,4,00:00,24" plays="3" yards="12" top="0:54" start_how="KO" start_qtr="4" start_time="00:54" start_spot="VT12" end_how="HALF" end_qtr="4" end_time="00:00" end_spot="VT24" driveindex="23"></drive>
+ </drives>
+ <plays format="summary">
+  <qtr number="1" text="1st">
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="0,1,0"
+      text="Virginia Tech Captians: 95, 79, 8, 3" newcontext="V,1,10,V35">
+   </play>
+   <comment text="USC Captains: 6, 27, 11, 49, 84"></comment>
+   <comment text="Tonight's Forcast: 82 F, Wind N 8mph, 74% Humidity"></comment>
+   <comment text="USC wins the toss and defers."></comment>
+   <comment text="Virginia Tech elects to receive and defend the west end zone."></comment>
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="0,2,5"
+      text="USC ball on USC35." newcontext="H,1,10,H35">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC35" context="H,1,10,H35" playid="0,3,6" type="K"
+      text="Killeen, Ryan kickoff 65 yards to the VT0, Royal,E. return 28 yards to the VT28 (Nunn, Ronald;Wyatt, Justin)." newcontext="V,1,10,V28">
+    <p_ko vh="H" name="Killeen, Ryan" gain="65"></p_ko>
+    <p_kr vh="V" name="Royal,E." gain="28"></p_kr>
+    <p_tk vh="H" name="Nunn, Ronald" assist="Y"></p_tk>
+    <p_tk vh="H" name="Wyatt, Justin" assist="Y"></p_tk>
+   </play>
+   <drivestart poss="V,V28,15:00" vh="V" spot="V28" clock="15:00" driveindex="1,6"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT28" context="V,1,10,V28" playid="1,1,7" type="P"
+      text="Randall,B. pass incomplete." newcontext="V,2,10,V28">
+    <p_pa vh="V" qb="Randall,B." result="INC"></p_pa>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT28" context="V,2,10,V28" playid="1,2,8" type="R" pcode="RR" first="R"
+      text="Randall,B. rush right for 16 yards to the VT44, 1ST DOWN VT (Bing, Darnell)." newcontext="V,1,10,V44">
+    <p_ru vh="V" name="Randall,B." gain="16"></p_ru>
+    <p_tk vh="H" name="Bing, Darnell"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT44" context="V,1,10,V44" playid="1,3,9" type="P" pcode="DP"
+      text="Randall,B. deep pass incomplete to Clifton,C.." newcontext="V,2,10,V44">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Clifton,C."></p_pa>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT44" context="V,2,10,V44" playid="1,4,10" type="#" clock="14:39"
+      text="Timeout Virginia Tech, clock 14:39." newcontext="V,2,10,V44">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT44" context="V,2,10,V44" playid="1,5,11" type="R" pcode="LT"
+      text="Humes,C. rush over left tackle for no gain to the VT44 (Rucker, Frostee)." newcontext="V,3,10,V44">
+    <p_ru vh="V" name="Humes,C." gain="0"></p_ru>
+    <p_tk vh="H" name="Rucker, Frostee"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="10" spot="VT44" context="V,3,10,V44" playid="1,6,12" type="E"
+      text="PENALTY VT false start (Carroll,T.) 5 yards to the VT39." newcontext="V,3,15,V39">
+    <p_pn vh="V" code="FS" type="false start" name="Carroll,T." result="ACCEPT" at="V44" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="3" togo="15" spot="VT39" context="V,3,15,V39" playid="1,7,13" type="E" pcode="FR"
+      text="Randall,B. flare pass complete to Humes,C. for 10 yards to the VT49 (Wyatt, Justin), PENALTY VT illegal procedure 5 yards to the VT34, NO PLAY." newcontext="V,3,20,V34">
+    <p_pn vh="V" code="PR" type="illegal procedure" result="ACCEPT" at="V39" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="3" togo="20" spot="VT34" context="V,3,20,V34" playid="1,8,14" type="R" pcode="DR"
+      text="Humes,C. rush draw play for 8 yards to the VT42 (Grootegoed, M.)." newcontext="V,4,12,V42">
+    <p_ru vh="V" name="Humes,C." gain="8"></p_ru>
+    <p_tk vh="H" name="Grootegoed, M."></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="12" spot="VT42" context="V,4,12,V42" playid="1,9,15" type="U"
+      text="Burns,V. punt 52 yards to the USC6, Bush, Reggie return 15 yards to the USC21 (Williams,J.), PENALTY VT illegal formation declined." newcontext="H,1,10,H21">
+    <p_pu vh="V" name="Burns,V." gain="52"></p_pu>
+    <p_pr vh="H" name="Bush, Reggie" gain="15"></p_pr>
+    <p_tk vh="V" name="Williams,J."></p_tk>
+    <p_pn vh="V" code="FO" type="illegal formation" result="DECLINE"></p_pn>
+   </play>
+   <drivesum plays="5" yards="14" top="2:29" driveindex="1" complete="Y"></drivesum>
+   <drivestart poss="H,H21,14:39" vh="H" spot="H21" clock="14:39" driveindex="2,15"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC21" context="H,1,10,H21" playid="2,1,16" clock="12:31"
+      text="SOUTHERN CALIFORNIA drive start at 12:31." newcontext="H,1,10,H21">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC21" context="H,1,10,H21" playid="2,2,17" type="P"
+      text="Leinart, Matt pass incomplete to McFoy, Chris (Green,E.)." newcontext="H,2,10,H21">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="McFoy, Chris"></p_pa>
+    <p_bu vh="V" name="Green,E."></p_bu>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="USC21" context="H,2,10,H21" playid="2,3,18" type="R" pcode="RT"
+      text="White, LenDale rush over right tackle for 9 yards to the USC30 (Anderson,J.;Warren,Bl.)." newcontext="H,3,1,H30">
+    <p_ru vh="H" name="White, LenDale" gain="9"></p_ru>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Warren,Bl." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="1" spot="USC30" context="H,3,1,H30" playid="2,4,19" type="R" pcode="LE" first="R"
+      text="White, LenDale rush over left end for 23 yards to the VT47, 1ST DOWN USC, out-of-bounds (Tapp,D.)." ob="Y" newcontext="H,1,10,V47">
+    <p_ru vh="H" name="White, LenDale" gain="23"></p_ru>
+    <p_tk vh="V" name="Tapp,D."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT47" context="H,1,10,V47" playid="2,5,20" type="R" pcode="RR"
+      text="Bush, Reggie rush right for 3 yards to the VT44, out-of-bounds (Fuller,V.)." ob="Y" newcontext="H,2,7,V44">
+    <p_ru vh="H" name="Bush, Reggie" gain="3"></p_ru>
+    <p_tk vh="V" name="Fuller,V."></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="7" spot="VT44" context="H,2,7,V44" playid="2,6,21" type="R" pcode="LL" first="R"
+      text="Bush, Reggie rush left for no gain to the VT44, fumble by Bush, Reggie recovered by USC Bush, Reggie at VT44, Bush, Reggie for 12 yards to the VT32, 1ST DOWN USC (Burchette,N.;Baaqee,M.)." newcontext="H,1,10,V32">
+    <p_ru vh="H" name="Bush, Reggie" gain="0"></p_ru>
+    <p_fumb vh="H" name="Bush, Reggie" at="V44" frvh="H" frname="Bush, Reggie"></p_fumb>
+    <p_cont vh="H" name="Bush, Reggie" context="RUSH" at="V44" gain="12"></p_cont>
+    <p_tk vh="V" name="Burchette,N." assist="Y"></p_tk>
+    <p_tk vh="V" name="Baaqee,M." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT32" context="H,1,10,V32" playid="2,7,22" type="P"
+      text="Leinart, Matt pass incomplete to McFoy, Chris." newcontext="H,2,10,V32">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="McFoy, Chris"></p_pa>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="VT32" context="H,2,10,V32" playid="2,8,23" type="P"
+      text="Leinart, Matt pass incomplete to Jarrett, Dwayne." newcontext="H,3,10,V32">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="Jarrett, Dwayne"></p_pa>
+   </play>
+   <play hasball="USC" down="3" togo="10" spot="VT32" context="H,3,10,V32" playid="2,9,24" type="E"
+      text="PENALTY USC delay of game 5 yards to the VT37." newcontext="H,3,15,V37">
+    <p_pn vh="H" code="DG" type="delay of game" result="ACCEPT" at="V32" yards="5"></p_pn>
+   </play>
+   <play hasball="USC" down="3" togo="15" spot="VT37" context="H,3,15,V37" playid="2,10,25" type="P"
+      text="Leinart, Matt pass incomplete to Smith, Steve." newcontext="H,4,15,V37">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="Smith, Steve"></p_pa>
+   </play>
+   <play hasball="USC" down="4" togo="15" spot="VT37" context="H,4,15,V37" playid="2,11,26" type="E"
+      text="PENALTY USC delay of game 5 yards to the VT42." newcontext="H,4,20,V42">
+    <p_pn vh="H" code="DG" type="delay of game" result="ACCEPT" at="V37" yards="5"></p_pn>
+   </play>
+   <play hasball="USC" down="4" togo="20" spot="VT42" context="H,4,20,V42" playid="2,12,27" type="U"
+      text="Malone, Tom punt 42 yards to the VT0, touchback." newcontext="V,1,10,V20">
+    <p_pu vh="H" name="Malone, Tom" gain="42" tb="Y"></p_pu>
+   </play>
+   <drivesum plays="8" yards="37" top="1:36" driveindex="2" complete="Y"></drivesum>
+   <drivestart poss="V,V20,12:31" vh="V" spot="V20" clock="12:31" driveindex="3,27"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="3,1,28" clock="10:55"
+      text="VIRGINIA TECH drive start at 10:55." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="3,2,29" type="R" pcode="LL"
+      text="Randall,B. rush left for 5 yards to the VT25." newcontext="V,2,5,V25">
+    <p_ru vh="V" name="Randall,B." gain="5"></p_ru>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="VT25" context="V,2,5,V25" playid="3,3,30" type="P" pcode="SI"
+      text="Randall,B. sideline pass incomplete to Clifton,C., dropped pass." newcontext="V,3,5,V25">
+    <p_pa vh="V" qb="Randall,B." result="DROP" rcv="Clifton,C."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="5" spot="VT25" context="V,3,5,V25" playid="3,4,31" type="R" pcode="LL" first="R"
+      text="Randall,B. rush left for 23 yards to the VT48, 1ST DOWN VT, out-of-bounds." ob="Y" newcontext="V,1,10,V48">
+    <p_ru vh="V" name="Randall,B." gain="23"></p_ru>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT48" context="V,1,10,V48" playid="3,5,32" type="R" pcode="RG"
+      text="Hamilton,J. rush over right guard for loss of 1 yard to the VT47 (Patterson, Mike)." newcontext="V,2,11,V47">
+    <p_ru vh="V" name="Hamilton,J." gain="-1"></p_ru>
+    <p_tk vh="H" name="Patterson, Mike" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="11" spot="VT47" context="V,2,11,V47" playid="3,6,33" type="P" pcode="MI" first="P"
+      text="Randall,B. middle pass complete to King,J. for 19 yards to the USC34, 1ST DOWN VT (Arbet, Kevin)." newcontext="V,1,10,H34">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="King,J." gain="19"></p_pa>
+    <p_tk vh="H" name="Arbet, Kevin"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC34" context="V,1,10,H34" playid="3,7,34" type="P"
+      text="Randall,B. pass incomplete to Clifton,C., dropped pass." newcontext="V,2,10,H34">
+    <p_pa vh="V" qb="Randall,B." result="DROP" rcv="Clifton,C."></p_pa>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="USC34" context="V,2,10,H34" playid="3,8,35" type="P" turnover="I"
+      text="Randall,B. pass intercepted by Tatupu, Lofa at the USC21, Tatupu, Lofa return 32 yards to the VT47 (Randall,B.)." newcontext="H,1,10,V47">
+    <p_pa vh="V" qb="Randall,B." result="INT"></p_pa>
+    <p_ir vh="H" name="Tatupu, Lofa" at="H21" gain="32"></p_ir>
+    <p_tk vh="V" name="Randall,B."></p_tk>
+   </play>
+   <drivesum plays="7" yards="46" top="2:21" driveindex="3" complete="Y"></drivesum>
+   <drivestart poss="H,V47,10:55" vh="H" spot="V47" clock="10:55" driveindex="4,35"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="VT47" context="H,1,10,V47" playid="4,1,36" clock="08:34"
+      text="SOUTHERN CALIFORNIA drive start at 08:34." newcontext="H,1,10,V47">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT47" context="H,1,10,V47" playid="4,2,37" type="P" pcode="CR"
+      text="Leinart, Matt crossing pass complete to Jarrett, Dwayne for 9 yards to the VT38 (Hall,V.;Williams,J.)." newcontext="H,2,1,V38">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Jarrett, Dwayne" gain="9"></p_pa>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Williams,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="1" spot="VT38" context="H,2,1,V38" playid="4,3,38" type="R" pcode="RT" first="R"
+      text="White, LenDale rush over right tackle for 3 yards to the VT35, 1ST DOWN USC (Fuller,V.)." newcontext="H,1,10,V35">
+    <p_ru vh="H" name="White, LenDale" gain="3"></p_ru>
+    <p_tk vh="V" name="Fuller,V."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT35" context="H,1,10,V35" playid="4,4,39" type="P" pcode="SI"
+      text="Leinart, Matt sideline pass complete to Jarrett, Dwayne for loss of 1 yard to the VT36 (Green,E.)." newcontext="H,2,11,V36">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Jarrett, Dwayne" gain="-1"></p_pa>
+    <p_tk vh="V" name="Green,E." tfl="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="11" spot="VT36" context="H,2,11,V36" playid="4,5,40" type="R" pcode="DR"
+      text="White, LenDale rush draw play for 1 yard to the VT35 (Tapp,D.;Lewis,J.)." newcontext="H,3,10,V35">
+    <p_ru vh="H" name="White, LenDale" gain="1"></p_ru>
+    <p_tk vh="V" name="Tapp,D." assist="Y"></p_tk>
+    <p_tk vh="V" name="Lewis,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="10" spot="VT35" context="H,3,10,V35" playid="4,6,41" type="P" pcode="SC" first="P" score="Y" clock="05:59"
+      text="Leinart, Matt screen pass complete to Bush, Reggie for 35 yards to the VT0, 1ST DOWN USC, TOUCHDOWN, clock 05:59." newcontext="H,1,0,V03">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Bush, Reggie" gain="35"></p_pa>
+   </play>
+   <play hasball="USC" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="4,7,42" type="X" score="Y"
+      text="Killeen, Ryan kick attempt good." newcontext="H,1,0,H35">
+    <p_pat vh="H" name="Killeen, Ryan" qb="Killeen, Ryan" type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="0" H="7"></score>
+   <drivesum plays="5" yards="47" top="2:35" driveindex="4" complete="Y"></drivesum>
+   <play hasball="USC" down="1" togo="0" spot="USC35" context="H,1,0,H35" playid="4,8,43" type="K"
+      text="Killeen, Ryan kickoff 65 yards to the VT0, touchback." newcontext="V,1,10,V20">
+    <p_ko vh="H" name="Killeen, Ryan" gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="V,V20,05:59" vh="V" spot="V20" clock="05:59" driveindex="5,43"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="5,1,44" clock="05:59"
+      text="VIRGINIA TECH drive start at 05:59." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="5,2,45" type="R" pcode="LL" first="R"
+      text="Randall,B. rush left for 21 yards to the VT41, 1ST DOWN VT (Bing, Darnell;Sartz, Dallas)." newcontext="V,1,10,V41">
+    <p_ru vh="V" name="Randall,B." gain="21"></p_ru>
+    <p_tk vh="H" name="Bing, Darnell" assist="Y"></p_tk>
+    <p_tk vh="H" name="Sartz, Dallas" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT41" context="V,1,10,V41" playid="5,3,46" type="R" pcode="LE"
+      text="Randall,B. rush over left end for 2 yards to the VT43 (Patterson, Mike;Tatupu, Lofa)." newcontext="V,2,8,V43">
+    <p_ru vh="V" name="Randall,B." gain="2"></p_ru>
+    <p_tk vh="H" name="Patterson, Mike" assist="Y"></p_tk>
+    <p_tk vh="H" name="Tatupu, Lofa" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="VT43" context="V,2,8,V43" playid="5,4,47" type="P"
+      text="Randall,B. pass incomplete to Johnson,R.." newcontext="V,3,8,V43">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Johnson,R."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="VT43" context="V,3,8,V43" playid="5,5,48" type="R" pcode="LL" first="R"
+      text="Randall,B. rush left for 20 yards to the USC37, 1ST DOWN VT, out-of-bounds." ob="Y" newcontext="V,1,10,H37">
+    <p_ru vh="V" name="Randall,B." gain="20"></p_ru>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC37" context="V,1,10,H37" playid="5,6,49" type="R" pcode="MI"
+      text="Hamilton,J. rush up middle for 6 yards to the USC31 (Grootegoed, M.;Cody, Shaun)." newcontext="V,2,4,H31">
+    <p_ru vh="V" name="Hamilton,J." gain="6"></p_ru>
+    <p_tk vh="H" name="Grootegoed, M." assist="Y"></p_tk>
+    <p_tk vh="H" name="Cody, Shaun" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="4" spot="USC31" context="V,2,4,H31" playid="5,7,50" type="E" pcode="LG"
+      text="Hamilton,J. rush over left guard for 9 yards to the USC22 (Kirtman, David), PENALTY VT IF 5 yards to the USC36, NO PLAY." newcontext="V,2,9,H36">
+    <p_pn vh="V" code="IF" type="IF" result="ACCEPT" at="H31" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="2" togo="9" spot="USC36" context="V,2,9,H36" playid="5,8,51" type="E" first="E"
+      text="Randall,B. pass incomplete to Hyman,J., PENALTY USC roughing passer (Patterson, Mike) 15 yards to the USC21, 1ST DOWN VT, NO PLAY." newcontext="V,1,10,H21">
+    <p_pn vh="H" code="RP" type="roughing passer" name="Patterson, Mike" result="ACCEPT" at="H36" yards="15"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC21" context="V,1,10,H21" playid="5,9,52" type="R" pcode="RR"
+      text="Hamilton,J. rush right for 2 yards to the USC19 (Grootegoed, M.)." newcontext="V,2,8,H19">
+    <p_ru vh="V" name="Hamilton,J." gain="2"></p_ru>
+    <p_tk vh="H" name="Grootegoed, M."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="USC19" context="V,2,8,H19" playid="5,10,53" type="R" pcode="MI"
+      text="Humes,C. rush up middle for 1 yard to the USC18 (Tatupu, Lofa)." newcontext="V,3,7,H18">
+    <p_ru vh="V" name="Humes,C." gain="1"></p_ru>
+    <p_tk vh="H" name="Tatupu, Lofa"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="7" spot="USC18" context="V,3,7,H18" playid="5,11,54" type="P"
+      text="Randall,B. pass incomplete." newcontext="V,4,7,H18">
+    <p_pa vh="V" qb="Randall,B." result="INC"></p_pa>
+   </play>
+   <play hasball="VT" down="4" togo="7" spot="USC18" context="V,4,7,H18" playid="5,12,55" type="F" score="Y" clock="01:42"
+      text="Pace,B. field goal attempt from 35 GOOD, clock 01:42." newcontext="V,1,0,V35">
+    <p_fg vh="V" name="Pace,B." distance="35" result="GOOD" score="Y"></p_fg>
+   </play>
+   <score V="3" H="7"></score>
+   <drivesum plays="9" yards="62" top="4:17" driveindex="5" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="5,13,56" type="K"
+      text="Develli,J. kickoff 62 yards to the USC3, Bush, Reggie return 0 yards to the USC3, fumble by Bush, Reggie recovered by USC Bush, Reggie at USC3, Bush, Reggie for 15 yards to the USC18 (Manning,B.)." newcontext="H,1,10,H18">
+    <p_ko vh="V" name="Develli,J." gain="62"></p_ko>
+    <p_kr vh="H" name="Bush, Reggie" gain="0"></p_kr>
+    <p_fumb vh="H" name="Bush, Reggie" at="H03" frvh="H" frname="Bush, Reggie"></p_fumb>
+    <p_cont vh="H" name="Bush, Reggie" context="KO" at="H03" gain="15"></p_cont>
+    <p_tk vh="V" name="Manning,B."></p_tk>
+   </play>
+   <drivestart poss="H,H18,01:42" vh="H" spot="H18" clock="01:42" driveindex="6,56"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC18" context="H,1,10,H18" playid="6,1,57" clock="01:42"
+      text="SOUTHERN CALIFORNIA drive start at 01:42." newcontext="H,1,10,H18">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC18" context="H,1,10,H18" playid="6,2,58" type="P"
+      text="Leinart, Matt pass incomplete to Jarrett, Dwayne." newcontext="H,2,10,H18">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="Jarrett, Dwayne"></p_pa>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="USC18" context="H,2,10,H18" playid="6,3,59" type="P" pcode="CR"
+      text="Leinart, Matt crossing pass complete to McFoy, Chris for 7 yards to the USC25 (Hall,V.)." newcontext="H,3,3,H25">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="McFoy, Chris" gain="7"></p_pa>
+    <p_tk vh="V" name="Hall,V."></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="3" spot="USC25" context="H,3,3,H25" playid="6,4,60" type="E" first="E"
+      text="Leinart, Matt sacked for loss of 12 yards to the USC13 (Davis,J.), PENALTY VT face mask (Davis,J.) 15 yards to the USC40, 1ST DOWN USC, NO PLAY." newcontext="H,1,10,H40">
+    <p_pn vh="V" code="FM" type="face mask" name="Davis,J." result="ACCEPT" at="H25" yards="15"></p_pn>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC40" context="H,1,10,H40" playid="6,5,61" type="#" clock="00:28"
+      text="Timeout Virginia Tech, clock 00:28." newcontext="H,1,10,H40">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC40" context="H,1,10,H40" playid="6,6,62" type="P"
+      text="Leinart, Matt pass incomplete to Jarrett, Dwayne, QB hurry by Davis,J.." newcontext="H,2,10,H40">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="Jarrett, Dwayne"></p_pa>
+    <p_qbh vh="V" name="Davis,J."></p_qbh>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="USC40" context="H,2,10,H40" playid="6,7,63" type="R" pcode="LE"
+      text="Bush, Reggie rush over left end for 6 yards to the USC46 (Griffin,J.)." newcontext="H,3,4,H46">
+    <p_ru vh="H" name="Bush, Reggie" gain="6"></p_ru>
+    <p_tk vh="V" name="Griffin,J."></p_tk>
+   </play>
+   <score qtr="1" V="3" H="7"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="6" rush="4" pass="1" penalty="1"></firstdowns>
+    <penalties no="4" yds="30"></penalties>
+    <conversions thirdconv="2" thirdatt="4" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="09:07"></misc>
+    <rush att="12" yds="103" gain="104" loss="1" td="0" long="23"></rush>
+    <pass comp="1" att="8" int="1" yds="19" td="0" long="19" sacks="0" sackyds="0"></pass>
+    <rcv no="1" yds="19" td="0" long="19"></rcv>
+    <punt no="1" yds="52" long="52" blkd="0" tb="0" fc="0" plus50="1" inside20="0" avg="52.0"></punt>
+    <ko no="1" yds="62" ob="0" tb="0"></ko>
+    <fg made="1" att="1" long="35" blkd="0"></fg>
+    <defense tackua="9" tacka="8" tot_tack="17" tflua="1" tfla="0" tflyds="1" sacks="0" sackyds="0" brup="1" qbh="1"></defense>
+    <kr no="1" yds="28" td="0" long="28"></kr>
+    <scoring fg="1"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="USC">
+    <firstdowns no="5" rush="3" pass="1" penalty="1"></firstdowns>
+    <penalties no="3" yds="25"></penalties>
+    <conversions thirdconv="2" thirdatt="3" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="2" lost="0"></fumbles>
+    <misc yds="0" top="05:53"></misc>
+    <rush att="7" yds="57" gain="57" loss="0" td="0" long="23"></rush>
+    <pass comp="4" att="10" int="0" yds="50" td="1" long="35" sacks="0" sackyds="0"></pass>
+    <rcv no="4" yds="50" td="1" long="35"></rcv>
+    <punt no="1" yds="42" long="42" blkd="0" tb="1" fc="0" plus50="0" inside20="0" avg="42.0"></punt>
+    <ko no="2" yds="130" ob="0" tb="1"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="7" tacka="8" tot_tack="15" tflua="1" tfla="0" tflyds="1" sacks="0" sackyds="0" int="1" intyds="32"></defense>
+    <kr no="1" yds="15" td="0" long="15"></kr>
+    <pr no="1" yds="15" td="0" long="15"></pr>
+    <ir no="1" yds="32" td="0" long="32"></ir>
+    <fumbles no="2" lost="0"></fumbles>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+  </qtr>
+  <qtr number="2" text="2nd">
+   <play hasball="USC" down="3" togo="4" spot="USC46" context="H,3,4,H46" playid="6,8,64" type="#" clock="15:00"
+      text="Start of 2nd quarter, clock 15:00." newcontext="H,3,4,H46">
+   </play>
+   <play hasball="USC" down="3" togo="4" spot="USC46" context="H,3,4,H46" playid="6,9,65" type="P" first="P"
+      text="Leinart, Matt pass complete to Holmes, Alex for 8 yards to the VT46, fumble forced by Griffin,J., fumble by Holmes, Alex recovered by USC Holmes, Alex at VT46, 1ST DOWN USC." newcontext="H,1,10,V46">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Holmes, Alex" gain="8"></p_pa>
+    <p_fumb vh="H" name="Holmes, Alex" at="V46" frvh="H" frname="Holmes, Alex"></p_fumb>
+    <p_tk vh="V" name="Griffin,J." ff="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT46" context="H,1,10,V46" playid="6,10,66" type="R" pcode="MI"
+      text="White, LenDale rush up middle for 1 yard to the VT45 (Green,E.;Adibi,X.)." newcontext="H,2,9,V45">
+    <p_ru vh="H" name="White, LenDale" gain="1"></p_ru>
+    <p_tk vh="V" name="Green,E." assist="Y"></p_tk>
+    <p_tk vh="V" name="Adibi,X." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="9" spot="VT45" context="H,2,9,V45" playid="6,11,67" type="P" pcode="SI" first="P"
+      text="Leinart, Matt sideline pass complete to Kirtman, David for 26 yards to the VT19, 1ST DOWN USC (Rouse,A.)." newcontext="H,1,10,V19">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Kirtman, David" gain="26"></p_pa>
+    <p_tk vh="V" name="Rouse,A."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT19" context="H,1,10,V19" playid="6,12,68" type="P"
+      text="Leinart, Matt sacked for loss of 6 yards to the VT25 (Davis,J.)." newcontext="H,2,16,V25">
+    <p_pa vh="H" qb="Leinart, Matt" result="SACK" gain="-6"></p_pa>
+    <p_tk vh="V" name="Davis,J." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="16" spot="VT25" context="H,2,16,V25" playid="6,13,69" type="R" pcode="RE"
+      text="Bush, Reggie rush over right end for 2 yards to the VT23 (Adibi,X.)." newcontext="H,3,14,V23">
+    <p_ru vh="H" name="Bush, Reggie" gain="2"></p_ru>
+    <p_tk vh="V" name="Adibi,X."></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="14" spot="VT23" context="H,3,14,V23" playid="6,14,70" type="P" pcode="SC"
+      text="Leinart, Matt screen pass complete to Bush, Reggie for 6 yards to the VT17 (Ellis,C.)." newcontext="H,4,8,V17">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Bush, Reggie" gain="6"></p_pa>
+    <p_tk vh="V" name="Ellis,C."></p_tk>
+   </play>
+   <play hasball="USC" down="4" togo="8" spot="VT17" context="H,4,8,V17" playid="6,15,71" type="F" clock="11:33"
+      text="Killeen, Ryan field goal attempt from 35 MISSED - wide right, spot at VT20, clock 11:33." newcontext="V,1,10,V20">
+    <p_fg vh="H" name="Killeen, Ryan" distance="35" result="MISSED"></p_fg>
+   </play>
+   <drivesum plays="11" yards="65" top="5:09" driveindex="6" complete="Y"></drivesum>
+   <drivestart poss="V,V20,11:33" vh="V" spot="V20" clock="11:33" driveindex="7,71"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="7,1,72" type="R" pcode="RE"
+      text="Humes,C. rush over right end for 1 yard to the VT21 (Tatupu, Lofa)." newcontext="V,2,9,V21">
+    <p_ru vh="V" name="Humes,C." gain="1"></p_ru>
+    <p_tk vh="H" name="Tatupu, Lofa"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="9" spot="VT21" context="V,2,9,V21" playid="7,2,73" type="P" pcode="MI"
+      text="Randall,B. middle pass complete to King,J. for 7 yards to the VT28 (Bing, Darnell)." newcontext="V,3,2,V28">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="King,J." gain="7"></p_pa>
+    <p_tk vh="H" name="Bing, Darnell"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="2" spot="VT28" context="V,3,2,V28" playid="7,3,74" type="P" pcode="FR" first="P"
+      text="Randall,B. flare pass complete to Kinzer,J. for 8 yards to the VT36, 1ST DOWN VT (Leach, Jason)." newcontext="V,1,10,V36">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Kinzer,J." gain="8"></p_pa>
+    <p_tk vh="H" name="Leach, Jason"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="7,4,75" type="#" clock="09:35"
+      text="Timeout Virginia Tech, clock 09:35." newcontext="V,1,10,V36">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="7,5,76" type="P"
+      text="Randall,B. sacked for loss of 1 yard to the VT35 (Patterson, Mike)." newcontext="V,2,11,V35">
+    <p_pa vh="V" qb="Randall,B." result="SACK" gain="-1"></p_pa>
+    <p_tk vh="H" name="Patterson, Mike" sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="11" spot="VT35" context="V,2,11,V35" playid="7,6,77" type="P" pcode="CR" first="P"
+      text="Randall,B. crossing pass complete to King,J. for 22 yards to the USC43, 1ST DOWN VT (Bing, Darnell)." newcontext="V,1,10,H43">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="King,J." gain="22"></p_pa>
+    <p_tk vh="H" name="Bing, Darnell"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC43" context="V,1,10,H43" playid="7,7,78" type="R" pcode="MI"
+      text="Hamilton,J. rush up middle for 4 yards to the USC39 (Tofi, Thomas;Leach, Jason)." newcontext="V,2,6,H39">
+    <p_ru vh="V" name="Hamilton,J." gain="4"></p_ru>
+    <p_tk vh="H" name="Tofi, Thomas" assist="Y"></p_tk>
+    <p_tk vh="H" name="Leach, Jason" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="6" spot="USC39" context="V,2,6,H39" playid="7,8,79" type="P" pcode="CR" first="P"
+      text="Randall,B. crossing pass complete to Johnson,R. for 16 yards to the USC23, 1ST DOWN VT, out-of-bounds (Bing, Darnell)." ob="Y" newcontext="V,1,10,H23">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Johnson,R." gain="16"></p_pa>
+    <p_tk vh="H" name="Bing, Darnell"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC23" context="V,1,10,H23" playid="7,9,80" type="R" pcode="LL" first="R"
+      text="Randall,B. rush left for 10 yards to the USC13, 1ST DOWN VT." newcontext="V,1,10,H13">
+    <p_ru vh="V" name="Randall,B." gain="10"></p_ru>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC13" context="V,1,10,H13" playid="7,10,81" type="R" pcode="MI"
+      text="Hamilton,J. rush up middle for 1 yard to the USC12 (Bing, Darnell)." newcontext="V,2,9,H12">
+    <p_ru vh="V" name="Hamilton,J." gain="1"></p_ru>
+    <p_tk vh="H" name="Bing, Darnell"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="9" spot="USC12" context="V,2,9,H12" playid="7,11,82" type="P" pcode="CR" first="P" score="Y" clock="06:19"
+      text="Randall,B. crossing pass complete to Hyman,J. for 12 yards to the USC0, 1ST DOWN VT, TOUCHDOWN, clock 06:19." newcontext="V,1,0,H03">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Hyman,J." gain="12"></p_pa>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="USC03" context="V,1,0,H03" playid="7,12,83" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="10" H="7"></score>
+   <drivesum plays="10" yards="80" top="5:14" driveindex="7" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="7,13,84" type="K"
+      text="Develli,J. kickoff 65 yards to the USC0, Bush, Reggie return 15 yards to the USC15 (;Parker,R.)." newcontext="H,1,10,H15">
+    <p_ko vh="V" name="Develli,J." gain="65"></p_ko>
+    <p_kr vh="H" name="Bush, Reggie" gain="15"></p_kr>
+    <p_tk vh="V" name="Parker,R." assist="Y"></p_tk>
+   </play>
+   <drivestart poss="H,H15,06:19" vh="H" spot="H15" clock="06:19" driveindex="8,84"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC15" context="H,1,10,H15" playid="8,1,85" clock="06:19"
+      text="SOUTHERN CALIFORNIA drive start at 06:19." newcontext="H,1,10,H15">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC15" context="H,1,10,H15" playid="8,2,86" type="R" pcode="LG"
+      text="Bush, Reggie rush over left guard for 5 yards to the USC20 (Lewis,J.;Tapp,D.)." newcontext="H,2,5,H20">
+    <p_ru vh="H" name="Bush, Reggie" gain="5"></p_ru>
+    <p_tk vh="V" name="Lewis,J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Tapp,D." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="5" spot="USC20" context="H,2,5,H20" playid="8,3,87" type="R" pcode="RR"
+      text="Bush, Reggie rush right for 1 yard to the USC21 (Green,E.;Tapp,D.)." newcontext="H,3,4,H21">
+    <p_ru vh="H" name="Bush, Reggie" gain="1"></p_ru>
+    <p_tk vh="V" name="Green,E." assist="Y"></p_tk>
+    <p_tk vh="V" name="Tapp,D." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="4" spot="USC21" context="H,3,4,H21" playid="8,4,88" type="R" pcode="LL" first="R"
+      text="Leinart, Matt rush left for 7 yards to the USC28, 1ST DOWN USC, out-of-bounds." ob="Y" newcontext="H,1,10,H28">
+    <p_ru vh="H" name="Leinart, Matt" gain="7"></p_ru>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC28" context="H,1,10,H28" playid="8,5,89" type="P"
+      text="Leinart, Matt pass incomplete to Jarrett, Dwayne." newcontext="H,2,10,H28">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="Jarrett, Dwayne"></p_pa>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="USC28" context="H,2,10,H28" playid="8,6,90" type="R" pcode="LL"
+      text="White, LenDale rush left for 9 yards to the USC37 (Ellis,C.)." newcontext="H,3,1,H37">
+    <p_ru vh="H" name="White, LenDale" gain="9"></p_ru>
+    <p_tk vh="V" name="Ellis,C."></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="1" spot="USC37" context="H,3,1,H37" playid="8,7,91" type="R" pcode="LG" first="R"
+      text="White, LenDale rush over left guard for 10 yards to the USC47, 1ST DOWN USC (Robertson,K.;Williams,J.)." newcontext="H,1,10,H47">
+    <p_ru vh="H" name="White, LenDale" gain="10"></p_ru>
+    <p_tk vh="V" name="Robertson,K." assist="Y"></p_tk>
+    <p_tk vh="V" name="Williams,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC47" context="H,1,10,H47" playid="8,8,92" type="R" pcode="RE" first="R"
+      text="White, LenDale rush over right end for 11 yards to the VT42, 1ST DOWN USC (Anderson,J.)." newcontext="H,1,10,V42">
+    <p_ru vh="H" name="White, LenDale" gain="11"></p_ru>
+    <p_tk vh="V" name="Anderson,J."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT42" context="H,1,10,V42" playid="8,9,93" type="R" pcode="DR"
+      text="Bush, Reggie rush draw play for loss of 3 yards to the VT45 (Burchette,N.)." newcontext="H,2,13,V45">
+    <p_ru vh="H" name="Bush, Reggie" gain="-3"></p_ru>
+    <p_tk vh="V" name="Burchette,N." tfl="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="13" spot="VT45" context="H,2,13,V45" playid="8,10,94" type="#" clock="02:18"
+      text="Timeout Southern California, clock 02:18." newcontext="H,2,13,V45">
+    <p_to vh="H" team="Southern California"></p_to>
+   </play>
+   <play hasball="USC" down="2" togo="13" spot="VT45" context="H,2,13,V45" playid="8,11,95" type="R" pcode="RV"
+      text="Smith, Steve rush reverse for loss of 1 yard to the VT46 (Griffin,J.)." newcontext="H,3,14,V46">
+    <p_ru vh="H" name="Smith, Steve" gain="-1"></p_ru>
+    <p_tk vh="V" name="Griffin,J." tfl="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="14" spot="VT46" context="H,3,14,V46" playid="8,12,96" type="P" pcode="CR"
+      text="Leinart, Matt crossing pass complete to Smith, Steve for 12 yards to the VT34 (Green,E.)." newcontext="H,4,2,V34">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Smith, Steve" gain="12"></p_pa>
+    <p_tk vh="V" name="Green,E."></p_tk>
+   </play>
+   <play hasball="USC" down="4" togo="2" spot="VT34" context="H,4,2,V34" playid="8,13,97" type="#" clock="00:50"
+      text="Timeout Southern California, clock 00:50." newcontext="H,4,2,V34">
+    <p_to vh="H" team="Southern California"></p_to>
+   </play>
+   <play hasball="USC" down="4" togo="2" spot="VT34" context="H,4,2,V34" playid="8,14,98" type="P"
+      text="Leinart, Matt pass incomplete to Jarrett, Dwayne (Williams,J.)." newcontext="V,1,10,V34">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="Jarrett, Dwayne"></p_pa>
+    <p_bu vh="V" name="Williams,J."></p_bu>
+   </play>
+   <drivesum plays="11" yards="51" top="5:33" driveindex="8" complete="Y"></drivesum>
+   <drivestart poss="V,V34,00:50" vh="V" spot="V34" clock="00:50" driveindex="9,98"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT34" context="V,1,10,V34" playid="9,1,99" clock="00:46"
+      text="VIRGINIA TECH drive start at 00:46." newcontext="V,1,10,V34">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT34" context="V,1,10,V34" playid="9,2,100" type="R" pcode="RG"
+      text="Humes,C. rush over right guard for 4 yards to the VT38 (Tatupu, Lofa)." newcontext="V,2,6,V38">
+    <p_ru vh="V" name="Humes,C." gain="4"></p_ru>
+    <p_tk vh="H" name="Tatupu, Lofa"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="6" spot="VT38" context="V,2,6,V38" playid="9,3,101" type="R" pcode="MI"
+      text="Humes,C. rush up middle for 1 yard to the VT39 (Cody, Shaun)." newcontext="V,3,5,V39">
+    <p_ru vh="V" name="Humes,C." gain="1"></p_ru>
+    <p_tk vh="H" name="Cody, Shaun"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="5" spot="VT39" context="V,3,5,V39" playid="9,4,102" type="#" clock="00:00"
+      text="End of half, clock 00:00." newcontext="V,3,5,V39">
+   </play>
+   <drivesum plays="2" yards="5" top="0:46" driveindex="9" complete="Y"></drivesum>
+   <score qtr="2" V="10" H="7"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="5" rush="1" pass="4" penalty="0"></firstdowns>
+    <penalties no="0" yds="0"></penalties>
+    <conversions thirdconv="1" thirdatt="1" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="06:00"></misc>
+    <rush att="7" yds="20" gain="21" loss="1" td="0" long="0"></rush>
+    <pass comp="5" att="5" int="0" yds="65" td="1" long="3" sacks="1" sackyds="1"></pass>
+    <rcv no="5" yds="65" td="1" long="3"></rcv>
+    <ko no="1" yds="65" ob="0" tb="0"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="10" tacka="9" tot_tack="19" tflua="3" tfla="0" tflyds="10" sacks="1" sackyds="6" brup="1" ff="1"></defense>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="USC">
+    <firstdowns no="5" rush="3" pass="2" penalty="0"></firstdowns>
+    <penalties no="0" yds="0"></penalties>
+    <conversions thirdconv="3" thirdatt="5" fourthconv="0" fourthatt="1"></conversions>
+    <fumbles no="1" lost="0"></fumbles>
+    <misc yds="0" top="09:00"></misc>
+    <rush att="11" yds="36" gain="46" loss="10" td="0" long="0"></rush>
+    <pass comp="4" att="6" int="0" yds="52" td="0" long="0" sacks="1" sackyds="6"></pass>
+    <rcv no="4" yds="52" td="0" long="0"></rcv>
+    <fg made="0" att="1" long="0" blkd="0"></fg>
+    <defense tackua="9" tacka="2" tot_tack="11" tflua="1" tfla="0" tflyds="1" sacks="1" sackyds="1"></defense>
+    <kr no="1" yds="15" td="0" long="0"></kr>
+    <fumbles no="1" lost="0"></fumbles>
+   </qtrsummary>
+  </qtr>
+  <qtr number="3" text="3rd">
+   <comment text="USC elects to receive."></comment>
+   <comment text="Virginia Tech will defend the West end zone."></comment>
+   <comment text="Weather Update: 79 F, Wind N 6mph, 78% humidity"></comment>
+   <play hasball="VT" down="3" togo="5" spot="VT39" context="V,3,5,V39" playid="9,5,103" type="#" clock="15:00"
+      text="Start of 3rd quarter, clock 15:00, VT ball on VT35." newcontext="V,3,5,V35">
+   </play>
+   <play hasball="VT" down="3" togo="5" spot="VT35" context="V,3,5,V35" playid="9,6,107" type="K"
+      text="Develli,J. kickoff 65 yards to the USC0, touchback." newcontext="H,1,10,H20">
+    <p_ko vh="V" name="Develli,J." gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="H,H20,15:00" vh="H" spot="H20" clock="15:00" driveindex="10,107"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC20" context="H,1,10,H20" playid="10,1,108" clock="15:00"
+      text="SOUTHERN CALIFORNIA drive start at 15:00." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC20" context="H,1,10,H20" playid="10,2,109" type="R" pcode="DR"
+      text="White, LenDale rush draw play for 1 yard to the USC21 (Tapp,D.;Fuller,V.)." newcontext="H,2,9,H21">
+    <p_ru vh="H" name="White, LenDale" gain="1"></p_ru>
+    <p_tk vh="V" name="Tapp,D." assist="Y"></p_tk>
+    <p_tk vh="V" name="Fuller,V." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="9" spot="USC21" context="H,2,9,H21" playid="10,3,110" type="P"
+      text="Leinart, Matt sacked for loss of 6 yards to the USC15 (Tapp,D.)." newcontext="H,3,15,H15">
+    <p_pa vh="H" qb="Leinart, Matt" result="SACK" gain="-6"></p_pa>
+    <p_tk vh="V" name="Tapp,D." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="15" spot="USC15" context="H,3,15,H15" playid="10,4,111" type="P"
+      text="Leinart, Matt pass incomplete to McFoy, Chris (Green,E.)." newcontext="H,4,15,H15">
+    <p_pa vh="H" qb="Leinart, Matt" result="INC" rcv="McFoy, Chris"></p_pa>
+    <p_bu vh="V" name="Green,E."></p_bu>
+   </play>
+   <play hasball="USC" down="4" togo="15" spot="USC15" context="H,4,15,H15" playid="10,5,112" type="U"
+      text="Malone, Tom punt 42 yards to the VT43, downed." newcontext="V,1,10,V43">
+    <p_pu vh="H" name="Malone, Tom" gain="42"></p_pu>
+   </play>
+   <drivesum plays="3" yards="-5" top="1:44" driveindex="10" complete="Y"></drivesum>
+   <drivestart poss="V,V43,15:00" vh="V" spot="V43" clock="15:00" driveindex="11,112"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT43" context="V,1,10,V43" playid="11,1,113" clock="13:16"
+      text="VIRGINIA TECH drive start at 13:16." newcontext="V,1,10,V43">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT43" context="V,1,10,V43" playid="11,2,114" type="R" pcode="RG"
+      text="Humes,C. rush over right guard for 4 yards to the VT47 (Tatupu, Lofa)." newcontext="V,2,6,V47">
+    <p_ru vh="V" name="Humes,C." gain="4"></p_ru>
+    <p_tk vh="H" name="Tatupu, Lofa"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="6" spot="VT47" context="V,2,6,V47" playid="11,3,115" type="R" pcode="RE"
+      text="Randall,B. rush over right end for loss of 2 yards to the VT45 (Tatupu, Lofa;Patterson, Mike)." newcontext="V,3,8,V45">
+    <p_ru vh="V" name="Randall,B." gain="-2"></p_ru>
+    <p_tk vh="H" name="Tatupu, Lofa" tfl="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Patterson, Mike" tfl="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="VT45" context="V,3,8,V45" playid="11,4,116" type="P"
+      text="Randall,B. pass complete to Humes,C. for 4 yards to the VT49, out-of-bounds (Grootegoed, M.), PENALTY VT illegal formation declined." ob="Y" newcontext="V,4,4,V49">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Humes,C." gain="4"></p_pa>
+    <p_tk vh="H" name="Grootegoed, M."></p_tk>
+    <p_pn vh="V" code="FO" type="illegal formation" result="DECLINE"></p_pn>
+   </play>
+   <play hasball="VT" down="4" togo="4" spot="VT49" context="V,4,4,V49" playid="11,5,117" type="U"
+      text="Burns,V. punt 34 yards to the USC17, Bush, Reggie return 10 yards to the USC27 (Anderson,J.;Hamilton,J.)." newcontext="H,1,10,H27">
+    <p_pu vh="V" name="Burns,V." gain="34"></p_pu>
+    <p_pr vh="H" name="Bush, Reggie" gain="10"></p_pr>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Hamilton,J." assist="Y"></p_tk>
+   </play>
+   <drivesum plays="3" yards="6" top="1:54" driveindex="11" complete="Y"></drivesum>
+   <drivestart poss="H,H27,13:16" vh="H" spot="H27" clock="13:16" driveindex="12,117"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC27" context="H,1,10,H27" playid="12,1,118" clock="11:22"
+      text="SOUTHERN CALIFORNIA drive start at 11:22." newcontext="H,1,10,H27">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC27" context="H,1,10,H27" playid="12,2,119" type="P" pcode="MI"
+      text="Leinart, Matt middle pass complete to Kirtman, David for 6 yards to the USC33 (Fuller,V.)." newcontext="H,2,4,H33">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Kirtman, David" gain="6"></p_pa>
+    <p_tk vh="V" name="Fuller,V."></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="4" spot="USC33" context="H,2,4,H33" playid="12,3,120" type="P" pcode="SI" first="P"
+      text="Leinart, Matt sideline pass complete to McFoy, Chris for 4 yards to the USC37, 1ST DOWN USC (Green,E.;Anderson,J.)." newcontext="H,1,10,H37">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="McFoy, Chris" gain="4"></p_pa>
+    <p_tk vh="V" name="Green,E." assist="Y"></p_tk>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC37" context="H,1,10,H37" playid="12,4,121" type="R" pcode="RG"
+      text="Bush, Reggie rush over right guard for loss of 2 yards to the USC35 (Tapp,D.;Burchette,N.)." newcontext="H,2,12,H35">
+    <p_ru vh="H" name="Bush, Reggie" gain="-2"></p_ru>
+    <p_tk vh="V" name="Tapp,D." tfl="Y" assist="Y"></p_tk>
+    <p_tk vh="V" name="Burchette,N." tfl="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="12" spot="USC35" context="H,2,12,H35" playid="12,5,122" type="R" pcode="DR"
+      text="White, LenDale rush draw play for 1 yard to the USC36 (Baaqee,M.)." newcontext="H,3,11,H36">
+    <p_ru vh="H" name="White, LenDale" gain="1"></p_ru>
+    <p_tk vh="V" name="Baaqee,M."></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="11" spot="USC36" context="H,3,11,H36" playid="12,6,123" type="P" pcode="CR"
+      text="Leinart, Matt crossing pass complete to Smith, Steve for 5 yards to the USC41 (Fuller,V.)." newcontext="H,4,6,H41">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Smith, Steve" gain="5"></p_pa>
+    <p_tk vh="V" name="Fuller,V."></p_tk>
+   </play>
+   <play hasball="USC" down="4" togo="6" spot="USC41" context="H,4,6,H41" playid="12,7,124" type="#" clock="08:02"
+      text="Timeout Virginia Tech, clock 08:02." newcontext="H,4,6,H41">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="USC" down="4" togo="6" spot="USC41" context="H,4,6,H41" playid="12,8,125" type="U"
+      text="Malone, Tom punt 53 yards to the VT6, downed." newcontext="V,1,10,V06">
+    <p_pu vh="H" name="Malone, Tom" gain="53" in20="Y"></p_pu>
+   </play>
+   <drivesum plays="5" yards="14" top="3:32" driveindex="12" complete="Y"></drivesum>
+   <drivestart poss="V,V06,08:02" vh="V" spot="V06" clock="08:02" driveindex="13,125"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT06" context="V,1,10,V06" playid="13,1,126" clock="07:50"
+      text="VIRGINIA TECH drive start at 07:50." newcontext="V,1,10,V06">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT06" context="V,1,10,V06" playid="13,2,127" type="R" pcode="RG" first="R"
+      text="Hamilton,J. rush over right guard for 16 yards to the VT22, 1ST DOWN VT (Leach, Jason)." newcontext="V,1,10,V22">
+    <p_ru vh="V" name="Hamilton,J." gain="16"></p_ru>
+    <p_tk vh="H" name="Leach, Jason"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT22" context="V,1,10,V22" playid="13,3,128" type="P" pcode="DO" first="P"
+      text="Randall,B. deep out pass complete to Mazzetta,J. for 22 yards to the VT44, 1ST DOWN VT (Sartz, Dallas)." newcontext="V,1,10,V44">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Mazzetta,J." gain="22"></p_pa>
+    <p_tk vh="H" name="Sartz, Dallas"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT44" context="V,1,10,V44" playid="13,4,129" type="R" pcode="DR"
+      text="Hamilton,J. rush draw play for 8 yards to the USC48 (Lua, Oscar;Leach, Jason)." newcontext="V,2,2,H48">
+    <p_ru vh="V" name="Hamilton,J." gain="8"></p_ru>
+    <p_tk vh="H" name="Lua, Oscar" assist="Y"></p_tk>
+    <p_tk vh="H" name="Leach, Jason" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="2" spot="USC48" context="V,2,2,H48" playid="13,5,130" type="P"
+      text="Randall,B. sacked for loss of 11 yards to the VT41 (Schweiger, Jeff)." newcontext="V,3,13,V41">
+    <p_pa vh="V" qb="Randall,B." result="SACK" gain="-11"></p_pa>
+    <p_tk vh="H" name="Schweiger, Jeff" sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="13" spot="VT41" context="V,3,13,V41" playid="13,6,131" type="R" pcode="QD" first="R"
+      text="Randall,B. rush quarterback draw for 15 yards to the USC44, 1ST DOWN VT (Leach, Jason)." newcontext="V,1,10,H44">
+    <p_ru vh="V" name="Randall,B." gain="15"></p_ru>
+    <p_tk vh="H" name="Leach, Jason"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC44" context="V,1,10,H44" playid="13,7,132" type="E" pcode="DP"
+      text="Randall,B. deep pass complete to Hyman,J. for 32 yards to the USC12 (Nunn, Ronald), PENALTY VT pass interference (Hyman,J.) 15 yards to the VT41, NO PLAY." newcontext="V,1,25,V41">
+    <p_pn vh="V" code="PI" type="pass interference" name="Hyman,J." result="ACCEPT" at="H44" yards="15"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="25" spot="VT41" context="V,1,25,V41" playid="13,8,133" type="R" pcode="QD"
+      text="Randall,B. rush quarterback draw for no gain to the VT41 (Schweiger, Jeff;Cody, Shaun)." newcontext="V,2,25,V41">
+    <p_ru vh="V" name="Randall,B." gain="0"></p_ru>
+    <p_tk vh="H" name="Schweiger, Jeff" assist="Y"></p_tk>
+    <p_tk vh="H" name="Cody, Shaun" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="25" spot="VT41" context="V,2,25,V41" playid="13,9,134" type="P"
+      text="Randall,B. sacked for loss of 5 yards to the VT36 (Patterson, Mike;Jackson, L.)." newcontext="V,3,30,V36">
+    <p_pa vh="V" qb="Randall,B." result="SACK" gain="-5"></p_pa>
+    <p_tk vh="H" name="Patterson, Mike" sack="Y" tfl="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Jackson, L." sack="Y" tfl="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="30" spot="VT36" context="V,3,30,V36" playid="13,10,135" type="P"
+      text="Randall,B. pass incomplete." newcontext="V,4,30,V36">
+    <p_pa vh="V" qb="Randall,B." result="INC"></p_pa>
+   </play>
+   <play hasball="VT" down="4" togo="30" spot="VT36" context="V,4,30,V36" playid="13,11,136" type="U"
+      text="Burns,V. punt 58 yards to the USC6, Bush, Reggie return 27 yards to the USC33 (Ellis,C.)." newcontext="H,1,10,H33">
+    <p_pu vh="V" name="Burns,V." gain="58"></p_pu>
+    <p_pr vh="H" name="Bush, Reggie" gain="27"></p_pr>
+    <p_tk vh="V" name="Ellis,C."></p_tk>
+   </play>
+   <drivesum plays="8" yards="30" top="5:23" driveindex="13" complete="Y"></drivesum>
+   <drivestart poss="H,H33,07:50" vh="H" spot="H33" clock="07:50" driveindex="14,136"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC33" context="H,1,10,H33" playid="14,1,137" clock="02:27"
+      text="SOUTHERN CALIFORNIA drive start at 02:27." newcontext="H,1,10,H33">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC33" context="H,1,10,H33" playid="14,2,138" type="P" pcode="FR" first="P"
+      text="Leinart, Matt flare pass complete to Webb, Lee for 14 yards to the USC47, 1ST DOWN USC (Warren,Bl.)." newcontext="H,1,10,H47">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Webb, Lee" gain="14"></p_pa>
+    <p_tk vh="V" name="Warren,Bl."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC47" context="H,1,10,H47" playid="14,3,139" type="P" pcode="DP" first="P" score="Y" clock="01:55"
+      text="Leinart, Matt deep pass complete to Bush, Reggie for 53 yards to the VT0, 1ST DOWN USC, TOUCHDOWN, clock 01:55." newcontext="H,1,0,V03">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Bush, Reggie" gain="53"></p_pa>
+   </play>
+   <play hasball="USC" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="14,4,140" type="X" score="Y"
+      text="Killeen, Ryan kick attempt good." newcontext="H,1,0,H35">
+    <p_pat vh="H" name="Killeen, Ryan" qb="Killeen, Ryan" type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="10" H="14"></score>
+   <drivesum plays="2" yards="67" top="0:32" driveindex="14" complete="Y"></drivesum>
+   <play hasball="USC" down="1" togo="0" spot="USC35" context="H,1,0,H35" playid="14,5,141" type="K"
+      text="Killeen, Ryan kickoff 65 yards to the VT0, touchback." newcontext="V,1,10,V20">
+    <p_ko vh="H" name="Killeen, Ryan" gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="V,V20,01:55" vh="V" spot="V20" clock="01:55" driveindex="15,141"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="15,1,142" clock="01:55"
+      text="VIRGINIA TECH drive start at 01:55." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="15,2,143" type="R" pcode="LE"
+      text="Randall,B. rush over left end for 2 yards to the VT22 (Jackson, L.)." newcontext="V,2,8,V22">
+    <p_ru vh="V" name="Randall,B." gain="2"></p_ru>
+    <p_tk vh="H" name="Jackson, L."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="VT22" context="V,2,8,V22" playid="15,3,144" type="E" pcode="LL"
+      text="Humes,C. rush left for 5 yards to the VT27 (Nunn, Ronald), PENALTY VT illegal shift 5 yards to the VT17, NO PLAY." newcontext="V,2,13,V17">
+    <p_pn vh="V" code="SH" type="illegal shift" result="ACCEPT" at="V22" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="2" togo="13" spot="VT17" context="V,2,13,V17" playid="15,4,145" type="R" pcode="DR"
+      text="Humes,C. rush draw play for 5 yards to the VT22 (Sartz, Dallas;Lua, Oscar)." newcontext="V,3,8,V22">
+    <p_ru vh="V" name="Humes,C." gain="5"></p_ru>
+    <p_tk vh="H" name="Sartz, Dallas" assist="Y"></p_tk>
+    <p_tk vh="H" name="Lua, Oscar" assist="Y"></p_tk>
+   </play>
+   <score qtr="3" V="10" H="14"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="3" rush="2" pass="1" penalty="0"></firstdowns>
+    <penalties no="2" yds="20"></penalties>
+    <conversions thirdconv="1" thirdatt="3" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="09:12"></misc>
+    <rush att="10" yds="32" gain="50" loss="18" td="0" long="0"></rush>
+    <pass comp="2" att="3" int="0" yds="26" td="0" long="0" sacks="2" sackyds="16"></pass>
+    <rcv no="2" yds="26" td="0" long="0"></rcv>
+    <punt no="2" yds="92" long="6" blkd="0" tb="0" fc="0" plus50="1" inside20="0" avg="46.0"></punt>
+    <ko no="1" yds="65" ob="0" tb="1"></ko>
+    <defense tackua="6" tacka="8" tot_tack="14" tflua="3" tfla="0" tflyds="10" sacks="2" sackyds="12" brup="1"></defense>
+   </qtrsummary>
+   <qtrsummary vh="H" id="USC">
+    <firstdowns no="3" rush="0" pass="3" penalty="0"></firstdowns>
+    <penalties no="0" yds="0"></penalties>
+    <conversions thirdconv="0" thirdatt="2" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="05:48"></misc>
+    <rush att="4" yds="-6" gain="2" loss="8" td="0" long="0"></rush>
+    <pass comp="5" att="6" int="0" yds="82" td="1" long="18" sacks="1" sackyds="6"></pass>
+    <rcv no="5" yds="82" td="1" long="18"></rcv>
+    <punt no="2" yds="95" long="11" blkd="0" tb="0" fc="0" plus50="1" inside20="1" avg="47.5"></punt>
+    <ko no="1" yds="65" ob="0" tb="1"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="7" tacka="10" tot_tack="17" tflua="5" tfla="0" tflyds="25" sacks="3" sackyds="17"></defense>
+    <pr no="2" yds="37" td="0" long="12"></pr>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+  </qtr>
+  <qtr number="4" text="4th">
+   <play hasball="VT" down="3" togo="8" spot="VT22" context="V,3,8,V22" playid="15,5,146" type="#" clock="15:00"
+      text="Start of 4th quarter, clock 15:00." newcontext="V,3,8,V22">
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="VT22" context="V,3,8,V22" playid="15,6,147" type="P" pcode="SL"
+      text="Randall,B. slant pass complete to Johnson,R. for 5 yards to the VT27 (Wyatt, Justin)." newcontext="V,4,3,V27">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Johnson,R." gain="5"></p_pa>
+    <p_tk vh="H" name="Wyatt, Justin"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="3" spot="VT27" context="V,4,3,V27" playid="15,7,148" type="U"
+      text="Burns,V. punt 48 yards to the USC25, downed." newcontext="H,1,10,H25">
+    <p_pu vh="V" name="Burns,V." gain="48"></p_pu>
+   </play>
+   <drivesum plays="3" yards="7" top="2:41" driveindex="15" complete="Y"></drivesum>
+   <drivestart poss="H,H25,15:00" vh="H" spot="H25" clock="15:00" driveindex="16,148"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC25" context="H,1,10,H25" playid="16,1,149" clock="14:14"
+      text="SOUTHERN CALIFORNIA drive start at 14:14." newcontext="H,1,10,H25">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC25" context="H,1,10,H25" playid="16,2,150" type="P" pcode="FR"
+      text="Leinart, Matt flare pass complete to Holmes, Alex for 4 yards to the USC29 (Anderson,J.)." newcontext="H,2,6,H29">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Holmes, Alex" gain="4"></p_pa>
+    <p_tk vh="V" name="Anderson,J."></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="6" spot="USC29" context="H,2,6,H29" playid="16,3,151" type="P" pcode="MI"
+      text="Leinart, Matt middle pass complete to Smith, Steve for 5 yards to the USC34 (Fuller,V.;Anderson,J.)." newcontext="H,3,1,H34">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Smith, Steve" gain="5"></p_pa>
+    <p_tk vh="V" name="Fuller,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="1" spot="USC34" context="H,3,1,H34" playid="16,4,152" type="R" pcode="MI"
+      text="White, LenDale rush up middle for no gain to the USC34 (Hall,V.;Tapp,D.)." newcontext="H,4,1,H34">
+    <p_ru vh="H" name="White, LenDale" gain="0"></p_ru>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Tapp,D." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="4" togo="1" spot="USC34" context="H,4,1,H34" playid="16,5,153" type="U"
+      text="Malone, Tom punt 36 yards to the VT30, downed, PENALTY USC illegal formation declined." newcontext="V,1,10,V30">
+    <p_pu vh="H" name="Malone, Tom" gain="36"></p_pu>
+    <p_pn vh="H" code="FO" type="illegal formation" name="Rivers, Keith" result="DECLINE"></p_pn>
+   </play>
+   <drivesum plays="3" yards="9" top="2:17" driveindex="16" complete="Y"></drivesum>
+   <drivestart poss="V,V30,14:14" vh="V" spot="V30" clock="14:14" driveindex="17,153"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT30" context="V,1,10,V30" playid="17,1,154" clock="11:57"
+      text="VIRGINIA TECH drive start at 11:57." newcontext="V,1,10,V30">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT30" context="V,1,10,V30" playid="17,2,155" type="R" pcode="LT"
+      text="Hamilton,J. rush over left tackle for loss of 3 yards to the VT27 (Bing, Darnell)." newcontext="V,2,13,V27">
+    <p_ru vh="V" name="Hamilton,J." gain="-3"></p_ru>
+    <p_tk vh="H" name="Bing, Darnell" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="13" spot="VT27" context="V,2,13,V27" playid="17,3,156" type="R" pcode="QD"
+      text="Randall,B. rush quarterback draw for loss of 2 yards to the VT25 (Tatupu, Lofa)." newcontext="V,3,15,V25">
+    <p_ru vh="V" name="Randall,B." gain="-2"></p_ru>
+    <p_tk vh="H" name="Tatupu, Lofa" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="15" spot="VT25" context="V,3,15,V25" playid="17,4,157" type="E" first="E"
+      text="Randall,B. pass incomplete to Hyman,J., PENALTY USC pass interference (Wyatt, Justin) 10 yards to the VT35, 1ST DOWN VT, NO PLAY." newcontext="V,1,10,V35">
+    <p_pn vh="H" code="PI" type="pass interference" name="Wyatt, Justin" result="ACCEPT" at="V25" yards="10"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="17,5,158" type="P" pcode="SI" first="P"
+      text="Randall,B. sideline pass complete to King,J. for 17 yards to the USC48, 1ST DOWN VT (Wyatt, Justin)." newcontext="V,1,10,H48">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="King,J." gain="17"></p_pa>
+    <p_tk vh="H" name="Wyatt, Justin"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC48" context="V,1,10,H48" playid="17,6,159" type="P"
+      text="Randall,B. pass incomplete to Hamilton,J.." newcontext="V,2,10,H48">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Hamilton,J."></p_pa>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="USC48" context="V,2,10,H48" playid="17,7,160" type="P" pcode="SL" first="E"
+      text="Randall,B. slant pass complete to Johnson,R. for 6 yards to the USC42 (Nunn, Ronald), PENALTY USC personal foul (Bing, Darnell) 15 yards to the USC27, 1ST DOWN VT." newcontext="V,1,10,H27">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Johnson,R." gain="6"></p_pa>
+    <p_tk vh="H" name="Nunn, Ronald"></p_tk>
+    <p_pn vh="H" code="PF" type="personal foul" name="Bing, Darnell" result="ACCEPT" at="H42" yards="15"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC27" context="V,1,10,H27" playid="17,8,161"
+      text="1st and 10." newcontext="V,1,10,H27">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="USC27" context="V,1,10,H27" playid="17,9,162" type="P"
+      text="Randall,B. sacked for loss of 1 yard to the USC28 (Tatupu, Lofa)." newcontext="V,2,11,H28">
+    <p_pa vh="V" qb="Randall,B." result="SACK" gain="-1"></p_pa>
+    <p_tk vh="H" name="Tatupu, Lofa" sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="11" spot="USC28" context="V,2,11,H28" playid="17,10,163" type="P" pcode="SC"
+      text="Randall,B. screen pass complete to Hamilton,J. for 3 yards to the USC25 (Grootegoed, M.)." newcontext="V,3,8,H25">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Hamilton,J." gain="3"></p_pa>
+    <p_tk vh="H" name="Grootegoed, M."></p_tk>
+   </play>
+   <comment text="Chris Clifton shaken up on the play for Virginia Tech."></comment>
+   <play hasball="VT" down="3" togo="8" spot="USC25" context="V,3,8,H25" playid="17,11,165" type="P"
+      text="Randall,B. pass incomplete to Johnson,R.." newcontext="V,4,8,H25">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Johnson,R."></p_pa>
+   </play>
+   <play hasball="VT" down="4" togo="8" spot="USC25" context="V,4,8,H25" playid="17,12,166" type="F" score="Y" clock="07:55"
+      text="Pace,B. field goal attempt from 42 GOOD, clock 07:55." newcontext="V,1,0,V35">
+    <p_fg vh="V" name="Pace,B." distance="42" result="GOOD" score="Y"></p_fg>
+   </play>
+   <score V="13" H="14"></score>
+   <drivesum plays="9" yards="45" top="4:02" driveindex="17" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="17,13,167" type="K"
+      text="Develli,J. kickoff 65 yards to the USC0, Bush, Reggie return 14 yards to the USC14 (Lloyd,S.R.)." newcontext="H,1,10,H14">
+    <p_ko vh="V" name="Develli,J." gain="65"></p_ko>
+    <p_kr vh="H" name="Bush, Reggie" gain="14"></p_kr>
+    <p_tk vh="V" name="Lloyd,S.R."></p_tk>
+   </play>
+   <drivestart poss="H,H14,07:55" vh="H" spot="H14" clock="07:55" driveindex="18,167"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC14" context="H,1,10,H14" playid="18,1,168" clock="07:55"
+      text="SOUTHERN CALIFORNIA drive start at 07:55." newcontext="H,1,10,H14">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC14" context="H,1,10,H14" playid="18,2,169" type="P" pcode="SI"
+      text="Leinart, Matt sideline pass complete to Bush, Reggie for 4 yards to the USC18 (Williams,J.)." newcontext="H,2,6,H18">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Bush, Reggie" gain="4"></p_pa>
+    <p_tk vh="V" name="Williams,J."></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="6" spot="USC18" context="H,2,6,H18" playid="18,3,170" type="R" pcode="MI"
+      text="White, LenDale rush up middle for 5 yards to the USC23 (Tapp,D.)." newcontext="H,3,1,H23">
+    <p_ru vh="H" name="White, LenDale" gain="5"></p_ru>
+    <p_tk vh="V" name="Tapp,D."></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="1" spot="USC23" context="H,3,1,H23" playid="18,4,171" type="R" pcode="QS" first="R"
+      text="Leinart, Matt rush quarterback sneak for 2 yards to the USC25, 1ST DOWN USC (Warren,Bl.)." newcontext="H,1,10,H25">
+    <p_ru vh="H" name="Leinart, Matt" gain="2"></p_ru>
+    <p_tk vh="V" name="Warren,Bl."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC25" context="H,1,10,H25" playid="18,5,172" type="P" pcode="DP" first="P"
+      text="Leinart, Matt deep pass complete to Smith, Steve for 46 yards to the VT29, 1ST DOWN USC (Green,E.)." newcontext="H,1,10,V29">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Smith, Steve" gain="46"></p_pa>
+    <p_tk vh="V" name="Green,E."></p_tk>
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT29" context="H,1,10,V29" playid="18,6,173" type="P" pcode="FL" first="P" score="Y" clock="05:35"
+      text="Leinart, Matt flag pass complete to Bush, Reggie for 29 yards to the VT0, 1ST DOWN USC, TOUCHDOWN, clock 05:35." newcontext="H,1,0,V03">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Bush, Reggie" gain="29"></p_pa>
+   </play>
+   <play hasball="USC" down="1" togo="0" spot="VT03" context="H,1,0,V03" playid="18,7,174" type="X" score="Y"
+      text="Killeen, Ryan kick attempt good." newcontext="H,1,0,H35">
+    <p_pat vh="H" name="Killeen, Ryan" qb="Killeen, Ryan" type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="13" H="21"></score>
+   <drivesum plays="5" yards="86" top="2:20" driveindex="18" complete="Y"></drivesum>
+   <play hasball="USC" down="1" togo="0" spot="USC35" context="H,1,0,H35" playid="18,8,175" type="K"
+      text="Killeen, Ryan kickoff 65 yards to the VT0, Royal,E. return 30 yards to the VT30 (Ashton, Collin)." newcontext="V,1,10,V30">
+    <p_ko vh="H" name="Killeen, Ryan" gain="65"></p_ko>
+    <p_kr vh="V" name="Royal,E." gain="30"></p_kr>
+    <p_tk vh="H" name="Ashton, Collin"></p_tk>
+   </play>
+   <drivestart poss="V,V30,05:35" vh="V" spot="V30" clock="05:35" driveindex="19,175"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT30" context="V,1,10,V30" playid="19,1,176" clock="05:35"
+      text="VIRGINIA TECH drive start at 05:35." newcontext="V,1,10,V30">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT30" context="V,1,10,V30" playid="19,2,177" type="R" pcode="MI"
+      text="Humes,C. rush up middle for 2 yards to the VT32 (Grootegoed, M.;Schweiger, Jeff)." newcontext="V,2,8,V32">
+    <p_ru vh="V" name="Humes,C." gain="2"></p_ru>
+    <p_tk vh="H" name="Grootegoed, M." assist="Y"></p_tk>
+    <p_tk vh="H" name="Schweiger, Jeff" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="VT32" context="V,2,8,V32" playid="19,3,178" type="P"
+      text="Randall,B. pass incomplete to King,J. (Leach, Jason)." newcontext="V,3,8,V32">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="King,J."></p_pa>
+    <p_bu vh="H" name="Leach, Jason"></p_bu>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="VT32" context="V,3,8,V32" playid="19,4,179" type="P"
+      text="Randall,B. pass incomplete to Hyman,J.." newcontext="V,4,8,V32">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Hyman,J."></p_pa>
+   </play>
+   <play hasball="VT" down="4" togo="8" spot="VT32" context="V,4,8,V32" playid="19,5,180" type="U"
+      text="Burns,V. punt 37 yards to the USC31, Bush, Reggie return 8 yards to the USC39 (Conway,T.;Manning,B.)." newcontext="H,1,10,H39">
+    <p_pu vh="V" name="Burns,V." gain="37"></p_pu>
+    <p_pr vh="H" name="Bush, Reggie" gain="8"></p_pr>
+    <p_tk vh="V" name="Conway,T." assist="Y"></p_tk>
+    <p_tk vh="V" name="Manning,B." assist="Y"></p_tk>
+   </play>
+   <drivesum plays="3" yards="2" top="1:10" driveindex="19" complete="Y"></drivesum>
+   <drivestart poss="H,H39,05:35" vh="H" spot="H39" clock="05:35" driveindex="20,180"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="USC39" context="H,1,10,H39" playid="20,1,181" clock="04:25"
+      text="SOUTHERN CALIFORNIA drive start at 04:25." newcontext="H,1,10,H39">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="USC39" context="H,1,10,H39" playid="20,2,182" type="P" pcode="CR"
+      text="Leinart, Matt crossing pass complete to Kirtman, David for no gain to the USC39 (Rouse,A.;Hall,V.)." newcontext="H,2,10,H39">
+    <p_pa vh="H" qb="Leinart, Matt" result="COMP" rcv="Kirtman, David" gain="0"></p_pa>
+    <p_tk vh="V" name="Rouse,A." assist="Y"></p_tk>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="USC39" context="H,2,10,H39" playid="20,3,183" type="R" pcode="RG"
+      text="White, LenDale rush over right guard for 4 yards to the USC43 (Lewis,K.;Warren,Bl.)." newcontext="H,3,6,H43">
+    <p_ru vh="H" name="White, LenDale" gain="4"></p_ru>
+    <p_tk vh="V" name="Lewis,K." assist="Y"></p_tk>
+    <p_tk vh="V" name="Warren,Bl." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="6" spot="USC43" context="H,3,6,H43" playid="20,4,184" type="P" pcode="SL"
+      text="Leinart, Matt slant pass incomplete to Smith, Steve, dropped pass." newcontext="H,4,6,H43">
+    <p_pa vh="H" qb="Leinart, Matt" result="DROP" rcv="Smith, Steve"></p_pa>
+   </play>
+   <play hasball="USC" down="4" togo="6" spot="USC43" context="H,4,6,H43" playid="20,5,185" type="E"
+      text="Malone, Tom punt 52 yards to the VT5, Johnson,R. return to the VT10 (Bing, Darnell;Leach, Jason), PENALTY USC illegal formation 5 yards to the USC38, NO PLAY." newcontext="H,4,11,H38">
+    <p_pn vh="H" code="FO" type="illegal formation" result="ACCEPT" at="H43" yards="5"></p_pn>
+   </play>
+   <play hasball="USC" down="4" togo="11" spot="USC38" context="H,4,11,H38" playid="20,6,186" type="E"
+      text="Malone, Tom punt 59 yards to the VT3, downed, PENALTY USC illegal formation 5 yards to the USC33, NO PLAY." newcontext="H,4,16,H33">
+    <p_pn vh="H" code="FO" type="illegal formation" result="ACCEPT" at="H38" yards="5"></p_pn>
+   </play>
+   <play hasball="USC" down="4" togo="16" spot="USC33" context="H,4,16,H33" playid="20,7,187" type="U"
+      text="Malone, Tom punt 41 yards to the VT26, Johnson,R. return 10 yards to the VT36." newcontext="V,1,10,V36">
+    <p_pu vh="H" name="Malone, Tom" gain="41"></p_pu>
+    <p_pr vh="V" name="Johnson,R." gain="10"></p_pr>
+   </play>
+   <drivesum plays="3" yards="-6" top="2:04" driveindex="20" complete="Y"></drivesum>
+   <drivestart poss="V,V36,04:25" vh="V" spot="V36" clock="04:25" driveindex="21,187"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="21,1,188" clock="02:21"
+      text="VIRGINIA TECH drive start at 02:21." newcontext="V,1,10,V36">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="21,2,189" type="P"
+      text="Randall,B. pass incomplete to Johnson,R. (Wyatt, Justin)." newcontext="V,2,10,V36">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Johnson,R."></p_pa>
+    <p_bu vh="H" name="Wyatt, Justin"></p_bu>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT36" context="V,2,10,V36" playid="21,3,190" type="P"
+      text="Randall,B. pass incomplete to Clowney,D.." newcontext="V,3,10,V36">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Clowney,D."></p_pa>
+   </play>
+   <play hasball="VT" down="3" togo="10" spot="VT36" context="V,3,10,V36" playid="21,4,191" type="P" turnover="F"
+      text="Randall,B. sacked for loss of 10 yards to the VT26 (Patterson, Mike), fumble by Randall,B. recovered by USC Nunn, Ronald at VT26." newcontext="H,1,10,V26">
+    <p_pa vh="V" qb="Randall,B." result="SACK" gain="-10"></p_pa>
+    <p_fumb vh="V" name="Randall,B." at="V26" frvh="H" frname="Nunn, Ronald"></p_fumb>
+    <p_tk vh="H" name="Patterson, Mike" sack="Y" tfl="Y"></p_tk>
+   </play>
+   <drivesum plays="3" yards="-10" top="0:20" driveindex="21" complete="Y"></drivesum>
+   <drivestart poss="H,V26,02:21" vh="H" spot="V26" clock="02:21" driveindex="22,191"></drivestart>
+   <play hasball="USC" down="1" togo="10" spot="VT26" context="H,1,10,V26" playid="22,1,192" clock="02:01"
+      text="SOUTHERN CALIFORNIA drive start at 02:01." newcontext="H,1,10,V26">
+   </play>
+   <play hasball="USC" down="1" togo="10" spot="VT26" context="H,1,10,V26" playid="22,2,193" type="R" pcode="MI"
+      text="White, LenDale rush up middle for no gain to the VT26 (Davis,J.)." newcontext="H,2,10,V26">
+    <p_ru vh="H" name="White, LenDale" gain="0"></p_ru>
+    <p_tk vh="V" name="Davis,J."></p_tk>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="VT26" context="H,2,10,V26" playid="22,3,194" type="#" clock="01:55"
+      text="Timeout Virginia Tech, clock 01:55." newcontext="H,2,10,V26">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="USC" down="2" togo="10" spot="VT26" context="H,2,10,V26" playid="22,4,195" type="R" pcode="RG"
+      text="White, LenDale rush over right guard for no gain to the VT26 (Warren,Bl.)." newcontext="H,3,10,V26">
+    <p_ru vh="H" name="White, LenDale" gain="0"></p_ru>
+    <p_tk vh="V" name="Warren,Bl."></p_tk>
+   </play>
+   <play hasball="USC" down="3" togo="10" spot="VT26" context="H,3,10,V26" playid="22,5,196" type="#" clock="01:46"
+      text="Timeout Virginia Tech, clock 01:46." newcontext="H,3,10,V26">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="USC" down="3" togo="10" spot="VT26" context="H,3,10,V26" playid="22,6,197" type="R" pcode="RR"
+      text="Bush, Reggie rush right for 3 yards to the VT23 (Warren,Bl.;Davis,J.)." newcontext="H,4,7,V23">
+    <p_ru vh="H" name="Bush, Reggie" gain="3"></p_ru>
+    <p_tk vh="V" name="Warren,Bl." assist="Y"></p_tk>
+    <p_tk vh="V" name="Davis,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="USC" down="4" togo="7" spot="VT23" context="H,4,7,V23" playid="22,7,198" type="#" clock="00:59"
+      text="Timeout Southern California, clock 00:59." newcontext="H,4,7,V23">
+    <p_to vh="H" team="Southern California"></p_to>
+   </play>
+   <play hasball="USC" down="4" togo="7" spot="VT23" context="H,4,7,V23" playid="22,8,199" type="F" score="Y" clock="00:54"
+      text="Killeen, Ryan field goal attempt from 41 GOOD, clock 00:54." newcontext="H,1,0,H35">
+    <p_fg vh="H" name="Killeen, Ryan" distance="41" result="GOOD" score="Y"></p_fg>
+   </play>
+   <score V="13" H="24"></score>
+   <drivesum plays="4" yards="3" top="1:07" driveindex="22" complete="Y"></drivesum>
+   <play hasball="USC" down="1" togo="0" spot="USC35" context="H,1,0,H35" playid="22,9,200" type="K"
+      text="Killeen, Ryan kickoff 65 yards to the VT0, Hyman,J. return 12 yards to the VT12 (Wright, Eric)." newcontext="V,1,10,V12">
+    <p_ko vh="H" name="Killeen, Ryan" gain="65"></p_ko>
+    <p_kr vh="V" name="Hyman,J." gain="12"></p_kr>
+    <p_tk vh="H" name="Wright, Eric"></p_tk>
+   </play>
+   <drivestart poss="V,V12,00:54" vh="V" spot="V12" clock="00:54" driveindex="23,200"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT12" context="V,1,10,V12" playid="23,1,201" clock="00:54"
+      text="VIRGINIA TECH drive start at 00:54." newcontext="V,1,10,V12">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT12" context="V,1,10,V12" playid="23,2,202" type="P"
+      text="Randall,B. pass incomplete to Hyman,J. (Tatupu, Lofa)." newcontext="V,2,10,V12">
+    <p_pa vh="V" qb="Randall,B." result="INC" rcv="Hyman,J."></p_pa>
+    <p_bu vh="H" name="Tatupu, Lofa"></p_bu>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT12" context="V,2,10,V12" playid="23,3,203" type="P" pcode="SI"
+      text="Randall,B. sideline pass complete to Clowney,D. for 7 yards to the VT19 (Wright, Eric)." newcontext="V,3,3,V19">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Clowney,D." gain="7"></p_pa>
+    <p_tk vh="H" name="Wright, Eric"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="3" spot="VT19" context="V,3,3,V19" playid="23,4,204" type="P" pcode="SH" first="P"
+      text="Randall,B. shovel pass complete to Humes,C. for 5 yards to the VT24, 1ST DOWN VT (Arbet, Kevin)." newcontext="V,1,10,V24">
+    <p_pa vh="V" qb="Randall,B." result="COMP" rcv="Humes,C." gain="5"></p_pa>
+    <p_tk vh="H" name="Arbet, Kevin"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT24" context="V,1,10,V24" playid="23,5,205" type="#" clock="00:00"
+      text="End of game, clock 00:00." newcontext="V,1,10,V24">
+   </play>
+   <drivesum plays="3" yards="12" top="0:54" driveindex="23" complete="Y"></drivesum>
+   <score final="Y" V="13" H="24"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="4" rush="0" pass="2" penalty="2"></firstdowns>
+    <penalties no="0" yds="0"></penalties>
+    <conversions thirdconv="1" thirdatt="5" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="1" lost="1"></fumbles>
+    <misc yds="0" top="07:12"></misc>
+    <rush att="5" yds="-14" gain="2" loss="16" td="0" long="0"></rush>
+    <pass comp="6" att="13" int="0" yds="43" td="0" long="0" sacks="2" sackyds="11"></pass>
+    <rcv no="6" yds="43" td="0" long="0"></rcv>
+    <punt no="2" yds="85" long="0" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="42.5"></punt>
+    <ko no="1" yds="65" ob="0" tb="0"></ko>
+    <fg made="1" att="1" long="7" blkd="0"></fg>
+    <defense tackua="8" tacka="12" tot_tack="20" sacks="2" sackyds="12"></defense>
+    <kr no="2" yds="42" td="0" long="2"></kr>
+    <pr no="1" yds="10" td="0" long="10"></pr>
+    <fumbles no="1" lost="1"></fumbles>
+    <scoring fg="1"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="USC">
+    <firstdowns no="3" rush="1" pass="2" penalty="0"></firstdowns>
+    <penalties no="4" yds="35"></penalties>
+    <conversions thirdconv="1" thirdatt="4" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="07:48"></misc>
+    <rush att="7" yds="14" gain="14" loss="0" td="0" long="0"></rush>
+    <pass comp="6" att="7" int="0" yds="88" td="1" long="0" sacks="0" sackyds="0"></pass>
+    <rcv no="6" yds="88" td="1" long="0"></rcv>
+    <punt no="2" yds="77" long="0" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="38.5"></punt>
+    <ko no="2" yds="130" ob="0" tb="0"></ko>
+    <fg made="1" att="1" long="41" blkd="0"></fg>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="12" tacka="2" tot_tack="14" tflua="4" tfla="0" tflyds="16" sacks="5" sackyds="28" brup="3" ff="1" fr="1" fryds="0"></defense>
+    <kr no="1" yds="14" td="0" long="0"></kr>
+    <pr no="1" yds="8" td="0" long="0"></pr>
+    <scoring td="1" fg="1" patkick="1"></scoring>
+   </qtrsummary>
+  </qtr>
+  <downtogo hasball="V" id="VT" down="1" togo="10" spot="VT24" context="V,1,10,V24" qtr="4" clock="00:00" vtoh="3" htoh="1"
+       lastplay="End of game, clock 00:00."></downtogo>
+ </plays>
+ <dnp vh="V" id="VT">
+  <player name="Sean Glennon" checkname="GLENNON,S" uni="7" gp="0" code="7"></player>
+  <player name="Cory Holt" checkname="HOLT,C" uni="14" gp="0" code="14"></player>
+  <player name="Josh Morgan" checkname="MORGAN,J" uni="17" gp="0" code="17"></player>
+  <player name="Brandon Flowers" checkname="FLOWERS,B" uni="18" gp="0" code="18"></player>
+  <player name="Mike Imoh" checkname="IMOH,M" uni="20" gp="0" code="20"></player>
+  <player name="Nic Schmitt" checkname="SCHMITT,N" uni="23" gp="0" code="23"></player>
+  <player name="D.J. Walton" checkname="J. WALTON,D" uni="24" gp="0" code="24"></player>
+  <player name="Corey Gordon" checkname="GORDON,C" uni="28" gp="0" code="28"></player>
+  <player name="George Bell" checkname="BELL,G" uni="34" gp="0" code="34"></player>
+  <player name="Carlton Weatherford" checkname="WEATHERFORD,C" uni="39" gp="0" code="39"></player>
+  <player name="John Candelas" checkname="CANDELAS,J" uni="44" gp="0" code="44"></player>
+  <player name="Mike Parham" checkname="PARHAM,M" uni="50" gp="0" code="50"></player>
+  <player name="Nick Leeson" checkname="LEESON,N" uni="53" gp="0" code="53"></player>
+  <player name="Nick Marshman" checkname="MARSHMAN,N" uni="67" gp="0" code="67"></player>
+  <player name="Danny McGrath" checkname="MCGRATH,D" uni="69" gp="0" code="69"></player>
+  <player name="Jason Murphy" checkname="MURPHY,J" uni="72" gp="0" code="72"></player>
+  <player name="Brandon Frye" checkname="FRYE,B" uni="74" gp="0" code="74"></player>
+ </dnp>
+ <dnp vh="H" id="USC">
+  <player name="Smith, Wil" checkname="SMITH,WIL" uni="0I" gp="0" code="0I"></player>
+  <player name="Bocage, Chris" checkname="BOCAGE,CHRIS" uni="1G" gp="0" code="1G"></player>
+  <player name="McDonald, M." checkname="MCDONALD,M" uni="1F" gp="0" code="1F"></player>
+  <player name="Danelo, Mario" checkname="DANELO,MARIO" uni="1I" gp="0" code="1I"></player>
+  <player name="Odegard, Taylor" checkname="ODEGARD,TAYLOR" uni="1H" gp="0" code="1H"></player>
+  <player name="Williams, Mike" checkname="WILLIAMS,MIKE" uni="1" gp="0" code="1"></player>
+  <player name="Woodert, Andre" checkname="WOODERT,ANDRE" uni="2H" gp="0" code="2H"></player>
+  <player name="Tolliver, J." checkname="TOLLIVER,J" uni="2A" gp="0" code="2A"></player>
+  <player name="Griffin, John" checkname="GRIFFIN,JOHN" uni="2I" gp="0" code="2I"></player>
+  <player name="Zilka, John" checkname="ZILKA,JOHN" uni="2G" gp="0" code="2G"></player>
+  <player name="Jones, Derrick" checkname="JONES,DERRICK" uni="2F" gp="0" code="2F"></player>
+  <player name="Abbott, Jim" checkname="ABBOTT,JIM" uni="2B" gp="0" code="2B"></player>
+  <player name="Hancock, B." checkname="HANCOCK,B" uni="4J" gp="0" code="4J"></player>
+  <player name="Matthews, Clay" checkname="MATTHEWS,CLAY" uni="4G" gp="0" code="4G"></player>
+  <player name="Walker, Brad" checkname="WALKER,BRAD" uni="4H" gp="0" code="4H"></player>
+  <player name="Adewale, Jody" checkname="ADEWALE,JODY" uni="4A" gp="0" code="4A"></player>
+  <player name="Hance, Brandon" checkname="HANCE,BRANDON" uni="4" gp="0" code="4"></player>
+  <player name="Hinds, Rocky" checkname="HINDS,ROCKY" uni="7" gp="0" code="7"></player>
+  <player name="Hanson, Owen" checkname="HANSON,OWEN" uni="8J" gp="0" code="8J"></player>
+  <player name="Barrett, Chris" checkname="BARRETT,CHRIS" uni="9" gp="0" code="9"></player>
+  <player name="Cassel, Matt" checkname="CASSEL,MATT" uni="10" gp="0" code="10"></player>
+  <player name="Hart, Billy" checkname="HART,BILLY" uni="13" gp="0" code="13"></player>
+  <player name="Mitchell, Jason" checkname="MITCHELL,JASON" uni="15" gp="0" code="15"></player>
+  <player name="Booty, J.D." checkname="BOOTY,JD" uni="17" gp="0" code="17"></player>
+  <player name="Farr, Greg" checkname="FARR,GREG" uni="26" gp="0" code="26"></player>
+  <player name="Thomas, Terrell" checkname="THOMAS,TERRELL" uni="28" gp="0" code="28"></player>
+  <player name="Ware, Scott" checkname="WARE,SCOTT" uni="29" gp="0" code="29"></player>
+  <player name="Ting, Ryan" checkname="TING,RYAN" uni="39" gp="0" code="39"></player>
+  <player name="Brittingham, M." checkname="BRITTINGHAM,M" uni="40" gp="0" code="40"></player>
+  <player name="Stuart, Michael" checkname="STUART,MICHAEL" uni="43" gp="0" code="43"></player>
+  <player name="Goodrum, R." checkname="GOODRUM,R" uni="44" gp="0" code="44"></player>
+  <player name="Gomez, Alex" checkname="GOMEZ,ALEX" uni="46" gp="0" code="46"></player>
+  <player name="Kelly, Sean" checkname="KELLY,SEAN" uni="47" gp="0" code="47"></player>
+  <player name="Chavez, Marco" checkname="CHAVEZ,MARCO" uni="48" gp="0" code="48"></player>
+  <player name="Ramsey, LaJuan" checkname="RAMSEY,LAJUAN" uni="52" gp="0" code="52"></player>
+  <player name="Radovich, Drew" checkname="RADOVICH,DREW" uni="60" gp="0" code="60"></player>
+  <player name="Burrel, Ross" checkname="BURREL,ROSS" uni="61" gp="0" code="61"></player>
+  <player name="Draper, Travis" checkname="DRAPER,TRAVIS" uni="64" gp="0" code="64"></player>
+  <player name="Tola, Jeff" checkname="TOLA,JEFF" uni="65" gp="0" code="65"></player>
+  <player name="Rachal, Chilo" checkname="RACHAL,CHILO" uni="66" gp="0" code="66"></player>
+  <player name="Malu, Alatani" checkname="MALU,ALATANI" uni="70" gp="0" code="70"></player>
+  <player name="Lanza, John" checkname="LANZA,JOHN" uni="72" gp="0" code="72"></player>
+  <player name="Germany, Eugene" checkname="GERMANY,EUGENE" uni="80" gp="0" code="80"></player>
+  <player name="Katnik, Kurt" checkname="KATNIK,KURT" uni="85" gp="0" code="85"></player>
+  <player name="Byrd, D." checkname="BYRD,D" uni="86" gp="0" code="86"></player>
+  <player name="Miller, Jimmy" checkname="MILLER,JIMMY" uni="88" gp="0" code="88"></player>
+  <player name="Thompson, Dale" checkname="THOMPSON,DALE" uni="89" gp="0" code="89"></player>
+  <player name="Moala, Fili" checkname="MOALA,FILI" uni="91" gp="0" code="91"></player>
+  <player name="Miles, Lawrence" checkname="MILES,LAWRENCE" uni="93" gp="0" code="93"></player>
+  <player name="Herring, Thomas" checkname="HERRING,THOMAS" uni="94" gp="0" code="94"></player>
+  <player name="Morrow, Alex" checkname="MORROW,ALEX" uni="97" gp="0" code="97"></player>
+  <player name="Watson, Ryan" checkname="WATSON,RYAN" uni="98" gp="0" code="98"></player>
+  <player name="3" checkname="" uni="3" gp="0" code="3"></player>
+ </dnp>
+ <longplays thresh="70">
+ </longplays>
+</fbgame>

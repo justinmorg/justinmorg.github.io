@@ -1,0 +1,1609 @@
+<fbgame source="Tas Football" version="1.3.4" generated="7/3/2009">
+ <venue gameid="091005" visid="VT" homeid="DU" visname="Virginia Tech" homename="Duke"
+      date="9/10/2005" location="Durham, N.C." stadium="Wallace Wade Stadium"
+      start="12:00 PM" end="3:15 PM" leaguegame="Y"
+      duration="3:15" attend="25014" temp="81" wind="14 MPH" weather="Sunny">
+  <officials ref="Scott McElwee" ump="Bert Pearce" line="Mike Owens" lj="Watts Key" bj="Richard Wilborn" fj="Mike Pavese" sj="Rick Rage"></officials>
+  <rules qtrs="4" mins="15" downs="4" yds="10" kospot="35" tbspot="20" patspot="3" safspot="20" td="6" fg="3" pat="1" patx="2" saf="2" defpat="2" rouge="1" field="100" toh="3" sackrush="Y" fgaplay="Y" netpunttb="Y"></rules>
+ </venue>
+ <team vh="V" code="" id="VT" name="Virginia Tech" record="2-0" conf-record="2-0" abb="T" rank="7">
+  <linescore prds="4" line="14,7,14,10" score="45">
+   <lineprd prd="1" score="14"></lineprd>
+   <lineprd prd="2" score="7"></lineprd>
+   <lineprd prd="3" score="14"></lineprd>
+   <lineprd prd="4" score="10"></lineprd>
+  </linescore>
+  <totals totoff_plays="66" totoff_yards="362" totoff_avg="5.5">
+   <firstdowns no="22" rush="9" pass="10" penalty="3"></firstdowns>
+   <penalties no="5" yds="50"></penalties>
+   <conversions thirdconv="4" thirdatt="11" fourthconv="1" fourthatt="1"></conversions>
+   <fumbles no="4" lost="0"></fumbles>
+   <misc yds="0" top="30:10" ona="0" onm="0"></misc>
+   <redzone att="4" scores="4" points="24" tdrush="2" tdpass="1" fgmade="1" endfga="0" enddowns="0" endint="0" endfumb="0" endhalf="0" endgame="0"></redzone>
+   <rush att="44" yds="180" gain="202" loss="22" td="2" long="23"></rush>
+   <pass comp="13" att="22" int="1" yds="182" td="3" long="37" sacks="2" sackyds="10"></pass>
+   <rcv no="13" yds="182" td="3" long="37"></rcv>
+   <punt no="3" yds="93" long="33" blkd="0" tb="0" fc="0" plus50="0" inside20="3" avg="31.0"></punt>
+   <ko no="8" yds="496" ob="0" tb="4"></ko>
+   <fg made="1" att="2" long="31" blkd="0"></fg>
+   <pat kickatt="6" kickmade="6"></pat>
+   <defense tackua="25" tacka="34" tot_tack="59" tflua="9" tfla="2" tflyds="50" sacks="5" sackyds="29" brup="6" qbh="8" ff="1" int="1" intyds="23"></defense>
+   <pr no="9" yds="115" td="0" long="44"></pr>
+   <ir no="1" yds="23" td="1" long="23"></ir>
+   <scoring td="6" fg="1" patkick="6"></scoring>
+  </totals>
+  <player name="Victor Harris" shortname="Harris,V." checkname="HARRIS,V" uni="1" gp="1" code="1"></player>
+  <player name="Jimmy Williams" shortname="Williams,J." checkname="WILLIAMS,J" uni="2" gp="1" gs="1" dpos="BC" code="2">
+   <defense tackua="1" tacka="0" tot_tack="1" brup="1"></defense>
+  </player>
+  <player name="Eddie Royal" shortname="Royal,E." checkname="ROYAL,E" uni="4" gp="1" gs="1" opos="FL" code="4">
+   <rcv no="1" yds="18" td="0" long="18"></rcv>
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+   <pr no="2" yds="-1" td="0" long="9"></pr>
+   <fumbles no="1" lost="0"></fumbles>
+  </player>
+  <player name="Marcus Vick" shortname="Vick,M." checkname="VICK,M" uni="5" gp="1" gs="1" opos="QB" code="5">
+   <rush att="4" yds="-12" gain="0" loss="12" td="0" long="0"></rush>
+   <pass comp="12" att="19" int="1" yds="172" td="3" long="37" sacks="2" sackyds="10"></pass>
+   <fumbles no="1" lost="0"></fumbles>
+  </player>
+  <player name="Vince Hall" shortname="Hall,V." checkname="HALL,V" uni="9" gp="1" gs="1" dpos="LB" code="9">
+   <defense tackua="1" tacka="5" tot_tack="6" qbh="2"></defense>
+  </player>
+  <player name="Xavier Adibi" shortname="Adibi,X." checkname="ADIBI,X" uni="11" gp="1" gs="1" dpos="LB" code="11">
+   <defense tackua="1" tacka="3" tot_tack="4" tflua="1" tfla="0" tflyds="3"></defense>
+  </player>
+  <player name="Cory Holt" shortname="Holt,C." checkname="HOLT,C" uni="12" gp="1" code="12">
+   <rush att="1" yds="-2" gain="0" loss="2" td="0" long="0"></rush>
+   <pass comp="1" att="3" int="0" yds="10" td="0" long="10" sacks="0" sackyds="0"></pass>
+  </player>
+  <player name="Corey Gordon" shortname="Gordon,C." checkname="GORDON,C" uni="13" gp="1" code="13">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Grant Throckmorton" shortname="Throckmorton,G" checkname="THROCKMORTON,G" uni="14" gp="1" code="14"></player>
+  <player name="Roland Minor" shortname="Minor,R." checkname="MINOR,R" uni="15" gp="1" gs="1" dpos="FC" code="15">
+   <defense tackua="0" tacka="1" tot_tack="1" brup="1" int="1" intyds="23"></defense>
+   <ir no="1" yds="23" td="1" long="23"></ir>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Josh Morgan" shortname="Morgan,J." checkname="MORGAN,J" uni="17" gp="1" code="17">
+   <rcv no="1" yds="37" td="1" long="37"></rcv>
+   <pr no="3" yds="81" td="0" long="44"></pr>
+   <fumbles no="1" lost="0"></fumbles>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Brandon Flowers" shortname="Flowers,B." checkname="FLOWERS,B" uni="18" gp="1" code="18">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Josh Hyman" shortname="Hyman,J." checkname="HYMAN,J" uni="19" gp="1" code="19">
+   <rcv no="1" yds="10" td="0" long="10"></rcv>
+  </player>
+  <player name="Mike Imoh" shortname="Imoh,M." checkname="IMOH,M" uni="20" gp="1" code="20">
+   <rush att="8" yds="66" gain="68" loss="2" td="0" long="23"></rush>
+   <pr no="4" yds="35" td="0" long="23"></pr>
+  </player>
+  <player name="Ryan Hash" shortname="Hash,R." checkname="HASH,R" uni="21" gp="1" code="21"></player>
+  <player name="Robert Parker" shortname="Parker,R." checkname="PARKER,R" uni="22" gp="1" code="22"></player>
+  <player name="Nic Schmitt" shortname="Schmitt,N." checkname="SCHMITT,N" uni="23" gp="1" code="23">
+   <punt no="3" yds="93" long="33" blkd="0" tb="0" fc="0" plus50="0" inside20="3" avg="31.0"></punt>
+  </player>
+  <player name="D.J. Parker" shortname="Parker,D.J." checkname="PARKER,DJ" uni="25" gp="1" gs="1" dpos="FS" code="25">
+   <defense tackua="2" tacka="3" tot_tack="5"></defense>
+  </player>
+  <player name="Kent Hicks" shortname="Hicks,K." checkname="HICKS,K" uni="26" gp="1" code="26"></player>
+  <player name="Justin Hamilton" shortname="Hamilton,J." checkname="HAMILTON,J" uni="27" gp="1" code="27">
+   <defense brup="2"></defense>
+  </player>
+  <player name="Branden Ore" shortname="Ore,B." checkname="ORE,B" uni="28" gp="1" code="28">
+   <rush att="10" yds="51" gain="51" loss="0" td="1" long="19"></rush>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Cary Wade" shortname="Wade,C." checkname="WADE,C" uni="30" gp="1" code="30"></player>
+  <player name="Cedric Humes" shortname="Humes,C." checkname="HUMES,C" uni="32" gp="1" gs="1" opos="TB" code="32">
+   <rush att="9" yds="39" gain="39" loss="0" td="0" long="8"></rush>
+   <rcv no="2" yds="9" td="0" long="12"></rcv>
+  </player>
+  <player name="Brett Warren" shortname="Warren,Br." checkname="WARREN,BR" uni="33" gp="1" code="33">
+   <defense tackua="1" tacka="2" tot_tack="3" tflua="1" tfla="0" tflyds="5"></defense>
+  </player>
+  <player name="George Bell" shortname="Bell,G." checkname="BELL,G" uni="34" gp="1" code="34">
+   <rush att="6" yds="15" gain="18" loss="3" td="1" long="5"></rush>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Stevie Ray Lloyd" shortname="Lloyd,S.R." checkname="LLOYD,SR" uni="35" gp="1" code="35"></player>
+  <player name="Aaron Rouse" shortname="Rouse,A." checkname="ROUSE,A" uni="36" gp="1" gs="1" dpos="ROV" code="36">
+   <defense tackua="2" tacka="1" tot_tack="3" brup="1"></defense>
+  </player>
+  <player name="Jesse Allen" shortname="Allen,J." checkname="ALLEN,J" uni="37" gp="1" gs="1" opos="FB" code="37"></player>
+  <player name="Carlton Weatherford" shortname="Weatherford,C." checkname="WEATHERFORD,C" uni="39" gp="1" code="39"></player>
+  <player name="Blake Warren" shortname="Warren,Bl." checkname="WARREN,BL" uni="40" gp="1" code="40">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Jordan Trott" shortname="Trott,J." checkname="TROTT,J" uni="41" gp="1" code="41">
+   <defense tackua="1" tacka="2" tot_tack="3"></defense>
+  </player>
+  <player name="James Anderson" shortname="Anderson,J." checkname="ANDERSON,J" uni="42" gp="1" gs="1" dpos="LB" code="42">
+   <defense tackua="0" tacka="3" tot_tack="3"></defense>
+  </player>
+  <player name="John Kinzer" shortname="Kinzer,J." checkname="KINZER,J" uni="43" gp="1" code="43"></player>
+  <player name="John Candelas" shortname="Candelas,J." checkname="CANDELAS,J" uni="44" gp="1" code="44">
+   <rush att="3" yds="12" gain="12" loss="0" td="0" long="7"></rush>
+  </player>
+  <player name="Purnell Sturdivant" shortname="Sturdivant,P." checkname="STURDIVANT,P" uni="45" gp="1" code="45"></player>
+  <player name="Brandon Pace" shortname="Pace,B." checkname="PACE,B" uni="46" gp="1" code="46">
+   <fg made="1" att="2" long="31" blkd="0"></fg>
+   <pat kickatt="6" kickmade="6"></pat>
+   <scoring fg="1" patkick="6"></scoring>
+  </player>
+  <player name="Theodore Miller" shortname="Miller,T." checkname="MILLER,T" uni="47" gp="1" code="47"></player>
+  <player name="Cory Price" shortname="Price,C." checkname="PRICE,C" uni="48" gp="1" code="48">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="Chris Ellis" shortname="Ellis,C." checkname="ELLIS,C" uni="49" gp="1" code="49">
+   <defense tackua="3" tacka="0" tot_tack="3" tflua="2" tfla="0" tflyds="10" sackua="1" sacka="0" sackyds="7" qbh="1"></defense>
+  </player>
+  <player name="Jimmy Martin" shortname="Martin,J." checkname="MARTIN,J" uni="52" gp="1" gs="1" opos="LT" code="52"></player>
+  <player name="Nick Leeson" shortname="Leeson,N." checkname="LEESON,N" uni="53" gp="1" code="53"></player>
+  <player name="Darryl Tapp" shortname="Tapp,D." checkname="TAPP,D" uni="55" gp="1" gs="1" dpos="DE" code="55">
+   <defense tackua="2" tacka="0" tot_tack="2" tflua="2" tfla="0" tflyds="6" sackua="2" sacka="0" sackyds="6" qbh="1" ff="1"></defense>
+  </player>
+  <player name="Jonathan Lewis" shortname="Lewis,J." checkname="LEWIS,J" uni="56" gp="1" gs="1" dpos="DT" code="56">
+   <defense tackua="3" tacka="0" tot_tack="3" tflua="2" tfla="0" tflyds="17" sackua="1" sacka="0" sackyds="12" qbh="1"></defense>
+  </player>
+  <player name="Tripp Carroll" shortname="Carroll,T." checkname="CARROLL,T" uni="57" gp="1" code="57"></player>
+  <player name="Ryan Shuman" shortname="Shuman,R." checkname="SHUMAN,R" uni="58" gp="1" code="58"></player>
+  <player name="Barry Booker" shortname="Booker,B." checkname="BOOKER,B" uni="59" gp="1" code="59">
+   <defense tackua="1" tacka="3" tot_tack="4" tflua="1" tfla="0" tflyds="5" qbh="1"></defense>
+  </player>
+  <player name="Chris Burnett" shortname="Burnett,C." checkname="BURNETT,C" uni="60" gp="1" code="60"></player>
+  <player name="Reggie Butler" shortname="Butler,R." checkname="BUTLER,R" uni="61" gp="1" gs="1" opos="LG" code="61"></player>
+  <player name="Will Montgomery" shortname="Montgomery,W." checkname="MONTGOMERY,W" uni="66" gp="1" gs="1" opos="C" code="66"></player>
+  <player name="Nick Marshman" shortname="Marshman,N." checkname="MARSHMAN,N" uni="67" gp="1" code="67"></player>
+  <player name="Mason Baggett" shortname="Baggett,M." checkname="BAGGETT,M" uni="68" gp="1" code="68"></player>
+  <player name="Danny McGrath" shortname="McGrath,D." checkname="MCGRATH,D" uni="69" gp="1" code="69"></player>
+  <player name="Tim Sandidge" shortname="Sandidge,T." checkname="SANDIDGE,T" uni="71" gp="1" gs="1" dpos="DT" code="71">
+   <defense tackua="1" tacka="2" tot_tack="3" qbh="1"></defense>
+  </player>
+  <player name="Jason Murphy" shortname="Murphy,J." checkname="MURPHY,J" uni="72" gp="1" gs="1" opos="RG" code="72"></player>
+  <player name="Brandon Frye" shortname="Frye,B." checkname="FRYE,B" uni="74" gp="1" code="74"></player>
+  <player name="Kory Robertson" shortname="Robertson,K." checkname="ROBERTSON,K" uni="75" gp="1" code="75">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Duane Brown" shortname="Brown,D." checkname="BROWN,D" uni="76" gp="1" gs="1" opos="RT" code="76"></player>
+  <player name="Brandon Gore" shortname="Gore,B." checkname="GORE,B" uni="77" gp="1" code="77"></player>
+  <player name="Justin Harper" shortname="Harper,J." checkname="HARPER,J" uni="81" gp="1" code="81"></player>
+  <player name="Jeremy Gilchrist" shortname="Gilchrist,J." checkname="GILCHRIST,J" uni="82" gp="1" code="82">
+   <rush att="1" yds="14" gain="14" loss="0" td="0" long="14"></rush>
+  </player>
+  <player name="Omar Hashish" shortname="Hashish,O." checkname="HASHISH,O" uni="86" gp="1" code="86">
+   <defense tackua="0" tacka="1" tot_tack="1" tflua="0" tfla="1" tflyds="2" sackua="0" sacka="1" sackyds="2"></defense>
+  </player>
+  <player name="David Clowney" shortname="Clowney,D." checkname="CLOWNEY,D" uni="87" gp="1" gs="1" opos="SE" code="87">
+   <rcv no="3" yds="62" td="1" long="35"></rcv>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Jeff King" shortname="King,J." checkname="KING,J" uni="90" gp="1" gs="1" opos="TE" code="90">
+   <rcv no="5" yds="46" td="1" long="13"></rcv>
+   <scoring td="1"></scoring>
+  </player>
+  <player name="Orion Martin" shortname="Martin,O." checkname="MARTIN,O" uni="91" gp="1" code="91">
+   <defense tackua="2" tacka="2" tot_tack="4" tflua="0" tfla="1" tflyds="2" sackua="0" sacka="1" sackyds="2" brup="1"></defense>
+  </player>
+  <player name="Jud Dunlevy" shortname="Dunlevy,J." checkname="DUNLEVY,J" uni="92" gp="1" code="92">
+   <ko no="2" yds="108" ob="0" tb="0"></ko>
+  </player>
+  <player name="Noland Burchette" shortname="Burchette,N." checkname="BURCHETTE,N" uni="96" gp="1" gs="1" dpos="DE" code="96">
+   <defense tackua="0" tacka="3" tot_tack="3" qbh="1"></defense>
+  </player>
+  <player name="Jared Develli" shortname="Develli,J." checkname="DEVELLI,J" uni="98" gp="1" code="98">
+   <ko no="6" yds="388" ob="0" tb="4"></ko>
+  </player>
+  <player name="Carlton Powell" shortname="Powell,C." checkname="POWELL,C" uni="99" gp="1" code="99"></player>
+  <player name="TEAM" shortname="TEAM" checkname="TEAM" uni="TM" gp="1" code="198">
+   <rush att="2" yds="-3" gain="0" loss="3" td="0" long="0"></rush>
+   <fumbles no="1" lost="0"></fumbles>
+  </player>
+ </team>
+ <team vh="H" code="" id="DU" name="Duke" record="0-2" conf-record="0-1" abb="D">
+  <linescore prds="4" line="0,0,0,0" score="0">
+   <lineprd prd="1" score="0"></lineprd>
+   <lineprd prd="2" score="0"></lineprd>
+   <lineprd prd="3" score="0"></lineprd>
+   <lineprd prd="4" score="0"></lineprd>
+  </linescore>
+  <totals totoff_plays="53" totoff_yards="35" totoff_avg="0.7">
+   <firstdowns no="5" rush="5" pass="0" penalty="0"></firstdowns>
+   <penalties no="9" yds="68"></penalties>
+   <conversions thirdconv="3" thirdatt="14" fourthconv="0" fourthatt="1"></conversions>
+   <fumbles no="2" lost="0"></fumbles>
+   <misc yds="0" top="29:50" ona="0" onm="0"></misc>
+   <redzone att="0" scores="0" points="0" tdrush="0" tdpass="0" fgmade="0" endfga="0" enddowns="0" endint="0" endfumb="0" endhalf="0" endgame="0"></redzone>
+   <rush att="35" yds="13" gain="65" loss="52" td="0" long="13"></rush>
+   <pass comp="5" att="18" int="1" yds="22" td="0" long="8" sacks="5" sackyds="29"></pass>
+   <rcv no="5" yds="22" td="0" long="8"></rcv>
+   <punt no="10" yds="406" long="50" blkd="0" tb="0" fc="1" plus50="2" inside20="0" avg="40.6"></punt>
+   <ko no="1" yds="65" ob="0" tb="1"></ko>
+   <defense tackua="38" tacka="42" tot_tack="80" tflua="5" tfla="4" tflyds="21" sacks="2" sackyds="10" brup="4" qbh="1" ff="1" int="1" intyds="0"></defense>
+   <kr no="4" yds="76" td="0" long="29"></kr>
+   <ir no="1" yds="0" td="0" long="0"></ir>
+  </totals>
+  <player name="Woodard, C.J." shortname="Woodard, C.J." checkname="WOODARD,CJ" uni="5" gp="1" code="5">
+   <defense tackua="2" tacka="0" tot_tack="2"></defense>
+  </player>
+  <player name="Jones, M." shortname="Jones, M." checkname="JONES,M" uni="6" gp="1" gs="1" opos="SE" code="6">
+   <rcv no="1" yds="2" td="0" long="2"></rcv>
+  </player>
+  <player name="Schneider, M." shortname="Schneider, M." checkname="SCHNEIDER,M" uni="7" gp="1" gs="1" opos="QB" code="7">
+   <rush att="7" yds="0" gain="17" loss="17" td="0" long="11"></rush>
+   <pass comp="4" att="14" int="0" yds="14" td="0" long="8" sacks="4" sackyds="17"></pass>
+   <fumbles no="1" lost="0"></fumbles>
+  </player>
+  <player name="Patrick, B." shortname="Patrick, B." checkname="PATRICK,B" uni="8" gp="1" gs="1" opos="HBK" code="8"></player>
+  <player name="Adams, D." shortname="Adams, D." checkname="ADAMS,D" uni="9" gp="1" code="9">
+   <rcv no="1" yds="7" td="0" long="7"></rcv>
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+  </player>
+  <player name="McCormick, D." shortname="McCormick, D." checkname="MCCORMICK,D" uni="10" gp="1" gs="1" dpos="CB" code="10">
+   <defense tackua="2" tacka="1" tot_tack="3" brup="2"></defense>
+  </player>
+  <player name="Talley, J." shortname="Talley, J." checkname="TALLEY,J" uni="11" gp="1" gs="1" dpos="CB" code="11">
+   <defense tackua="4" tacka="1" tot_tack="5" brup="2" int="1" intyds="0"></defense>
+   <ir no="1" yds="0" td="0" long="0"></ir>
+  </player>
+  <player name="Dukes, C." shortname="Dukes, C." checkname="DUKES,C" uni="12" gp="1" code="12">
+   <rush att="8" yds="20" gain="32" loss="12" td="0" long="13"></rush>
+   <pass comp="1" att="3" int="1" yds="8" td="0" long="8" sacks="1" sackyds="12"></pass>
+  </player>
+  <player name="Riley, E." shortname="Riley, E." checkname="RILEY,E" uni="15" gp="1" code="15"></player>
+  <player name="Platt, A." shortname="Platt, A." checkname="PLATT,A" uni="16" gp="1" code="16">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Felder, K." shortname="Felder, K." checkname="FELDER,K" uni="18" gp="1" code="18"></player>
+  <player name="Boyle, J." shortname="Boyle, J." checkname="BOYLE,J" uni="20" gp="1" code="20">
+   <rush att="9" yds="3" gain="6" loss="3" td="0" long="2"></rush>
+  </player>
+  <player name="Boyette, R." shortname="Boyette, R." checkname="BOYETTE,R" uni="21" gp="1" code="21">
+   <rush att="3" yds="-10" gain="0" loss="10" td="0" long="0"></rush>
+  </player>
+  <player name="Ruff, M." shortname="Ruff, M." checkname="RUFF,M" uni="22" gp="1" code="22">
+   <rush att="1" yds="1" gain="1" loss="0" td="0" long="1"></rush>
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Greene, B." shortname="Greene, B." checkname="GREENE,B" uni="23" gp="1" gs="1" dpos="S" code="23">
+   <defense tackua="4" tacka="3" tot_tack="7"></defense>
+  </player>
+  <player name="Williams, G." shortname="Williams, G." checkname="WILLIAMS,G" uni="24" gp="1" code="24">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Edwards, J." shortname="Edwards, J." checkname="EDWARDS,J" uni="25" gp="1" code="25">
+   <defense tackua="4" tacka="2" tot_tack="6" tflua="1" tfla="0" tflyds="2"></defense>
+  </player>
+  <player name="Davis, C." shortname="Davis, C." checkname="DAVIS,C" uni="27" gp="1" gs="1" dpos="S" code="27">
+   <defense tackua="0" tacka="3" tot_tack="3" tflua="0" tfla="1" tflyds="4" sackua="0" sacka="1" sackyds="4" ff="1"></defense>
+   <kr no="3" yds="70" td="0" long="29"></kr>
+  </player>
+  <player name="Elliott, R." shortname="Elliott, R." checkname="ELLIOTT,R" uni="28" gp="1" gs="1" opos="FL" code="28">
+   <rcv no="1" yds="8" td="0" long="8"></rcv>
+  </player>
+  <player name="White, D." shortname="White, D." checkname="WHITE,D" uni="29" gp="1" code="29">
+   <defense tackua="1" tacka="2" tot_tack="3"></defense>
+  </player>
+  <player name="Dewan, B." shortname="Dewan, B." checkname="DEWAN,B" uni="30" gp="1" gs="1" dpos="LB" code="30">
+   <defense tackua="3" tacka="3" tot_tack="6" tflua="2" tfla="0" tflyds="5" sackua="1" sacka="0" sackyds="2"></defense>
+  </player>
+  <player name="Dowling, M." shortname="Dowling, M." checkname="DOWLING,M" uni="31" gp="1" code="31">
+   <defense tackua="1" tacka="0" tot_tack="1"></defense>
+   <kr no="1" yds="6" td="0" long="6"></kr>
+  </player>
+  <player name="Dargan, C." shortname="Dargan, C." checkname="DARGAN,C" uni="33" gp="1" gs="1" opos="TB" code="33">
+   <rush att="6" yds="4" gain="9" loss="5" td="0" long="5"></rush>
+  </player>
+  <player name="Brown, M." shortname="Brown, M." checkname="BROWN,M" uni="34" gp="1" gs="1" dpos="LB" code="34">
+   <defense tackua="1" tacka="3" tot_tack="4"></defense>
+  </player>
+  <player name="Tapps, B." shortname="Tapps, B." checkname="TAPPS,B" uni="36" gp="1" code="36"></player>
+  <player name="Aye-Darko, A." shortname="Aye-Darko, A." checkname="AYE-DARKO,A" uni="39" gp="1" code="39">
+   <defense tackua="1" tacka="0" tot_tack="1" tflua="1" tfla="0" tflyds="3"></defense>
+  </player>
+  <player name="Drummer, R." shortname="Drummer, R." checkname="DRUMMER,R" uni="40" gp="1" code="40">
+   <rcv no="2" yds="5" td="0" long="8"></rcv>
+  </player>
+  <player name="Kitchen, J." shortname="Kitchen, J." checkname="KITCHEN,J" uni="41" gp="1" code="41">
+   <defense tackua="2" tacka="1" tot_tack="3" qbh="1"></defense>
+  </player>
+  <player name="Williams, Ale." shortname="Williams, Ale." checkname="WILLIAMS,ALE" uni="43" gp="1" code="43"></player>
+  <player name="Robinson, C." shortname="Robinson, C." checkname="ROBINSON,C" uni="45" gp="1" code="45"></player>
+  <player name="Smith, Z." shortname="Smith, Z." checkname="SMITH,Z" uni="47" gp="1" code="47"></player>
+  <player name="Alexander, P." shortname="Alexander, P." checkname="ALEXANDER,P" uni="48" gp="1" gs="1" dpos="DE" code="48">
+   <defense tackua="3" tacka="2" tot_tack="5" tflua="1" tfla="0" tflyds="1"></defense>
+  </player>
+  <player name="Sprague, C." shortname="Sprague, C." checkname="SPRAGUE,C" uni="49" gp="1" code="49">
+   <pass comp="0" att="1" int="0" yds="0" td="0" long="0" sacks="0" sackyds="0"></pass>
+   <punt no="10" yds="406" long="50" blkd="0" tb="0" fc="1" plus50="2" inside20="0" avg="40.6"></punt>
+   <ko no="1" yds="65" ob="0" tb="1"></ko>
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Camero, C." shortname="Camero, C." checkname="CAMERO,C" uni="51" gp="1" gs="1" dpos="DT" code="51">
+   <defense tackua="0" tacka="3" tot_tack="3" tflua="0" tfla="2" tflyds="5" sackua="0" sacka="1" sackyds="4"></defense>
+  </player>
+  <player name="Nichols, E." shortname="Nichols, E." checkname="NICHOLS,E" uni="52" gp="1" gs="1" dpos="DE" code="52">
+   <defense tackua="0" tacka="2" tot_tack="2"></defense>
+  </player>
+  <player name="Campitelli, P." shortname="Campitelli, P." checkname="CAMPITELLI,P" uni="53" gp="1" code="53"></player>
+  <player name="Akinbiyi, G." shortname="Akinbiyi, G." checkname="AKINBIYI,G" uni="54" gp="1" code="54"></player>
+  <player name="Moravchik, J." shortname="Moravchik, J." checkname="MORAVCHIK,J" uni="55" gp="1" gs="1" opos="LG" code="55"></player>
+  <player name="Williams, Alf." shortname="Williams, Alf." checkname="WILLIAMS,ALF" uni="56" gp="1" code="56">
+   <defense tackua="1" tacka="2" tot_tack="3"></defense>
+  </player>
+  <player name="Hales, C." shortname="Hales, C." checkname="HALES,C" uni="59" gp="1" code="59"></player>
+  <player name="Schirmann, R." shortname="Schirmann, R." checkname="SCHIRMANN,R" uni="61" gp="1" code="61"></player>
+  <player name="East, J." shortname="East, J." checkname="EAST,J" uni="62" gp="1" code="62">
+   <defense tackua="0" tacka="1" tot_tack="1"></defense>
+  </player>
+  <player name="Krieg, T." shortname="Krieg, T." checkname="KRIEG,T" uni="66" gp="1" gs="1" opos="RG" code="66"></player>
+  <player name="Rumsey, M." shortname="Rumsey, M." checkname="RUMSEY,M" uni="68" gp="1" gs="1" opos="C" code="68"></player>
+  <player name="Roland, F." shortname="Roland, F." checkname="ROLAND,F" uni="70" gp="1" code="70"></player>
+  <player name="Goldberg, C." shortname="Goldberg, C." checkname="GOLDBERG,C" uni="74" gp="1" code="74"></player>
+  <player name="Bauta, L." shortname="Bauta, L." checkname="BAUTA,L" uni="75" gp="1" gs="1" opos="LT" code="75"></player>
+  <player name="Maurides, Z." shortname="Maurides, Z." checkname="MAURIDES,Z" uni="76" gp="1" code="76"></player>
+  <player name="Warrick, D." shortname="Warrick, D." checkname="WARRICK,D" uni="79" gp="1" gs="1" opos="RT" code="79"></player>
+  <player name="Stefanow, N." shortname="Stefanow, N." checkname="STEFANOW,N" uni="80" gp="1" code="80"></player>
+  <player name="Wright, J." shortname="Wright, J." checkname="WRIGHT,J" uni="81" gp="1" code="81"></player>
+  <player name="Wood, R." shortname="Wood, R." checkname="WOOD,R" uni="82" gp="1" code="82"></player>
+  <player name="Bailey, P." shortname="Bailey, P." checkname="BAILEY,P" uni="84" gp="1" gs="1" dpos="LB" code="84">
+   <defense tackua="3" tacka="5" tot_tack="8"></defense>
+  </player>
+  <player name="Roland, A." shortname="Roland, A." checkname="ROLAND,A" uni="89" gp="1" gs="1" opos="TE" code="89"></player>
+  <player name="Sallee, B." shortname="Sallee, B." checkname="SALLEE,B" uni="93" gp="1" gs="1" dpos="DT" code="93">
+   <defense tackua="2" tacka="3" tot_tack="5" tflua="0" tfla="1" tflyds="1"></defense>
+  </player>
+  <player name="Respress, C." shortname="Respress, C." checkname="RESPRESS,C" uni="97" gp="1" code="97">
+   <defense tackua="1" tacka="1" tot_tack="2"></defense>
+  </player>
+  <player name="Moore, C." shortname="Moore, C." checkname="MOORE,C" uni="99" gp="1" code="99"></player>
+  <player name="TEAM" shortname="TEAM" checkname="TEAM" uni="TM" gp="1" code="198">
+   <rush att="1" yds="-5" gain="0" loss="5" td="0" long="0"></rush>
+   <fumbles no="1" lost="0"></fumbles>
+  </player>
+ </team>
+ <scores>
+  <score vh="V" team="VT" qtr="1" clock="06:55" type="TD" how="PASS" yds="7" scorer="King,J." passer="Vick,M." patby="Pace,B." pattype="KICK" patres="GOOD" plays="7" drive="57" top="3:43" vscore="7" hscore="0" driveindex="3"></score>
+  <score vh="V" team="VT" qtr="1" clock="01:54" type="TD" how="INT" yds="23" scorer="Minor,R." patby="Pace,B." pattype="KICK" patres="GOOD" vscore="14" hscore="0" driveindex="7"></score>
+  <score vh="V" team="VT" qtr="2" clock="09:15" type="TD" how="PASS" yds="37" scorer="Morgan,J." passer="Vick,M." patby="Pace,B." pattype="KICK" patres="GOOD" plays="5" drive="69" top="1:56" vscore="21" hscore="0" driveindex="11"></score>
+  <score vh="V" team="VT" qtr="3" clock="11:52" type="TD" how="PASS" yds="35" scorer="Clowney,D." passer="Vick,M." patby="Pace,B." pattype="KICK" patres="GOOD" plays="4" drive="52" top="1:56" vscore="28" hscore="0" driveindex="16"></score>
+  <score vh="V" team="VT" qtr="3" clock="01:34" type="TD" how="RUSH" yds="3" scorer="Bell,G." patby="Pace,B." pattype="KICK" patres="GOOD" plays="11" drive="53" top="4:38" vscore="35" hscore="0" driveindex="18"></score>
+  <score vh="V" team="VT" qtr="4" clock="08:13" type="FG" yds="31" scorer="Pace,B." plays="4" drive="-1" top="1:58" vscore="38" hscore="0" driveindex="22"></score>
+  <score vh="V" team="VT" qtr="4" clock="04:57" type="TD" how="RUSH" yds="4" scorer="Ore,B." patby="Pace,B." pattype="KICK" patres="GOOD" plays="5" drive="34" top="1:27" vscore="45" hscore="0" driveindex="24"></score>
+ </scores>
+ <fgas>
+  <fga vh="V" team="VT" kicker="Pace,B." qtr="1" clock="11:49" distance="44" result="missed"></fga>
+  <fga vh="V" team="VT" kicker="Pace,B." qtr="4" clock="08:13" distance="31" result="good"></fga>
+ </fgas>
+ <drives>
+  <drive vh="V" team="VT" start="KO,1,15:00,20" end="FGA,1,11:49,73" plays="9" yards="53" top="3:11" start_how="KO" start_qtr="1" start_time="15:00" start_spot="VT20" end_how="FGA" end_qtr="1" end_time="11:49" end_spot="DU27" driveindex="1"></drive>
+  <drive vh="H" team="DU" start="FGA,1,11:49,27" end="PUNT,1,10:38,28" plays="3" yards="1" top="1:11" start_how="FGA" start_qtr="1" start_time="11:49" start_spot="DU27" end_how="PUNT" end_qtr="1" end_time="10:38" end_spot="DU28" driveindex="2"></drive>
+  <drive vh="V" team="VT" start="PUNT,1,10:38,43" end="TD,1,06:55,100" plays="7" yards="57" top="3:43" start_how="PUNT" start_qtr="1" start_time="10:38" start_spot="VT43" end_how="TD" end_qtr="1" end_time="06:55" end_spot="DU00" rz="1" driveindex="3"></drive>
+  <drive vh="H" team="DU" start="KO,1,06:49,22" end="DOWNS,1,04:48,26" plays="4" yards="4" top="2:01" start_how="KO" start_qtr="1" start_time="06:49" start_spot="DU22" end_how="DOWNS" end_qtr="1" end_time="04:48" end_spot="DU26" driveindex="4"></drive>
+  <drive vh="V" team="VT" start="DOWNS,1,04:48,74" end="PUNT,1,02:45,64" plays="4" yards="-10" top="2:03" start_how="DOWNS" start_qtr="1" start_time="04:48" start_spot="DU26" end_how="PUNT" end_qtr="1" end_time="02:45" end_spot="DU36" driveindex="5"></drive>
+  <drive vh="H" team="DU" start="PUNT,1,02:45,4" end="INT,1,01:54,6" plays="2" yards="2" top="0:51" start_how="PUNT" start_qtr="1" start_time="02:45" start_spot="DU04" end_how="INT" end_qtr="1" end_time="01:54" end_spot="DU06" driveindex="6"></drive>
+  <drive vh="V" team="VT" start="INT,1,01:54,100" end="TD,1,01:54,100" plays="0" yards="0" top="0:00" start_how="INT" start_qtr="1" start_time="01:54" start_spot="DU00" end_how="TD" end_qtr="1" end_time="01:54" end_spot="DU00" driveindex="7"></drive>
+  <drive vh="H" team="DU" start="KO,1,01:47,26" end="PUNT,1,00:00,30" plays="3" yards="4" top="1:47" start_how="KO" start_qtr="1" start_time="01:47" start_spot="DU26" end_how="PUNT" end_qtr="1" end_time="00:00" end_spot="DU30" driveindex="8"></drive>
+  <drive vh="V" team="VT" start="PUNT,2,15:00,36" end="INT,2,13:50,66" plays="5" yards="30" top="1:10" start_how="PUNT" start_qtr="2" start_time="15:00" start_spot="VT36" end_how="INT" end_qtr="2" end_time="13:50" end_spot="DU34" driveindex="9"></drive>
+  <drive vh="H" team="DU" start="INT,2,13:50,29" end="PUNT,2,11:11,4" plays="4" yards="-25" top="2:39" start_how="INT" start_qtr="2" start_time="13:50" start_spot="DU29" end_how="PUNT" end_qtr="2" end_time="11:11" end_spot="DU04" driveindex="10"></drive>
+  <drive vh="V" team="VT" start="PUNT,2,11:11,31" end="TD,2,09:15,100" plays="5" yards="69" top="1:56" start_how="PUNT" start_qtr="2" start_time="11:11" start_spot="VT31" end_how="TD" end_qtr="2" end_time="09:15" end_spot="DU00" driveindex="11"></drive>
+  <drive vh="H" team="DU" start="KO,2,09:15,20" end="PUNT,2,05:31,20" plays="5" yards="0" top="3:44" start_how="KO" start_qtr="2" start_time="09:15" start_spot="DU20" end_how="PUNT" end_qtr="2" end_time="05:31" end_spot="DU20" driveindex="12"></drive>
+  <drive vh="V" team="VT" start="PUNT,2,05:31,51" end="PUNT,2,03:31,61" plays="4" yards="10" top="2:00" start_how="PUNT" start_qtr="2" start_time="05:31" start_spot="DU49" end_how="PUNT" end_qtr="2" end_time="03:31" end_spot="DU39" driveindex="13"></drive>
+  <drive vh="H" team="DU" start="PUNT,2,03:31,7" end="HALF,2,00:00,23" plays="5" yards="16" top="3:31" start_how="PUNT" start_qtr="2" start_time="03:31" start_spot="DU07" end_how="HALF" end_qtr="2" end_time="00:00" end_spot="DU23" driveindex="14"></drive>
+  <drive vh="H" team="DU" start="KO,3,15:00,20" end="PUNT,3,13:48,18" plays="3" yards="-2" top="1:12" start_how="KO" start_qtr="3" start_time="15:00" start_spot="DU20" end_how="PUNT" end_qtr="3" end_time="13:48" end_spot="DU18" driveindex="15"></drive>
+  <drive vh="V" team="VT" start="PUNT,3,13:48,48" end="TD,3,11:52,100" plays="4" yards="52" top="1:56" start_how="PUNT" start_qtr="3" start_time="13:48" start_spot="VT48" end_how="TD" end_qtr="3" end_time="11:52" end_spot="DU00" driveindex="16"></drive>
+  <drive vh="H" team="DU" start="KO,3,11:52,20" end="PUNT,3,06:12,41" plays="11" yards="21" top="5:40" start_how="KO" start_qtr="3" start_time="11:52" start_spot="DU20" end_how="PUNT" end_qtr="3" end_time="06:12" end_spot="DU41" driveindex="17"></drive>
+  <drive vh="V" team="VT" start="PUNT,3,06:12,47" end="TD,3,01:34,100" plays="11" yards="53" top="4:38" start_how="PUNT" start_qtr="3" start_time="06:12" start_spot="VT47" end_how="TD" end_qtr="3" end_time="01:34" end_spot="DU00" rz="1" driveindex="18"></drive>
+  <drive vh="H" team="DU" start="KO,3,01:34,20" end="PUNT,3,00:00,17" plays="3" yards="-3" top="1:34" start_how="KO" start_qtr="3" start_time="01:34" start_spot="DU20" end_how="PUNT" end_qtr="3" end_time="00:00" end_spot="DU17" driveindex="19"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,15:00,47" end="PUNT,4,11:27,60" plays="6" yards="13" top="3:33" start_how="PUNT" start_qtr="4" start_time="15:00" start_spot="VT47" end_how="PUNT" end_qtr="4" end_time="11:27" end_spot="DU40" driveindex="20"></drive>
+  <drive vh="H" team="DU" start="PUNT,4,11:27,12" end="PUNT,4,10:11,6" plays="4" yards="-6" top="1:16" start_how="PUNT" start_qtr="4" start_time="11:27" start_spot="DU12" end_how="PUNT" end_qtr="4" end_time="10:11" end_spot="DU06" driveindex="21"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,10:11,88" end="FG,4,08:13,87" plays="4" yards="-1" top="1:58" start_how="PUNT" start_qtr="4" start_time="10:11" start_spot="DU12" end_how="FG" end_qtr="4" end_time="08:13" end_spot="DU13" rz="1" driveindex="22"></drive>
+  <drive vh="H" team="DU" start="KO,4,08:06,32" end="PUNT,4,06:24,23" plays="3" yards="-9" top="1:42" start_how="KO" start_qtr="4" start_time="08:06" start_spot="DU32" end_how="PUNT" end_qtr="4" end_time="06:24" end_spot="DU23" driveindex="23"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,06:24,66" end="TD,4,04:57,100" plays="5" yards="34" top="1:27" start_how="PUNT" start_qtr="4" start_time="06:24" start_spot="DU34" end_how="TD" end_qtr="4" end_time="04:57" end_spot="DU00" rz="1" driveindex="24"></drive>
+  <drive vh="H" team="DU" start="KO,4,04:54,25" end="PUNT,4,02:35,26" plays="3" yards="1" top="2:19" start_how="KO" start_qtr="4" start_time="04:54" start_spot="DU25" end_how="PUNT" end_qtr="4" end_time="02:35" end_spot="DU26" driveindex="25"></drive>
+  <drive vh="V" team="VT" start="PUNT,4,02:35,24" end="HALF,4,00:00,33" plays="4" yards="9" top="2:35" start_how="PUNT" start_qtr="4" start_time="02:35" start_spot="VT24" end_how="HALF" end_qtr="4" end_time="00:00" end_spot="VT33" driveindex="26"></drive>
+ </drives>
+ <plays format="summary">
+  <qtr number="1" text="1st">
+   <play hasball="VT" down="1" togo="10" spot="VT35" context="V,1,10,V35" playid="0,1,0"
+      text="DU ball on DU35." newcontext="H,1,10,H35">
+   </play>
+   <comment text="Duke wins toss, defers to 2nd half; Duke defends north goal and kicks"></comment>
+   <play hasball="DU" down="1" togo="10" spot="DU35" context="H,1,10,H35" playid="0,2,2" type="K"
+      text="Sprague, C. kickoff 65 yards to the VT0, touchback." newcontext="V,1,10,V20">
+    <p_ko vh="H" name="Sprague, C." gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="V,V20,15:00" vh="V" spot="V20" clock="15:00" driveindex="1,2"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="1,1,3" type="#" clock="15:00"
+      text="Clock 15:00." newcontext="V,1,10,V20">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT20" context="V,1,10,V20" playid="1,2,4" type="P" first="P"
+      text="Vick,M. pass complete to King,J. for 12 yards to the VT32, 1ST DOWN VT, out-of-bounds (Greene, B.)." ob="Y" newcontext="V,1,10,V32">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="King,J." gain="12"></p_pa>
+    <p_tk vh="H" name="Greene, B."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT32" context="V,1,10,V32" playid="1,3,5" type="R"
+      text="Humes,C. rush for 8 yards to the VT40 (Davis, C.;Greene, B.)." newcontext="V,2,2,V40">
+    <p_ru vh="V" name="Humes,C." gain="8"></p_ru>
+    <p_tk vh="H" name="Davis, C." assist="Y"></p_tk>
+    <p_tk vh="H" name="Greene, B." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="2" spot="VT40" context="V,2,2,V40" playid="1,4,6" type="P" first="P"
+      text="Vick,M. pass complete to Royal,E. for 18 yards to the DU42, 1ST DOWN VT, out-of-bounds (Davis, C.;Greene, B.)." ob="Y" newcontext="V,1,10,H42">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Royal,E." gain="18"></p_pa>
+    <p_tk vh="H" name="Davis, C." assist="Y"></p_tk>
+    <p_tk vh="H" name="Greene, B." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU42" context="V,1,10,H42" playid="1,5,7" type="R"
+      text="Humes,C. rush for 5 yards to the DU37 (Brown, M.;Bailey, P.)." newcontext="V,2,5,H37">
+    <p_ru vh="V" name="Humes,C." gain="5"></p_ru>
+    <p_tk vh="H" name="Brown, M." assist="Y"></p_tk>
+    <p_tk vh="H" name="Bailey, P." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="DU37" context="V,2,5,H37" playid="1,6,8" type="P" first="P"
+      text="Vick,M. pass complete to King,J. for 13 yards to the DU24, 1ST DOWN VT (Greene, B.)." newcontext="V,1,10,H24">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="King,J." gain="13"></p_pa>
+    <p_tk vh="H" name="Greene, B."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU24" context="V,1,10,H24" playid="1,7,9" type="#" clock="13:24"
+      text="Clock 13:24." newcontext="V,1,10,H24">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU24" context="V,1,10,H24" playid="1,8,10" type="R"
+      text="Humes,C. rush for no gain to the DU24 (Alexander, P.)." newcontext="V,2,10,H24">
+    <p_ru vh="V" name="Humes,C." gain="0"></p_ru>
+    <p_tk vh="H" name="Alexander, P."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="DU24" context="V,2,10,H24" playid="1,9,11" type="P"
+      text="Vick,M. pass incomplete to Morgan,J. (McCormick, D.)." newcontext="V,3,10,H24">
+    <p_pa vh="V" qb="Vick,M." result="INC" rcv="Morgan,J."></p_pa>
+    <p_bu vh="H" name="McCormick, D."></p_bu>
+   </play>
+   <play hasball="VT" down="3" togo="10" spot="DU24" context="V,3,10,H24" playid="1,10,12" type="#" clock="12:31"
+      text="Timeout Virginia Tech, clock 12:31." newcontext="V,3,10,H24">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="VT" down="3" togo="10" spot="DU24" context="V,3,10,H24" playid="1,11,13" type="P"
+      text="Vick,M. pass complete to Humes,C. for loss of 3 yards to the DU27 (Dewan, B.)." newcontext="V,4,13,H27">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Humes,C." gain="-3"></p_pa>
+    <p_tk vh="H" name="Dewan, B." tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="13" spot="DU27" context="V,4,13,H27" playid="1,12,14" type="F" clock="11:49"
+      text="Pace,B. field goal attempt from 44 MISSED - hit right upright, spot at DU27, clock 11:49." newcontext="H,1,10,H27">
+    <p_fg vh="V" name="Pace,B." distance="44" result="MISSED"></p_fg>
+   </play>
+   <drivesum plays="9" yards="53" top="3:11" driveindex="1" complete="Y"></drivesum>
+   <drivestart poss="H,H27,11:49" vh="H" spot="H27" clock="11:49" driveindex="2,14"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU27" context="H,1,10,H27" playid="2,1,15" type="R"
+      text="Dargan, C. rush for 1 yard to the DU28 (Hall,V.;Sandidge,T.)." newcontext="H,2,9,H28">
+    <p_ru vh="H" name="Dargan, C." gain="1"></p_ru>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Sandidge,T." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="9" spot="DU28" context="H,2,9,H28" playid="2,2,16" type="P"
+      text="Schneider, M. pass incomplete to Drummer, R.." newcontext="H,3,9,H28">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Drummer, R."></p_pa>
+   </play>
+   <play hasball="DU" down="3" togo="9" spot="DU28" context="H,3,9,H28" playid="2,3,17" type="P"
+      text="Schneider, M. pass incomplete to Elliott, R.." newcontext="H,4,9,H28">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Elliott, R."></p_pa>
+   </play>
+   <play hasball="DU" down="4" togo="9" spot="DU28" context="H,4,9,H28" playid="2,4,18" type="U"
+      text="Sprague, C. punt 38 yards to the VT34, Royal,E. return 9 yards to the VT43 (Nichols, E.;Ruff, M.)." newcontext="V,1,10,V43">
+    <p_pu vh="H" name="Sprague, C." gain="38"></p_pu>
+    <p_pr vh="V" name="Royal,E." gain="9"></p_pr>
+    <p_tk vh="H" name="Nichols, E." assist="Y"></p_tk>
+    <p_tk vh="H" name="Ruff, M." assist="Y"></p_tk>
+   </play>
+   <drivesum plays="3" yards="1" top="1:11" driveindex="2" complete="Y"></drivesum>
+   <drivestart poss="V,V43,11:49" vh="V" spot="V43" clock="11:49" driveindex="3,18"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT43" context="V,1,10,V43" playid="3,1,19" clock="10:38"
+      text="VIRGINIA TECH drive start at 10:38." newcontext="V,1,10,V43">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT43" context="V,1,10,V43" playid="3,2,20" type="R" first="E"
+      text="Vick,M. rush for loss of 1 yard to the VT42, out-of-bounds (Alexander, P.), PENALTY DU personal foul 15 yards to the DU43, 1ST DOWN VT." ob="Y" newcontext="V,1,10,H43">
+    <p_ru vh="V" name="Vick,M." gain="-1"></p_ru>
+    <p_tk vh="H" name="Alexander, P." tfl="Y"></p_tk>
+    <p_pn vh="H" code="PF" type="personal foul" result="ACCEPT" at="V42" yards="15"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU43" context="V,1,10,H43" playid="3,3,21"
+      text="1st and 10." newcontext="V,1,10,H43">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU43" context="V,1,10,H43" playid="3,4,22" type="R"
+      text="Imoh,M. rush for 5 yards to the DU38 (Bailey, P.)." newcontext="V,2,5,H38">
+    <p_ru vh="V" name="Imoh,M." gain="5"></p_ru>
+    <p_tk vh="H" name="Bailey, P."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="DU38" context="V,2,5,H38" playid="3,5,23" type="E" first="E"
+      text="PENALTY DU offside 5 yards to the DU33, 1ST DOWN VT." newcontext="V,1,10,H33">
+    <p_pn vh="H" code="OS" type="offside" result="ACCEPT" at="H38" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU33" context="V,1,10,H33" playid="3,6,24" type="R"
+      text="Imoh,M. rush for 9 yards to the DU24 (Greene, B.)." newcontext="V,2,1,H24">
+    <p_ru vh="V" name="Imoh,M." gain="9"></p_ru>
+    <p_tk vh="H" name="Greene, B."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="1" spot="DU24" context="V,2,1,H24" playid="3,7,25" type="R" first="R"
+      text="Imoh,M. rush for 3 yards to the DU21, 1ST DOWN VT (Talley, J.)." newcontext="V,1,10,H21">
+    <p_ru vh="V" name="Imoh,M." gain="3"></p_ru>
+    <p_tk vh="H" name="Talley, J."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU21" context="V,1,10,H21" playid="3,8,26" type="R" first="R"
+      text="Imoh,M. rush for 11 yards to the DU10, 1ST DOWN VT (Greene, B.;White, D.)." newcontext="V,1,0,H10">
+    <p_ru vh="V" name="Imoh,M." gain="11"></p_ru>
+    <p_tk vh="H" name="Greene, B." assist="Y"></p_tk>
+    <p_tk vh="H" name="White, D." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU10" context="V,1,0,H10" playid="3,9,27" type="#" clock="07:47"
+      text="Clock 07:47." newcontext="V,1,0,H10">
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU10" context="V,1,0,H10" playid="3,10,28" type="R"
+      text="Imoh,M. rush for 3 yards to the DU7 (Camero, C.;Sallee, B.)." newcontext="V,2,0,H07">
+    <p_ru vh="V" name="Imoh,M." gain="3"></p_ru>
+    <p_tk vh="H" name="Camero, C." assist="Y"></p_tk>
+    <p_tk vh="H" name="Sallee, B." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="0" spot="DU07" context="V,2,0,H07" playid="3,11,29" type="P" score="Y" clock="06:55"
+      text="Vick,M. pass complete to King,J. for 7 yards to the DU0, TOUCHDOWN, clock 06:55." newcontext="V,1,0,H03">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="King,J." gain="7"></p_pa>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU03" context="V,1,0,H03" playid="3,12,30" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="7" H="0"></score>
+   <drivesum plays="7" yards="57" top="3:43" driveindex="3" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="3,13,31" type="K"
+      text="Develli,J. kickoff 64 yards to the DU1, Davis, C. return 21 yards to the DU22 (Trott,J.;Martin,O.)." newcontext="H,1,10,H22">
+    <p_ko vh="V" name="Develli,J." gain="64"></p_ko>
+    <p_kr vh="H" name="Davis, C." gain="21"></p_kr>
+    <p_tk vh="V" name="Trott,J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Martin,O." assist="Y"></p_tk>
+   </play>
+   <drivestart poss="H,H22,06:55" vh="H" spot="H22" clock="06:55" driveindex="4,31"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU22" context="H,1,10,H22" playid="4,1,32" clock="06:49"
+      text="DUKE drive start at 06:49." newcontext="H,1,10,H22">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU22" context="H,1,10,H22" playid="4,2,33" type="R"
+      text="Dargan, C. rush for 1 yard to the DU23 (Hall,V.;Burchette,N.)." newcontext="H,2,9,H23">
+    <p_ru vh="H" name="Dargan, C." gain="1"></p_ru>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Burchette,N." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="9" spot="DU23" context="H,2,9,H23" playid="4,3,34" type="P"
+      text="Dukes, C. pass complete to Drummer, R. for 8 yards to the DU31 (Hall,V.)." newcontext="H,3,1,H31">
+    <p_pa vh="H" qb="Dukes, C." result="COMP" rcv="Drummer, R." gain="8"></p_pa>
+    <p_tk vh="V" name="Hall,V."></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="1" spot="DU31" context="H,3,1,H31" playid="4,4,35" type="#" clock="05:34"
+      text="Timeout Duke, clock 05:34." newcontext="H,3,1,H31">
+    <p_to vh="H" team="Duke"></p_to>
+   </play>
+   <play hasball="DU" down="3" togo="1" spot="DU31" context="H,3,1,H31" playid="4,5,36" type="R"
+      text="Dargan, C. rush for loss of 5 yards to the DU26 (Lewis,J.)." newcontext="H,4,6,H26">
+    <p_ru vh="H" name="Dargan, C." gain="-5"></p_ru>
+    <p_tk vh="V" name="Lewis,J." tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="4" togo="6" spot="DU26" context="H,4,6,H26" playid="4,6,37" type="P"
+      text="Sprague, C. pass incomplete to Dewan, B. (Hamilton,J.), PENALTY DU ineligible downfield on pass declined." newcontext="V,1,10,H26">
+    <p_pa vh="H" qb="Sprague, C." result="INC" rcv="Dewan, B."></p_pa>
+    <p_pn vh="H" code="ID" type="ineligible downfield on pass" name="Dewan, B." result="DECLINE"></p_pn>
+    <p_bu vh="V" name="Hamilton,J."></p_bu>
+   </play>
+   <drivesum plays="4" yards="4" top="2:01" driveindex="4" complete="Y"></drivesum>
+   <drivestart poss="V,H26,05:34" vh="V" spot="H26" clock="05:34" driveindex="5,37"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="DU26" context="V,1,10,H26" playid="5,1,38" clock="04:48"
+      text="VIRGINIA TECH drive start at 04:48." newcontext="V,1,10,H26">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU26" context="V,1,10,H26" playid="5,2,39" type="R"
+      text="Humes,C. rush for 2 yards to the DU24 (Dewan, B.)." newcontext="V,2,8,H24">
+    <p_ru vh="V" name="Humes,C." gain="2"></p_ru>
+    <p_tk vh="H" name="Dewan, B."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="DU24" context="V,2,8,H24" playid="5,3,40" type="P"
+      text="Vick,M. sacked for loss of 2 yards to the DU26 (Dewan, B.)." newcontext="V,3,10,H26">
+    <p_pa vh="V" qb="Vick,M." result="SACK" gain="-2"></p_pa>
+    <p_tk vh="H" name="Dewan, B." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="10" spot="DU26" context="V,3,10,H26" playid="5,4,41" type="R"
+      text="Vick,M. rush for no gain to the DU26 (Kitchen, J.;Edwards, J.), PENALTY VT holding 10 yards to the DU36." newcontext="V,3,20,H36">
+    <p_ru vh="V" name="Vick,M." gain="0"></p_ru>
+    <p_tk vh="H" name="Kitchen, J." assist="Y"></p_tk>
+    <p_tk vh="H" name="Edwards, J." assist="Y"></p_tk>
+    <p_pn vh="V" code="HO" type="holding" result="ACCEPT" at="H26" yards="10"></p_pn>
+   </play>
+   <play hasball="VT" down="3" togo="20" spot="DU36" context="V,3,20,H36" playid="5,5,42"
+      text="3rd and 20." newcontext="V,3,20,H36">
+   </play>
+   <play hasball="VT" down="3" togo="20" spot="DU36" context="V,3,20,H36" playid="5,6,43" type="P"
+      text="Vick,M. pass incomplete to Hyman,J.." newcontext="V,4,20,H36">
+    <p_pa vh="V" qb="Vick,M." result="INC" rcv="Hyman,J."></p_pa>
+   </play>
+   <play hasball="VT" down="4" togo="20" spot="DU36" context="V,4,20,H36" playid="5,7,44" type="U"
+      text="Schmitt,N. punt 33 yards to the DU3, downed." newcontext="H,1,10,H03">
+    <p_pu vh="V" name="Schmitt,N." gain="33" in20="Y"></p_pu>
+   </play>
+   <drivesum plays="4" yards="-10" top="2:03" driveindex="5" complete="Y"></drivesum>
+   <drivestart poss="H,H03,04:48" vh="H" spot="H03" clock="04:48" driveindex="6,44"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU03" context="H,1,10,H03" playid="6,1,45" clock="02:45"
+      text="DUKE drive start at 02:45." newcontext="H,1,10,H03">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU03" context="H,1,10,H03" playid="6,2,46"
+      text="DU ball on DU4." newcontext="H,1,10,H04">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU04" context="H,1,10,H04" playid="6,3,47" type="R"
+      text="Boyle, J. rush for 2 yards to the DU6 (Martin,O.)." newcontext="H,2,8,H06">
+    <p_ru vh="H" name="Boyle, J." gain="2"></p_ru>
+    <p_tk vh="V" name="Martin,O."></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="8" spot="DU06" context="H,2,8,H06" playid="6,4,48" type="P" score="Y" turnover="I" clock="01:54"
+      text="Dukes, C. pass intercepted by Minor,R. at the DU23, Minor,R. return 23 yards to the DU0, TOUCHDOWN, clock 01:54." newcontext="V,1,0,H03">
+    <p_pa vh="H" qb="Dukes, C." result="INT"></p_pa>
+    <p_ir vh="V" name="Minor,R." at="H23" gain="23"></p_ir>
+   </play>
+   <drivesum plays="2" yards="2" top="0:51" driveindex="6" complete="Y"></drivesum>
+   <drivestart poss="V,H03,01:54" vh="V" spot="H03" clock="01:54" driveindex="7,48"></drivestart>
+   <play hasball="VT" down="1" togo="0" spot="DU03" context="V,1,0,H03" playid="7,1,49" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="14" H="0"></score>
+   <drivesum plays="0" yards="0" top="0:00" driveindex="7" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="7,2,50" type="K"
+      text="Develli,J. kickoff 59 yards to the DU6, Davis, C. return 20 yards to the DU26 (Trott,J.;Flowers,B.)." newcontext="H,1,10,H26">
+    <p_ko vh="V" name="Develli,J." gain="59"></p_ko>
+    <p_kr vh="H" name="Davis, C." gain="20"></p_kr>
+    <p_tk vh="V" name="Trott,J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Flowers,B." assist="Y"></p_tk>
+   </play>
+   <drivestart poss="H,H26,01:54" vh="H" spot="H26" clock="01:54" driveindex="8,50"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU26" context="H,1,10,H26" playid="8,1,51" clock="01:47"
+      text="DUKE drive start at 01:47." newcontext="H,1,10,H26">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU26" context="H,1,10,H26" playid="8,2,52" type="P"
+      text="Schneider, M. sacked for loss of 4 yards to the DU22 (Tapp,D.)." newcontext="H,2,14,H22">
+    <p_pa vh="H" qb="Schneider, M." result="SACK" gain="-4"></p_pa>
+    <p_tk vh="V" name="Tapp,D." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="14" spot="DU22" context="H,2,14,H22" playid="8,3,53" type="P"
+      text="Schneider, M. pass complete to Elliott, R. for 8 yards to the DU30 (Anderson,J.;Adibi,X.)." newcontext="H,3,6,H30">
+    <p_pa vh="H" qb="Schneider, M." result="COMP" rcv="Elliott, R." gain="8"></p_pa>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Adibi,X." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="6" spot="DU30" context="H,3,6,H30" playid="8,4,54" type="P"
+      text="Schneider, M. pass incomplete to Elliott, R. (Hamilton,J.)." newcontext="H,4,6,H30">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Elliott, R."></p_pa>
+    <p_bu vh="V" name="Hamilton,J."></p_bu>
+   </play>
+   <play hasball="DU" down="4" togo="6" spot="DU30" context="H,4,6,H30" playid="8,5,55" type="U"
+      text="Sprague, C. punt 35 yards to the VT35, Imoh,M. return 1 yards to the VT36 (Adams, D.)." newcontext="V,1,10,V36">
+    <p_pu vh="H" name="Sprague, C." gain="35"></p_pu>
+    <p_pr vh="V" name="Imoh,M." gain="1"></p_pr>
+    <p_tk vh="H" name="Adams, D."></p_tk>
+   </play>
+   <drivesum plays="3" yards="4" top="1:47" driveindex="8" complete="Y"></drivesum>
+   <drivestart poss="V,V36,01:47" vh="V" spot="V36" clock="01:47" driveindex="9,55"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="9,1,56" clock="00:00"
+      text="VIRGINIA TECH drive start at 00:00." newcontext="V,1,10,V36">
+   </play>
+   <score qtr="1" V="14" H="0"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="7" rush="2" pass="3" penalty="2"></firstdowns>
+    <penalties no="1" yds="10"></penalties>
+    <conversions thirdconv="0" thirdatt="2" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="08:57"></misc>
+    <rush att="12" yds="43" gain="46" loss="3" td="0" long="11"></rush>
+    <pass comp="5" att="7" int="0" yds="47" td="1" long="18" sacks="1" sackyds="2"></pass>
+    <rcv no="5" yds="47" td="1" long="18"></rcv>
+    <punt no="1" yds="33" long="33" blkd="0" tb="0" fc="0" plus50="0" inside20="1" avg="33.0"></punt>
+    <ko no="2" yds="123" ob="0" tb="0"></ko>
+    <fg made="0" att="1" long="0" blkd="0"></fg>
+    <pat kickatt="2" kickmade="2"></pat>
+    <defense tackua="4" tacka="10" tot_tack="14" tflua="2" tfla="0" tflyds="9" sacks="1" sackyds="4" brup="2" int="1" intyds="23"></defense>
+    <pr no="2" yds="10" td="0" long="9"></pr>
+    <ir no="1" yds="23" td="1" long="23"></ir>
+    <scoring td="2" patkick="2"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="DU">
+    <firstdowns no="0" rush="0" pass="0" penalty="0"></firstdowns>
+    <penalties no="2" yds="20"></penalties>
+    <conversions thirdconv="0" thirdatt="3" fourthconv="0" fourthatt="1"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="06:03"></misc>
+    <rush att="5" yds="-5" gain="4" loss="9" td="0" long="2"></rush>
+    <pass comp="2" att="7" int="1" yds="16" td="0" long="8" sacks="1" sackyds="4"></pass>
+    <rcv no="2" yds="16" td="0" long="8"></rcv>
+    <punt no="2" yds="73" long="38" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="36.5"></punt>
+    <ko no="1" yds="65" ob="0" tb="1"></ko>
+    <defense tackua="11" tacka="14" tot_tack="25" tflua="3" tfla="0" tflyds="6" sacks="1" sackyds="2" brup="1"></defense>
+    <kr no="2" yds="41" td="0" long="21"></kr>
+   </qtrsummary>
+  </qtr>
+  <qtr number="2" text="2nd">
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="9,2,57" type="#" clock="15:00"
+      text="Start of 2nd quarter, clock 15:00." newcontext="V,1,10,V36">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="9,3,58" type="P"
+      text="Vick,M. pass incomplete to Royal,E.." newcontext="V,2,10,V36">
+    <p_pa vh="V" qb="Vick,M." result="INC" rcv="Royal,E."></p_pa>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="VT36" context="V,2,10,V36" playid="9,4,59" type="P"
+      text="Vick,M. pass complete to Clowney,D. for 9 yards to the VT45, out-of-bounds (Talley, J.)." ob="Y" newcontext="V,3,1,V45">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Clowney,D." gain="9"></p_pa>
+    <p_tk vh="H" name="Talley, J."></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="1" spot="VT45" context="V,3,1,V45" playid="9,5,60" type="R" first="R"
+      text="Imoh,M. rush for 23 yards to the DU32, 1ST DOWN VT, out-of-bounds (Brown, M.)." ob="Y" newcontext="V,1,10,H32">
+    <p_ru vh="V" name="Imoh,M." gain="23"></p_ru>
+    <p_tk vh="H" name="Brown, M."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU32" context="V,1,10,H32" playid="9,6,61" type="R"
+      text="Imoh,M. rush for loss of 2 yards to the DU34 (Camero, C.;Sallee, B.)." newcontext="V,2,12,H34">
+    <p_ru vh="V" name="Imoh,M." gain="-2"></p_ru>
+    <p_tk vh="H" name="Camero, C." tfl="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Sallee, B." tfl="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="12" spot="DU34" context="V,2,12,H34" playid="9,7,62" type="P" turnover="I"
+      text="Vick,M. pass intercepted by Talley, J. at the DU29, Talley, J. return 0 yards to the DU29 (Royal,E.)." newcontext="H,1,10,H29">
+    <p_pa vh="V" qb="Vick,M." result="INT"></p_pa>
+    <p_ir vh="H" name="Talley, J." at="H29" gain="0"></p_ir>
+    <p_tk vh="V" name="Royal,E."></p_tk>
+   </play>
+   <drivesum plays="5" yards="30" top="1:10" driveindex="9" complete="Y"></drivesum>
+   <drivestart poss="H,H29,15:00" vh="H" spot="H29" clock="15:00" driveindex="10,62"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU29" context="H,1,10,H29" playid="10,1,63" clock="13:50"
+      text="DUKE drive start at 13:50." newcontext="H,1,10,H29">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU29" context="H,1,10,H29" playid="10,2,64" type="R"
+      text="Boyle, J. rush for loss of 3 yards to the DU26 (Ellis,C.)." newcontext="H,2,13,H26">
+    <p_ru vh="H" name="Boyle, J." gain="-3"></p_ru>
+    <p_tk vh="V" name="Ellis,C." tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="13" spot="DU26" context="H,2,13,H26" playid="10,3,65" type="R"
+      text="Schneider, M. rush for no gain to the DU26 (Warren,Bl.), PENALTY DU H0 10 yards to the DU16." newcontext="H,2,23,H16">
+    <p_ru vh="H" name="Schneider, M." gain="0"></p_ru>
+    <p_tk vh="V" name="Warren,Bl."></p_tk>
+    <p_pn vh="H" code="H0" type="H0" result="ACCEPT" at="H26" yards="10"></p_pn>
+   </play>
+   <play hasball="DU" down="2" togo="23" spot="DU16" context="H,2,23,H16" playid="10,4,66"
+      text="2nd and 23." newcontext="H,2,23,H16">
+   </play>
+   <play hasball="DU" down="2" togo="23" spot="DU16" context="H,2,23,H16" playid="10,5,67" type="P"
+      text="Schneider, M. sacked for loss of 7 yards to the DU9 (Ellis,C.)." newcontext="H,3,30,H09">
+    <p_pa vh="H" qb="Schneider, M." result="SACK" gain="-7"></p_pa>
+    <p_tk vh="V" name="Ellis,C." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="30" spot="DU09" context="H,3,30,H09" playid="10,6,68" type="E"
+      text="PENALTY DU delay of game 5 yards to the DU4." newcontext="H,3,35,H04">
+    <p_pn vh="H" code="DG" type="delay of game" result="ACCEPT" at="H09" yards="5"></p_pn>
+   </play>
+   <play hasball="DU" down="3" togo="35" spot="DU04" context="H,3,35,H04" playid="10,7,69" type="P"
+      text="Schneider, M. pass incomplete to Elliott, R. (Rouse,A.)." newcontext="H,4,35,H04">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Elliott, R."></p_pa>
+    <p_bu vh="V" name="Rouse,A."></p_bu>
+   </play>
+   <play hasball="DU" down="4" togo="35" spot="DU04" context="H,4,35,H04" playid="10,8,70" type="U"
+      text="Sprague, C. punt 40 yards to the DU44, Royal,E. return 0 yards to the DU44, fumble by Royal,E. recovered by VT Royal,E. at VT48, Royal,E. for loss of 2 yards to the VT46 (Dewan, B.;Bailey, P.), PENALTY VT 0F 15 yards to the VT31, 1st and 10, VT ball on VT31." newcontext="V,1,10,V31">
+    <p_pu vh="H" name="Sprague, C." gain="40"></p_pu>
+    <p_pr vh="V" name="Royal,E." gain="0"></p_pr>
+    <p_fumb vh="V" name="Royal,E." at="V48" frvh="V" frname="Royal,E."></p_fumb>
+    <p_cont vh="V" name="Royal,E." context="PUNT" at="V48" gain="-2"></p_cont>
+    <p_tk vh="H" name="Dewan, B." assist="Y"></p_tk>
+    <p_tk vh="H" name="Bailey, P." assist="Y"></p_tk>
+    <p_pn vh="V" code="0F" type="0F" result="ACCEPT" at="V46" yards="15"></p_pn>
+   </play>
+   <drivesum plays="4" yards="-25" top="2:39" driveindex="10" complete="Y"></drivesum>
+   <drivestart poss="V,V31,13:50" vh="V" spot="V31" clock="13:50" driveindex="11,70"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT31" context="V,1,10,V31" playid="11,1,71" clock="11:11"
+      text="VIRGINIA TECH drive start at 11:11." newcontext="V,1,10,V31">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT31" context="V,1,10,V31" playid="11,2,72" type="P" first="P"
+      text="Vick,M. pass complete to Clowney,D. for 18 yards to the VT49, 1ST DOWN VT (Talley, J.)." newcontext="V,1,10,V49">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Clowney,D." gain="18"></p_pa>
+    <p_tk vh="H" name="Talley, J."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT49" context="V,1,10,V49" playid="11,3,73" type="R"
+      text="Humes,C. rush for 5 yards to the DU46 (Bailey, P.)." newcontext="V,2,5,H46">
+    <p_ru vh="V" name="Humes,C." gain="5"></p_ru>
+    <p_tk vh="H" name="Bailey, P."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="DU46" context="V,2,5,H46" playid="11,4,74" type="R"
+      text="Humes,C. rush for 2 yards to the DU44 (Woodard, C.J.)." newcontext="V,3,3,H44">
+    <p_ru vh="V" name="Humes,C." gain="2"></p_ru>
+    <p_tk vh="H" name="Woodard, C.J."></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="3" spot="DU44" context="V,3,3,H44" playid="11,5,75" type="P" first="P"
+      text="Vick,M. pass complete to King,J. for 7 yards to the DU37, 1ST DOWN VT (Alexander, P.)." newcontext="V,1,10,H37">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="King,J." gain="7"></p_pa>
+    <p_tk vh="H" name="Alexander, P."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU37" context="V,1,10,H37" playid="11,6,76" type="#" clock="09:23"
+      text="Timeout Virginia Tech, clock 09:23." newcontext="V,1,10,H37">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU37" context="V,1,10,H37" playid="11,7,77" type="P" first="P" score="Y" clock="09:15"
+      text="Vick,M. pass complete to Morgan,J. for 37 yards to the DU0, 1ST DOWN VT, TOUCHDOWN, clock 09:15." newcontext="V,1,0,H03">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Morgan,J." gain="37"></p_pa>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU03" context="V,1,0,H03" playid="11,8,78" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="21" H="0"></score>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="11,9,79" type="E"
+      text="Develli,J. kickoff 65 yards to the DU0, touchback, PENALTY VT offside 5 yards to the VT30, NO PLAY." newcontext="V,1,0,V30">
+    <p_pn vh="V" code="OS" type="offside" result="ACCEPT" at="V35" yards="5"></p_pn>
+   </play>
+   <drivesum plays="5" yards="69" top="1:56" driveindex="11" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT30" context="V,1,0,V30" playid="11,10,80" type="K"
+      text="Develli,J. kickoff 70 yards to the DU0, touchback." newcontext="H,1,10,H20">
+    <p_ko vh="V" name="Develli,J." gain="70" result="T"></p_ko>
+   </play>
+   <drivestart poss="H,H20,09:15" vh="H" spot="H20" clock="09:15" driveindex="12,80"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="12,1,81" clock="09:15"
+      text="DUKE drive start at 09:15." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="12,2,82" type="R"
+      text="Dukes, C. rush for 3 yards to the DU23 (Lewis,J.)." newcontext="H,2,7,H23">
+    <p_ru vh="H" name="Dukes, C." gain="3"></p_ru>
+    <p_tk vh="V" name="Lewis,J."></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="7" spot="DU23" context="H,2,7,H23" playid="12,3,83" type="R" first="R"
+      text="Dukes, C. rush for 13 yards to the DU36, 1ST DOWN DU (Parker,D.J.)." newcontext="H,1,10,H36">
+    <p_ru vh="H" name="Dukes, C." gain="13"></p_ru>
+    <p_tk vh="V" name="Parker,D.J."></p_tk>
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU36" context="H,1,10,H36" playid="12,4,84" type="R"
+      text="Dukes, C. rush for 1 yard to the DU37 (Adibi,X.;Minor,R.)." newcontext="H,2,9,H37">
+    <p_ru vh="H" name="Dukes, C." gain="1"></p_ru>
+    <p_tk vh="V" name="Adibi,X." assist="Y"></p_tk>
+    <p_tk vh="V" name="Minor,R." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="9" spot="DU37" context="H,2,9,H37" playid="12,5,85" type="E"
+      text="PENALTY DU delay of game 5 yards to the DU32." newcontext="H,2,14,H32">
+    <p_pn vh="H" code="DG" type="delay of game" result="ACCEPT" at="H37" yards="5"></p_pn>
+   </play>
+   <play hasball="DU" down="2" togo="14" spot="DU32" context="H,2,14,H32" playid="12,6,86" type="R"
+      text="Boyle, J. rush for no gain to the DU32 (Burchette,N.;Warren,Br.)." newcontext="H,3,14,H32">
+    <p_ru vh="H" name="Boyle, J." gain="0"></p_ru>
+    <p_tk vh="V" name="Burchette,N." assist="Y"></p_tk>
+    <p_tk vh="V" name="Warren,Br." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="14" spot="DU32" context="H,3,14,H32" playid="12,7,87" type="P"
+      text="Dukes, C. sacked for loss of 12 yards to the DU20 (Lewis,J.)." newcontext="H,4,26,H20">
+    <p_pa vh="H" qb="Dukes, C." result="SACK" gain="-12"></p_pa>
+    <p_tk vh="V" name="Lewis,J." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="4" togo="26" spot="DU20" context="H,4,26,H20" playid="12,8,88" type="U"
+      text="Sprague, C. punt 31 yards to the VT49, Imoh,M. return 2 yards to the DU49 (Woodard, C.J.)." newcontext="V,1,10,H49">
+    <p_pu vh="H" name="Sprague, C." gain="31"></p_pu>
+    <p_pr vh="V" name="Imoh,M." gain="2"></p_pr>
+    <p_tk vh="H" name="Woodard, C.J."></p_tk>
+   </play>
+   <drivesum plays="5" yards="0" top="3:44" driveindex="12" complete="Y"></drivesum>
+   <drivestart poss="V,H49,09:15" vh="V" spot="H49" clock="09:15" driveindex="13,88"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="DU49" context="V,1,10,H49" playid="13,1,89" clock="05:31"
+      text="VIRGINIA TECH drive start at 05:31." newcontext="V,1,10,H49">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU49" context="V,1,10,H49" playid="13,2,90" type="R" first="R"
+      text="Imoh,M. rush for 14 yards to the DU35, 1ST DOWN VT (Sallee, B.)." newcontext="V,1,10,H35">
+    <p_ru vh="V" name="Imoh,M." gain="14"></p_ru>
+    <p_tk vh="H" name="Sallee, B."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU35" context="V,1,10,H35" playid="13,3,91" type="E"
+      text="PENALTY DU offside 5 yards to the DU30." newcontext="V,1,5,H30">
+    <p_pn vh="H" code="OS" type="offside" result="ACCEPT" at="H35" yards="5"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="5" spot="DU30" context="V,1,5,H30" playid="13,4,92" type="P"
+      text="Vick,M. pass incomplete to Harper,J.." newcontext="V,2,5,H30">
+    <p_pa vh="V" qb="Vick,M." result="INC" rcv="Harper,J."></p_pa>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="DU30" context="V,2,5,H30" playid="13,5,93" type="P"
+      text="Vick,M. sacked for loss of 8 yards to the DU38 (Davis, C.;Camero, C.), fumble by Vick,M. recovered by VT Imoh,M. at DU39." newcontext="V,3,14,H39">
+    <p_pa vh="V" qb="Vick,M." result="FUMB" gain="-8"></p_pa>
+    <p_fumb vh="V" name="Vick,M." at="H39" frvh="V" frname="Imoh,M."></p_fumb>
+    <p_tk vh="H" name="Davis, C." sack="Y" tfl="Y" assist="Y"></p_tk>
+    <p_tk vh="H" name="Camero, C." sack="Y" tfl="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="14" spot="DU39" context="V,3,14,H39" playid="13,6,94" type="P"
+      text="Vick,M. pass incomplete to Royal,E. (Talley, J.)." newcontext="V,4,14,H39">
+    <p_pa vh="V" qb="Vick,M." result="INC" rcv="Royal,E."></p_pa>
+    <p_bu vh="H" name="Talley, J."></p_bu>
+   </play>
+   <play hasball="VT" down="4" togo="14" spot="DU39" context="V,4,14,H39" playid="13,7,95" type="U"
+      text="Schmitt,N. punt 32 yards to the DU7, downed." newcontext="H,1,10,H07">
+    <p_pu vh="V" name="Schmitt,N." gain="32" in20="Y"></p_pu>
+   </play>
+   <drivesum plays="4" yards="10" top="2:00" driveindex="13" complete="Y"></drivesum>
+   <drivestart poss="H,H07,05:31" vh="H" spot="H07" clock="05:31" driveindex="14,95"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU07" context="H,1,10,H07" playid="14,1,96" clock="03:31"
+      text="DUKE drive start at 03:31." newcontext="H,1,10,H07">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU07" context="H,1,10,H07" playid="14,2,97" type="R"
+      text="Dukes, C. rush for 2 yards to the DU9 (Hall,V.;Adibi,X.)." newcontext="H,2,8,H09">
+    <p_ru vh="H" name="Dukes, C." gain="2"></p_ru>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Adibi,X." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="8" spot="DU09" context="H,2,8,H09" playid="14,3,98" type="R"
+      text="Boyle, J. rush for no gain to the DU9 (Robertson,K.;Booker,B.)." newcontext="H,3,8,H09">
+    <p_ru vh="H" name="Boyle, J." gain="0"></p_ru>
+    <p_tk vh="V" name="Robertson,K." assist="Y"></p_tk>
+    <p_tk vh="V" name="Booker,B." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="8" spot="DU09" context="H,3,8,H09" playid="14,4,99" type="E"
+      text="Dukes, C. pass incomplete to Jones, M., PENALTY VT offside 5 yards to the DU14, NO PLAY." newcontext="H,3,3,H14">
+    <p_pn vh="V" code="OS" type="offside" result="ACCEPT" at="H09" yards="5"></p_pn>
+   </play>
+   <play hasball="DU" down="3" togo="3" spot="DU14" context="H,3,3,H14" playid="14,5,100" type="#" clock="01:55"
+      text="Clock 01:55." newcontext="H,3,3,H14">
+   </play>
+   <play hasball="DU" down="3" togo="3" spot="DU14" context="H,3,3,H14" playid="14,6,101" type="R" first="R"
+      text="Dukes, C. rush for 5 yards to the DU19, 1ST DOWN DU (Ellis,C.)." newcontext="H,1,10,H19">
+    <p_ru vh="H" name="Dukes, C." gain="5"></p_ru>
+    <p_tk vh="V" name="Ellis,C."></p_tk>
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU19" context="H,1,10,H19" playid="14,7,102" type="R"
+      text="Boyle, J. rush for 1 yard to the DU20 (Burchette,N.;Hall,V.)." newcontext="H,2,9,H20">
+    <p_ru vh="H" name="Boyle, J." gain="1"></p_ru>
+    <p_tk vh="V" name="Burchette,N." assist="Y"></p_tk>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="9" spot="DU20" context="H,2,9,H20" playid="14,8,103" type="R"
+      text="Dukes, C. rush for 3 yards to the DU23 (Hall,V.;Sandidge,T.)." newcontext="H,3,6,H23">
+    <p_ru vh="H" name="Dukes, C." gain="3"></p_ru>
+    <p_tk vh="V" name="Hall,V." assist="Y"></p_tk>
+    <p_tk vh="V" name="Sandidge,T." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="6" spot="DU23" context="H,3,6,H23" playid="14,9,104" type="#" clock="00:00"
+      text="End of half, clock 00:00." newcontext="H,3,6,H23">
+   </play>
+   <drivesum plays="5" yards="16" top="3:31" driveindex="14" complete="Y"></drivesum>
+   <score qtr="2" V="21" H="0"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="5" rush="2" pass="3" penalty="0"></firstdowns>
+    <penalties no="3" yds="25"></penalties>
+    <conversions thirdconv="2" thirdatt="3" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="2" lost="0"></fumbles>
+    <misc yds="0" top="05:06"></misc>
+    <rush att="6" yds="33" gain="44" loss="11" td="0" long="12"></rush>
+    <pass comp="4" att="8" int="1" yds="71" td="1" long="19" sacks="1" sackyds="8"></pass>
+    <rcv no="4" yds="71" td="1" long="19"></rcv>
+    <punt no="1" yds="32" long="0" blkd="0" tb="0" fc="0" plus50="0" inside20="1" avg="32.0"></punt>
+    <ko no="1" yds="70" ob="0" tb="1"></ko>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="8" tacka="12" tot_tack="20" tflua="3" tfla="0" tflyds="22" sacks="3" sackyds="23" brup="1"></defense>
+    <pr no="2" yds="-8" td="0" long="0"></pr>
+    <fumbles no="2" lost="0"></fumbles>
+    <scoring td="1" patkick="1"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="DU">
+    <firstdowns no="2" rush="2" pass="0" penalty="0"></firstdowns>
+    <penalties no="4" yds="25"></penalties>
+    <conversions thirdconv="1" thirdatt="3" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="09:54"></misc>
+    <rush att="13" yds="6" gain="28" loss="22" td="0" long="11"></rush>
+    <pass comp="0" att="1" int="0" yds="0" td="0" long="0" sacks="2" sackyds="19"></pass>
+    <punt no="2" yds="71" long="2" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="35.5"></punt>
+    <defense tackua="8" tacka="6" tot_tack="14" tflua="4" tfla="0" tflyds="20" sacks="2" sackyds="10" brup="1" ff="1" int="1" intyds="0"></defense>
+    <ir no="1" yds="0" td="0" long="0"></ir>
+   </qtrsummary>
+  </qtr>
+  <qtr number="3" text="3rd">
+   <play hasball="DU" down="3" togo="6" spot="DU23" context="H,3,6,H23" playid="14,10,105" type="#" clock="15:00"
+      text="Start of 3rd quarter, clock 15:00, VT ball on VT35." newcontext="V,3,6,V35">
+   </play>
+   <play hasball="VT" down="3" togo="6" spot="VT35" context="V,3,6,V35" playid="14,11,106" type="K"
+      text="Develli,J. kickoff 65 yards to the DU0, touchback." newcontext="H,1,10,H20">
+    <p_ko vh="V" name="Develli,J." gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="H,H20,15:00" vh="H" spot="H20" clock="15:00" driveindex="15,106"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="15,1,107" clock="15:00"
+      text="DUKE drive start at 15:00." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="15,2,108" type="P"
+      text="Schneider, M. pass incomplete to Elliott, R. (Minor,R.)." newcontext="H,2,10,H20">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Elliott, R."></p_pa>
+    <p_bu vh="V" name="Minor,R."></p_bu>
+   </play>
+   <play hasball="DU" down="2" togo="10" spot="DU20" context="H,2,10,H20" playid="15,3,109" type="P"
+      text="Schneider, M. sacked for loss of 2 yards to the DU18 (Tapp,D.), fumble by Schneider, M. recovered by DU Adams, D. at DU18." newcontext="H,3,12,H18">
+    <p_pa vh="H" qb="Schneider, M." result="FUMB" gain="-2"></p_pa>
+    <p_fumb vh="H" name="Schneider, M." at="H18" frvh="H" frname="Adams, D."></p_fumb>
+    <p_tk vh="V" name="Tapp,D." sack="Y" tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="12" spot="DU18" context="H,3,12,H18" playid="15,4,110" type="P"
+      text="Schneider, M. pass incomplete to Wright, J.." newcontext="H,4,12,H18">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Wright, J."></p_pa>
+   </play>
+   <play hasball="DU" down="4" togo="12" spot="DU18" context="H,4,12,H18" playid="15,5,111" type="U"
+      text="Sprague, C. punt 43 yards to the VT39, Imoh,M. return 9 yards to the VT48 (Dowling, M.)." newcontext="V,1,10,V48">
+    <p_pu vh="H" name="Sprague, C." gain="43"></p_pu>
+    <p_pr vh="V" name="Imoh,M." gain="9"></p_pr>
+    <p_tk vh="H" name="Dowling, M."></p_tk>
+   </play>
+   <drivesum plays="3" yards="-2" top="1:12" driveindex="15" complete="Y"></drivesum>
+   <drivestart poss="V,V48,15:00" vh="V" spot="V48" clock="15:00" driveindex="16,111"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT48" context="V,1,10,V48" playid="16,1,112" clock="13:48"
+      text="VIRGINIA TECH drive start at 13:48." newcontext="V,1,10,V48">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT48" context="V,1,10,V48" playid="16,2,113" type="R"
+      text="Humes,C. rush for 8 yards to the DU44 (Sallee, B.)." newcontext="V,2,2,H44">
+    <p_ru vh="V" name="Humes,C." gain="8"></p_ru>
+    <p_tk vh="H" name="Sallee, B."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="2" spot="DU44" context="V,2,2,H44" playid="16,3,114" type="R" first="R"
+      text="Humes,C. rush for 4 yards to the DU40, 1ST DOWN VT (Alexander, P.;Brown, M.)." newcontext="V,1,10,H40">
+    <p_ru vh="V" name="Humes,C." gain="4"></p_ru>
+    <p_tk vh="H" name="Alexander, P." assist="Y"></p_tk>
+    <p_tk vh="H" name="Brown, M." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU40" context="V,1,10,H40" playid="16,4,115" type="R"
+      text="Humes,C. rush for 5 yards to the DU35 (Dewan, B.;Talley, J.)." newcontext="V,2,5,H35">
+    <p_ru vh="V" name="Humes,C." gain="5"></p_ru>
+    <p_tk vh="H" name="Dewan, B." assist="Y"></p_tk>
+    <p_tk vh="H" name="Talley, J." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="DU35" context="V,2,5,H35" playid="16,5,116" type="P" first="P" score="Y" clock="11:52"
+      text="Vick,M. pass complete to Clowney,D. for 35 yards to the DU0, 1ST DOWN VT, TOUCHDOWN, clock 11:52." newcontext="V,1,0,H03">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Clowney,D." gain="35"></p_pa>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU03" context="V,1,0,H03" playid="16,6,117" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="28" H="0"></score>
+   <drivesum plays="4" yards="52" top="1:56" driveindex="16" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="16,7,118" type="K"
+      text="Develli,J. kickoff 65 yards to the DU0, touchback." newcontext="H,1,10,H20">
+    <p_ko vh="V" name="Develli,J." gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="H,H20,11:52" vh="H" spot="H20" clock="11:52" driveindex="17,118"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="17,1,119" clock="11:52"
+      text="DUKE drive start at 11:52." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="17,2,120" type="R"
+      text="Dargan, C. rush for 5 yards to the DU25 (Sandidge,T.)." newcontext="H,2,5,H25">
+    <p_ru vh="H" name="Dargan, C." gain="5"></p_ru>
+    <p_tk vh="V" name="Sandidge,T."></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="5" spot="DU25" context="H,2,5,H25" playid="17,3,121" type="R"
+      text="Dargan, C. rush for no gain to the DU25 (Rouse,A.;Parker,D.J.)." newcontext="H,3,5,H25">
+    <p_ru vh="H" name="Dargan, C." gain="0"></p_ru>
+    <p_tk vh="V" name="Rouse,A." assist="Y"></p_tk>
+    <p_tk vh="V" name="Parker,D.J." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="5" spot="DU25" context="H,3,5,H25" playid="17,4,122" type="R" first="R"
+      text="Schneider, M. rush for 6 yards to the DU31, 1ST DOWN DU." newcontext="H,1,10,H31">
+    <p_ru vh="H" name="Schneider, M." gain="6"></p_ru>
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU31" context="H,1,10,H31" playid="17,5,123" type="R"
+      text="Dargan, C. rush for 2 yards to the DU33 (Parker,D.J.;Anderson,J.)." newcontext="H,2,8,H33">
+    <p_ru vh="H" name="Dargan, C." gain="2"></p_ru>
+    <p_tk vh="V" name="Parker,D.J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="8" spot="DU33" context="H,2,8,H33" playid="17,6,124" type="P"
+      text="Schneider, M. pass complete to Adams, D. for 7 yards to the DU40 (Parker,D.J.;Anderson,J.)." newcontext="H,3,1,H40">
+    <p_pa vh="H" qb="Schneider, M." result="COMP" rcv="Adams, D." gain="7"></p_pa>
+    <p_tk vh="V" name="Parker,D.J." assist="Y"></p_tk>
+    <p_tk vh="V" name="Anderson,J." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="1" spot="DU40" context="H,3,1,H40" playid="17,7,125" type="#" clock="08:35"
+      text="Timeout Duke, clock 08:35." newcontext="H,3,1,H40">
+    <p_to vh="H" team="Duke"></p_to>
+   </play>
+   <play hasball="DU" down="3" togo="1" spot="DU40" context="H,3,1,H40" playid="17,8,126" type="R" first="R"
+      text="Ruff, M. rush for 1 yard to the DU41, 1ST DOWN DU (Rouse,A.)." newcontext="H,1,10,H41">
+    <p_ru vh="H" name="Ruff, M." gain="1"></p_ru>
+    <p_tk vh="V" name="Rouse,A."></p_tk>
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU41" context="H,1,10,H41" playid="17,9,127" type="R" first="R"
+      text="Schneider, M. rush for 11 yards to the VT48, 1ST DOWN DU." newcontext="H,1,10,V48">
+    <p_ru vh="H" name="Schneider, M." gain="11"></p_ru>
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="VT48" context="H,1,10,V48" playid="17,10,128" type="#" clock="07:50"
+      text="Timeout Duke, clock 07:50." newcontext="H,1,10,V48">
+    <p_to vh="H" team="Duke"></p_to>
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="VT48" context="H,1,10,V48" playid="17,11,129" type="P"
+      text="Schneider, M. pass incomplete to Roland, A. (Williams,J.)." newcontext="H,2,10,V48">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Roland, A."></p_pa>
+    <p_bu vh="V" name="Williams,J."></p_bu>
+   </play>
+   <play hasball="DU" down="2" togo="10" spot="VT48" context="H,2,10,V48" playid="17,12,130" type="R"
+      text="Boyle, J. rush for no gain to the VT48 (Rouse,A.), PENALTY DU holding 10 yards to the DU42." newcontext="H,2,20,H42">
+    <p_ru vh="H" name="Boyle, J." gain="0"></p_ru>
+    <p_tk vh="V" name="Rouse,A."></p_tk>
+    <p_pn vh="H" code="HO" type="holding" result="ACCEPT" at="V48" yards="10"></p_pn>
+   </play>
+   <play hasball="DU" down="2" togo="20" spot="DU42" context="H,2,20,H42" playid="17,13,131"
+      text="2nd and 20." newcontext="H,2,20,H42">
+   </play>
+   <play hasball="DU" down="2" togo="20" spot="DU42" context="H,2,20,H42" playid="17,14,132" type="P"
+      text="Schneider, M. pass complete to Drummer, R. for loss of 3 yards to the DU39 (Adibi,X.)." newcontext="H,3,23,H39">
+    <p_pa vh="H" qb="Schneider, M." result="COMP" rcv="Drummer, R." gain="-3"></p_pa>
+    <p_tk vh="V" name="Adibi,X." tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="23" spot="DU39" context="H,3,23,H39" playid="17,15,133" type="P"
+      text="Schneider, M. pass complete to Jones, M. for 2 yards to the DU41 (Williams,J.)." newcontext="H,4,21,H41">
+    <p_pa vh="H" qb="Schneider, M." result="COMP" rcv="Jones, M." gain="2"></p_pa>
+    <p_tk vh="V" name="Williams,J."></p_tk>
+   </play>
+   <play hasball="DU" down="4" togo="21" spot="DU41" context="H,4,21,H41" playid="17,16,134" type="U"
+      text="Sprague, C. punt 35 yards to the VT24, Imoh,M. return 23 yards to the VT47 (Platt, A.;Dewan, B.)." newcontext="V,1,10,V47">
+    <p_pu vh="H" name="Sprague, C." gain="35"></p_pu>
+    <p_pr vh="V" name="Imoh,M." gain="23"></p_pr>
+    <p_tk vh="H" name="Platt, A." assist="Y"></p_tk>
+    <p_tk vh="H" name="Dewan, B." assist="Y"></p_tk>
+   </play>
+   <drivesum plays="11" yards="21" top="5:40" driveindex="17" complete="Y"></drivesum>
+   <drivestart poss="V,V47,07:50" vh="V" spot="V47" clock="07:50" driveindex="18,134"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT47" context="V,1,10,V47" playid="18,1,135" clock="06:12"
+      text="VIRGINIA TECH drive start at 06:12." newcontext="V,1,10,V47">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT47" context="V,1,10,V47" playid="18,2,136" type="P" first="P"
+      text="Vick,M. pass complete to Humes,C. for 12 yards to the DU41, 1ST DOWN VT (Respress, C.)." newcontext="V,1,10,H41">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="Humes,C." gain="12"></p_pa>
+    <p_tk vh="H" name="Respress, C."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU41" context="V,1,10,H41" playid="18,3,137" type="R"
+      text="Bell,G. rush for 5 yards to the DU36 (McCormick, D.)." newcontext="V,2,5,H36">
+    <p_ru vh="V" name="Bell,G." gain="5"></p_ru>
+    <p_tk vh="H" name="McCormick, D."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="5" spot="DU36" context="V,2,5,H36" playid="18,4,138" type="R"
+      text="Ore,B. rush for 2 yards to the DU34 (Sallee, B.;Respress, C.)." newcontext="V,3,3,H34">
+    <p_ru vh="V" name="Ore,B." gain="2"></p_ru>
+    <p_tk vh="H" name="Sallee, B." assist="Y"></p_tk>
+    <p_tk vh="H" name="Respress, C." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="3" spot="DU34" context="V,3,3,H34" playid="18,5,139" type="R"
+      text="Bell,G. rush for 1 yard to the DU33 (Bailey, P.)." newcontext="V,4,2,H33">
+    <p_ru vh="V" name="Bell,G." gain="1"></p_ru>
+    <p_tk vh="H" name="Bailey, P."></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="2" spot="DU33" context="V,4,2,H33" playid="18,6,140" type="P" first="P"
+      text="Vick,M. pass complete to King,J. for 7 yards to the DU26, 1ST DOWN VT (Bailey, P.;Brown, M.)." newcontext="V,1,10,H26">
+    <p_pa vh="V" qb="Vick,M." result="COMP" rcv="King,J." gain="7"></p_pa>
+    <p_tk vh="H" name="Bailey, P." assist="Y"></p_tk>
+    <p_tk vh="H" name="Brown, M." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU26" context="V,1,10,H26" playid="18,7,141" type="R" first="R"
+      text="Gilchrist,J. rush for 14 yards to the DU12, 1ST DOWN VT, out-of-bounds (McCormick, D.)." ob="Y" newcontext="V,1,10,H12">
+    <p_ru vh="V" name="Gilchrist,J." gain="14"></p_ru>
+    <p_tk vh="H" name="McCormick, D."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU12" context="V,1,10,H12" playid="18,8,142" type="R"
+      text="Ore,B. rush for 9 yards to the DU3 (Greene, B.)." newcontext="V,2,1,H03">
+    <p_ru vh="V" name="Ore,B." gain="9"></p_ru>
+    <p_tk vh="H" name="Greene, B."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="1" spot="DU03" context="V,2,1,H03" playid="18,9,143" type="E" clock="02:30"
+      text="Bell,G. rush for 3 yards to the DU0, clock 02:30, PENALTY VT face mask 15 yards to the DU18, NO PLAY." newcontext="V,2,16,H18">
+    <p_pn vh="V" code="FM" type="face mask" result="ACCEPT" at="H03" yards="15"></p_pn>
+   </play>
+   <play hasball="VT" down="2" togo="16" spot="DU18" context="V,2,16,H18" playid="18,10,144" type="#" clock="02:30"
+      text="Timeout Virginia Tech, clock 02:30." newcontext="V,2,16,H18">
+    <p_to vh="V" team="Virginia Tech"></p_to>
+   </play>
+   <play hasball="VT" down="2" togo="16" spot="DU18" context="V,2,16,H18" playid="18,11,145" type="P"
+      text="Vick,M. pass incomplete to Morgan,J. (Talley, J.)." newcontext="V,3,16,H18">
+    <p_pa vh="V" qb="Vick,M." result="INC" rcv="Morgan,J."></p_pa>
+    <p_bu vh="H" name="Talley, J."></p_bu>
+   </play>
+   <play hasball="VT" down="3" togo="16" spot="DU18" context="V,3,16,H18" playid="18,12,146" type="R"
+      text="Bell,G. rush for 5 yards to the DU13 (White, D.)." newcontext="V,4,11,H13">
+    <p_ru vh="V" name="Bell,G." gain="5"></p_ru>
+    <p_tk vh="H" name="White, D."></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="11" spot="DU13" context="V,4,11,H13" playid="18,13,147" type="E" first="E" clock="01:46"
+      text="Pace,B. field goal attempt from 30 GOOD, clock 01:46, PENALTY DU roughing the kicker 7 yards to the DU6, 1ST DOWN VT, NO PLAY." newcontext="V,1,0,H06">
+    <p_pn vh="H" code="RK" type="roughing the kicker" result="ACCEPT" at="H13" yards="7"></p_pn>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU06" context="V,1,0,H06" playid="18,14,148" type="R"
+      text="Ore,B. rush for 3 yards to the DU3 (Talley, J.)." newcontext="V,2,0,H03">
+    <p_ru vh="V" name="Ore,B." gain="3"></p_ru>
+    <p_tk vh="H" name="Talley, J."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="0" spot="DU03" context="V,2,0,H03" playid="18,15,149" type="R" score="Y" clock="01:34"
+      text="Bell,G. rush for 3 yards to the DU0, TOUCHDOWN, clock 01:34." newcontext="V,1,0,H03">
+    <p_ru vh="V" name="Bell,G." gain="3"></p_ru>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU03" context="V,1,0,H03" playid="18,16,150" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="35" H="0"></score>
+   <drivesum plays="11" yards="53" top="4:38" driveindex="18" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="18,17,151" type="K"
+      text="Develli,J. kickoff 65 yards to the DU0, touchback." newcontext="H,1,10,H20">
+    <p_ko vh="V" name="Develli,J." gain="65" result="T"></p_ko>
+   </play>
+   <drivestart poss="H,H20,01:34" vh="H" spot="H20" clock="01:34" driveindex="19,151"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="19,1,152" clock="01:34"
+      text="DUKE drive start at 01:34." newcontext="H,1,10,H20">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU20" context="H,1,10,H20" playid="19,2,153" type="R"
+      text="Boyle, J. rush for 2 yards to the DU22 (Booker,B.;Warren,Bl.)." newcontext="H,2,8,H22">
+    <p_ru vh="H" name="Boyle, J." gain="2"></p_ru>
+    <p_tk vh="V" name="Booker,B." assist="Y"></p_tk>
+    <p_tk vh="V" name="Warren,Bl." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="8" spot="DU22" context="H,2,8,H22" playid="19,3,154" type="R"
+      text="TEAM rush for loss of 5 yards to the DU17, fumble by TEAM recovered by DU Dukes, C. at DU17." newcontext="H,3,13,H17">
+    <p_ru vh="H" name="TEAM" gain="-5"></p_ru>
+    <p_fumb vh="H" name="TEAM" at="H17" frvh="H" frname="Dukes, C."></p_fumb>
+   </play>
+   <play hasball="DU" down="3" togo="13" spot="DU17" context="H,3,13,H17" playid="19,4,155" type="P"
+      text="Schneider, M. pass incomplete to Elliott, R.." newcontext="H,4,13,H17">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Elliott, R."></p_pa>
+   </play>
+   <play hasball="DU" down="4" togo="13" spot="DU17" context="H,4,13,H17" playid="19,5,156" type="U"
+      text="Sprague, C. punt 37 yards to the VT46, Morgan,J. return 0 yards to the VT46, fumble by Morgan,J. recovered by VT Morgan,J. at VT46, Morgan,J. for 1 yard to the VT47 (Williams, G.)." newcontext="V,1,10,V47">
+    <p_pu vh="H" name="Sprague, C." gain="37"></p_pu>
+    <p_pr vh="V" name="Morgan,J." gain="0"></p_pr>
+    <p_fumb vh="V" name="Morgan,J." at="V46" frvh="V" frname="Morgan,J."></p_fumb>
+    <p_cont vh="V" name="Morgan,J." context="PUNT" at="V46" gain="1"></p_cont>
+    <p_tk vh="H" name="Williams, G."></p_tk>
+   </play>
+   <drivesum plays="3" yards="-3" top="1:34" driveindex="19" complete="Y"></drivesum>
+   <drivestart poss="V,V47,01:34" vh="V" spot="V47" clock="01:34" driveindex="20,156"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT47" context="V,1,10,V47" playid="20,1,157" clock="00:00"
+      text="VIRGINIA TECH drive start at 00:00, VT ball on VT47." newcontext="V,1,10,V47">
+   </play>
+   <score qtr="3" V="35" H="0"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="6" rush="2" pass="3" penalty="1"></firstdowns>
+    <penalties no="1" yds="15"></penalties>
+    <conversions thirdconv="0" thirdatt="2" fourthconv="1" fourthatt="1"></conversions>
+    <fumbles no="1" lost="0"></fumbles>
+    <misc yds="0" top="06:34"></misc>
+    <rush att="11" yds="59" gain="59" loss="0" td="1" long="0"></rush>
+    <pass comp="3" att="4" int="0" yds="54" td="1" long="0" sacks="0" sackyds="0"></pass>
+    <rcv no="3" yds="54" td="1" long="0"></rcv>
+    <ko no="3" yds="195" ob="0" tb="3"></ko>
+    <pat kickatt="2" kickmade="2"></pat>
+    <defense tackua="6" tacka="8" tot_tack="14" tflua="2" tfla="0" tflyds="5" sacks="4" sackyds="25" brup="2" ff="1"></defense>
+    <pr no="3" yds="33" td="0" long="14"></pr>
+    <fumbles no="1" lost="0"></fumbles>
+    <scoring td="2" patkick="2"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="DU">
+    <firstdowns no="3" rush="3" pass="0" penalty="0"></firstdowns>
+    <penalties no="2" yds="17"></penalties>
+    <conversions thirdconv="2" thirdatt="5" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="2" lost="0"></fumbles>
+    <misc yds="0" top="08:26"></misc>
+    <rush att="10" yds="20" gain="27" loss="7" td="0" long="0"></rush>
+    <pass comp="3" att="7" int="0" yds="6" td="0" long="0" sacks="1" sackyds="2"></pass>
+    <rcv no="3" yds="6" td="0" long="0"></rcv>
+    <punt no="3" yds="115" long="3" blkd="0" tb="0" fc="0" plus50="0" inside20="0" avg="38.3"></punt>
+    <defense tackua="10" tacka="10" tot_tack="20" sacks="2" sackyds="10" brup="1"></defense>
+    <fumbles no="2" lost="0"></fumbles>
+   </qtrsummary>
+  </qtr>
+  <qtr number="4" text="4th">
+   <play hasball="VT" down="1" togo="10" spot="VT47" context="V,1,10,V47" playid="20,2,158" type="#" clock="15:00"
+      text="Start of 4th quarter, clock 15:00." newcontext="V,1,10,V47">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT47" context="V,1,10,V47" playid="20,3,159" type="R"
+      text="Ore,B. rush for 3 yards to the 50 yardline (Alexander, P.;Williams, Alf.)." newcontext="V,2,7,V50">
+    <p_ru vh="V" name="Ore,B." gain="3"></p_ru>
+    <p_tk vh="H" name="Alexander, P." assist="Y"></p_tk>
+    <p_tk vh="H" name="Williams, Alf." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="7" spot="VT50" context="V,2,7,V50" playid="20,4,160" type="R"
+      text="TEAM rush for no gain to the 50 yardline, fumble by TEAM recovered by VT Holt,C. at 50 yardline." newcontext="V,3,7,V50">
+    <p_ru vh="V" name="TEAM" gain="0"></p_ru>
+    <p_fumb vh="V" name="TEAM" at="V50" frvh="V" frname="Holt,C."></p_fumb>
+   </play>
+   <play hasball="VT" down="3" togo="7" spot="VT50" context="V,3,7,V50" playid="20,5,161" type="R" first="R"
+      text="Ore,B. rush for 7 yards to the DU43, 1ST DOWN VT (Bailey, P.;McCormick, D.)." newcontext="V,1,10,H43">
+    <p_ru vh="V" name="Ore,B." gain="7"></p_ru>
+    <p_tk vh="H" name="Bailey, P." assist="Y"></p_tk>
+    <p_tk vh="H" name="McCormick, D." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU43" context="V,1,10,H43" playid="20,6,162" type="R"
+      text="Ore,B. rush for 2 yards to the DU41 (Williams, Alf.;Bailey, P.)." newcontext="V,2,8,H41">
+    <p_ru vh="V" name="Ore,B." gain="2"></p_ru>
+    <p_tk vh="H" name="Williams, Alf." assist="Y"></p_tk>
+    <p_tk vh="H" name="Bailey, P." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="8" spot="DU41" context="V,2,8,H41" playid="20,7,163" type="P"
+      text="Holt,C. pass incomplete to Trott,J. (McCormick, D.)." newcontext="V,3,8,H41">
+    <p_pa vh="V" qb="Holt,C." result="INC" rcv="Trott,J."></p_pa>
+    <p_bu vh="H" name="McCormick, D."></p_bu>
+   </play>
+   <play hasball="VT" down="3" togo="8" spot="DU41" context="V,3,8,H41" playid="20,8,164" type="R"
+      text="Ore,B. rush for 1 yard to the DU40 (Edwards, J.;Nichols, E.)." newcontext="V,4,7,H40">
+    <p_ru vh="V" name="Ore,B." gain="1"></p_ru>
+    <p_tk vh="H" name="Edwards, J." assist="Y"></p_tk>
+    <p_tk vh="H" name="Nichols, E." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="7" spot="DU40" context="V,4,7,H40" playid="20,9,165" type="U"
+      text="Schmitt,N. punt 28 yards to the DU12, downed." newcontext="H,1,10,H12">
+    <p_pu vh="V" name="Schmitt,N." gain="28" in20="Y"></p_pu>
+   </play>
+   <drivesum plays="6" yards="13" top="3:33" driveindex="20" complete="Y"></drivesum>
+   <drivestart poss="H,H12,15:00" vh="H" spot="H12" clock="15:00" driveindex="21,165"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU12" context="H,1,10,H12" playid="21,1,166" clock="11:27"
+      text="DUKE drive start at 11:27." newcontext="H,1,10,H12">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU12" context="H,1,10,H12" playid="21,2,167" type="R"
+      text="Boyette, R. rush for no gain to the DU12 (Gordon,C.), PENALTY DU holding 6 yards to the DU6." newcontext="H,1,16,H06">
+    <p_ru vh="H" name="Boyette, R." gain="0"></p_ru>
+    <p_tk vh="V" name="Gordon,C."></p_tk>
+    <p_pn vh="H" code="HO" type="holding" result="ACCEPT" at="H12" yards="6"></p_pn>
+   </play>
+   <play hasball="DU" down="1" togo="16" spot="DU06" context="H,1,16,H06" playid="21,3,168"
+      text="1st and 16." newcontext="H,1,16,H06">
+   </play>
+   <play hasball="DU" down="1" togo="16" spot="DU06" context="H,1,16,H06" playid="21,4,169" type="R"
+      text="Boyle, J. rush for no gain to the DU6 (Martin,O.)." newcontext="H,2,16,H06">
+    <p_ru vh="H" name="Boyle, J." gain="0"></p_ru>
+    <p_tk vh="V" name="Martin,O."></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="16" spot="DU06" context="H,2,16,H06" playid="21,5,170" type="P"
+      text="Dukes, C. pass incomplete to Drummer, R.." newcontext="H,3,16,H06">
+    <p_pa vh="H" qb="Dukes, C." result="INC" rcv="Drummer, R."></p_pa>
+   </play>
+   <play hasball="DU" down="3" togo="16" spot="DU06" context="H,3,16,H06" playid="21,6,171" type="P"
+      text="Schneider, M. pass incomplete to Elliott, R.." newcontext="H,4,16,H06">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Elliott, R."></p_pa>
+   </play>
+   <play hasball="DU" down="4" togo="16" spot="DU06" context="H,4,16,H06" playid="21,7,172" type="U"
+      text="Sprague, C. punt 50 yards to the VT44, Morgan,J. return 44 yards to the DU12 (Sprague, C.;White, D.)." newcontext="V,1,10,H12">
+    <p_pu vh="H" name="Sprague, C." gain="50"></p_pu>
+    <p_pr vh="V" name="Morgan,J." gain="44"></p_pr>
+    <p_tk vh="H" name="Sprague, C." assist="Y"></p_tk>
+    <p_tk vh="H" name="White, D." assist="Y"></p_tk>
+   </play>
+   <drivesum plays="4" yards="-6" top="1:16" driveindex="21" complete="Y"></drivesum>
+   <drivestart poss="V,H12,11:27" vh="V" spot="H12" clock="11:27" driveindex="22,172"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="DU12" context="V,1,10,H12" playid="22,1,173" clock="10:11"
+      text="VIRGINIA TECH drive start at 10:11." newcontext="V,1,10,H12">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU12" context="V,1,10,H12" playid="22,2,174" type="R"
+      text="Bell,G. rush for 4 yards to the DU8 (Edwards, J.)." newcontext="V,2,6,H08">
+    <p_ru vh="V" name="Bell,G." gain="4"></p_ru>
+    <p_tk vh="H" name="Edwards, J."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="6" spot="DU08" context="V,2,6,H08" playid="22,3,175" type="R"
+      text="Bell,G. rush for loss of 3 yards to the DU11 (Aye-Darko, A.)." newcontext="V,3,9,H11">
+    <p_ru vh="V" name="Bell,G." gain="-3"></p_ru>
+    <p_tk vh="H" name="Aye-Darko, A." tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="9" spot="DU11" context="V,3,9,H11" playid="22,4,176" type="R"
+      text="Holt,C. rush for loss of 2 yards to the DU13 (Edwards, J.)." newcontext="V,4,11,H13">
+    <p_ru vh="V" name="Holt,C." gain="-2"></p_ru>
+    <p_tk vh="H" name="Edwards, J." tfl="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="4" togo="11" spot="DU13" context="V,4,11,H13" playid="22,5,177" type="F" score="Y" clock="08:13"
+      text="Pace,B. field goal attempt from 31 GOOD, clock 08:13." newcontext="V,1,0,V35">
+    <p_fg vh="V" name="Pace,B." distance="31" result="GOOD" score="Y"></p_fg>
+   </play>
+   <score V="38" H="0"></score>
+   <drivesum plays="4" yards="-1" top="1:58" driveindex="22" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="22,6,178" type="K"
+      text="Dunlevy,J. kickoff 62 yards to the DU3, Davis, C. return 29 yards to the DU32 (Parker,D.J.)." newcontext="H,1,10,H32">
+    <p_ko vh="V" name="Dunlevy,J." gain="62"></p_ko>
+    <p_kr vh="H" name="Davis, C." gain="29"></p_kr>
+    <p_tk vh="V" name="Parker,D.J."></p_tk>
+   </play>
+   <drivestart poss="H,H32,08:13" vh="H" spot="H32" clock="08:13" driveindex="23,178"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU32" context="H,1,10,H32" playid="23,1,179" clock="08:06"
+      text="DUKE drive start at 08:06." newcontext="H,1,10,H32">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU32" context="H,1,10,H32" playid="23,2,180" type="R"
+      text="Boyette, R. rush for loss of 5 yards to the DU27 (Warren,Br.)." newcontext="H,2,15,H27">
+    <p_ru vh="H" name="Boyette, R." gain="-5"></p_ru>
+    <p_tk vh="V" name="Warren,Br." tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="15" spot="DU27" context="H,2,15,H27" playid="23,3,181" type="P"
+      text="Schneider, M. pass incomplete to Boyette, R. (Martin,O.)." newcontext="H,3,15,H27">
+    <p_pa vh="H" qb="Schneider, M." result="INC" rcv="Boyette, R."></p_pa>
+    <p_bu vh="V" name="Martin,O."></p_bu>
+   </play>
+   <play hasball="DU" down="3" togo="15" spot="DU27" context="H,3,15,H27" playid="23,4,182" type="P"
+      text="Schneider, M. sacked for loss of 4 yards to the DU23 (Hashish,O.;Martin,O.)." newcontext="H,4,19,H23">
+    <p_pa vh="H" qb="Schneider, M." result="SACK" gain="-4"></p_pa>
+    <p_tk vh="V" name="Hashish,O." sack="Y" tfl="Y" assist="Y"></p_tk>
+    <p_tk vh="V" name="Martin,O." sack="Y" tfl="Y" assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="4" togo="19" spot="DU23" context="H,4,19,H23" playid="23,5,183" type="U"
+      text="Sprague, C. punt 47 yards to the VT30, Morgan,J. return 36 yards to the DU34 (Platt, A.)." newcontext="V,1,10,H34">
+    <p_pu vh="H" name="Sprague, C." gain="47"></p_pu>
+    <p_pr vh="V" name="Morgan,J." gain="36"></p_pr>
+    <p_tk vh="H" name="Platt, A."></p_tk>
+   </play>
+   <drivesum plays="3" yards="-9" top="1:42" driveindex="23" complete="Y"></drivesum>
+   <drivestart poss="V,H34,08:06" vh="V" spot="H34" clock="08:06" driveindex="24,183"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="DU34" context="V,1,10,H34" playid="24,1,184" clock="06:24"
+      text="VIRGINIA TECH drive start at 06:24." newcontext="V,1,10,H34">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU34" context="V,1,10,H34" playid="24,2,185" type="P"
+      text="Holt,C. pass incomplete to Hyman,J., QB hurry by Kitchen, J.." newcontext="V,2,10,H34">
+    <p_pa vh="V" qb="Holt,C." result="INC" rcv="Hyman,J."></p_pa>
+    <p_qbh vh="H" name="Kitchen, J."></p_qbh>
+   </play>
+   <play hasball="VT" down="2" togo="10" spot="DU34" context="V,2,10,H34" playid="24,3,186" type="P" first="P"
+      text="Holt,C. pass complete to Hyman,J. for 10 yards to the DU24, 1ST DOWN VT (Williams, Alf.)." newcontext="V,1,10,H24">
+    <p_pa vh="V" qb="Holt,C." result="COMP" rcv="Hyman,J." gain="10"></p_pa>
+    <p_tk vh="H" name="Williams, Alf."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="DU24" context="V,1,10,H24" playid="24,4,187" type="R"
+      text="Ore,B. rush for 1 yard to the DU23 (Edwards, J.)." newcontext="V,2,9,H23">
+    <p_ru vh="V" name="Ore,B." gain="1"></p_ru>
+    <p_tk vh="H" name="Edwards, J."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="9" spot="DU23" context="V,2,9,H23" playid="24,5,188" type="R" first="R"
+      text="Ore,B. rush for 19 yards to the DU4, 1ST DOWN VT (Edwards, J.)." newcontext="V,1,0,H04">
+    <p_ru vh="V" name="Ore,B." gain="19"></p_ru>
+    <p_tk vh="H" name="Edwards, J."></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU04" context="V,1,0,H04" playid="24,6,189" type="R" score="Y" clock="04:57"
+      text="Ore,B. rush for 4 yards to the DU0, TOUCHDOWN, clock 04:57." newcontext="V,1,0,H03">
+    <p_ru vh="V" name="Ore,B." gain="4"></p_ru>
+   </play>
+   <play hasball="VT" down="1" togo="0" spot="DU03" context="V,1,0,H03" playid="24,7,190" type="X" score="Y"
+      text="Pace,B. kick attempt good." newcontext="V,1,0,V35">
+    <p_pat vh="V" name="Pace,B." qb="Pace,B." type="K" result="GOOD" score="Y"></p_pat>
+   </play>
+   <score V="45" H="0"></score>
+   <drivesum plays="5" yards="34" top="1:27" driveindex="24" complete="Y"></drivesum>
+   <play hasball="VT" down="1" togo="0" spot="VT35" context="V,1,0,V35" playid="24,8,191" type="K"
+      text="Dunlevy,J. kickoff 46 yards to the DU19, Dowling, M. return 6 yards to the DU25 (Price,C.)." newcontext="H,1,10,H25">
+    <p_ko vh="V" name="Dunlevy,J." gain="46"></p_ko>
+    <p_kr vh="H" name="Dowling, M." gain="6"></p_kr>
+    <p_tk vh="V" name="Price,C."></p_tk>
+   </play>
+   <drivestart poss="H,H25,04:57" vh="H" spot="H25" clock="04:57" driveindex="25,191"></drivestart>
+   <play hasball="DU" down="1" togo="10" spot="DU25" context="H,1,10,H25" playid="25,1,192" clock="04:54"
+      text="DUKE drive start at 04:54." newcontext="H,1,10,H25">
+   </play>
+   <play hasball="DU" down="1" togo="10" spot="DU25" context="H,1,10,H25" playid="25,2,193" type="R"
+      text="Boyette, R. rush for loss of 5 yards to the DU20 (Booker,B.)." newcontext="H,2,15,H20">
+    <p_ru vh="H" name="Boyette, R." gain="-5"></p_ru>
+    <p_tk vh="V" name="Booker,B." tfl="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="2" togo="15" spot="DU20" context="H,2,15,H20" playid="25,3,194" type="R"
+      text="Dukes, C. rush for 5 yards to the DU25 (Warren,Br.;Booker,B.)." newcontext="H,3,10,H25">
+    <p_ru vh="H" name="Dukes, C." gain="5"></p_ru>
+    <p_tk vh="V" name="Warren,Br." assist="Y"></p_tk>
+    <p_tk vh="V" name="Booker,B." assist="Y"></p_tk>
+   </play>
+   <play hasball="DU" down="3" togo="10" spot="DU25" context="H,3,10,H25" playid="25,4,195" type="R"
+      text="Boyle, J. rush for 1 yard to the DU26 (Trott,J.)." newcontext="H,4,9,H26">
+    <p_ru vh="H" name="Boyle, J." gain="1"></p_ru>
+    <p_tk vh="V" name="Trott,J."></p_tk>
+   </play>
+   <play hasball="DU" down="4" togo="9" spot="DU26" context="H,4,9,H26" playid="25,5,196" type="U"
+      text="Sprague, C. punt 50 yards to the VT24, fair catch by Morgan,J.." newcontext="V,1,10,V24">
+    <p_pu vh="H" name="Sprague, C." gain="50" fc="Morgan,J."></p_pu>
+   </play>
+   <drivesum plays="3" yards="1" top="2:19" driveindex="25" complete="Y"></drivesum>
+   <drivestart poss="V,V24,04:54" vh="V" spot="V24" clock="04:54" driveindex="26,196"></drivestart>
+   <play hasball="VT" down="1" togo="10" spot="VT24" context="V,1,10,V24" playid="26,1,197" clock="02:35"
+      text="VIRGINIA TECH drive start at 02:35." newcontext="V,1,10,V24">
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT24" context="V,1,10,V24" playid="26,2,198" type="R"
+      text="Candelas,J. rush for 1 yard to the VT25 (Kitchen, J.)." newcontext="V,2,9,V25">
+    <p_ru vh="V" name="Candelas,J." gain="1"></p_ru>
+    <p_tk vh="H" name="Kitchen, J."></p_tk>
+   </play>
+   <play hasball="VT" down="2" togo="9" spot="VT25" context="V,2,9,V25" playid="26,3,199" type="R"
+      text="Candelas,J. rush for 4 yards to the VT29 (Kitchen, J.)." newcontext="V,3,5,V29">
+    <p_ru vh="V" name="Candelas,J." gain="4"></p_ru>
+    <p_tk vh="H" name="Kitchen, J."></p_tk>
+   </play>
+   <play hasball="VT" down="3" togo="5" spot="VT29" context="V,3,5,V29" playid="26,4,200" type="R" first="R"
+      text="Candelas,J. rush for 7 yards to the VT36, 1ST DOWN VT (East, J.;Williams, G.)." newcontext="V,1,10,V36">
+    <p_ru vh="V" name="Candelas,J." gain="7"></p_ru>
+    <p_tk vh="H" name="East, J." assist="Y"></p_tk>
+    <p_tk vh="H" name="Williams, G." assist="Y"></p_tk>
+   </play>
+   <play hasball="VT" down="1" togo="10" spot="VT36" context="V,1,10,V36" playid="26,5,201" type="R"
+      text="TEAM rush for loss of 3 yards to the VT33." newcontext="V,2,13,V33">
+    <p_ru vh="V" name="TEAM" gain="-3"></p_ru>
+   </play>
+   <play hasball="VT" down="2" togo="13" spot="VT33" context="V,2,13,V33" playid="26,6,202" type="#" clock="00:00"
+      text="End of game, clock 00:00." newcontext="V,2,13,V33">
+   </play>
+   <drivesum plays="4" yards="9" top="2:35" driveindex="26" complete="Y"></drivesum>
+   <score final="Y" V="45" H="0"></score>
+   <endqtr></endqtr>
+   <qtrsummary vh="V" id="VT">
+    <firstdowns no="4" rush="3" pass="1" penalty="0"></firstdowns>
+    <penalties no="0" yds="0"></penalties>
+    <conversions thirdconv="2" thirdatt="4" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="1" lost="0"></fumbles>
+    <misc yds="0" top="09:33"></misc>
+    <rush att="15" yds="45" gain="53" loss="8" td="1" long="0"></rush>
+    <pass comp="1" att="3" int="0" yds="10" td="0" long="0" sacks="0" sackyds="0"></pass>
+    <rcv no="1" yds="10" td="0" long="0"></rcv>
+    <punt no="1" yds="28" long="0" blkd="0" tb="0" fc="0" plus50="0" inside20="1" avg="28.0"></punt>
+    <ko no="2" yds="108" ob="0" tb="0"></ko>
+    <fg made="1" att="1" long="31" blkd="0"></fg>
+    <pat kickatt="1" kickmade="1"></pat>
+    <defense tackua="7" tacka="4" tot_tack="11" tflua="4" tfla="0" tflyds="18" sacks="5" sackyds="29" brup="1"></defense>
+    <pr no="2" yds="80" td="0" long="21"></pr>
+    <fumbles no="1" lost="0"></fumbles>
+    <scoring td="1" fg="1" patkick="1"></scoring>
+   </qtrsummary>
+   <qtrsummary vh="H" id="DU">
+    <firstdowns no="0" rush="0" pass="0" penalty="0"></firstdowns>
+    <penalties no="1" yds="6"></penalties>
+    <conversions thirdconv="0" thirdatt="3" fourthconv="0" fourthatt="0"></conversions>
+    <fumbles no="0" lost="0"></fumbles>
+    <misc yds="0" top="05:27"></misc>
+    <rush att="7" yds="-8" gain="6" loss="14" td="0" long="0"></rush>
+    <pass comp="0" att="3" int="0" yds="0" td="0" long="0" sacks="1" sackyds="4"></pass>
+    <punt no="3" yds="147" long="7" blkd="0" tb="0" fc="1" plus50="2" inside20="0" avg="49.0"></punt>
+    <defense tackua="9" tacka="12" tot_tack="21" tflua="2" tfla="0" tflyds="5" sacks="2" sackyds="10" brup="1" qbh="1"></defense>
+    <kr no="2" yds="35" td="0" long="8"></kr>
+   </qtrsummary>
+  </qtr>
+  <downtogo hasball="V" id="VT" down="2" togo="13" spot="VT33" context="V,2,13,V33" qtr="4" clock="00:00" vtoh="1" htoh="2"
+       lastplay="End of game, clock 00:00."></downtogo>
+ </plays>
+ <dnp vh="V" id="VT">
+  <player name="Ike Whitaker" checkname="WHITAKER,I" uni="3" gp="0" code="3"></player>
+  <player name="Andrew Bowman" checkname="BOWMAN,A" uni="6" gp="0" code="6"></player>
+  <player name="Sean Glennon" checkname="GLENNON,S" uni="7" gp="0" code="7"></player>
+  <player name="Dorian Porch" checkname="PORCH,D" uni="24" gp="0" code="24"></player>
+  <player name="Chad Grimm" checkname="GRIMM,CH" uni="29" gp="0" code="29"></player>
+  <player name="Brenden Hill" checkname="HILL,B" uni="31" gp="0" code="31"></player>
+  <player name="Cam Martin" checkname="MARTIN,C" uni="38" gp="0" code="38"></player>
+  <player name="Bart McMillan" checkname="MCMILLAN,B" uni="54" gp="0" code="54"></player>
+  <player name="William Wall" checkname="WALL,W" uni="94" gp="0" code="94"></player>
+  <player name="Brent Bowden" checkname="BOWDEN,B" uni="97" gp="0" code="97"></player>
+ </dnp>
+ <dnp vh="H" id="DU">
+  <player name="Oghobaase, V." checkname="OGHOBAASE,V" uni="3" gp="0" code="3"></player>
+  <player name="Harris, C." checkname="HARRIS,C" uni="4" gp="0" code="4"></player>
+  <player name="Asack, Z." checkname="ASACK,Z" uni="13" gp="0" code="13"></player>
+  <player name="Smith, B.J." checkname="SMITH,BJ" uni="14" gp="0" code="14"></player>
+  <player name="Delle Donne, G." checkname="DELLE DONNE,G" uni="17" gp="0" code="17"></player>
+  <player name="Stubbs, K." checkname="STUBBS,K" uni="19" gp="0" code="19"></player>
+  <player name="Surgan, J." checkname="SURGAN,J" uni="26" gp="0" code="26"></player>
+  <player name="Fryer, A." checkname="FRYER,A" uni="32" gp="0" code="32"></player>
+  <player name="Ball, T." checkname="BALL,T" uni="35" gp="0" code="35"></player>
+  <player name="Ezzard, R." checkname="EZZARD,R" uni="37" gp="0" code="37"></player>
+  <player name="Harrell, E." checkname="HARRELL,E" uni="38" gp="0" code="38"></player>
+  <player name="Rucker, K." checkname="RUCKER,K" uni="42" gp="0" code="42"></player>
+  <player name="Rising, M." checkname="RISING,M" uni="44" gp="0" code="44"></player>
+  <player name="Shaheen, P." checkname="SHAHEEN,P" uni="46" gp="0" code="46"></player>
+  <player name="Radloff, R." checkname="RADLOFF,R" uni="50" gp="0" code="50"></player>
+  <player name="Thornton, P." checkname="THORNTON,P" uni="57" gp="0" code="57"></player>
+  <player name="Lowe, C." checkname="LOWE,C" uni="58" gp="0" code="58"></player>
+  <player name="Terry, J." checkname="TERRY,J" uni="60" gp="0" code="60"></player>
+  <player name="Guidry, A." checkname="GUIDRY,A" uni="63" gp="0" code="63"></player>
+  <player name="Freeman, J." checkname="FREEMAN,J" uni="67" gp="0" code="67"></player>
+  <player name="Bowling, D." checkname="BOWLING,D" uni="71" gp="0" code="71"></player>
+  <player name="Mason, G." checkname="MASON,G" uni="72" gp="0" code="72"></player>
+  <player name="Suder, J." checkname="SUDER,J" uni="73" gp="0" code="73"></player>
+  <player name="Loebner, B." checkname="LOEBNER,B" uni="78" gp="0" code="78"></player>
+  <player name="Gee, N." checkname="GEE,N" uni="83" gp="0" code="83"></player>
+  <player name="Chestnut, R." checkname="CHESTNUT,R" uni="86" gp="0" code="86"></player>
+  <player name="Marcelin, M." checkname="MARCELIN,M" uni="87" gp="0" code="87"></player>
+  <player name="Cronin, K." checkname="CRONIN,K" uni="88" gp="0" code="88"></player>
+  <player name="Kimmitt, W." checkname="KIMMITT,W" uni="90" gp="0" code="90"></player>
+  <player name="Okpokowuruk, A." checkname="OKPOKOWURUK,A" uni="91" gp="0" code="91"></player>
+  <player name="Reisch, B." checkname="REISCH,B" uni="94" gp="0" code="94"></player>
+  <player name="Kaplanis, M." checkname="KAPLANIS,M" uni="95" gp="0" code="95"></player>
+  <player name="Nelson, T." checkname="NELSON,T" uni="96" gp="0" code="96"></player>
+  <player name="DeSmyter, R." checkname="DESMYTER,R" uni="98" gp="0" code="98"></player>
+ </dnp>
+ <longplays thresh="70">
+ </longplays>
+</fbgame>
