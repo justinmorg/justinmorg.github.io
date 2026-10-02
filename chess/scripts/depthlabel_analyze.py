@@ -2,7 +2,11 @@
 """
 depthlabel_analyze.py — implements `depthlabel_prespec.md` exactly.
 
-    python3 depthlabel_analyze.py moves.csv.gz depthlabel.jsonl[.gz]
+    python3 depthlabel_analyze.py moves.csv.gz depthlabel.jsonl[.gz] [--v2]
+
+--v2 applies depthlabel_prespec_v2.md (shallow = >=100cp at depth 1-2; G2
+demoted to calibration). Without it, v1 as originally specified — which fails
+G2 and stops; kept runnable so that failure reproduces.
 
 Gates G1/G2 first; the primary test prints only if both pass. Every threshold
 here is copied from the prespec — if they ever disagree, the prespec wins and
@@ -54,6 +58,13 @@ def nonmono(r):
 
 def cls(d):
     return "shallow" if d <= 2 else ("mid" if d == 4 else "deep")
+
+
+def cls_v2(r):
+    """depthlabel_prespec_v2.md: one pawn at depth 1-2 counts as shallow."""
+    if r["loss1"] >= 100 or r["loss2"] >= 100:
+        return "shallow"
+    return "mid" if r["loss4"] >= 200 else "deep"
 
 
 def strata(df):
@@ -126,7 +137,7 @@ def pct(x):
     return f"{100 * x:.1f}%"
 
 
-def main(moves_path, jl_path):
+def main(moves_path, jl_path, version="v1"):
     pop, df = load(moves_path, jl_path)
     print(f"population {len(pop)}, labelled {len(df)}")
     if len(df) < len(pop):
@@ -139,7 +150,8 @@ def main(moves_path, jl_path):
           f"{pct(conf_rate)}  (gate >= 75%) -> "
           f"{'PASS' if conf_rate >= 0.75 else 'FAIL'}")
     c = df[df.confirmed].copy()
-    c["cls"] = c.detect.map(cls)
+    c["cls"] = c.detect.map(cls) if version == "v1" else c.apply(cls_v2, axis=1)
+    print(f"labels: {version}")
     c["shallow"] = (c.cls == "shallow").astype(float)
     c["nonmono"] = c.apply(nonmono, axis=1)
 
@@ -151,7 +163,9 @@ def main(moves_path, jl_path):
     print("   by hang_label:")
     for lbl, x in h.groupby("hang_label"):
         print(f"     {lbl:22s} n={len(x):5d}  shallow {pct((x.cls == 'shallow').mean())}")
-    if conf_rate < 0.75 or g2 < 0.85:
+    if version == "v2":
+        print("   (v2: G2 is calibration only, not a gate — see prespec v2)")
+    if conf_rate < 0.75 or (version == "v1" and g2 < 0.85):
         print("\nGATE FAILED — primary test not interpreted.")
         return
 
@@ -206,4 +220,4 @@ def main(moves_path, jl_path):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:3])
+    main(*sys.argv[1:3], *(["v2"] if "--v2" in sys.argv else []))

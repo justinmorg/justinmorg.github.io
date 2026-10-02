@@ -106,6 +106,10 @@ chess/
     ├── eglevel_prespec.md                      pre-spec for the above (pre-specified; null)
     ├── q4hang_prespec.md                       Q4 2025 as a held-out hanging-material replication block
     ├── quiet43.py                              characterizing the 43% H2 doesn't cover
+    ├── depthlabel.py                           at what search depth does a blunder become visible?
+    ├── depthlabel_analyze.py                   detection depth vs think time (pre-specified; v1 gate failed, v2 null)
+    ├── depthlabel_prespec.md                   pre-spec v1
+    ├── depthlabel_prespec_v2.md                pre-spec v2 (100cp shallow cutoff, written after v1 gate failed)
     ├── pvplayout.py                            delayed tactic or positional decay?
     ├── openings.py                             recover the played book from move times
     ├── build_drills2.py                      rebuild the /chess-drills P set
@@ -3018,6 +3022,71 @@ and passing a wider `--keys` extends the set rather than redoing it.
 analyzed *first*. The held-out replication below depends on that split, and
 regenerating it from the seed alone is fragile — it assumes the row order of an
 intermediate file. Keep the list.
+
+### Detection depth: does engine search depth separate fast and slow errors?
+
+Pre-specified (`depthlabel_prespec.md`, then `_v2.md`). The multi-PV count
+measures narrowness, not difficulty; this tries a different cheap axis — the
+shallowest search depth at which the played move is visibly bad. Engine
+difficulty, not human difficulty, by construction.
+
+`depthlabel.py` searched all 10,304 think-time-scope blunders (own move,
+`fullmove > 12`, non-mate, `0 <= spend <= 60`, `drop_cp >= 200`, seven-block)
+at depths 1/2/4/8/12, unrestricted and restricted to the played move,
+`ucinewgame` before every search so deeper results cannot leak shallower via
+the hash. `loss_d = best_d − played_d`. ~0.14 s/position, 25 min single-core.
+
+**v1 failed its own validity gate.** G1 passed (80.3% confirmed at depth 12,
+`loss12 >= 200`; the 2,035 unconfirmed are excluded). G2 — ≥85% of SEE-flagged
+blunders should be visible at the 200cp line by depth 2 — came in at **81.2%**
+(1,746 / 2,150) and the run stopped as specified. Diagnosis on engine columns
+only: two-thirds of the misses *do* show the loss shallow, just short of 200cp
+(median `loss2` 123cp — shallow search credits compensation that isn't there);
+88 show nothing shallow at all, and spot checks put the SEE flag and the real
+refutation at odds there (same family as the group F audit's 10.4% false
+positives).
+
+**v2**, written before the primary contrast was computed under any cutoff:
+shallow := `loss1 >= 100 or loss2 >= 100`. G2 becomes calibration (93.1%), not
+a test — the cutoff was chosen having seen it.
+
+**Result: the prediction fails, and leans the other way.** Shallow share among
+confirmed blunders, fast (≤2s) vs slow (≥8s):
+
+| | fast | slow | fast − slow |
+|---|---|---|---|
+| raw | 65.0% (n 2,100) | 71.7% (n 3,010) | −6.69 pp |
+| standardized (50 strata) | | | **−3.06 pp [−6.28, +0.34]**, p = 0.056 |
+| S1, `hang_label == none` | 57.7% | 62.8% | −3.34 pp [−7.25, +0.61], p = 0.11 |
+
+Same sign in both seeded halves (−2.40 / −3.63 pp). Not supported; the
+reversal is not claimed either (two-sided p 0.056, direction not predicted).
+By spend band the shallow share is nearly flat, 59–61% under 1s rising to
+70–74% from 4s up.
+
+**What it does say.** 5,719 of 8,269 confirmed blunders (**69%**) lose at
+least a pawn to a depth-1–2 search, and that holds across every spend band —
+these errors are not a fast-move phenomenon. 3,718 of them carry
+`hang_label == none`: the SEE rule behind groups P/F sees roughly 2 in 5 of the
+shallow errors (it misses forks, pins, removed defenders). Read with the
+think-time and stale-threat findings, the shallow errors look like a
+pre-commit check that wasn't run, not a scan that was run too fast.
+
+**What it cannot say.** Shallow-for-the-engine ≠ obvious-to-Justin. The label
+is usable as a drill filter only once checked against his own read of the
+positions (play-forward cards where the blunder is "painfully obvious" in
+hindsight vs. invisible even when told).
+
+Data: `chess/data/depthlabel_d1-12.jsonl.gz`, one line per blunder, keyed
+`(gid, ply)`, with `uci`, `best_cp{d}`, `played_cp{d}`, `loss{d}`,
+`best_move{d}`. Reproduce:
+
+```bash
+python3 chess/scripts/depthlabel_analyze.py /home/claude/features/moves.csv.gz \
+  chess/data/depthlabel_d1-12.jsonl.gz --v2
+```
+
+Without `--v2` it reproduces the v1 gate failure.
 
 ### A resumability trap worth remembering
 
