@@ -1,6 +1,6 @@
 """Check play-by-play against the official team box scores in the hokiesports XML.
 
-For every game with a stat-crew XML file, sums plays and yards per team from
+For every game with a stat-crew XML file (or WMT JSON, late 2020 on), sums plays and yards per team from
   (a) the unified table (data/unified/plays), and
   (b) the repaired CFBD plays (normalize.cfbd_plays), where CFBD has the game,
 and compares them with the <totals> block of the XML (rush att/yds incl. sacks, pass att/yds,
@@ -28,6 +28,14 @@ def box_totals():
             r = dict(hsGameId=gid, vtOffense=t.get("name") == VT,
                      rush_att=int(ru["att"]), rush_yds=int(ru["yds"]), pass_att=int(pa["att"]),
                      pass_yds=int(pa["yds"]), ints=int(pa["int"]), sacks=int(pa.get("sacks") or 0))
+            r["plays"] = r["rush_att"] + r["pass_att"]; r["yds"] = r["rush_yds"] + r["pass_yds"]
+            rows.append(r)
+    # WMT-era games (late 2020 on): official totals from the saved API JSON
+    import json, parse_wmt
+    for f in glob.glob(os.path.join(N.HERE, "hokiesports", "raw_wmt", "*.json")):
+        d = json.load(open(f)); d = d.get("data", d)
+        for r in parse_wmt.box_totals(d):
+            r["hsGameId"] = os.path.basename(f)[:-5]
             r["plays"] = r["rush_att"] + r["pass_att"]; r["yds"] = r["rush_yds"] + r["pass_yds"]
             rows.append(r)
     return pd.DataFrame(rows)

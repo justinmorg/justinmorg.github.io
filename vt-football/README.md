@@ -8,6 +8,11 @@ with the stat-crew files also covering most of 2001-2019.
 for each game and repairs known CFBD coding problems; the raw per-source tables stay as pulled.
 
 ## Layout
+- `parse_wmt.py <boxId>`: late-2020-on official stat-crew data from the WMT stats API behind
+  hokiesports.com box scores (raw JSON in `hokiesports/raw_wmt/`), written to `data/hokiesports/`
+  in the same shape as the XML games, so `normalize.py` and `validate_box.py` treat them as
+  hokiesports. Use it when CFBD is late or over quota; 2026 Pitt (box 22963) matches the official
+  team totals exactly.
 - `data/games/<season>.parquet`: schedule, scores, line scores, venue, Elo
 - `data/drives/<season>.parquet`: every drive for both teams (clock fields in seconds)
 - `data/plays/<season>.parquet`: every play: down, distance, yard line, play type,
@@ -49,7 +54,7 @@ any refresh or new crawl.
   | 2001-2004 | hokiesports, except 2001 Gator Bowl and 2003 Insight Bowl (CFBD), 2004 Sugar Bowl (StatCrew text); 2002 West Virginia has none |
   | 2005-2007 | CFBD (repaired), except 2 games in 2005 and 1 in 2006 |
   | 2008-2019 | hokiesports for 10-14 games a season; the rest CFBD (repaired) |
-  | 2020 on | CFBD (repaired) |
+  | 2020 on | CFBD (repaired), except games pulled from WMT JSON (`parse_wmt.py`): 2026 Pitt |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
