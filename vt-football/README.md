@@ -72,6 +72,22 @@ repairs what the play text allows.
 After repair, CFBD is within about 1-2% of the box scores for 2004, 2008-2012 and 2015-2019;
 2014 is about 3%. Don't use raw `data/plays/` yardage for 2005-2016 without these fixes.
 
+## ESPN results and rebuilt Elo (no CFBD quota needed)
+- `espn.py 2014-2026 [--odds]`: every FBS game's result from ESPN's public API (no key, no quota)
+  into `data/espn/games/<season>.parquet` (2010 on); `--odds` adds ESPN's stored betting line
+  (`homeSpread` = home team's line) into `data/espn/odds/` (2016 on, ~100% of FBS-vs-FBS games).
+- `elo.py`: FiveThirtyEight-style Elo for all teams from those results (margin-of-victory
+  multiplier, 55-point home field, ratings regressed 20% toward the mean each offseason; K=35;
+  tuned on 2014-2025 log loss with `--tune`). Writes `data/elo/games.parquet` (pregame ratings,
+  home win probability, Elo spread for every game) and `data/elo/ratings_current.csv`.
+  18 Elo points is about 1 point of spread. Re-run `espn.py <season>` then `elo.py` weekly.
+- `elo_backtest.py` (output in `data/elo/backtest.txt`): on 7,528 FBS-vs-FBS games 2016-2025,
+  the Elo favorite won 70.4% vs 73.0% for the betting favorite; Brier 0.189 vs 0.175; spread
+  error 13.3 vs 12.3 points. Elo adds nothing once the line is known, and betting Elo against the
+  line hits 48.6%. Use it when no line exists (future weeks), not to beat one.
+- CFBD's own `homePregameElo`/`awayPregameElo` in `data/games/` are frozen at the date of the
+  last CFBD pull; for future games prefer `data/elo/`.
+
 ## Refresh
 ```bash
 export CFBD_API_KEY=...   # never commit the key

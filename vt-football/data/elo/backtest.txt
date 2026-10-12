@@ -1,0 +1,26 @@
+7528 FBS-vs-FBS games with closing lines, 2016-2025
+    games    n  Elo fav wins  Vegas fav wins  Elo Brier  Vegas Brier  Elo MAE  Vegas MAE
+      all 7528         0.704           0.730      0.189        0.175   13.346     12.308
+weeks 1-4 1832         0.732           0.764      0.178        0.158   13.879     12.280
+weeks 5-9 2598         0.687           0.720      0.199        0.182   13.214     12.232
+weeks 10+ 2698         0.716           0.732      0.181        0.173   13.066     12.342
+bowls/CFP  400         0.598           0.632      0.237        0.222   13.649     12.691
+
+Elo and Vegas pick different winners in 1027 games (13.6%); Vegas's pick wins 59.7%
+Betting Elo's side when it differs from the line by 3+ points: 48.6% of 4503 games (need 52.4%)
+
+Elo calibration (predicted vs actual home win %):
+               n  predicted  actual
+bin                                
+(0.0, 0.1]   164       0.07    0.09
+(0.1, 0.2]   459       0.15    0.16
+(0.2, 0.3]   665       0.25    0.28
+(0.3, 0.4]   743       0.35    0.40
+(0.4, 0.5]   868       0.45    0.48
+(0.5, 0.6]   938       0.55    0.54
+(0.6, 0.7]   967       0.65    0.64
+(0.7, 0.8]  1031       0.75    0.74
+(0.8, 0.9]  1010       0.85    0.84
+(0.9, 1.0]   683       0.94    0.94
+
+Logistic weights when both are used: Elo 0.02, Vegas 0.98 (1 = take at face value)
