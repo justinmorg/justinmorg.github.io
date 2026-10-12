@@ -54,7 +54,7 @@ any refresh or new crawl.
   | 2001-2004 | hokiesports, except 2001 Gator Bowl and 2003 Insight Bowl (CFBD), 2004 Sugar Bowl (StatCrew text); 2002 West Virginia has none |
   | 2005-2007 | CFBD (repaired), except 2 games in 2005 and 1 in 2006 |
   | 2008-2019 | hokiesports for 10-14 games a season; the rest CFBD (repaired) |
-  | 2020 on | CFBD (repaired), except games pulled from WMT JSON (`parse_wmt.py`): 2026 Pitt |
+  | 2020 on | CFBD (repaired), except games pulled from WMT JSON (`parse_wmt.py`): 2026 Pitt, 2026 at California (box 22964) |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
