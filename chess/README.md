@@ -2710,6 +2710,14 @@ not chased.) The count includes every blitz control, so it tracks the block
 only while the games being played are 3+2 / 5+0. The page deliberately fetches and shows no
 rating. Constants live at the top of `build_forward.py`.
 
+**Pace line (added 2026-10-12).** Under the odometer, the page shows cards
+done against the dose: `floor(days since 2026-09-03 × 15 / 7)`, counted from
+local midnight on the intervention start, with "ahead / behind / on pace".
+"Cards done" is the same count as the stats line. Display only — it changes
+no card, no protocol step and no outcome, so it is not a mid-block change
+under the rule above. Constants `DOSE_START` and `DOSE_PER_WEEK` in
+`build_forward.py`.
+
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
 in-page F hit rate or false-alarm rate. Any metric first examined after the

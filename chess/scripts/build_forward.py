@@ -93,6 +93,12 @@ VERIFY = os.path.join(REPO, "chess/data/depth18_verify.json")
 ODO_USER = "jamorgan"
 ODO_BASE = 5964        # 2026-09-02
 ODO_TARGET = 900
+# Dose pace line (Oct 2026). The pre-registered dose is ~15 cards a week from
+# the intervention start (README, "Pre-registration"). The page shows cards
+# done against what that pace implies for today. Display only: it changes no
+# card, no protocol step and no outcome, same as the odometer above.
+DOSE_START = "2026-09-03"   # local midnight; the reset intervention start
+DOSE_PER_WEEK = 15
 N_DECOY = 60          # ~20% of the set
 SEED = 23
 
@@ -333,6 +339,7 @@ blurb = f"""<!--F-START--><section class="group" id="gF">
   <p class="blurb">Each card replays <strong>a run of moves you actually played</strong>, one at a time, opponent replies included. First pick your own move in your head. Then the move you played is <em>named, not shown</em> &mdash; the board stays put. <strong>Picture the position that move creates. Does anything hang to a capture?</strong> Answer, then the move appears with the verdict, then the opponent replies and you go again. Somewhere in most cards is a move that cost you a piece; you are not told which, and some threats appear early and only cash in later. About one card in five is a <em>decoy</em> where nothing ever hangs, so <strong>&ldquo;safe&rdquo; has to be a real answer</strong>.</p>
   <p class="blurb dim">{len(cards)} cards ({n_hit} from hanging-material games, {n_dec} decoys), {n_steps} decisions, of which {n_H} hang. Aim to decide in under ten seconds &mdash; the moves that cost you games took eight. Your hit rate here is practice feedback, not the outcome; the outcome is the hanging-material rate in your next games, and that is pre-registered in the README.</p>
   <div class="fodo" id="fodo"><span class="fodo-t" id="fodo-t">Games toward the test block: checking&hellip;</span><span class="bar"><i id="fodo-b"></i></span></div>
+  <div class="fodo" id="fpace"><span class="fodo-t" id="fpace-t"></span></div>
   <div id="fstats" class="fstats"></div>
   <div id="fstage" class="fstage"></div>
   <details class="flog" id="flog"><summary>Cards you have done (<span id="flog-n">0</span>)</summary><div id="flog-body"></div></details>
@@ -384,7 +391,7 @@ margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;fon
 
 js = r"""/*F-JS*/
 (function(){
-  var FKEY='drills.forward.v1', ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d;
+  var FKEY='drills.forward.v1', ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d, DOSE_START=%r, DOSE_PER_WEEK=%d;
   var cards=JSON.parse(document.getElementById('fdata').textContent);
   var GL={p:'\u265F\uFE0E',n:'\u265E\uFE0E',b:'\u265D\uFE0E',r:'\u265C\uFE0E',q:'\u265B\uFE0E',k:'\u265A\uFE0E'};
   var mem={};   // in-memory fallback so a blocked localStorage still lets a session run
@@ -474,7 +481,16 @@ js = r"""/*F-JS*/
     body.innerHTML=html;
   }
 
+  function paintPace(){
+    var t=document.getElementById('fpace-t'); if(!t)return;
+    var p=DOSE_START.split('-'), start=new Date(+p[0],+p[1]-1,+p[2]);
+    var days=Math.max(0,(Date.now()-start.getTime())/864e5);
+    var due=Math.min(cards.length,Math.floor(days*DOSE_PER_WEEK/7)), done=stepsDone().cards, gap=done-due;
+    t.innerHTML=done+' cards done &middot; '+due+' expected by today ('+DOSE_PER_WEEK+'/week since '+(+p[1])+'/'+(+p[2])+') &middot; '+
+      (gap===0?'on pace':(gap>0?gap+' ahead':(-gap)+' behind'));
+  }
   function paintStats(){
+    paintPace();
     var d=stepsDone();
     if(!d.n){stats.textContent=cards.length+' cards. Nothing answered yet.';return;}
     stats.innerHTML=d.cards+' / '+cards.length+' cards &middot; '+d.n+' decisions &middot; '+
@@ -601,8 +617,9 @@ js = r"""/*F-JS*/
   })();
 })();
 /*F-JS-END*/"""
-js = js.replace("ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d",
-                f"ODO_USER={ODO_USER!r}, ODO_BASE={ODO_BASE}, ODO_TARGET={ODO_TARGET}")
+js = js.replace("ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d, DOSE_START=%r, DOSE_PER_WEEK=%d",
+                f"ODO_USER={ODO_USER!r}, ODO_BASE={ODO_BASE}, ODO_TARGET={ODO_TARGET}, "
+                f"DOSE_START={DOSE_START!r}, DOSE_PER_WEEK={DOSE_PER_WEEK}")
 
 src = open(PAGE).read()
 
