@@ -6,10 +6,16 @@ Source per game, in order of preference:
   box        official stat-crew XML totals (hokiesports/raw/<hsGameId>.xml): opponent
              pass int + fumbles lost. Includes special-teams fumbles.
   wmt        official WMT team stats (hokiesports/raw_wmt/<id>.json).
+  espn       ESPN game box (data/espn/box, from espn_box.py), 2010 on: opponent interceptions
+             thrown + fumbles lost. Matches the official box in 108 of 109 VT games where both
+             exist, so it outranks play text.
   teamstats  2002 West Virginia partial box score (data/stats_hokiesports/teamstats/5988).
   pbp        play text: interceptions and VT fumble recoveries on opponent scrimmage plays
              (data/unified/plays), plus opponent muffs VT recovered on VT punts/kickoffs
              (data/plays). Ambiguous recoveries were checked by hand (MANUAL_VT below).
+
+Play text (CFBD) misses or double-counts some turnovers in 2021-2025 (e.g. a penalty-nullified
+INT, a duplicated INT, missing INTs), which is why ESPN is preferred where it exists.
 
 Check: on the 188 games with both an official box and CFBD plays, box INTs match CFBD
 exactly in 98% of games; the play-text method alone misses special-teams fumbles, which is
@@ -113,6 +119,12 @@ def main():
     G = pd.read_parquet(f'{D}/unified/games.parquet')
     pbp, kick = pbp_counts()
     box, wmt = box_counts(), wmt_counts()
+    espn = {}
+    for f in glob.glob(f'{D}/espn/box/*.parquet'):
+        e = pd.read_parquet(f)
+        e = e[(e.oppId == 259) & e.intThrown.notna() & e.fumblesLost.notna()]
+        for r in e.itertuples():
+            espn[r.date] = (int(r.intThrown), int(r.fumblesLost))
 
     def one(r):
         hs = str(r.hsGameId) if pd.notna(r.hsGameId) else None
@@ -120,6 +132,11 @@ def main():
             return (*box[hs], 'box')
         if hs in wmt:
             return (*wmt[hs], 'wmt')
+        # ESPN dates are UTC, so night games can land on the next day.
+        d0 = pd.Timestamp(str(r.date)[:10])
+        for d in (d0, d0 + pd.Timedelta(days=1)):
+            if d.strftime('%Y-%m-%d') in espn:
+                return (*espn[d.strftime('%Y-%m-%d')], 'espn')
         if r.season == 2002 and r.opponent == 'West Virginia':
             return (1, 0, 'teamstats')  # box 5988: WVU 13-20-1 passing, fumbles 2-0
         i, fm = pbp.loc[r.gameKey] if r.gameKey in pbp.index else (0, 0)

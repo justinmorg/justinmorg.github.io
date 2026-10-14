@@ -182,4 +182,13 @@ and 5962 holds a 2005 game).
 `python takeaways.py` writes `data/derived/vt_takeaways_by_game.csv` and
 `data/derived/vt_takeaways_by_season.csv`: opponent interceptions thrown plus fumbles lost, per
 game. Official box totals where available (355 games, includes special-teams fumbles), else
-play text with hand-checked recoveries; see the script's docstring.
+ESPN game boxes from 2010 on (`espn_box.py`), else play text with hand-checked recoveries; see
+the script's docstring. CFBD play text misses or double-counts some turnovers in 2021-2025.
+
+## Derived: FBS takeaways
+- `espn_box.py 2010-2026 [--force]`: interceptions thrown, fumbles lost and turnovers for both
+  teams in every game in `data/espn/games/` (one ESPN summary call per game, no quota) into
+  `data/espn/box/<season>.parquet`. Run `espn.py <season>` first to pick up new games.
+- `fbs_takeaways.py`: FBS average, median and 10th/90th percentile takeaways per game by season,
+  with VT's value and rank, into `data/derived/fbs_takeaways_by_season.csv` (team-season rows in
+  `fbs_team_takeaways_by_season.csv`). ESPN dates are UTC, so night games show the next day.
