@@ -177,3 +177,9 @@ and 5962 holds a 2005 game).
 - Used for 2002 West Virginia (5988, CFBD 223240259; matches CFBD's line score and attendance)
   and the 2000 Gator Bowl vs. Clemson (5965).
 - The site's derived averages are sometimes wrong (VT "Average Per Rush 0.0"); stored as published.
+
+## Derived: VT takeaways
+`python takeaways.py` writes `data/derived/vt_takeaways_by_game.csv` and
+`data/derived/vt_takeaways_by_season.csv`: opponent interceptions thrown plus fumbles lost, per
+game. Official box totals where available (355 games, includes special-teams fumbles), else
+play text with hand-checked recoveries; see the script's docstring.
