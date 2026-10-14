@@ -2581,6 +2581,47 @@ the floor issue, it should apply to every block about equally, so block
 comparisons survive; its rate is unmeasured. Measure it when the next card set
 is built, not before the treatment block is tested.
 
+**Card 78, `F-jr7L9DkN-36`, decision 5 — 18...Qxd3+. Labelled H; the label
+is correct, the diagnosis is not.** Raised by Justin 2026-10-14. Not a
+mislabel: unlike cards 33/34, the material loss is real and is the one the
+label names. Black is ~+6.9 and White's Bb7 is free; best is 18...Rxb7. Played
+was 18...Qxd3+ 19.Qxd3 Nxd3 20.Kxd3 Rxb7 — pawn + queen + bishop for queen +
+knight, i.e. a knight for a pawn worse than just taking. Depth 22: +6.85 →
++4.74 (win prob ~0.93 → ~0.85), so it clears the 0.05 floor at any depth
+checked. The likely miss is the king recapturing on d3.
+
+The point is the **error class**: this is not "a piece left en prise that a
+scan would find", it is **a self-initiated exchange that comes out short** —
+a counting failure on a sequence the player chose, often with a recapturer
+(here the king) not counted. `hanging.py` books it as `hung it myself`
+because recapture netting scores the swap on the moved-to square with
+`see(before, move)`, which is correct arithmetic; it just puts a different
+cognitive failure under the same name.
+
+Rate, measured 2026-10-14 (mechanical split: played move is a capture AND the
+flagged opponent capture lands on the same square):
+
+| set | missed their threat | hung it myself (other) | losing trade on own capture square |
+|---|---|---|---|
+| 2026 corpus, floored hits (`wp_error` > 0.05, n = 196) | 137 (70%) | 40 (20%) | **19 (10%)** |
+| F card set, H steps (n = 256) | — | — | **20 (8%)** |
+
+(The F split uses `std`, which is not the same field as the corpus label, so
+only the trade column is comparable.) About a third of the corpus's
+`hung it myself` hits are this shape; none of `missed their threat` is.
+
+**10% is a ceiling, not the rate of deliberate-trade miscounts.** The split
+also catches grabs of a defended unit (e.g. card 95, Nxf7 Kxf7), which are
+closer to classic hanging — the defender was missed, not miscounted.
+
+Consequences: none for the frozen block — same rule every block, so the
+pre-registered comparison is unaffected, and nothing changes mid-block. For
+the next card set: consider splitting this out as its own label (losing
+trade) and adding exchange-counting cards, weighted to sequences where a king
+or distant piece recaptures. That trains a different skill from the scan, and
+the current wording ("can they win a piece or more, right now?") gets the
+right answer on these for the wrong reason.
+
 **Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
 every decision marked wrong in the `drills.forward.v1` export**, in both
 directions — H answered safe (possible false H, as here) and S answered
