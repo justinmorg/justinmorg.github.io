@@ -111,6 +111,10 @@ def res_of(r):
 def parse_text(text):
     """Return list of (isVT, type, result, yards) found in one play's text."""
     out, s = [], text if isinstance(text, str) else ""
+    # replay reviews repeat the original play text; only the ruling on the field after review counts
+    s = re.sub(r"\(Original Play:.*$", "", s)
+    # some 2025 WMT feeds glue the team code to the foul: "PENALTY VTFalse Start"
+    s = re.sub(r"PENALTY ([A-Z]{2,5}?)(UNS:|UNR:|[A-Z][a-z])", r"PENALTY \1 \2", s)
     # 2021 MTSU-style feed: "PENALTY on MTS-G.Grate, Unnecessary Roughness / Defense, 15 yards, offset."
     for m in re.finditer(r"PENALTY on ([A-Za-z]+)-[^,]*,\s*([^,]+?),\s*(?:(-?\d+) yards?,\s*)?(accepted|declined|offset)", s, re.I):
         team, typ, yds, res = m.groups()
@@ -119,17 +123,23 @@ def parse_text(text):
     if out:
         return out
     for m in re.finditer(r"PENALTY\b(?! on )", s):
-        pos = m.end()
+        pos, segs = m.end(), []
         while True:
             sm = SEG.match(s, pos)
             if not sm or not sm.group(2).strip():
                 break
             team, typ, yds, res = sm.groups()
-            res = res_of(res)
-            out.append((is_vt(team), norm_type(typ), res, abs(int(yds)) if yds and res == "ACCEPT" else None))
-            pos = sm.end()
-            if res != "OFFSET":
+            # a continuation must be another foul ("... Offside (X) VMI UNR: ... 20 yards"), not "from VT30 to ..."
+            if segs and (team.lower() in ("from", "to", "no", "and") or bucket(norm_type(typ)) == "other"):
                 break
+            segs.append([is_vt(team), norm_type(typ), res_of(res), abs(int(yds)) if yds else None])
+            pos = sm.end()
+        # two fouls written as one enforcement: give a yardless pre-snap foul its 5 and the rest to the other
+        if len(segs) == 2 and segs[0][3] is None and segs[1][3] and bucket(segs[0][1]) == "pre_snap" \
+                and segs[0][2] == segs[1][2] == "ACCEPT" and segs[1][3] > 5:
+            segs[0][3], segs[1][3] = 5, segs[1][3] - 5
+        for isvt, typ, res, yds in segs:
+            out.append((isvt, typ, res, yds if res == "ACCEPT" else None))
     if out:
         return out
     old = [m.groups() for m in OLD.finditer(s) if m.group(4) or "offsetting" in s[m.end():]]
@@ -189,7 +199,15 @@ def from_wmt(g, p):
     # dead-ball penalties keyed without a clock live only in the raw JSON's play list
     d = json.load(open(os.path.join(HERE, "hokiesports", "raw_wmt", f"{gid}.json")))["data"]
     have = set(p.text.dropna())
-    for pl in json.dumps(d).split('"'):
+
+    def strings(o):
+        if isinstance(o, dict):
+            for v in o.values(): yield from strings(v)
+        elif isinstance(o, list):
+            for v in o: yield from strings(v)
+        elif isinstance(o, str):
+            yield o
+    for pl in strings(d):
         if "PENALTY" in pl and pl not in have and len(pl) < 600:
             have.add(pl)
             for isvt, typ, res, yds in parse_text(pl):

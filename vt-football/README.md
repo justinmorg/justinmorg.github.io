@@ -198,8 +198,10 @@ official totals). `--espn` re-pulls ESPN team penalty totals for CFBD games
 - **discipline:** unsportsmanlike, taunting, unnecessary roughness, generic "personal foul",
   roughing the passer/kicker, late hit, horse collar, targeting.
 - By type only; edge cases not hand-checked. Older StatCrew games often say just "personal foul".
-- Accuracy vs official counts: hokiesports games exact in ~93% (within 1 in ~98%); 2026 Pitt and
-  Maryland, BC, California exact. CFBD games (2020-2025 especially) undercount: exact in ~65%,
+- Accuracy vs official counts: hokiesports games exact in ~93% (within 1 in ~98%); all 18 WMT games
+  (2025, 2026) exact in count and yards for both teams. WMT quirks handled: replay "(Original Play: ...)"
+  text is ignored, glued codes ("PENALTY VTFalse Start") are split, two fouls in one PENALTY string are
+  both counted, and dead-ball penalties missing from the play table are read from the raw JSON. CFBD games (2020-2025 especially) undercount: exact in ~65%,
   within 1 in ~90%, because CFBD's play-by-play drops some penalty snaps. 2005 has no ESPN totals.
   Penalty yards are missing from some newer CFBD text (`*_ydsMissing`).
 
