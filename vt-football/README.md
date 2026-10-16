@@ -178,6 +178,25 @@ and 5962 holds a 2005 game).
   and the 2000 Gator Bowl vs. Clemson (5965).
 - The site's derived averages are sometimes wrong (VT "Average Per Rush 0.0"); stored as published.
 
+## Derived: penalty profile (pre-snap / football / discipline)
+`python penalties.py [--espn]` classifies every penalty by type into three buckets and writes
+`data/derived/penalties_by_play.csv` (one row per penalty, incl. declined/offsetting) and
+`data/derived/penalties_by_game.csv` (VT and opponent accepted count and yards per bucket, plus
+official totals). `--espn` re-pulls ESPN team penalty totals for CFBD games
+(`data/espn/penalties/vt_games.parquet`).
+- **pre_snap:** false start, illegal formation/procedure/shift/motion, illegal substitution, too many
+  men, delay of game, offside, encroachment, neutral zone.
+- **football:** holding, pass interference, illegal block/clipping/chop, illegal use of hands,
+  illegal contact, tripping, ineligible downfield, face mask, intentional grounding, running into
+  the kicker, kick-catch interference.
+- **discipline:** unsportsmanlike, taunting, unnecessary roughness, generic "personal foul",
+  roughing the passer/kicker, late hit, horse collar, targeting.
+- By type only; edge cases not hand-checked. Older StatCrew games often say just "personal foul".
+- Accuracy vs official counts: hokiesports games exact in ~93% (within 1 in ~98%); 2026 Pitt and
+  Maryland, BC, California exact. CFBD games (2020-2025 especially) undercount: exact in ~65%,
+  within 1 in ~90%, because CFBD's play-by-play drops some penalty snaps. 2005 has no ESPN totals.
+  Penalty yards are missing from some newer CFBD text (`*_ydsMissing`).
+
 ## Derived: VT takeaways
 `python takeaways.py` writes `data/derived/vt_takeaways_by_game.csv` and
 `data/derived/vt_takeaways_by_season.csv`: opponent interceptions thrown plus fumbles lost, per
