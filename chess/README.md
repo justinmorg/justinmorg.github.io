@@ -117,6 +117,7 @@ chess/
     ├── build_forward.py                      rebuild the /chess-drills F (play-forward) set
     ├── verify_labels.py                      depth-18 re-eval of every F SEE>=150 step
     ├── gap.py                                scope measurement: what the SEE rule misses
+    ├── scanlevel.py                          which scan level (sight / value / count) catches each hang
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -2431,6 +2432,66 @@ have a pawn capturable, and on those the verdict names it — "Rxe4 wins a pawn,
 which is below this drill's threshold". Without that, a correct chess instinct
 gets marked wrong once every eight cards, which is the fastest way to stop
 trusting the tool.
+
+### Scan level: how much of hanging material needs counting
+
+Added 2026-10-16. `scanlevel.py`. Justin's framing: a safety scan has levels —
+seeing what pieces attack, spotting a value mismatch, and counting attackers
+against defenders (including recapture order). The question was how much of
+the hanging-material damage each level would catch.
+
+Each hit's decisive capture (the opponent's best SEE capture after the move,
+as `hanging.py` picks it) is classified in the position after the move, first
+match wins:
+
+- **EXCH** — the capture lands on the square I just captured on: an exchange I
+  started that nets a loss.
+- **L1** — the target has no direct defender.
+- **L2** — defended, but the capturing piece is cheaper (SEE values, N = B).
+- **L3** — defended and the capturer is not cheaper: only counting finds it.
+
+```bash
+python3 chess/scripts/scanlevel.py games 2024H2=h2.pgn Q1-2025=q1.pgn \
+  Q2-2025=q2.pgn Q3-2025=q3.pgn Q4-2025=q4.pgn 2026=corpus.pgn
+python3 chess/scripts/scanlevel.py cards          # group F, reads chess-drills/index.html
+```
+
+Games scope: the six settled Lichess blocks (4,695 games), 180+2 / 300+0,
+`hanging.py`'s +150 eval gate, `wp_error > 0.05` (the pre-registered floor),
+depth-12 evals. Run `hanging.py` on the 2026 corpus first — 368 (290/78) is
+the tripwire. Nothing in the treatment block is touched; this is a baseline
+description, not an outcome, and changes no card or protocol step.
+
+| | n | L1 sight | L2 value | L3 count | EXCH |
+|---|---|---|---|---|---|
+| all games, pooled | 597 | 48% | 26% | 16% | 10% |
+| — missed their threat | 432 | 49% | 31% | 15% | 6% |
+| — hung it myself | 165 | 47% | 15% | 17% | 22% |
+| F cards, all H steps | 256 | 45% | 27% | 20% | 8% |
+| F cards, anchors only | 183 | 48% | 25% | 17% | 10% |
+
+- **Three in four hangs need no counting.** L1 + L2 = 74%. L1 share is 39–53%
+  in every block (Q4 2025 low at n = 28).
+- **Counting cases are not the expensive ones.** Mean `wp_error` 0.38 / 0.30 /
+  0.40 / 0.36 for L1 / L2 / L3 / EXCH.
+- **EXCH is a self-inflicted mechanism** — 22% of self-inflicted hits against
+  6% of missed threats.
+- **The F card set matches the games**, so group F rehearses the real mix
+  rather than over-weighting the counting cases. Expected: F hits are drawn
+  from the 2026 block, which itself matches the pool.
+- 116 of 597 targets were the queen; 47 of those undefended.
+
+**Blind spot — the fourth level is not measured.** A nominal defender that is
+pinned or overloaded is counted as a real defender by SEE, so those hangs are
+mostly never flagged at all (3 of 597 hits have a pinned defender). That is
+the instrument, not evidence of rarity. Forks and quiet-first tactics are out
+of scope for the same reason (see "Scope" above). Depth-12 labels at the 0.05
+floor carry ~10% false positives (see "Label audit"); no reason to expect that
+to differ by level, but it was not checked.
+
+Use: categories for the post-block analysis template, and the case for a
+two-speed blitz scan (L1/L2 always, count only when both come up empty).
+Not a reason to change anything inside the current block.
 
 ### Group F: play-forward, and why the P scan trains the wrong half
 
