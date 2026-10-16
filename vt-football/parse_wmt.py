@@ -33,7 +33,8 @@ API = ("https://api.wmt.games/api/statistics/games/{}"
        "?with[]=actions&with[]=players&with[]=plays&with[]=drives")
 VT_ORG = 742
 # WMT school names -> the team names used elsewhere in the repo (CFBD style)
-NAMES = {"Pittsburgh": "Pitt", "Hokies": "Virginia Tech"}
+NAMES = {"Pittsburgh": "Pitt", "Hokies": "Virginia Tech", "Miami (FL)": "Miami",
+         "Florida St.": "Florida State"}
 CODES = {"Virginia Tech": "VT"}
 
 
@@ -90,7 +91,7 @@ def parse(box_id, d):
             org = home_org if side == "H" else away_org
             if p["location"] and p["location"][: len(p["side_of_teams_goal"])] == p["side_of_teams_goal"]:
                 if (p["context"].split(",")[3][1:]).lstrip("0") == p["location"][len(p["side_of_teams_goal"]):].lstrip("0"):
-                    code.setdefault(org, p["side_of_teams_goal"])
+                    code.setdefault(org, p["side_of_teams_goal"].strip())
 
     def line(c):
         per = sorted((s for s in c["teamStats"] if s["period"]), key=lambda s: s["period"])
@@ -135,6 +136,9 @@ def parse(box_id, d):
                  intReturnYards=(first("interception") or {}).get("yards"))
         if "NO PLAY" in text.upper():
             r["type"] = "E"
+        elif first("pass") and first("rush") and "grounding" in text.lower():
+            # intentional grounding: StatCrew charges the QB a rush for the loss (no pass attempt)
+            ru = first("rush"); r.update(type="R", rusher=short(ru["dsp_name"]), yards=ru["yards"])
         elif first("pass"):
             ps = first("pass"); r["type"] = "P"; r["passer"] = short(ps["dsp_name"])
             r["receiver"] = short((first("pass", "receiver") or {}).get("dsp_name"))
@@ -150,6 +154,11 @@ def parse(box_id, d):
             else: r["passResult"] = "INC"; r["yards"] = 0
         elif first("rush"):
             ru = first("rush"); r.update(type="R", rusher=short(ru["dsp_name"]), yards=ru["yards"])
+            lead = text.split(" rush ")[0]
+            if ru["dsp_name"] and ru["dsp_name"].split(",")[0] not in lead: r["rusher"] = "TEAM"  # action names the recoverer
+            tm = re.search(r"rush (?:\w+ )?for (?:(\d+) yards? (gain|loss)|no gain)", text)
+            if tm and not re.search(r"yards? (?:gain|loss) \(-?\d+\)", text):  # WMT sometimes stores 0 (or the recoverer's yards) on a fumbled rush; trust the text
+                r["yards"] = 0 if not tm.group(1) else int(tm.group(1)) * (-1 if tm.group(2) == "loss" else 1)
         elif re.search(r"\) (?:[A-Za-z .'-]+ )?rush ", text) and (tm := re.search(r"for (\d+) yards? (gain|loss)|for no gain", text)):
             # team rush with no player action (e.g. a team run on 4th down)
             n = 0 if not tm.group(1) else int(tm.group(1)) * (-1 if tm.group(2) == "loss" else 1)
