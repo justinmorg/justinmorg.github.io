@@ -117,6 +117,7 @@ chess/
     ├── build_forward.py                      rebuild the /chess-drills F (play-forward) set
     ├── verify_labels.py                      depth-18 re-eval of every F SEE>=150 step
     ├── gap.py                                scope measurement: what the SEE rule misses
+    ├── fbackup.py                            archive a group F export (refuses if history shrank)
     ├── scanlevel.py                          which scan level (sight / value / count) catches each hang
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
@@ -2481,6 +2482,27 @@ description, not an outcome, and changes no card or protocol step.
   from the 2026 block, which itself matches the pool.
 - 116 of 597 targets were the queen; 47 of those undefended.
 
+**F practice feedback by level (2026-10-16 archive — not an outcome).** Post-
+reset decisions only, current card keys, decisions over 60s dropped as
+distraction (8 of 451, rule set before looking), medians:
+
+| | n | caught | median time | right / wrong |
+|---|---|---|---|---|
+| L1 | 35 | 69% | 11.1s | 11.2 / 10.0 |
+| L2 | 20 | 70% | 9.9s | 9.7 / 13.9 |
+| L3 | 16 | 62% | 10.5s | 8.4 / 18.5 |
+| EXCH | 7 | 86% | 21.8s | — |
+| S (safe) | 347 | 99% | 8.3s | |
+| C (compensation) | 18 | 44% | 16.4s | |
+
+No level separates on catch rate; at these n only a ~30-point gap would show.
+The robust feature is the asymmetry: 5 false alarms in 347 safe steps against
+24 misses in 78 hangs — the threshold sits heavily on "safe". Suggestive only
+(11 and 6 misses): L1 misses are fast, L3 misses slow, i.e. L1 failures look
+like not seeing, L3 like counting wrong. Card misses also include
+visualizing the named-not-shown move, which games do not require in the same
+way.
+
 **Blind spot — the fourth level is not measured.** A nominal defender that is
 pinned or overloaded is counted as a real defender by SEE, so those hangs are
 mostly never flagged at all (3 of 597 hits have a pinned defender). That is
@@ -2577,6 +2599,26 @@ python-chess on all 1,747 positions of the pre-audit set before commit. Running 
 byte-identical, and `build_drills2.py` / `build_reflect.py` leave the F block
 untouched (verified in all directions). The page is ~626 KB, most of it the
 embedded card data.
+
+**Backups of the F export.** `localStorage` lives in one browser and the
+pre-registration's start date is read from it, so exports are archived in
+`chess/data/f_results/f_results_YYYY-MM-DD.json`, roughly weekly:
+
+```bash
+python3 chess/scripts/fbackup.py export.json 2026-10-16
+```
+
+It refuses to write unless the new export is a superset of the latest
+archived one (same answer and timestamp for every decision already on file),
+so a cleared or reset browser shows up the day it happens. Archiving is not an
+interim look — the card results were never the outcome. The page has no
+import, so an archive restores the record, not the browser; adding an import
+is a page change and waits until the block closes.
+
+First archive (2026-10-16): 84 cards, 482 decisions, earliest `ts`
+2026-09-02 04:00 UTC (2026-09-01 local). Four of the 84 keys are cards dropped
+by the 2026-09-03 label audit, answered before the reset start — consistent
+with the amendment, and excluded from any analysis of the F results.
 
 **The in-page hit rate is not an outcome.** It will rise with familiarity
 whether or not anything transfers, and the cards are the tail of the
