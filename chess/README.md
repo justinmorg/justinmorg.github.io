@@ -2496,6 +2496,13 @@ distraction (8 of 451, rule set before looking), medians:
 | C (compensation) | 18 | 44% | 16.4s | |
 
 No level separates on catch rate; at these n only a ~30-point gap would show.
+Three of the 24 misses are known false H labels from "Known mislabels" (card
+33 decision 5, L2; card 34 decisions 3–4, both L1), each answered "safe",
+correctly. Dropping them: 54/75 caught (72%), L1 24/33 (73%), L2 14/19 (74%).
+Card 78 (EXCH) is a real miss and stays. Misses are where false H labels
+concentrate — a correct "safe" on a false H is scored as a miss — so the
+unaudited remainder likely holds more; the post-block depth-18 pass over wrong
+answers is what measures it.
 The robust feature is the asymmetry: 5 false alarms in 347 safe steps against
 24 misses in 78 hangs — the threshold sits heavily on "safe". Suggestive only
 (11 and 6 misses): L1 misses are fast, L3 misses slow, i.e. L1 failures look
