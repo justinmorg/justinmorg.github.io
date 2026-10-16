@@ -2,7 +2,11 @@
 
 Games, drives, and plays for Virginia Tech football: 1987-2000 from VT's official stat-crew
 files (hokiesports.com), 2001 on from the [CollegeFootballData API](https://collegefootballdata.com),
-with the stat-crew files also covering most of 2001-2019.
+with the stat-crew files also covering most of 2001-2019 and all games from 2024 on.
+
+**CFBD is frozen.** No new VT play-by-play is pulled from CFBD; the CFBD games already in the repo
+stay until they are replaced, over time, with better sources (official stat-crew XML / WMT JSON,
+StatCrew text reports). New games come from hokiesports.com via `parse_wmt.py` (see "Refresh").
 
 **For analysis, query `data/unified/`** (see "Unified play table" below). It picks the best source
 for each game and repairs known CFBD coding problems; the raw per-source tables stay as pulled.
@@ -11,7 +15,7 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
 - `parse_wmt.py <boxId>`: late-2020-on official stat-crew data from the WMT stats API behind
   hokiesports.com box scores (raw JSON in `hokiesports/raw_wmt/`), written to `data/hokiesports/`
   in the same shape as the XML games, so `normalize.py` and `validate_box.py` treat them as
-  hokiesports. Use it when CFBD is late or over quota; 2026 Pitt (box 22963) matches the official
+  hokiesports. This is the source for the current season; 2026 Pitt (box 22963) matches the official
   team totals exactly. All of 2024 (box IDs 5585-5596, bowl 21742) and 2025 (21761-21772) are loaded from WMT;
   unified team totals are within 0.5% of the official box. The biggest gap, 2024 Duke VT rushing
   (176 vs 190), is in the box itself: VT's individual rushing lines sum to 176.
@@ -22,7 +26,7 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
 - `data/drives/<season>.parquet`: every drive for both teams (clock fields in seconds)
 - `data/plays/<season>.parquet`: every play: down, distance, yard line, play type,
   play text, PPA/EPA (`ppa`, available in later seasons), game clock in seconds
-- `fetch.py`: refresh script
+- `fetch.py`: CFBD pull script (retired for VT play-by-play; kept for reference and for the CFBD data already on disk)
 - `data/unified/games.parquet`, `data/unified/plays/<season>.parquet`: one row per game and one
   row per scrimmage play across all sources (built by `normalize.py`)
 - `data/unified/validation.csv`: per-game check against official box scores (`validate_box.py`)
@@ -59,10 +63,10 @@ any refresh or new crawl.
   | 2001-2004 | hokiesports, except 2001 Gator Bowl and 2003 Insight Bowl (CFBD), 2004 Sugar Bowl (StatCrew text); 2002 West Virginia has none |
   | 2005-2007 | CFBD (repaired), except 2 games in 2005 and 1 in 2006 |
   | 2008-2019 | hokiesports for 10-14 games a season; the rest CFBD (repaired) |
-  | 2020-2023 | CFBD (repaired) |
+  | 2020-2023 | CFBD (repaired); to be replaced with WMT stat-crew data |
 | 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
-| 2026 on | CFBD (repaired), except games pulled from WMT JSON: 2026 Pitt, 2026 at California (box 22964) |
+| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22964 (VMI through at California) |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
@@ -97,11 +101,15 @@ After repair, CFBD is within about 1-2% of the box scores for 2004, 2008-2012 an
   last CFBD pull; for future games prefer `data/elo/`.
 
 ## Refresh
+New games come from the official stat-crew data behind each hokiesports.com box score; do not
+pull VT play-by-play from CFBD.
 ```bash
-export CFBD_API_KEY=...   # never commit the key
-python fetch.py 2026      # the current season is always re-pulled
+python parse_wmt.py <boxId>   # hokiesports.com/boxscore/<boxId>; one or more ids
+python normalize.py           # rebuild data/unified/
+python validate_box.py        # check against the official box
 ```
-Past seasons already on disk are skipped unless `--force` is given.
+Replacing a CFBD game: load its stat-crew source (WMT, XML or StatCrew text); `normalize.py`
+prefers stat-crew sources over CFBD, so the CFBD rows drop out of `data/unified/` automatically.
 
 ## Query
 ```python
