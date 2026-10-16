@@ -157,7 +157,7 @@ def parse(box_id, d):
             lead = text.split(" rush ")[0]
             if ru["dsp_name"] and ru["dsp_name"].split(",")[0] not in lead: r["rusher"] = "TEAM"  # action names the recoverer
             tm = re.search(r"rush (?:\w+ )?for (?:(\d+) yards? (gain|loss)|no gain)", text)
-            if tm and not re.search(r"yards? (?:gain|loss) \(-?\d+\)", text):  # WMT sometimes stores 0 (or the recoverer's yards) on a fumbled rush; trust the text
+            if tm and "lateral" not in text and not re.search(r"yards? (?:gain|loss) \(-?\d+\)", text):  # WMT sometimes stores 0 (or the recoverer's yards) on a fumbled rush; trust the text
                 r["yards"] = 0 if not tm.group(1) else int(tm.group(1)) * (-1 if tm.group(2) == "loss" else 1)
         elif re.search(r"\) (?:[A-Za-z .'-]+ )?rush ", text) and (tm := re.search(r"for (\d+) yards? (gain|loss)|for no gain", text)):
             # team rush with no player action (e.g. a team run on 4th down)

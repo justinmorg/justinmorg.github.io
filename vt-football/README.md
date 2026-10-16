@@ -12,11 +12,12 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
   hokiesports.com box scores (raw JSON in `hokiesports/raw_wmt/`), written to `data/hokiesports/`
   in the same shape as the XML games, so `normalize.py` and `validate_box.py` treat them as
   hokiesports. Use it when CFBD is late or over quota; 2026 Pitt (box 22963) matches the official
-  team totals exactly. All of 2025 is loaded from WMT (box IDs 21761-21772); unified team totals are
-  within 0.4% of the official box (VT offense exact in 6 games, off by at most 1 play/6 yards).
+  team totals exactly. All of 2024 (box IDs 5585-5596, bowl 21742) and 2025 (21761-21772) are loaded from WMT;
+  unified team totals are within 0.5% of the official box. The biggest gap, 2024 Duke VT rushing
+  (176 vs 190), is in the box itself: VT's individual rushing lines sum to 176.
   Repairs: WMT sometimes stores 0 yards (or the recoverer as rusher) on a fumbled rush, so the text
   yardage is used and the rush goes to TEAM; intentional grounding is a QB rush for the loss, as in
-  StatCrew; spot fouls like "8 yards gain (1)" keep the official yardage.
+  StatCrew; spot fouls like "8 yards gain (1)" and lateral plays keep the action yardage.
 - `data/games/<season>.parquet`: schedule, scores, line scores, venue, Elo
 - `data/drives/<season>.parquet`: every drive for both teams (clock fields in seconds)
 - `data/plays/<season>.parquet`: every play: down, distance, yard line, play type,
@@ -58,7 +59,8 @@ any refresh or new crawl.
   | 2001-2004 | hokiesports, except 2001 Gator Bowl and 2003 Insight Bowl (CFBD), 2004 Sugar Bowl (StatCrew text); 2002 West Virginia has none |
   | 2005-2007 | CFBD (repaired), except 2 games in 2005 and 1 in 2006 |
   | 2008-2019 | hokiesports for 10-14 games a season; the rest CFBD (repaired) |
-  | 2020-2024 | CFBD (repaired) |
+  | 2020-2023 | CFBD (repaired) |
+| 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
 | 2026 on | CFBD (repaired), except games pulled from WMT JSON: 2026 Pitt, 2026 at California (box 22964) |
 
