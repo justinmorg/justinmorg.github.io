@@ -66,7 +66,7 @@ any refresh or new crawl.
   | 2020-2023 | CFBD (repaired); to be replaced with WMT stat-crew data |
 | 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
-| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22964 (VMI through at California) |
+| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22965 (VMI through Georgia Tech) |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
