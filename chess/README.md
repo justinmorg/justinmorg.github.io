@@ -119,6 +119,9 @@ chess/
     ├── gap.py                                scope measurement: what the SEE rule misses
     ├── fbackup.py                            archive a group F export (refuses if history shrank)
     ├── scanlevel.py                          which scan level (sight / value / count) catches each hang
+    ├── matedanger.py                         mate-danger flags per position (bucket M2)
+    ├── buckets.py                            error rate by position bucket over time (pre-specified)
+    ├── buckets_prespec.md                    pre-spec for the above
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -4472,6 +4475,68 @@ null, and n = 68 in the deep arm. **Not a finding. Do not build on it.** If it
 is ever worth pursuing, the pre-specified version is a single-family test of
 the Englund main line against the `Qc5` alternative, on a block that does not
 include these games.
+
+## Error rate by position bucket
+
+Run 2026-10-22. **Pre-specified in `chess/scripts/buckets_prespec.md`,
+committed before any per-block value existed.** Asks whether the plateau's
+flatness hides movement inside study-shaped categories.
+
+```bash
+python3 chess/scripts/features.py 2024H2=h2.pgn Q1-2025=q1.pgn Q2-2025=q2.pgn \
+  Q3-2025=q3.pgn Q4-2025=q4.pgn 2026=corpus.pgn --tc 180+2,300+0 \
+  --emit-fens all --out /home/claude/featlic          # 4,691 games / 155,192 rows
+python3 chess/scripts/matedanger.py /home/claude/featlic md.csv --workers 2   # ~50 min
+python3 chess/scripts/buckets.py /home/claude/featlic md.csv
+```
+
+Ten buckets on the position before the own move, first rule wins: M1 mate for
+me, M3 mate against me (cannot err; not tested), M2 mate danger (null-move
+depth-12 mate threat, or a legal move allows mate in one, or in check and a
+legal move leads to an engine-seen mate), opening (fullmove <= 12), EG
+ahead/level/behind (npm_light <= 14, `bucket_of` bands), MG winning/level/
+losing (+-150). Primary error = `wp_error >= 0.15`; co-primary = mean
+`max(wp_error, 0)`; `drop_cp >= 200` secondary. Slope over block midpoint
+dates, game-level label shuffle, 20,000 draws, seed 23, Holm over 18 tests,
+and the 3+2-only slope must share the sign.
+
+M2 scan flags 1,254 of the 1,518 known walked-into-mate positions (83%; rules
+a+b alone reached 1,055 in the coverage test). M2 is ~5% of moves.
+
+**Result: one of 18 passes, and it is composition, not a decline.**
+
+| bucket | P1 2024 H2 -> 2026 | P2 2024 H2 -> 2026 | raw p (P1 / P2) | Holm |
+|---|---|---|---|---|
+| MG winning | 12.45 -> 10.51% | 6.65 -> 5.68 | 0.007 / 0.004 | 0.105 / 0.069 |
+| M2 mate danger | 10.48 -> 13.13% | 6.15 -> 6.92 | 0.006 / 0.085 | 0.090 / 1.0 |
+| M1 mate for me | 8.92 -> 5.69% | 4.93 -> 3.80 | 0.065 / 0.13 | 0.85 / 1.0 |
+| EG behind | 2.03 -> 1.97% | **2.30 -> 2.53** | 0.83 / **0.0002** | 1.0 / **0.004** |
+| all others | flat | flat | >= 0.06 | 1.0 |
+
+- **EG behind P2 passes the rule and is composition.** 2026 has fewer hopeless
+  endgames (share below -6: 31% -> 21%, mean eval -621 -> -473); a less lost
+  position has more win chance to lose per move. Standardized to the pooled
+  eval-band mix (post hoc): 2.42 -> 2.36, flat. Its P1 is flat. Do not quote
+  as a decline.
+- **MG winning improving is the one survivor of the composition check, and it
+  is not established.** Fails Holm on both metrics; standardized by eval band
+  (post hoc) it holds, 12.57 -> 10.45%. Driven by Q4 2025 and 2026. Note it
+  sits in group F's target area, so the treatment block cannot serve as a
+  clean replication for it — any F effect would be confounded with it.
+- M2's rise is the Q4 2025 block (15.07%, 365 moves) plus a composition shift
+  (mean eval -410 -> -147); standardized 11.35 -> 12.03, flat.
+- Endgame buckets do not carry the published move-26+ improvement on the win-
+  chance measure. The `drop_cp >= 200` column falls most in EG behind and MG
+  losing, positions where two pawns barely matter — consistent with that
+  improvement being partly in cheap moves. Exploratory, not tested.
+
+Resolution: 95% endpoint intervals (2026 minus 2024 H2) run about +-0.6 pts
+(opening, EG behind) to +-2-4 pts (MG and EG level/ahead buckets) to +-5 pts
+(mate buckets). Changes of a point or less are invisible outside the opening.
+
+Sandbox note: the PyPI `chess` package failed to build on Python 3.13 here
+(`install_layout`). Installing python-chess 1.11.2 by copying the `chess/`
+folder from its sdist into site-packages works; 1.10.0 breaks `hanging.see`.
 
 ## Open threads
 
