@@ -2736,6 +2736,23 @@ or distant piece recaptures. That trains a different skill from the scan, and
 the current wording ("can they win a piece or more, right now?") gets the
 right answer on these for the wrong reason.
 
+**Card 112, `F-QMTTIZzN-46`, decision 5 — 23...f1=Q. Labelled H (Rhxf1,
+"wins 9 pawns"); should be S with the pawn note.** Raised by Justin
+2026-10-23. The "piece" is the freshly promoted queen: either rook takes it,
+24...Rxf1+ 25.Rxf1 trades rooks, and the real cost is the f2 pawn. The drop
+is real (cache depth 18: 525 → 368; depth 20: best 23...Be8 +5.20,
+f1=Q +3.53) but it is the passer cashed in early, not material hung. The
+verdict's "already on the board (hxg6)" names a different threat — the g6
+bishop, attacked by h5 — and that is not live after f1=Q: 24.hxg6 Qf6 is
+about +6.5 for Black at depth 20, which is why White traded on f1. Same
+family as cards 33/34 (a ≥150 SEE capture and an eval drop ANDed with
+nothing tying them together), with a promotion-specific twist: SEE values a
+just-promoted queen at 900 though it cost the mover one pawn. Fix for the
+next card set: net a promotion's capture as pawn value (or apply the
+depth-18 capture-and-evaluate check proposed under card 34, which would
+also catch this). Applies equally to `hanging.py`'s count, so block
+comparisons are unaffected.
+
 **Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
 every decision marked wrong in the `drills.forward.v1` export**, in both
 directions — H answered safe (possible false H, as here) and S answered
