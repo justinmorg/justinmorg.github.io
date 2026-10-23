@@ -4583,6 +4583,33 @@ and mate-for-me (4.4 vs 6.5%); endgame buckets barely differ. His own rates
 are the same against both halves. The day-of-game split (opp − me at median,
 mean gaps +37/−33) shows the same pattern, smaller.
 
+#### By opponent-rating quartile (exploratory)
+
+Same data, `opp_elo` quartiles (1041–1305 / 1306–1358 / 1359–1402 /
+1403–1617, ~1,170 games each, means 1252 / 1334 / 1381 / 1443). Opponents'
+P1 falls with rating in most buckets — opening 4.5 -> 3.9, MG level
+13.9 -> 11.8, EG level 9.8 -> 7.7, M1 6.2 -> 4.1, M2 12.2 -> 10.4 — while his
+own rates are flat across all four (his own rating is 120 points higher in Q4
+games than Q1 games; consistent with the random-walk reading of plateau
+excursions). His opening rate (3.7–4.1) sits with the top quartile; his EG
+ahead/level rates (7.1–7.5 / 10.2–10.5) sit above even the bottom quartile's
+(6.7 / 9.8). Cell intervals are ~+-1 pt in the endgame buckets, so "below the
+bottom quartile" is a direction, not a rating estimate.
+
+### Opening errors are almost never repeats (exploratory)
+
+Plateau blocks, own moves 1–12, P1 errors: 2,190 errors from 2,087 distinct
+positions (keyed on the first four FEN fields). 7.4% come from a position he
+erred in more than once; 1.9% from positions reached 20+ times. Errors pile up
+toward move 12 (32 at own move 2, 451 at own move 12). The repeats, each
+confirmed at depth 18: Englund 2.Nf3 Nc6 (18 of 24; 2...exd4 fine); 2.dxe5 Nc6
+3.Nf3 Qe7 4.e3 Qb4+ (6 of 7; 4...Nxe5 fine); in the 4.Bf4 Qb4+ 5.Bd2 Qxb2 line,
+7.Bxb4 Qxa1 (3/3) and 7.Nd5 Bxd2+ 8.Nxd2 Qxe5 (5/5); as White 1.d4 e5 2.Bf4
+(4/4, ~46 pts); Caro Panov 4.c4 Nc6 5.Nc3 Bf5 (5/5; 5...Nf6 fine); Advance
+6.cxd4 Bg4 7.h3 Bh5 (4/5; 7...Bxf3 better). The Englund trap line is the only
+place where an error follows within a few moves at well above base rate
+(12–17% vs ~4%). Scratch script, not committed — the result is the table.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -4888,6 +4915,53 @@ at move 12 is fine, and the gaps `openings.py` found cost seconds rather than
 centipawns. State the detectable-at figure with the result whichever way it
 lands, the way the chess.com diversity test did — a null is worth nothing
 without its resolution attached.
+
+### 9. A player panel from the Lichess open database — **NEXT**
+
+Goal, in Justin's words: not differences between players but **change over
+time** — among players in his range who improved meaningfully over a year, did
+they improve everything at once, keep improving their best area, or patch their
+weaknesses? Secondary: a wider-Elo reference (1150–1750) for the bucket rates.
+
+**Access, verified 2026-10-23.** `lichess.org/api/user/...` answers, but **game
+export no longer works anonymously from the sandbox**: `/api/games/user/<name>`
+returns 404 and `/game/export/<id>` redirects to `/signup`. This also breaks
+step 2 of the update procedure above — the next corpus batch will need Justin
+to download his own games, or a token. The open database works:
+`https://database.lichess.org/standard/lichess_db_standard_rated_YYYY-MM.pgn.zst`
+(2026-08 is 30.1 GB) streams at ~11 MB/s, so ~45 min per pass per month.
+`pip install zstandard --break-system-packages` (or `zstd` if present). Never
+write the decompressed month to disk — stream, filter, keep only what is needed.
+
+**Design (agreed in outline, not pre-specified yet):**
+
+1. *Index pass*, Sep 2025 and Sep 2026 separately: stream, parse headers only,
+   write one compact row per rated 3+2/5+0 game (players, ratings, tc, date,
+   result, game id). Small enough to keep for every player; this is the "hold a
+   larger set" layer. Do not keep move text in this pass.
+2. *Select the panel* from the joined indexes: players with ~150+ qualifying
+   games in **both** months, Sep 2025 mean rating in 1150–1750. Improvers =
+   large gain in monthly mean rating (threshold to be fixed in the pre-spec,
+   e.g. >= +150); controls = players matched on Sep 2025 rating who stayed
+   flat. The control is not optional: a year of play, rating-pool drift and
+   regression to the mean all move numbers without anyone improving.
+3. *Extract pass*: stream both months again, keep full game text for panel
+   players only, usernames replaced by anonymous ids (the repo is publicly
+   served). Commit compressed, chunked under GitHub's 100 MB file limit.
+4. *Annotate incrementally* with `annot_inc.py` (resumable; overwrite server
+   evals per the depth-12 rule) and run `features.py` / `matedanger.py` /
+   bucket rates per player-month. Engine time is the bottleneck: ~5–6 min per
+   player-month on 2 cores, so ~25 players a session; commit progress often.
+5. *Pre-specify before annotating*: the three hypotheses as per-player
+   comparisons of the Sep 2025 -> Sep 2026 bucket-rate change against the
+   player's own Sep 2025 profile (best bucket / worst bucket / all), improvers
+   vs controls.
+
+Known hazards: selection on month-level rating partly selects on luck (use the
+monthly mean, a large threshold, and the control group); heavy players are
+over-represented by the games-per-month requirement; bucket rates per player-
+month are ~+-2 pts at 150–300 games, so per-player claims are weak and the
+analysis should be about the groups.
 
 ### Do not re-chase
 
