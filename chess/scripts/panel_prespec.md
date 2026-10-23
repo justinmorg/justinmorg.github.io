@@ -45,26 +45,51 @@ rating** = mean of the player's own pre-game rating across those games.
 
 1. Eligible: `n >= 150` in **both** months; Sep 2025 mean in **1150–1750**.
 2. `gain` = Sep 2026 mean − Sep 2025 mean.
-   **Improver**: `gain >= +150`. **Control**: `|gain| <= 50`. Others dropped.
-   **[DECIDE]** thresholds. +150 is ~1.5 times the 1310–1455 band Justin's own
-   rating has wandered in; it is large enough that luck alone rarely produces
-   it at 150+ games a month.
+   **Improver**: `+150 <= gain <= +300` (decided 2026-10-23). **Control**:
+   `|gain| <= 50`. Others dropped. +150 is large enough that luck alone
+   rarely produces it at 150+ games a month; the +300 cap keeps out gains no
+   adult in this range plausibly makes in a year, which are more likely
+   returning or sandbagged accounts, or engine use, than improvement.
 3. Persistence gate, improvers only: current blitz rating from the user API
    (late Oct 2026) must be `>= Sep 2025 mean + 100`. Guards against Sep 2026
-   being a lucky month. (The `rating-history` endpoint returns empty
-   anonymously, so the matching "Sep 2025 was not an unlucky month" check
-   would need a third index pass over Aug 2025 — **[DECIDE]**, ~45 min.)
+   being a lucky month. There is deliberately **no** matching check that Sep
+   2025 was not an unlucky month (decided 2026-10-23: no Aug 2025 pass; the
+   `rating-history` endpoint returns empty anonymously). That residual is
+   listed under Hazards.
 4. Matching: in random order (seed 23), each improver takes the unused control
    with the nearest Sep 2025 mean rating, within ±30, whose Sep 2025 `n` is
-   within a factor of 2. Improvers with no match are dropped. If more matched
-   pairs exist than the target, sample pairs at random (seed 23).
-5. Target **40 pairs** (80 players, 160 player-months; ~15 h of engine time at
-   ~5–6 min per player-month, so 3–4 sessions). **[DECIDE]** 40 vs 50.
+   within a factor of 2. Improvers with no match are dropped. All matched
+   pairs are then put in one **random rank order (seed 23)**, fixed and
+   committed (as anonymous ids) before any annotation.
+5. Target **40 pairs** (decided 2026-10-23): ranks 1–40 are annotated
+   (80 players, 160 player-months; ~15 h of engine time at ~5–6 min per
+   player-month, so 3–4 sessions).
+   - **Replacement.** A pair that fails the area rule below is replaced by
+     the next unused rank. Allowed because the rule depends only on move
+     counts per bucket, never on an error rate.
+   - **One pre-declared extension.** If the 40-pair result is *unresolved*
+     (Decision rule), and enough ranked pairs remain, ranks 41–80 are
+     annotated and the test is run once more on all 80. To pay for two
+     looks, each look uses alpha **0.029** in place of 0.05 (Pocock, two
+     looks), for the gate and for β. No third look, and no extension after a
+     resolved result.
 6. Games per player-month are capped at **250**, sampled at random (seed 23)
    if over, so heavy players don't eat the engine budget.
 
-Selection uses only ratings, counts and account flags. Usernames are replaced
-by `P001…` ids before anything is committed; the id map stays out of the repo.
+Selection uses only ratings, counts and account flags.
+
+**Pseudonyms.** Each username becomes `P` + the first 10 hex characters of
+HMAC-SHA256(secret, lowercased username). The 32-byte secret is generated
+once, handed to Justin as a file to keep locally, and never committed. Two
+ways back to a name, so more games can be pulled later:
+
+- the **key file** handed over alongside the secret (id → username, as a CSV),
+  which Justin keeps locally; pasting it into a future session is enough;
+- or, with only the secret: re-hash every name in any index file (or any
+  later database month) and match ids. The hash does not reverse on its own;
+  it needs the candidate list, which the database supplies.
+
+The repo only ever holds ids. Neither file, nor the index, is committed.
 
 ## Areas
 
@@ -76,7 +101,12 @@ lose; rates ~2–3.5%, too flat to rank), M1 (too few moves per player-month).
 **[DECIDE]** the set. An area counts for a player only if it has **>= 100
 own moves in every half-month it is measured on** (below); a player needs
 **>= 5** counting areas or is dropped, and a dropped player takes their pair
-with them.
+with them, replaced from the rank list (Panel selection, step 5). The thin
+areas are M2 and the endgame buckets, and the players at risk are those near
+the 150-game floor (~75 games per half). Attrition is reported: how many
+ranks were consumed to fill 40 pairs, and which area failed. If more than
+**half** the pairs examined fail, the rule is too tight for this pool and
+the run stops for a decision rather than continuing to consume ranks.
 
 ## Metric
 
@@ -126,15 +156,15 @@ resamples, seed 23.
 
 ## Decision rule
 
-First, a **gate**: excess `I_all` must be > 0 at p < 0.05. If improvers did
+First, a **gate**: excess `I_all` must be > 0 at p < 0.029 (the per-look alpha; see the extension rule). If improvers did
 not make fewer errors than controls on this measure, the panel cannot say
 *how* they improved, and the result is reported as "rating gain not visible
 in error rates" — itself worth knowing — with nothing below interpreted.
 
-Then, on excess β (the primary, one test, alpha 0.05):
+Then, on excess β (the primary, one test, alpha 0.029):
 
-- **H-weakness**: excess β > 0, p < 0.05, **and** excess C > 0.
-- **H-strength**: excess β < 0, p < 0.05, **and** excess C < 0.
+- **H-weakness**: excess β > 0, p < 0.029, **and** excess C > 0.
+- **H-strength**: excess β < 0, p < 0.029, **and** excess C < 0.
 - **H-all**: excess β not significant, its 95% interval within **±δ**, and
   excess `I_a` > 0 in at least 4 of the counting areas. **[DECIDE]** δ;
   proposed **0.5** (a slope of 0.5 means an area one log-odds unit weaker than
@@ -156,6 +186,23 @@ If β and C disagree in sign the result is unresolved regardless of p.
   positions got more winning, that is composition, not skill — checked the
   way the bucket run did, by eval-band standardization, post hoc and labelled.
 - 3+2-only robustness: β excess must share the sign.
+- **Repertoire change** (Justin's hypothesis, 2026-10-23): a player who
+  switches openings may err more in the opening at first, lose rating, then
+  recover it as the new lines settle. That player would be selected as an
+  improver, show opening as their Sep 2025 worst area, and look like
+  H-weakness — when it is a recovery, not improvement. Two pre-declared
+  checks, from the extract pass's `ECO` tags, neither of which can be
+  tuned after the outcome is seen:
+  - *Repertoire overlap* per player: share of games, by colour, whose
+    opening family (first ECO letter + two digits, as `openings.py` groups
+    them) appears in both months, weighted by frequency. Reported for both
+    groups; a gap between groups is itself a finding.
+  - *Sensitivity*: the primary β test rerun with every pair dropped in which
+    either player's overlap is in the bottom 20% of the panel. If the
+    verdict changes, the write-up says so and leads with it.
+  - Players whose Sep 2025 opening `R` is in the panel's top 10% are listed
+    by id for a look in chat (the key file recovers the name; their games
+    can then be pulled from the database or Lichess).
 - Where Justin's own Sep 2025 profile (from the committed Q3 2025 block,
   which predates the drill) would rank him — descriptive, one line.
 
@@ -166,7 +213,9 @@ that is ~0.2 log-odds per area per player-month, ~0.3 on a half-month. A
 per-player change carries three such terms after cross-fitting; with
 between-player variation on top, the excess `I_a` per area resolves roughly
 **±0.15–0.2 log-odds at 40 pairs** (about ±1.5–2 pts at 10%), and excess β
-roughly **±0.4**.
+roughly **±0.4**. At 80 pairs (the extension) both shrink by about 30%:
+±0.1–0.14 per area, ±0.28 on β — after the stricter 0.029 alpha, a
+real but modest sharpening, not a different instrument.
 
 For scale: in Justin's own opponent-quartile table, ~190 rating points
 separates the bottom and top quartile by ~0.15–0.25 log-odds in opening,
@@ -180,6 +229,12 @@ times the average — would not be. Stated now so an "unresolved" is read as
 
 - Selecting on rating gain partly selects on luck; the threshold, monthly
   means, persistence gate and controls are the mitigations, not a cure.
+- No check that Sep 2025 was an unlucky month for improvers (no Aug 2025
+  pass, by decision). The split-half profile removes the noise artifact in
+  best/worst picking, and controls absorb ordinary regression, but an
+  improver who was *temporarily* below their level in Sep 2025 (a slump, a
+  new opening) is not distinguished from one who really improved. The
+  repertoire checks above cover the opening case only.
 - The `n >= 150` rule over-represents heavy players; results describe heavy
   blitz players in this range, of which Justin is one.
 - Undetected engine use among improvers would show as implausibly large,
