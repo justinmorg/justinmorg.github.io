@@ -122,6 +122,7 @@ chess/
     ├── matedanger.py                         mate-danger flags per position (bucket M2)
     ├── buckets.py                            error rate by position bucket over time (pre-specified)
     ├── buckets_prespec.md                    pre-spec for the above
+    ├── vsopp.py                              opponents' bucket rates as a same-rating benchmark
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -4537,6 +4538,50 @@ Resolution: 95% endpoint intervals (2026 minus 2024 H2) run about +-0.6 pts
 Sandbox note: the PyPI `chess` package failed to build on Python 3.13 here
 (`install_layout`). Installing python-chess 1.11.2 by copying the `chess/`
 folder from its sdist into site-packages works; 1.10.0 breaks `hanging.see`.
+
+### Opponents as a same-rating benchmark
+
+Run 2026-10-22, **exploratory, not pre-specified.** Same pipeline with the
+opponent as the player: copy the six settled PGNs with every non-`jamorgan`
+White/Black tag rewritten to `OPPONENT`, run `features.py --user-map
+<each block>=OPPONENT --emit-fens all` (4,691 games / 155,008 rows), then
+`matedanger.py`, then `vsopp.py SCRATCH` (expects `featlic`, `featopp`,
+`matedanger.csv`, `md_opp.csv` under SCRATCH). Opponents match his rating in
+every block (pooled 1351 vs 1352), so their rates are the benchmark.
+
+P1 (wp drop >= 15), pooled plateau, me vs opp, 95% game-bootstrap interval on
+the difference (games resampled jointly — both sides played the same games):
+
+| bucket | me | opp | diff |
+|---|---|---|---|
+| Opening | 3.85% | 4.30% | **−0.45 [−0.63, −0.26]** |
+| MG winning | 11.74 | 12.35 | −0.62 [−1.55, +0.30] |
+| MG level | 13.00 | 12.56 | +0.44 [−0.40, +1.31] |
+| EG ahead | 7.34 | 6.21 | **+1.13 [+0.54, +1.75]** |
+| EG level | 10.38 | 8.74 | **+1.64 [+0.77, +2.57]** |
+| M1 mate for me | 6.80 | 5.47 | +1.34 [−0.11, +2.76] |
+| M2 mate danger | 11.67 | 11.18 | +0.48 [−0.65, +1.65] |
+| MG losing / EG behind | ~3.5 / ~1.9 | ~3.3 / ~1.8 | within ±0.2 |
+
+**Endgames are the relative weakness, and it is not the clock.** He has ~13s
+less on the clock in endgames (median 62–63s vs 75–77s, 3+2), but
+standardizing the opponent's rate to his clock-band mix leaves the gap intact
+(EG ahead 7.60 vs 6.01%, EG level 10.16 vs 8.71%), and he is worse in every
+clock band. EG level composition is matched (mean eval +1 vs +3cp, npm 7.1
+both); in EG ahead his leads are slightly smaller (+615 vs +655cp), too little
+to make 1.1 pp. Note this is per-move accuracy against same-rated players in
+the same games — a different measure from `material.py`'s score-vs-benchmark
+curve, which found par from npm 11 down. Both can hold: he makes more endgame
+errors and gets them back on opponents' errors elsewhere.
+
+Mate danger is level-wide, not his: opponents err there at the same ~11%.
+
+**Opponent strength.** Split at the opponent-rating median (1358; halves
+1041–1358 mean 1293, 1359–1617 mean 1412, ~120 apart): the stronger half
+errs less in the opening (4.04 vs 4.55%), level middlegames (11.8 vs 13.4%)
+and mate-for-me (4.4 vs 6.5%); endgame buckets barely differ. His own rates
+are the same against both halves. The day-of-game split (opp − me at median,
+mean gaps +37/−33) shows the same pattern, smaller.
 
 ## Open threads
 
