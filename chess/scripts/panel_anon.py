@@ -4,7 +4,10 @@ that are safe to commit.
 
     python3 panel_anon.py /home/claude/panel [--pairs 120]
 
-Reads  <dir>/extract_2025-09.pgn.gz, extract_2026-09.pgn.gz (panel_extract.sh)
+Reads  <dir>/extract_<month>*.pgn.gz (panel_extract.sh; a resumed pass adds
+       .from<OFFSET> parts -- all parts are read, games deduplicated by
+       Lichess id, the longest movetext kept, so the partial game at a cut
+       never wins over its complete copy)
        <dir>/panel_ranks_private.csv, <dir>/panel_secret.txt (panel_select.py)
 Writes <dir>/pm/<id>_<yymm>.pgn   one file per player-month, ready for annot_inc
        <dir>/pm/manifest.csv      id, month, games available, games kept
@@ -20,7 +23,7 @@ moves are kept -- the analysis needs them -- so a determined reader with the
 public database could still match games. The repo holds no usernames; it is
 not a promise that the games cannot be traced.
 """
-import csv, gzip, hmac, hashlib, os, random, re, sys
+import csv, glob, gzip, hmac, hashlib, os, random, re, sys
 from collections import defaultdict
 
 CAP = 250
@@ -50,9 +53,18 @@ def main(d, pairs):
     man = []
     for month, yymm in (("2025-09", "2509"), ("2026-09", "2609")):
         per = defaultdict(list)
-        for hdr, mv in games(os.path.join(d, f"extract_{month}.pgn.gz")):
+        best = {}
+        parts = sorted(glob.glob(os.path.join(d, f"extract_{month}*.pgn.gz")))
+        for part in parts:
+            for hdr, mv in games(part):
+                t = dict(TAG.findall(hdr))
+                if "Site" not in t or "White" not in t or "Black" not in t: continue
+                real = t["Site"].rsplit("/", 1)[-1]
+                if real not in best or len(mv) > len(best[real][1]):
+                    best[real] = (hdr, mv)
+        print(f"{month}: {len(parts)} part(s), {len(best):,} distinct games")
+        for real, (hdr, mv) in best.items():
             t = dict(TAG.findall(hdr))
-            real = t["Site"].rsplit("/", 1)[-1]
             g = "g" + h("game:" + real)
             gw.writerow([g, real])
             w, b = t["White"].lower(), t["Black"].lower()
@@ -69,7 +81,7 @@ def main(d, pairs):
             for u in (w, b):
                 if u in pid: per[pid[u]].append((key_t, text))
         for r in rows:
-            p = r["id"]; gl = per.get(p, [])
+            p = r["id"]; gl = sorted(per.get(p, []))  # fixed order before sampling
             avail = len(gl)
             if avail > CAP:
                 gl = random.Random(f"23-{p}-{yymm}").sample(gl, CAP)
