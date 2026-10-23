@@ -4659,6 +4659,44 @@ Study dose is self-reported, three levels, and confounded with everything else
 that differs between the openings; the secondary pass is consistent with the
 study hypothesis, not proof of it.
 
+### Viewing history against the opening edge (exploratory)
+
+Run 2026-10-23 on Justin's YouTube chess watch history (737 entries,
+2022-09 → 2026-10; not committed — personal browsing data). **Not
+pre-specified.** Eras were cut from the viewing log before any play metric
+was computed for them, but the analysis is post hoc and one window.
+
+Viewing, by title keyword: London 118 (chessbrah "Grandmaster Teaches the
+London" series ~75 of them, binge 2024-01-24 → 03-25, re-watch Aug–Oct 2024);
+Caro 74 (IM Alex Banzea ~50, Naroditsky ~13, Gotham ~6; clusters Sep 2023,
+Dec 2023 → Apr 2024, Mar → May 2025); Englund 10 (Jul 2023 → Feb 2024, mostly
+"busting the Englund"; Justin recalled none); endgame ~6 before 2026-10.
+Almost nothing since mid-2025.
+
+**Adoption follows viewing.** First London game 2023-05-11, six days after the
+first Gotham London video; first Caro games 2023-06-26, the same day as
+Gotham's Caro video (14:20 UTC, games that day); Englund adoption from Mar
+2024, a month after two pro-Englund videos on 2024-02-16.
+
+Opening edge (own moves 1–12, P1, scope as `studydose`, all 3+2/5+0 blocks
+both sites, chess.com 5+0 tagged `300`):
+
+| London era | games | me | opp | D [95%] |
+|---|---|---|---|---|
+| 2023-06 → 2024-01-23 | 523 | 5.33 | 6.33 | −0.98 [−1.59, −0.34] |
+| **chessbrah binge** 2024-01-24 → 03-31 | 123 | **3.80** | 7.41 | **−3.61** [−5.02, −2.20] |
+| Apr → Dec 2024 | 697 | 3.90 | 4.75 | −0.86 [−1.35, −0.34] |
+| 2025–26 | 1,877 | 3.69 | 4.50 | −0.81 [−1.10, −0.52] |
+
+His London rate drops to its permanent level during the binge, at a mean
+rating of ~750, and does not move again through 1350; the edge then shrinks
+because opponents improve. Caro in the same window: 4.48 vs 4.56 (D −0.08);
+his Caro rate falls more gradually (5.44 → 4.48 → 3.52 → 3.51) and tracks
+opponents throughout. 100 of the 123 binge games are chess.com 5+0, but Caro
+in the same pool and window shows no jump, and 2023 chess.com London (310
+games) sits at −0.98. Confounded with general improvement at a steep part of
+the rating curve; not a finding.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
