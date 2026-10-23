@@ -4610,6 +4610,55 @@ confirmed at depth 18: Englund 2.Nf3 Nc6 (18 of 24; 2...exd4 fine); 2.dxe5 Nc6
 place where an error follows within a few moves at well above base rate
 (12–17% vs ~4%). Scratch script, not committed — the result is the table.
 
+### Study dose and the opening edge
+
+Run 2026-10-23. **Pre-specified in `chess/scripts/studydose_prespec.md`,
+committed before any family-level value was computed.** Justin's study
+history, stated first: London a lot of videos, Caro a medium amount with weak
+understanding (Advance vs Exchange undifferentiated), Englund none. Prediction:
+the edge over same-rated opponents (`D` = his P1 minus opponent P1, same
+games, own moves 1–12, mate scores excluded, M2 not removed) shrinks London →
+Caro → Englund.
+
+```bash
+python3 chess/scripts/studydose.py featlic featopp 2024h2.pgn 2025q1.pgn \
+  2025q2.pgn 2025q3.pgn 2025q4.pgn 2026.pgn
+```
+
+Gates: 4,691 / 155,192 (him) and 4,691 / 155,008 (opponents), no game on or
+after 2026-09-03. Families: London 2,152 games, Caro 1,446, Englund 654,
+Englund-as-White 189, other 250.
+
+| family | P1 me | P1 opp | D [95%] | P2 D [95%] (exploratory) |
+|---|---|---|---|---|
+| London | 3.75 | 4.54 | **−0.78** [−1.05, −0.51] | −0.48 [−0.55, −0.41] |
+| Caro | 3.49 | 3.38 | **+0.11** [−0.19, +0.41] | −0.28 [−0.36, −0.20] |
+| Englund | 4.96 | 6.25 | **−1.29** [−1.85, −0.72] | −0.03 [−0.20, +0.14] |
+| Caro Advance | 3.09 | 3.18 | −0.09 [−0.61, +0.43] | −0.42 |
+| Caro Exchange | 2.83 | 3.08 | −0.24 [−0.64, +0.17] | −0.41 |
+| Englund as White | 4.29 | 4.78 | −0.49 [−1.42, +0.47] | −1.16 |
+
+- **Primary, D_Englund − D_London > 0: fails.** −0.50 pts, one-sided p = 0.94;
+  detectable at 80% power ~1.0 pt. On big mistakes the Englund edge is, if
+  anything, the largest — opponents' P1 is 6.25%, the highest of any family,
+  consistent with an unfamiliar, trappy line.
+- **Secondary, D_Caro − D_London > 0: passes.** +0.89 pts [+0.48, +1.29],
+  one-sided p < 0.0001 (0 of 10,000 draws); detectable ~0.65 pt. The London
+  edge is absent in the Caro. Confounded with colour (Caro is Black) — but the
+  Englund, also Black, has the largest P1 edge, so colour alone does not
+  explain it.
+- Predicted order on P1: no. **On P2 (exploratory) the order holds exactly**
+  (−0.48 / −0.28 / −0.03), every contrast clearing 0.01. Read: in the Englund
+  opponents blow up more often, and he leaks the difference back in smaller
+  losses. Exploratory; not a finding.
+- Advance vs Exchange: no difference on either metric (P1 +0.15, p = 0.32;
+  resolution ~1 pt). Self-reported confusion between them does not show up as
+  a gap between them.
+
+Study dose is self-reported, three levels, and confounded with everything else
+that differs between the openings; the secondary pass is consistent with the
+study hypothesis, not proof of it.
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
