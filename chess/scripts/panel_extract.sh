@@ -29,17 +29,26 @@ sys.exit("no frame magic found") if i < 0 else print(int(sys.argv[1]) + i)' "$FR
 else TAGP=""; fi
 DST="$OUT/extract_${M}${TAGP}.pgn.gz"
 rm -f "$DST" "$OUT/extract_${M}${TAGP}.done"
+echo "${OFF:-0}" > "$OUT/extract_${M}${TAGP}.offset"   # with .bytes: where a cut stream stopped
 
 curl -sS --fail --retry 3 "${RANGE[@]}" "$URL" \
 | python3 -c '
 import sys, zstandard
-r = zstandard.ZstdDecompressor(max_window_size=2**31).stream_reader(sys.stdin.buffer, read_size=1<<20)
+class Count:
+    def __init__(s, f, path): s.f, s.n, s.path, s.last = f, 0, path, 0
+    def read(s, k=-1):
+        b = s.f.read(k); s.n += len(b)
+        if s.n - s.last > 50_000_000:
+            open(s.path, "w").write(str(s.n)); s.last = s.n
+        return b
+src = Count(sys.stdin.buffer, sys.argv[1])
+r = zstandard.ZstdDecompressor(max_window_size=2**31).stream_reader(src, read_size=1<<20)
 w = sys.stdout.buffer
 while True:
     b = r.read(1<<22)
     if not b: break
     w.write(b)
-' \
+' "$OUT/extract_${M}${TAGP}.bytes" \
 | LC_ALL=C mawk -v names="$NAMES" '
 BEGIN { while ((getline n < names) > 0) want[n] = 1; RS = "" }
 /^\[Event / {
