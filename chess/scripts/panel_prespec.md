@@ -1,11 +1,11 @@
 # Pre-spec: thread 9 — how do improvers improve? (improvers vs controls)
 
-**DRAFT, 2026-10-23 — not yet agreed, not yet committed.** Written while the
-step-1 header index of Sep 2025 and Sep 2026 was still streaming, so before
-the panel exists and before any game in it has been annotated. Once agreed it
-is committed **before** step 2 (panel selection) runs; nothing in step 2
-looks at an outcome metric, but the selection rules are part of the test and
-get fixed first. Items marked **[DECIDE]** are Justin's call before commit.
+**Agreed 2026-10-23, committed before step 2 (panel selection) ran.**
+Written while the step-1 header index of Sep 2025 and Sep 2026 was still
+streaming, so before the panel existed and before any game in it was
+annotated. Nothing in step 2 looks at an outcome metric, but the selection
+rules are part of the test, so they were fixed first. Every choice below was
+settled by Justin on 2026-10-23; earlier drafts are in git history.
 
 ## Question
 
@@ -98,7 +98,7 @@ Six of the ten `buckets_prespec.md` buckets, unchanged definitions:
 
 Left out: M3 (cannot err), MG losing and EG behind (little win chance left to
 lose; rates ~2–3.5%, too flat to rank), M1 (too few moves per player-month).
-**[DECIDE]** the set. An area counts for a player only if it has **>= 100
+Set agreed 2026-10-23. An area counts for a player only if it has **>= 100
 own moves in every half-month it is measured on** (below); a player needs
 **>= 5** counting areas or is dropped, and a dropped player takes their pair
 with them, replaced from the rank list (Panel selection, step 5). The thin
@@ -166,8 +166,8 @@ Then, on excess β (the primary, one test, alpha 0.029):
 - **H-weakness**: excess β > 0, p < 0.029, **and** excess C > 0.
 - **H-strength**: excess β < 0, p < 0.029, **and** excess C < 0.
 - **H-all**: excess β not significant, its 95% interval within **±δ**, and
-  excess `I_a` > 0 in at least 4 of the counting areas. **[DECIDE]** δ;
-  proposed **0.5** (a slope of 0.5 means an area one log-odds unit weaker than
+  excess `I_a` > 0 in at least 4 of the counting areas. δ = **0.5**
+  (agreed 2026-10-23; a slope of 0.5 means an area one log-odds unit weaker than
   peers improved half a unit more).
 - Anything else — e.g. β not significant but its interval too wide to rule
   out a tilt — is **unresolved**, and is reported as such with its interval.
