@@ -4810,6 +4810,25 @@ variance minus binomial noise. Split-half r = A-half vs B-half agreement.
 - Improvers and controls had the same profile spread in Sep 2025 (0.55 vs
   0.57 log-odds best-to-worst).
 
+#### Did improvers fix their endgames? Barely (exploratory, 2026-10-24)
+
+`panel_endgame.py`. Pooled P1 rates, Sep 2025 -> Sep 2026, pair bootstrap:
+
+- EG ahead: improvers 6.76 -> 6.70%, controls 7.00 -> 7.33%; difference in
+  change −0.40 pts [−0.90, +0.11]. Standardized to a common eval-band mix
+  (post hoc): improvers 7.00 -> 6.60%, controls 6.96 -> 7.24%.
+- EG level: improvers 9.02 -> 8.40%, controls 8.83 -> 8.98%; −0.76 pts
+  [−1.70, +0.26].
+- Opening, for contrast: improvers 4.58 -> 3.69%, controls 4.42 -> 4.35%;
+  −0.81 pts [−1.19, −0.42].
+
+Improvers' endgames moved ~5-7% relative; their openings ~19%. Part of the
+endgame "excess" is controls drifting slightly worse. Neither endgame
+interval excludes zero. Endgame-weak improvers (profile on half A, ≥60
+moves, looser than the pre-spec) did not improve endgames more than
+endgame-strong ones. Read with the reliability caveat above: endgame
+profiles are noisy per player.
+
 Engineering notes: the sandbox proxy drops long downloads at random
 (`server_draining`, after 12-48 min); the database files are multi-frame
 zstd, so `panel_extract_loop.sh` resumes at a frame boundary and
