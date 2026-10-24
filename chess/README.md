@@ -126,6 +126,8 @@ chess/
     ├── mgcolour.py                           MG error rate by colour / family vs opponents (exploratory)
     ├── englundpanel.py                       Englund edge by 1.d4 player's rating, panel (exploratory)
     ├── panelrep.py                           panel players using his openings, within-player alternatives
+    ├── payoff_stakes.py                      per-bucket errors/game and realized cost per error
+    ├── payoff_model.py                       stakes x standing x panel improvability (exploratory)
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -5011,6 +5013,85 @@ Rows with ≤ 2 players omitted (script prints them).
   so these contrasts carry selection the design cannot remove.
 - The thinness is the result: in a 1150–1750 sample only 1, 8 and 7 players
   use these as a main weapon.
+
+## Where study time should pay off: combining the bucket results (exploratory, 2026-10-24)
+
+**Not pre-specified.** Justin's question: combine how much each area costs,
+how he stands against same-rated players, and how much the panel's improvers
+improved each area, to rank where time is most likely to add wins. Answer:
+**converting winning endgames (EG ahead)**, with level middlegames second.
+The ranking rests mostly on his own, well-measured stakes and his standing vs
+peers; the panel's area-by-area improvability is not distinguishable from
+noise.
+
+```bash
+python3 chess/scripts/features.py 2024H2=h2.pgn ... 2026=corpus.pgn \
+  --tc 180+2,300+0 --emit-fens all --out featlic        # gate 4,691 / 155,192
+python3 chess/scripts/payoff_stakes.py featlic OUT       # [md.csv] optional
+python3 chess/scripts/payoff_model.py OUT/stakes_curve.csv pooled 0.212
+```
+
+**Inputs per area.** (1) Stakes = P1 errors per game × realized cost per
+error, from `payoff_stakes.py`. Two costs: *curve* = drop in his own
+empirical conversion curve (final score by engine win-prob, per phase) —
+blitz converts much less than the engine says (wp 0.83 → score 0.62 MG,
+0.66 EG); *matched* = within quintiles of win-prob at bucket entry, slope of
+game score on number of P1 errors in the bucket (nets out recovery; smaller).
+A naive game-level regression of score on error counts was tried and
+discarded: errors in a bucket are selected on reaching it (EG-ahead errors
+only happen in games already being won). (2) Standing R = logit(his P1) −
+logit(opponents' P1), the vsopp table. (3) Improvability = thread 9
+per-area excess (improver − control, log-odds), plus the panel tilt beta ×
+R. Monte Carlo over excess, beta and the vsopp difference.
+
+**Per-area excess is not established.** The six excesses are no more spread
+than their own noise (Cochran Q = 5.9 on 5 df, p ≈ 0.3), so `pooled` (every
+area gets the gate value +0.100) is the headline; `area` uses them at face
+value. Beta 0.212 is attenuated by noisy profiles; 0.45 is run as an upper
+sensitivity, 0 as none.
+
+Headline (curve cost, pooled, beta 0.212); points = game points per 100
+games from one improver-like year (~7 Elo per point near 50%):
+
+| area | stakes, pts/100 | cost/error | vs peers (pp, SD) | gain, log-odds | pts/100 [80%] | P(top) |
+|---|---|---|---|---|---|---|
+| EG ahead | 8.9 | 0.25 | +1.13, +0.90 | 0.138 | **1.07** [0.77, 1.39] | 0.89 |
+| MG winning | 8.6 | 0.22 | −0.61, −0.29 | 0.088 | 0.65 [0.39, 0.88] | 0.07 |
+| EG level | 5.0 | 0.20 | +1.64, +1.00 | 0.140 | 0.59 [0.42, 0.77] | 0.02 |
+| MG level | 6.3 | 0.16 | +0.44, +0.15 | 0.108 | 0.56 [0.39, 0.73] | 0.01 |
+| Opening | 6.9 | 0.15 | −0.45, −0.37 | 0.076 | 0.49 [0.26, 0.70] | 0.01 |
+| M2 mate danger | 3.0 | 0.16* | +0.49, +0.24 | 0.110 | 0.28 [0.19, 0.37] | 0.00 |
+
+All six together: 3.6 pts/100 [3.1, 4.2], ~25 Elo.
+
+Rank of EG ahead across the 10-cell grid (cost curve/matched × area/pooled
+× beta 0.212/0.45, plus pooled beta 0): **1st in 7, 2nd in 2, 3rd in 1.**
+The exceptions: curve/area/0.212 puts Opening first (it gets the panel's
+largest excess at face value); matched/area/0.212 orders Opening, MG level,
+EG ahead (0.65 / 0.52 / 0.49); matched/pooled/0 has MG winning and EG ahead
+tied (medians 0.46 / 0.45, P(top) 0.34 each). Totals range 15–27 Elo.
+
+- **EG ahead** wins on cost per error (highest in both cost measures) plus
+  a real gap to peers. Its weak point is the panel itself: improvers'
+  raw EG-ahead change was −0.40 pts [−0.90, +0.11] vs controls, not
+  established.
+- **Opening** only leads when the per-area excess is taken literally; he is
+  already better than peers, his errors are almost never repeats (7.4%),
+  and the panel's opening gain is entangled with repertoire change. The
+  repeat lines in the opening-repeats section remain a cheap patch.
+- **MG winning**: high stakes, but he is better than peers and the panel's
+  excess there is the smallest; group F already targets it.
+- **EG level**: his biggest gap to peers, but fewer moves per game; under
+  the matched cost it drops to last or near it.
+
+Caveats. *M2 is provisional: `matedanger.py` was not run (~3.7 h on 2 cores
+in this sandbox), so ~5% of moves sit inside the other buckets and the M2
+row is 5% of moves × 11.67% × MG level's cost. M2's stakes would need to
+roughly triple to change the order. The absolute gains understate: P1
+counts only ≥15-point win-chance drops, and improvers' Sep 2026 error rates
+are measured against stronger opponents. Use the order, not the Elo. vsopp
+rates are M2-removed while stakes are M2-folded; the mismatch is ~5% of
+moves.
 
 ## Open threads
 
