@@ -4856,6 +4856,27 @@ general understanding.
   group detects rho of roughly 0.4 or more; a modest dose-response would
   be missed.
 
+#### Mate detection, strictly defined (exploratory, 2026-10-24)
+
+`panel_mate.py` (needs `/home/claude/featme` = features.py on Q3-2025,
+Q4-2025, 2026). Two strict measures, depth-12 mate scores:
+*kept* = had a forced mate and still has one after the move; *walked* =
+non-mate position, move allows a forced mate against.
+
+- Panel: kept 74.1 -> 74.7% (improvers) vs 73.9 -> 74.3% (controls),
+  difference in change +0.19 pts [−2.13, +2.54]. Walked into mate
+  9.84 -> 9.24 vs 10.74 -> 10.03 per 1,000 moves, +0.11 [−0.94, +1.22];
+  within mate-danger positions 13.9 -> 13.2% vs 14.9 -> 14.2%, −0.07
+  [−1.22, +1.18]. **Climbers did not get better at mate detection.** The
+  borderline M2 improvement in the main test is the 15-point blunder rate in
+  positions where mate is in the air, mostly non-mate blunders.
+- Justin (2,106 plateau games): kept 74.9% [72.1, 77.7], same as the panel;
+  walked 8.79 per 1,000 [7.87, 9.73], at or a little better than the panel
+  (improvers 9.84 [7.99, 11.79], controls 10.74 [9.34, 12.19]). Mate
+  detection is not his bottleneck. Kept-rate misses are mostly mate-in-N
+  traded for a still-winning eval, not errors; the figure is for
+  comparison, not an error rate.
+
 Engineering notes: the sandbox proxy drops long downloads at random
 (`server_draining`, after 12-48 min); the database files are multi-frame
 zstd, so `panel_extract_loop.sh` resumes at a frame boundary and
