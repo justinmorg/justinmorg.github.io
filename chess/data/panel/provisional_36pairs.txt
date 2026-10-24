@@ -1,0 +1,49 @@
+pairs examined 40, failing the area rule 4
+  pair 7: improver areas 4, control areas 6
+  pair 15: improver areas 5, control areas 4
+  pair 35: improver areas 4, control areas 6
+  pair 40: improver areas 4, control areas 6
+pairs in the test: 36 (target 40)  -- SHORT: annotate the next ranks as replacements, then rerun
+excess I_all  = +0.089  95% [+0.040, +0.137]  p = 0.0016  (n = 36)
+excess beta   = +0.172  95% [-0.053, +0.411]  p = 0.1484  (n = 36)
+excess C      = +0.056  95% [-0.078, +0.203]  p = 0.4588  (n = 36)
+
+VERDICT (look 1, alpha 0.029): H-all
+
+secondary: per-area excess I_a (Holm across six)
+  Opening         +0.163  [+0.075, +0.260]  p = 0.0021  Holm 0.013  n = 36
+  MG level        +0.117  [+0.019, +0.225]  p = 0.0343  Holm 0.160  n = 36
+  MG winning      +0.043  [-0.056, +0.152]  p = 0.4265  Holm 0.853  n = 36
+  EG ahead        +0.093  [+0.011, +0.174]  p = 0.0320  Holm 0.160  n = 36
+  EG level        +0.020  [-0.140, +0.163]  p = 0.8155  Holm 0.853  n = 28
+  M2 mate danger  +0.105  [-0.028, +0.239]  p = 0.1277  Holm 0.383  n = 35
+
+secondary: composition (mean cp_before, move share %), by group and month
+group          control        improver       
+month             2509   2609     2509   2609
+bucket                                       
+Opening           11.0    9.0     19.0   10.0
+MG level           0.0    1.0      5.0    1.0
+MG winning       434.0  431.0    442.0  418.0
+EG ahead         636.0  632.0    674.0  635.0
+EG level           1.0    1.0      2.0    1.0
+M2 mate danger  -345.0 -300.0   -258.0 -310.0
+
+secondary: 3+2-only robustness (beta excess must share the sign)
+  beta excess +0.171 [-0.176, +0.483] p = 0.5011 n = 3; sign agrees
+
+secondary: repertoire change
+  ECO overlap, mean: improvers 0.560, controls 0.711
+  sensitivity, dropping pairs with either overlap <= 0.495 (bottom 20%): beta excess +0.229 [-0.047, +0.541] p = 0.1578 n = 22
+  Sep 2025 opening R in the panel's top 10% (look up with the key file):
+    Pf7d25192d3 (control)  R_open +0.83  overlap 0.693
+    Pa0bc5c14c6 (control)  R_open +0.50  overlap 0.784
+    P44192c6eba (improver)  R_open +0.49  overlap 0.538
+    Pe2574e32e5 (improver)  R_open +0.48  overlap 0.329
+    P763b828625 (improver)  R_open +0.38  overlap 0.572
+    Pf1cbb96e56 (improver)  R_open +0.38  overlap 0.667
+    P3009a7119f (improver)  R_open +0.37  overlap 0.704
+    P5f5ad7fc00 (improver)  R_open +0.36  overlap 0.798
+
+hazard listing: improvers whose Sep 2026 P1 rate is below the panel's minimum in every counting area
+  none
