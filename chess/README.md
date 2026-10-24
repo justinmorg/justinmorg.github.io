@@ -4829,6 +4829,30 @@ moves, looser than the pre-spec) did not improve endgames more than
 endgame-strong ones. Read with the reliability caveat above: endgame
 profiles are noisy per player.
 
+#### Opening change: marker or mechanism? (exploratory, 2026-10-24)
+
+`panel_explore.py`. Two hypotheses from Justin: improvers simply got better
+at chess generally; or opening exploration reflects a curiosity that builds
+general understanding.
+
+- ECO overlap mixes in the opponent's choices, which shift with rating. On
+  the player's **own** choices only (1st move as White, reply to 1.e4 and to
+  1.d4), improvers still changed more: overlap 0.75 vs 0.91, pair excess
+  −0.16 [−0.26, −0.07], p = 0.003. The repertoire change is theirs.
+- Improvement outside the opening is real: mean excess over the five
+  non-opening areas +0.083 [+0.031, +0.134], p = 0.004. Supports "got
+  better generally".
+- But **within** each group, how much a player changed openings does not
+  track how much they improved elsewhere (improvers rho +0.00, controls
+  −0.05) or in the opening (+0.12 / −0.12), or how much rating they gained
+  (improvers −0.25, p = 0.11, wrong sign). The all-80 rho with gain (+0.28)
+  is just the group difference.
+- Reading: opening change goes with being in an improving phase but shows
+  no dose-response, so it looks like a marker (common cause, or the result
+  of improving) rather than the engine of general improvement. n = 40 per
+  group detects rho of roughly 0.4 or more; a modest dose-response would
+  be missed.
+
 Engineering notes: the sandbox proxy drops long downloads at random
 (`server_draining`, after 12-48 min); the database files are multi-frame
 zstd, so `panel_extract_loop.sh` resumes at a frame boundary and
