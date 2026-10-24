@@ -128,6 +128,7 @@ chess/
     ├── panelrep.py                           panel players using his openings, within-player alternatives
     ├── payoff_stakes.py                      per-bucket errors/game and realized cost per error
     ├── payoff_model.py                       stakes x standing x panel improvability (exploratory)
+    ├── resignflag.py                         resignations and flags as errors vs opponents and panel (exploratory)
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -5092,6 +5093,82 @@ counts only ≥15-point win-chance drops, and improvers' Sep 2026 error rates
 are measured against stronger opponents. Use the order, not the Elo. vsopp
 rates are M2-removed while stakes are M2-folded; the mismatch is ~5% of
 moves.
+
+## Resignations and flags as errors (exploratory, 2026-10-24)
+
+**Not pre-specified.** Justin's question: the move-error work ignores two
+non-move ways to lose — resigning too early and flagging. Are they leaks, for
+him, his opponents, and the thread 9 panel? **Answer: no. He is the best of
+every group on both, and the two together cost him ~2 points per 100 games
+against ~39 for move errors (the stakes table above).** One drift worth
+watching: his flag rate rose in 2026.
+
+```bash
+python3 chess/scripts/resignflag.py OUT 2024H2=h2.pgn Q1-2025=q1.pgn \
+  Q2-2025=q2.pgn Q3-2025=q3.pgn Q4-2025=q4.pgn 2026=corpus.pgn \
+  CC-2024Q4=cc_2024q4_analyzed.pgn CC-2026=cc_2026febapr_analyzed.pgn \
+  --panel chess/data/panel                         # ~25 s, no replay
+```
+
+Gate: seven-block subset 5,404 games, 2,619 W / 2,585 L, flag wins 434, flag
+losses 150 — passes. Scope: eight blocks, 3+2/5+0, 5,636 games; panel = the
+40 test pairs, both months (36,118 panel-player games).
+
+**Classification, and a trap.** Lichess writes `Time forfeit` both for a flag
+and for a player who *left* the game and was claimed against. A quarter to a
+third of the panel's (and his opponents') time forfeits have ≥ 30 s on the
+loser's last clock. So: `flag` = time forfeit with loser's last `[%clk]` < 30 s;
+`left` = ≥ 30 s, plus chess.com `won - game abandoned`; `resign` = Lichess
+`Normal` decisive non-mate / chess.com `won by resignation`; `mate` = last SAN
+ends `#`. Counting raw `Time forfeit` as flags would overstate the panel's
+flag rate by ~30%.
+
+**Counterfactual.** "Points forfeited" = the final score of players in the
+same state who played on: eval band (player's POV) × own/opponent clock ratio
+× game-length band × time control, from ~860k positions across every game in
+scope, only positions with ≥ 6 more plies played. For a flag the clock axis
+is set to even (what the board scores when the clock is not the problem), so
+flag costs are an upper bound. Selection caveat: players who chose to play on
+may have had reasons the eval does not show.
+
+Per 100 games:
+
+| | him | his opps | improvers | controls |
+|---|---|---|---|---|
+| resignations | 28.8 | 27.9 | 25.2 | 26.8 |
+| % of resignations better than −5 | **10.1%** | 20.0% | 18.8% | 15.7% |
+| pts forfeited, resignations better than −5 | **1.02** | 1.90 | 1.47 | 1.40 |
+| left the game (pts) | 0.07 | 0.67 | 0.83 | 0.84 |
+| flags (< 30 s) | **2.66** | 6.21 | 7.89 | 5.53 |
+| flags from a level-or-better board | 1.17 | 2.84 | 3.74 | 2.47 |
+| pts lost to own flags | **1.08** | 2.49 | 3.21 | 2.16 |
+
+- **Resigning: he resigns late.** Median board at resignation −723cp vs
+  −661/−665/−682. Early-resignation cost vs his opponents −0.89 pts/100
+  [−1.16, −0.60] (same games, game bootstrap); vs panel groups −0.4 to −0.5,
+  intervals touching zero. He also loses more games to mate (16.3% vs
+  ~12–14%), consistent with playing lost positions out.
+- **Resignations from level-or-better boards happen ~1 per 100 games in every
+  group** (him 1.07, opps 1.22, improvers 0.96, controls 0.66). Same rate
+  everywhere — misclicks, depth-12 misreads, or quitting; not a skill
+  signal. He has 24 resignations at ≥ +1 by depth 12; not audited.
+- **Flagging: under half anyone else's rate**, and the clock ledger is net
+  positive: opponents' flags are worth +2.49 pts/100 to him, his own cost
+  1.08. Half his flags come from boards already below −3.
+- **2026 drift (post hoc).** Lichess 3+2: flags 2.17 [1.70, 2.67] per 100 in
+  2024 H2–2025 → 4.03 [2.73, 5.45] in 2026; at 5+0 (2026 only) 4.86 vs
+  opponents' 4.72 in the same games — the edge is gone in that format.
+  Opponents' 3+2 rate unchanged (6.29 → 6.62). Worth ~1–2 pts/100.
+- **Panel: flagging does not separate improvers.** Improvers flag *more* than
+  controls in both months (8.2/7.6 vs 5.9/5.1), and the difference in change
+  is −0.12 [−1.41, +1.18]. Improvers cut early resignations (−0.44 pts/100,
+  p ~0.03) and leaving games (−0.50, p ~0.00) relative to controls — seven
+  metrics, post hoc, small; not a finding.
+
+**What it changes: nothing in the drill queue.** At most, attention to the
+clock in 5+0. Resolution: game-level intervals are ±0.3–0.8 pts/100 for him;
+anything under ~half a point per 100 games is invisible here, which is also
+below anything worth training.
 
 ## Open threads
 
