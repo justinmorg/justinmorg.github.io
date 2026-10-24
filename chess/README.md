@@ -4714,6 +4714,79 @@ in the same pool and window shows no jump, and 2023 chess.com London (310
 games) sits at −0.98. Confounded with general improvement at a steep part of
 the rating curve; not a finding.
 
+## How improvers improved: the player panel (thread 9)
+
+Run 2026-10-23. **Pre-specified in `chess/scripts/panel_prespec.md`, committed
+before the panel was selected.** Question, in Justin's words: among players
+in his range who gained a lot of rating in a year, did they improve
+everything at once, push their best area further, or patch their weakest?
+
+Panel: Lichess open database, Sep 2025 vs Sep 2026, rated 3+2/5+0
+non-arena, >=150 games in both months, Sep 2025 mean 1150-1750. Improvers
+gained +150 to +300 and are still >= +100 today; controls stayed within +-50,
+matched on Sep 2025 rating (+-30) and volume. 447 pairs qualified; ranks
+1-40 annotated (depth 12, SF16), 4 failed the area rule on move counts and
+were replaced by ranks 41-44. Pipeline: `panel_index.sh` -> `panel_select.py`
+-> `panel_extract.sh` -> `panel_anon.py` -> `panel_annotate.py` ->
+`panel_analyze.py prep|test`. Ids are keyed hashes; the key and secret are
+held by Justin, not the repo. Output: `chess/data/panel/result_look1_40pairs.txt`.
+
+Method in one line: six position areas (opening, MG level, MG winning, EG
+ahead, EG level, mate danger), P1 error rate on the log-odds scale, each
+player's best/worst area judged against same-rated panel peers on one half
+of their Sep 2025 games, change measured on the other half (cross-fitted, so
+picking the worst area cannot manufacture its improvement), improvers minus
+matched controls.
+
+**Result: H-all, by the pre-specified rule — and close to the H-weakness
+line.**
+
+| quantity (improvers minus controls) | value | 95% | p |
+|---|---|---|---|
+| gate: overall improvement, log-odds | **+0.100** | [+0.052, +0.147] | 0.0002 |
+| primary: beta (tilt toward weak areas) | +0.212 | [+0.007, +0.422] | 0.060 |
+| companion: worst minus best area | +0.097 | [−0.032, +0.237] | 0.19 |
+
+- The gate passes clearly: improvers make ~10% fewer errors (relative) than
+  matched controls a year on.
+- beta misses the 0.029 bar (two-look Pocock), its interval sits inside the
+  ±0.5 margin, and all six areas improved, so the rule returns H-all. The
+  point estimate leans toward weaknesses and the bootstrap interval barely
+  excludes zero; read as "broad improvement, possibly with a modest lean
+  toward weak areas that this panel cannot confirm." Not "no lean".
+- A resolved result does not trigger the 80-pair extension (pre-spec). Do
+  not run it to chase the lean; a new pre-spec would be needed.
+- Per-area excess (Holm across six): **opening +0.18, Holm p = 0.001** — the
+  only area that clears on its own; MG level +0.13 (Holm 0.057), mate danger
+  +0.13 (0.20), EG ahead +0.07, MG winning +0.05, EG level +0.06.
+- Repertoire: improvers' ECO overlap between the two Septembers is 0.54
+  against controls' 0.71 — improvers changed openings more. Dropping the
+  bottom-20% overlap pairs leaves beta at +0.28 (p = 0.059), same direction.
+  The opening gain is therefore not obviously the "new repertoire bedding
+  in" artifact, but the two are entangled and this design cannot separate
+  them. Improvers' opening positions also got slightly *less* favourable
+  (mean +20 -> +11cp) while their opening errors fell (post hoc,
+  descriptive).
+- Composition of MG winning / EG ahead shifted a little for improvers (mean
+  eval down 20-40cp); per-area figures there carry that caveat.
+- **The 3+2-only robustness check is empty by construction**: two-thirds of
+  panel games are 5+0 and half the players play almost no 3+2, so n = 3.
+  Inherited from the corpus pre-specs, where 3+2 dominates; it decides
+  nothing. A future panel pre-spec should use 5+0-only instead.
+- Provisional 36-pair run (before replacements) is kept at
+  `chess/data/panel/provisional_36pairs.txt`; same verdict, same ordering.
+
+Resolution: per-area excess ±0.09-0.14 log-odds (about a point at a 10%
+base rate); beta ±0.21. A lean of ~0.2 is at the edge of what 40 pairs can
+see.
+
+Engineering notes: the sandbox proxy drops long downloads at random
+(`server_draining`, after 12-48 min); the database files are multi-frame
+zstd, so `panel_extract_loop.sh` resumes at a frame boundary and
+`panel_anon.py` dedupes. Extract counts matched the index exactly (81,646 /
+81,319; 480/480 player-months). Annotation ran at ~1.5 s/game here, half the
+README's 2.9; the mate scan was the slow step (~4 h for 1.2M rows).
+
 ## Open threads
 
 Written to be picked up cold. Read this section plus `features.py`'s docstring
@@ -5020,7 +5093,10 @@ centipawns. State the detectable-at figure with the result whichever way it
 lands, the way the chess.com diversity test did — a null is worth nothing
 without its resolution attached.
 
-### 9. A player panel from the Lichess open database — **NEXT**
+### 9. A player panel from the Lichess open database — **DONE (H-all)**
+
+Resolved 2026-10-23; see "How improvers improved" above. The original
+spec is kept below for the record.
 
 Goal, in Justin's words: not differences between players but **change over
 time** — among players in his range who improved meaningfully over a year, did
