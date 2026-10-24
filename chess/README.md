@@ -123,6 +123,9 @@ chess/
     ├── buckets.py                            error rate by position bucket over time (pre-specified)
     ├── buckets_prespec.md                    pre-spec for the above
     ├── vsopp.py                              opponents' bucket rates as a same-rating benchmark
+    ├── mgcolour.py                           MG error rate by colour / family vs opponents (exploratory)
+    ├── englundpanel.py                       Englund edge by 1.d4 player's rating, panel (exploratory)
+    ├── panelrep.py                           panel players using his openings, within-player alternatives
     ├── build_drills.py                       superseded — see below, do not run
     └── test_see.py                            sanity checks for the SEE routine
 ```
@@ -4859,6 +4862,134 @@ zstd, so `panel_extract_loop.sh` resumes at a frame boundary and
 `panel_anon.py` dedupes. Extract counts matched the index exactly (81,646 /
 81,319; 480/480 player-months). Annotation ran at ~1.5 s/game here, half the
 README's 2.9; the mate scan was the slow step (~4 h for 1.2M rows).
+
+## Colour, repertoire, and the Englund (exploratory, 2026-10-24)
+
+Three questions from one session. **None pre-specified**; all three are leads
+at best. Read the scope lines before quoting anything.
+
+### Middlegame error rate by colour and family
+
+```bash
+python3 chess/scripts/mgcolour.py featlic featopp 2024h2.pgn 2025q1.pgn \
+  2025q2.pgn 2025q3.pgn 2025q4.pgn 2026.pgn
+```
+
+`featlic` / `featopp` are the six-block runs from the vsopp section (gate:
+4,691 games; 155,192 / 155,008 rows — reproduced in a fresh sandbox). MG =
+fullmove > 12, `npm_light` > 14, mate scores excluded; **M2 not removed** (no
+`matedanger.py` pass; opponents err there at the same rate). Rates
+standardized to his pooled MG band mix (winning 39% / level 35% / losing 26%,
+±150cp), so a family that lands him in more winning positions is not
+penalized for their higher base rate. 39,037 own MG moves. Game bootstrap,
+5,000 draws, seed 23.
+
+| P1, MG | me | opp | D [95%] |
+|---|---|---|---|
+| White | 10.95 | 11.10 | −0.15 [−0.80, +0.49] |
+| Black | 10.45 | 10.18 | +0.27 [−0.33, +0.86] |
+| London | 10.86 | 11.04 | −0.18 [−0.84, +0.50] |
+| Caro | 10.09 | 10.18 | −0.09 [−0.79, +0.62] |
+| Englund | 11.29 | 9.73 | **+1.56 [+0.26, +2.82]** |
+| Englund as White (189 games) | 13.54 | 12.59 | +0.95 [−2.17, +4.12] |
+
+- **Colour: nothing.** Own rate White − Black +0.50 [−0.23, +1.24], p ~0.18,
+  and opponents show the same gap; D difference −0.42, p ~0.34. Resolution
+  ~1 pt on the own-rate contrast.
+- **London vs Caro: position type, not him.** London MGs carry a higher own
+  rate (+0.77, p ~0.06) but D is identical (−0.10, p ~0.83).
+- **Englund is the one family with a positive D.** D_Englund − D_London +1.74
+  (p ~0.018), − D_Caro +1.64 (p ~0.026); P2 agrees (D +0.53 [+0.08, +1.00]).
+  Ten-ish contrasts, post hoc, nothing at 0.01: **a lead, not a finding.** It
+  matches the studydose exploratory P2 read — opponents blow up more in the
+  Englund opening (P1 6.25%, the highest of any family) and he leaks part of
+  it back later.
+- **Net result is par.** Score vs Elo expectation over the same 4,691 games:
+  London 50.5% vs 49.8%, Caro 49.2% vs 50.0%, Englund 50.6% vs 50.0% (n =
+  2,152 / 1,446 / 654; every interval ±2–4 pts). The MG leak is one side of a
+  balanced ledger and does not by itself argue for dropping the opening.
+
+### Does the Englund's edge fade with the opponent's rating? (panel)
+
+```bash
+mkdir raw && tar xzf chess/data/panel/raw_2509.tar.gz -C raw \
+  && tar xzf chess/data/panel/raw_2609.tar.gz -C raw
+python3 chess/scripts/englundpanel.py raw
+```
+
+Every 3+2/5+0 1.d4 game in the raw panel files, deduped by GameId: 25,692
+games, 2,328 with 1…e5. No evals. Outcome = Black's score − Elo expectation;
+**edge** = Englund over − over of every other reply at the same White rating
+(cancels White's first-move edge).
+
+| White Elo | Englund n | edge | Black quick win, E / other | 2.dxe5 |
+|---|---|---|---|---|
+| < 1250 | 323 | +3.1 | 22.0 / 15.6% | 52% |
+| 1250–1449 | 1,013 | +4.0 | 22.2 / 14.8% | 61% |
+| 1450–1649 | 763 | +2.3 | 20.2 / 12.2% | 68% |
+| 1650+ | 229 | −3.2 | 19.7 / 11.7% | 70% |
+
+Linear fit (`over ~ E + x + E:x`, x = (WhiteElo − 1450)/200), bootstrap over
+panel players since Englund games cluster on the players who choose it:
+edge **+4.3 [+1.3, +7.6] at 1250, +2.4 [+0.1, +4.8] at 1450, +0.5 [−3.4,
++4.6] at 1650**; slope −1.9 per 200 Elo [−4.7, +0.9], one-sided p = 0.081.
+
+- Suggestive fade, not established. The 1650+ cell is 229 games.
+- "Quick win" (Black wins in ≤ 25 moves) is a crude no-engine trap proxy. It
+  stays ~20% at every rating while it falls for other replies, and stronger
+  players accept with 2.dxe5 *more* often. So the traps keep landing; if the
+  edge fades it is plausibly in the games where the trap fails. Inference, not
+  tested.
+- Self-selection: the 1…e5 players are whoever chose it, possibly
+  specialists. The panel was selected for volume (≥150 games/month) for
+  thread 9, not for this.
+- Practical read: at his opponents' level (1350–1450) the edge is still small
+  and positive; a reason to recheck past ~1600, not to drop it now.
+
+### Panel players who use his openings, and what else works for them
+
+```bash
+python3 chess/scripts/panelrep.py raw
+```
+
+104,347 panel-player games, 240 players, the panel player's own choices only
+(OPP is anonymous). London = 1.d4 with Bf4 in White's first three moves, no
+c4 before it. Outcome = score − Elo expectation **demeaned within
+player-month**: panel players were selected on rating change, so improvers
+over-score all month, and without demeaning an opening used mostly in the
+improving month would look good for that reason alone. "Sometimes" = 5–95%
+of that context and ≥ 10 games; alternatives need ≥ 10 games per player;
+contrasts are within player (alternative − his family), harmonic-n weighted,
+bootstrap over players.
+
+| | tried it | main weapon (>95%) | sometimes | panel context share |
+|---|---|---|---|---|
+| London | 73 / 240 | 1 | 30 | 6.8% of White games |
+| Caro | 53 | 8 | 12 | 5.3% of replies to 1.e4 |
+| Englund | 86 | 7 | 27 | 10.0% of replies to 1.d4 |
+
+Within-player, alternative minus his family, points per 100 games:
+
+| context | alternative | players | games | vs his family [95%] |
+|---|---|---|---|---|
+| White | other 1.d4 | 29 | 1,692 | −2.9 [−6.0, +0.3] |
+| White | 1.e4 | 11 | 1,215 | −2.3 [−7.5, +2.3] |
+| vs 1.e4 | Sicilian | 4 | 208 | **−10.0 [−15.2, −5.4]** |
+| vs 1.e4 | 1…e5 | 5 | 423 | −1.1 [−13.3, +10.8] |
+| vs 1.e4 | French | 3 | 109 | +5.6 [−8.8, +30.9] |
+| vs 1.d4 | 1…d5 | 13 | 329 | +4.5 [−3.0, +13.3] |
+| vs 1.d4 | 1…g6/d6 | 3 | 87 | −7.5 [−28.9, +5.1] |
+
+Rows with ≤ 2 players omitted (script prints them).
+
+- **Nobody who mixes in his openings does reliably better with something
+  else.** London users' other choices lean slightly worse than their London.
+  The Sicilian row excludes zero but is 4 players. 1…d5 for Englund users is
+  the only alternative leaning better and is not distinguishable from par.
+- Choice is not random: players pick openings per opponent, mood and month,
+  so these contrasts carry selection the design cannot remove.
+- The thinness is the result: in a 1150–1750 sample only 1, 8 and 7 players
+  use these as a main weapon.
 
 ## Open threads
 
