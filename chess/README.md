@@ -4780,6 +4780,36 @@ Resolution: per-area excess ±0.09-0.14 log-odds (about a point at a 10%
 base rate); beta ±0.21. A lean of ~0.2 is at the edge of what 40 pairs can
 see.
 
+#### How much do players' profiles differ? (exploratory, 2026-10-24)
+
+`panel_variation.py`, same 80 players, Sep 2025. Relative strength per area
+= log-odds P1 rate minus the rating-expected fit. True spread = observed
+variance minus binomial noise. Split-half r = A-half vs B-half agreement.
+
+| area | true SD | 1 SD at base rate | split-half r |
+|---|---|---|---|
+| Opening | 0.31 | 3.4 / 4.5 / 6.0% | 0.77 |
+| MG level | 0.27 | 10.5 / 13.3 / 16.7% | 0.66 |
+| MG winning | 0.20 | 11.4 / 13.7 / 16.3% | 0.50 |
+| EG ahead | 0.20 | 5.9 / 7.1 / 8.6% | 0.24 |
+| EG level | 0.19 | 8.0 / 9.5 / 11.3% | 0.22 |
+| M2 mate danger | 0.20 | 10.6 / 12.6 / 15.0% | 0.30 |
+
+- Real differences exist in every area, largest in the opening and level
+  middlegame, where a month of games measures them reliably. Endgame and
+  mate-danger profiles are mostly noise at 75-150 games.
+- Areas share a factor: opening and MG level correlate 0.79, EG level joins
+  at ~0.5-0.6. Players who are accurate for their rating in one tend to be
+  in the others. Mate danger alone runs slightly opposite (r ~ -0.2;
+  unexplained, possibly composition).
+- Best/worst area picked on one half matches the other half 39% / 24% of
+  the time against ~17% chance. **This qualifies the H-all verdict**: the
+  weak-area classification the test relies on is noisy, especially in the
+  endgame and mate buckets, which pushes any real tilt toward zero. H-all
+  stands under the rule; "no tilt" would overread it.
+- Improvers and controls had the same profile spread in Sep 2025 (0.55 vs
+  0.57 log-odds best-to-worst).
+
 Engineering notes: the sandbox proxy drops long downloads at random
 (`server_draining`, after 12-48 min); the database files are multi-frame
 zstd, so `panel_extract_loop.sh` resumes at a frame boundary and
