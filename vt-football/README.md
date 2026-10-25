@@ -116,6 +116,14 @@ play-by-play. See `drive_model/README.md` for the pipeline and findings.
   line hits 48.6%. Use it when no line exists (future weeks), not to beat one.
 - CFBD's own `homePregameElo`/`awayPregameElo` in `data/games/` are frozen at the date of the
   last CFBD pull; for future games prefer `data/elo/`.
+- `espn_league_pbp.py <season(s)> [--team NAME] [--force]`: scrimmage play-by-play for other teams
+  from ESPN game summaries (parsed with `espn_pbp.parse`; no raw JSON kept). Without `--team`:
+  every completed game with an FBS team, `data/espn/league_pbp/<season>.parquet` (2026 on disk,
+  ~3 MB a season). With `--team`: `data/espn/team_pbp/<team-slug>/<season>.parquet` (Penn State
+  2014-2025 on disk, for comparing Franklin/Pry/Howle-era tendencies). Columns include offense,
+  defense, offFBS/defFBS, ESPN drive order, category, yards, success, explosive. Use these for
+  national ranks and other programs; compare a team with itself, since ESPN yardage is a bit
+  looser than the stat-crew tables. Re-run `espn.py <season>` first for new weeks.
 
 ## Refresh
 New games come from the official stat-crew data behind each hokiesports.com box score; do not
@@ -246,3 +254,21 @@ the script's docstring. CFBD play text misses or double-counts some turnovers in
 - `fbs_takeaways.py`: FBS average, median and 10th/90th percentile takeaways per game by season,
   with VT's value and rank, into `data/derived/fbs_takeaways_by_season.csv` (team-season rows in
   `fbs_team_takeaways_by_season.csv`). ESPN dates are UTC, so night games show the next day.
+
+## Derived: game-phase splits (first half / first two 2H drives / rest)
+`phase_splits.py` writes counts (plays, successes, yards, runs, sacks, explosives, 1st-down plays
+and 1st-down runs) by game, side and phase, so any set of games re-aggregates exactly:
+- `data/derived/phase_splits_by_game.csv`: VT, every season in `data/unified/`, `oppFBS` flag
+  from ESPN results (2010 on). `python phase_splits.py`.
+- `data/derived/phase_splits_league_<season>.csv`: every team in `data/espn/league_pbp/`.
+  `python phase_splits.py --league 2026`.
+
+Phases: `1H`; `2H_d1-2` = the offense's first two drives that start in Q3 or later; `2H_d3+`.
+Success: 50% of distance on 1st down, 70% on 2nd, all of it on 3rd/4th, never on an interception.
+
+Built for the October 2026 finding that VT's offense stalls right after halftime. Through 7 FBS
+games (Clemson), VT's first two second-half drives ran 30% success / 3.5 yds per play vs 44% /
+5.9 the rest of the game. The definition (first two drives) was fixed before the Clemson game,
+which fit the pattern (two three-and-outs). Nationally the same gap looks like noise (team-to-team
+spread about equal to sampling error), so keep tracking it before calling it real.
+Re-run after each game: `parse_wmt.py`, `normalize.py`, `phase_splits.py`.

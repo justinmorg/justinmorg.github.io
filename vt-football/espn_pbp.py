@@ -68,13 +68,13 @@ def parse(eid, s):
                 homePoints=int(home["score"]), awayPoints=int(away["score"]),
                 source="ESPN game summary (interim)")
     rows = []
-    for dn, d in enumerate(s["drives"]["previous"], 1):
+    for dn, d in enumerate(s.get("drives", {}).get("previous", []), 1):
         for p in d.get("plays", []):
-            t = p["type"].get("text", "")
+            t = p.get("type", {}).get("text", "")
             if t in DROP: continue
             text = p.get("text", "")
             off = next((x["id"] for x in p.get("teamParticipants", []) if x.get("type") == "offense"),
-                       d["team"]["id"])
+                       d.get("team", {}).get("id"))
             dfn = next((i for i in team if i != off), None)
             st = p.get("start", {})
             m = re.match(r"\((\d+:\d\d)\)", text)
