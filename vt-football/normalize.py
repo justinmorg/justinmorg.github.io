@@ -1,10 +1,11 @@
-"""Build one query-ready play table from the three sources.
+"""Build one query-ready play table from the four sources.
 
 Writes
   data/unified/games.parquet          one row per VT game, with the source used for its plays
   data/unified/plays/<season>.parquet  scrimmage plays only (rushes, sacks, passes)
 
-Source priority per game: hokiesports XML > StatCrew text report > CFBD.
+Source priority per game: hokiesports XML/WMT > StatCrew text report > ESPN game summary
+(interim, until the official file is posted; espn_pbp.py) > CFBD.
 The official stat-crew files match the official box scores; CFBD has season-specific
 coding problems (see README, "CFBD data quality"), which are repaired here from the play text
 for the games that have no stat-crew file.
@@ -52,7 +53,12 @@ def load_games():
            f"from read_parquet('{D}/hokiesports/games/*.parquet')")
     st = q(f"select gameId stGameId, cfbdGameId, season, date, home, away, homePoints, awayPoints "
            f"from read_parquet('{D}/statcrew_text/games/*.parquet')")
-    for t in (hs, st):
+    import glob as _g
+    es = (q(f"select gameId esGameId, season, date, home, away, homePoints, awayPoints "
+            f"from read_parquet('{D}/espn/pbp/games/*.parquet')")
+          if _g.glob(f"{D}/espn/pbp/games/*.parquet") else
+          pd.DataFrame(columns=["esGameId", "season", "date", "home", "away", "homePoints", "awayPoints"]))
+    for t in (hs, st, es):
         t["vtHome"] = t.home.eq(VT)
         t["opponent"] = np.where(t.vtHome, t.away, t.home)
         t["vtPoints"] = np.where(t.vtHome, t.homePoints, t.awayPoints)
@@ -75,8 +81,20 @@ def load_games():
     cols = ["season", "date", "opponent", "vtHome", "neutralSite", "vtPoints", "oppPoints",
             "cfbdGameId", "hsGameId", "stGameId"]
     g = pd.concat([cf[cols], extra[cols]], ignore_index=True)
+    # ESPN interim play-by-play: attach to an existing game by date (+/- 1 day), else add the game
+    g["esGameId"] = None
+    new = []
+    for _, e in es.iterrows():
+        c = g[(pd.to_datetime(g.date) - pd.Timestamp(e.date)).abs() <= pd.Timedelta(days=1)]
+        if len(c): g.loc[c.index[0], "esGameId"] = e.esGameId
+        else: new.append(e)
+    if new:
+        n = pd.DataFrame(new); n["cfbdGameId"] = None; n["hsGameId"] = None; n["stGameId"] = None
+        n["neutralSite"] = None
+        g = pd.concat([g, n[cols + ["esGameId"]]], ignore_index=True)
     g["cfbdGameId"] = g.cfbdGameId.astype("Int64")
-    g["gameKey"] = np.where(g.cfbdGameId.notna(), "cfbd:" + g.cfbdGameId.astype(str), "hs:" + g.hsGameId.astype(str))
+    g["gameKey"] = np.where(g.cfbdGameId.notna(), "cfbd:" + g.cfbdGameId.astype(str),
+                   np.where(g.hsGameId.notna(), "hs:" + g.hsGameId.astype(str), "espn:" + g.esGameId.astype(str)))
     return g.sort_values("date").reset_index(drop=True)
 
 
@@ -151,19 +169,22 @@ def main():
     hs = statcrew_plays(f"{D}/hokiesports/plays/*.parquet", "hsGameId")
     st = statcrew_plays(f"{D}/statcrew_text/plays/*.parquet", "stGameId")
     cf = cfbd_plays()
+    es = (statcrew_plays(f"{D}/espn/pbp/plays/*.parquet", "esGameId")
+          if glob.glob(f"{D}/espn/pbp/plays/*.parquet") else pd.DataFrame(columns=["esGameId"] + COLS))
 
-    have_hs, have_st, have_cf = set(hs.hsGameId), set(st.stGameId), set(cf.cfbdGameId)
+    have_hs, have_st, have_cf, have_es = set(hs.hsGameId), set(st.stGameId), set(cf.cfbdGameId), set(es.esGameId)
     games["source"] = [
         "hokiesports" if r.hsGameId in have_hs else
         "statcrew_text" if r.stGameId in have_st else
+        "espn" if r.esGameId in have_es else
         "cfbd" if r.cfbdGameId in have_cf else None
         for r in games.itertuples()]
 
     parts = []
     for src, df, key in (("hokiesports", hs, "hsGameId"), ("statcrew_text", st, "stGameId"),
-                         ("cfbd", cf, "cfbdGameId")):
+                         ("espn", es, "esGameId"), ("cfbd", cf, "cfbdGameId")):
         gsel = games[games.source == src][["season", "date", "gameKey", "cfbdGameId", "hsGameId",
-                                           "stGameId", "opponent"]]
+                                           "stGameId", "esGameId", "opponent"]]
         df = df.copy(); df[key] = df[key].astype(gsel[key].dtype)
         m = df.merge(gsel, on=key)
         m["source"] = src
@@ -179,8 +200,9 @@ def main():
     for season, d in plays.groupby("season"):
         d.to_parquet(os.path.join(OUT, "plays", f"{season}.parquet"), index=False)
     games["hsGameId"] = games.hsGameId.astype("string"); games["stGameId"] = games.stGameId.astype("string")
+    games["esGameId"] = games.esGameId.astype("string")
     games[["season", "date", "gameKey", "opponent", "vtHome", "neutralSite", "vtPoints", "oppPoints",
-           "cfbdGameId", "hsGameId", "stGameId", "source"]].to_parquet(os.path.join(OUT, "games.parquet"), index=False)
+           "cfbdGameId", "hsGameId", "stGameId", "esGameId", "source"]].to_parquet(os.path.join(OUT, "games.parquet"), index=False)
 
     s = games.groupby(["season", "source"], dropna=False).size().unstack(fill_value=0)
     print(s.to_string())

@@ -29,6 +29,13 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
 - `fetch.py`: CFBD pull script (retired for VT play-by-play; kept for reference and for the CFBD data already on disk)
 - `data/unified/games.parquet`, `data/unified/plays/<season>.parquet`: one row per game and one
   row per scrimmage play across all sources (built by `normalize.py`)
+- `espn_pbp.py <eventId>`: interim play-by-play from ESPN's public game summary for a game whose
+  official stat-crew data isn't posted yet (raw JSON in `data/espn/pbp/raw/`, tables in
+  `data/espn/pbp/{games,plays}/`, stat-crew column shape). `normalize.py` ranks it below hokiesports
+  and StatCrew text and above CFBD, so loading the WMT game later replaces it automatically.
+  2026 at Clemson (ESPN 401858276): WMT box 22966 had only the final score on Oct. 25 (empty
+  `plays`); the ESPN plays match ESPN's team box exactly (plays, rush/pass yards, both teams).
+  Penalty parsing (`penalties.py`) skips ESPN-sourced games for now.
 - `data/unified/validation.csv`: per-game check against official box scores (`validate_box.py`)
 
 ## Known gaps in the CFBD source
@@ -66,7 +73,7 @@ any refresh or new crawl.
   | 2020-2023 | CFBD (repaired); to be replaced with WMT stat-crew data |
 | 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
-| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22965 (VMI through Georgia Tech) |
+| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22965 (VMI through Georgia Tech); at Clemson (box 22966) from ESPN until WMT posts plays |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
