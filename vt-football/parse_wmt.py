@@ -107,9 +107,25 @@ def parse(box_id, d):
         stadium=d["venue"].get("name"), attendance=d.get("attendance"))])
 
     # ---------------------------------------------------------------- plays
+    # WMT leaves some snaps out of `plays` and keeps them only in the flat `actions` list: kneel-downs,
+    # dead-ball penalties (false start, delay of game, offside ... NO PLAY) and some onside kicks.
+    # Merge them back in; both lists are in action-id order, so sorting by id keeps game order.
+    acts_all = [p["play"] for p in d["plays"]["data"]]
+    have = {p["play_by_play_id"] for p in acts_all}
+    REAL = {"rush", "pass", "penalty", "kickoff", "punt", "fieldgoal", "extrapoint", "twopoint", "fumble"}
+    raw_actions = d.get("actions") or []
+    if isinstance(raw_actions, dict): raw_actions = raw_actions.get("data", [])
+    extra = {}
+    for a in raw_actions:
+        a = a.get("action", a)
+        if a.get("play_by_play_id") and a["play_by_play_id"] not in have:
+            extra.setdefault(a["play_by_play_id"], []).append(a)
+    for acts in extra.values():
+        if any(a["play_action_type"] in REAL for a in acts):
+            acts_all += acts
+    acts_all.sort(key=lambda a: a["id"])
     groups = {}
-    for p in d["plays"]["data"]:
-        p = p["play"]
+    for p in acts_all:
         groups.setdefault(p["play_by_play_id"], []).append(p)
     rows = []
     for i, (pid, acts) in enumerate(groups.items()):

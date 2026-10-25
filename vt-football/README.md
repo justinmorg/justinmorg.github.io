@@ -22,6 +22,11 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
   Repairs: WMT sometimes stores 0 yards (or the recoverer as rusher) on a fumbled rush, so the text
   yardage is used and the rush goes to TEAM; intentional grounding is a QB rush for the loss, as in
   StatCrew; spot fouls like "8 yards gain (1)" and lateral plays keep the action yardage.
+  WMT leaves some snaps out of its `plays` list and keeps them only in the flat `actions` list:
+  kneel-downs, dead-ball penalties (false start, delay of game, offside ... NO PLAY) and some onside
+  kicks. `parse_wmt.py` merges them back in action-id order (fixed Oct 25, 2026; 109 plays across
+  2024-2026 were missing before). After the fix, 2024-2026 unified scrimmage plays match the box in
+  every team-game but one (2025 California defense, 1 play short).
 - `data/games/<season>.parquet`: schedule, scores, line scores, venue, Elo
 - `data/drives/<season>.parquet`: every drive for both teams (clock fields in seconds)
 - `data/plays/<season>.parquet`: every play: down, distance, yard line, play type,
@@ -33,9 +38,8 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
   official stat-crew data isn't posted yet (raw JSON in `data/espn/pbp/raw/`, tables in
   `data/espn/pbp/{games,plays}/`, stat-crew column shape). `normalize.py` ranks it below hokiesports
   and StatCrew text and above CFBD, so loading the WMT game later replaces it automatically.
-  2026 at Clemson (ESPN 401858276): WMT box 22966 had only the final score on Oct. 25 (empty
-  `plays`); the ESPN plays match ESPN's team box exactly (plays, rush/pass yards, both teams).
-  Penalty parsing (`penalties.py`) skips ESPN-sourced games for now.
+  Used for 2026 at Clemson (ESPN 401858276) until WMT box 22966 posted plays later on Oct. 25; the
+  ESPN data stays on disk but the game now comes from WMT. Penalty parsing (`penalties.py`) skips ESPN-sourced games for now.
 - `data/unified/validation.csv`: per-game check against official box scores (`validate_box.py`)
 
 ## Known gaps in the CFBD source
@@ -73,7 +77,7 @@ any refresh or new crawl.
   | 2020-2023 | CFBD (repaired); to be replaced with WMT stat-crew data |
 | 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
-| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22965 (VMI through Georgia Tech); at Clemson (box 22966) from ESPN until WMT posts plays |
+| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22966 (VMI through Clemson) |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
