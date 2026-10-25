@@ -95,6 +95,12 @@ repairs what the play text allows.
 After repair, CFBD is within about 1-2% of the box scores for 2004, 2008-2012 and 2015-2019;
 2014 is about 3%. Don't use raw `data/plays/` yardage for 2005-2016 without these fixes.
 
+## Drive model, defense vs. expectation, weather
+`drive_model/` (Oct 2026): expected points per drive from starting field position, opponent-adjusted
+offense/defense ratings, VT's defense scored against expectation game by game, projections for
+remaining opponents, and game-time weather from airport observations. All FBS games from ESPN
+play-by-play. See `drive_model/README.md` for the pipeline and findings.
+
 ## ESPN results and rebuilt Elo (no CFBD quota needed)
 - `espn.py 2014-2026 [--odds]`: every FBS game's result from ESPN's public API (no key, no quota)
   into `data/espn/games/<season>.parquet` (2010 on); `--odds` adds ESPN's stored betting line
