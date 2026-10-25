@@ -1,7 +1,7 @@
-# Drive model: expected points, defense vs. expectation, weather (2021-2026)
+# Drive model: expected points, defense vs. expectation, weather (2016-2026)
 
 Built Oct 25, 2026 to judge VT's defense against expectation and project the rest of the
-season; extended the same day to 2021-2026 to measure weather. Every script runs from this
+season; extended the same day to 2016-2026 to measure weather. Every script runs from this
 folder (each one `chdir`s here). Sources are ESPN's public game summaries (no key) and Iowa
 Environmental Mesonet airport observations (no key); no CFBD.
 
@@ -9,9 +9,9 @@ Environmental Mesonet airport observations (no key); no CFBD.
 
 | Step | Script | Output (committed) |
 |---|---|---|
-| Drive table + venue/kickoff per season; summaries parsed in memory, never saved | `season_drives.py 2021 ... 2026` | `drives/<season>.parquet`, `drives/games_<season>.csv` |
+| Drive table + venue/kickoff per season; summaries parsed in memory, never saved | `season_drives.py 2016 ... 2026` | `drives/<season>.parquet`, `drives/games_<season>.csv` |
 | Venues geocoded (retries, second pass), domes and retractable roofs flagged | `venues.py` | `venues.csv`, `game_venues.csv` |
-| Up to 3 candidate airport stations per venue; hourly obs per station-season | `wx.py [seasons]` | `venues.csv` (+ `asos/`, gitignored, ~60 MB) |
+| Up to 3 candidate airport stations per venue; hourly obs per station-season | `wx.py [seasons]` | `venues.csv` (+ `asos/`, gitignored, ~250 MB) |
 | Weather from 30 min before kickoff to +3.5 h | `gamewx.py` | `game_weather.csv` |
 | Per-season curve + ratings; pooled weather fit with bootstrap | `wxpool.py` | `ep_curves.csv`, `team_ratings.csv`, `game_resid.csv`, `wx_effects.csv`, `wx_bands.csv` |
 | VT 2026 defense re-scored with the pooled weather terms | `vtwx.py` | `vt_def_wx.csv` |
@@ -19,9 +19,10 @@ Environmental Mesonet airport observations (no key); no CFBD.
 Shared code (drive parser, cleanup, curve, ratings) is in `dm.py`. Refresh after a week:
 `python ../espn.py 2026 --force`, then `season_drives.py 2026 --force`, `venues.py`,
 `wx.py 2026`, `gamewx.py`, `wxpool.py`, `vtwx.py`. Seasons covered: everything ESPN lists as
-completed, including conference title games, bowls and the CFP. ESPN has no drive data for 48
-2021 games, 39 in 2022, 8 in 2023, 18 in 2024, 2 in 2025 (mostly FCS opponents); 1-5 games a
-season have no usable weather.
+completed, including conference title games, bowls and the CFP. ESPN has no drive data for
+17/5/3/1/5 games in 2016-20 and 48/39/8/18/2 in 2021-25 (mostly FCS opponents). Weather stations
+must have reported since before 2016. 2020 (COVID) is included with its own season intercept;
+dropping it doesn't move the estimates.
 
 **Drive points fix.** Per-play scores inside ESPN drives carry stale values on some plays
 (trailing "End of Half" markers especially), which zeroed about 9% of 2021-25 touchdown drives
@@ -41,42 +42,46 @@ Errors: 2,000 bootstrap draws over games. A joint fit (ratings refit on weather-
 until stable) gives estimates about 20% larger, i.e. the two-stage numbers are slightly
 conservative because ratings absorb some of a windy home park's weather.
 
-## Findings, 2021-2026 (4,293 FBS-vs-FBS games, 95,744 drives)
+## Findings, 2016-2026 (7,843 FBS-vs-FBS games, 181,276 drives)
 
 | Term (pts/drive) | Estimate | Boot SE | 95% range | Games |
 |---|---|---|---|---|
-| Wind 10-15 mph (vs 0-10) | -0.04 | 0.02 | -0.09 to 0.00 | 715 |
-| Wind 15-20 | -0.04 | 0.05 | -0.14 to +0.05 | 173 |
-| Wind 20-25 | -0.08 | 0.10 | -0.27 to +0.13 | 33 |
-| Wind 25+ | -0.53 | 0.24 | -0.93 to 0.00 | 6 |
-| Wind, linear above 8 mph (per mph) | -0.009 | 0.004 | -0.016 to -0.002 | |
-| Wind, linear above 15 mph (per mph) | -0.018 | 0.011 | -0.038 to +0.004 | |
-| Rain throughout | -0.17 | 0.06 | -0.29 to -0.06 | 217 with rain half the time+ |
-| Cold below 40 F | -0.06 | 0.04 | -0.14 to +0.02 | 233 |
-| Indoor (vs outdoor calm) | -0.05 | 0.04 | -0.13 to +0.04 | 199 |
+| Wind 10-15 mph (vs 0-10) | -0.03 | 0.02 | -0.07 to 0.00 | 1,379 |
+| Wind 15-20 | -0.09 | 0.03 | -0.16 to -0.03 | 370 |
+| Wind 20-25 | -0.17 | 0.07 | -0.31 to -0.03 | 75 |
+| Wind 25+ | -0.30 | 0.13 | -0.55 to -0.02 | 20 |
+| Wind, linear above 8 mph (per mph) | -0.011 | 0.002 | -0.015 to -0.006 | |
+| Wind, linear above 15 mph (per mph) | -0.024 | 0.006 | -0.037 to -0.012 | |
+| Rain throughout | -0.26 | 0.04 | -0.33 to -0.18 | 439 with rain half the time+ |
+| Cold below 40 F | -0.03 | 0.03 | -0.08 to +0.03 | 495 |
+| Indoor (vs outdoor calm) | -0.04 | 0.03 | -0.10 to +0.02 | 359 |
 
-0-10 mph: 3,167 games. Raw points per drive by band: 0-10 2.22, 10-15 2.17, 15-20 2.12,
-20-25 2.10, 25+ 1.67, indoor 2.24.
+0-10 mph: 5,640 games. Raw points per drive by band: 0-10 2.21, 10-15 2.16, 15-20 2.08,
+20-25 2.04, 25+ 1.89, indoor 2.19.
 
-- Wind is a slow drag, not a cliff, up to 25 mph: about 0.01 points per drive per mph above
-  ~8-10 mph, so a 20 mph game costs ~0.1 per drive (~2.5 points per game for both teams).
-- The threshold can't be pinned down: the fit is nearly flat from 8 to 22 mph; bootstrap
-  picks 8 mph 61% of the time and 22 mph 25% (the latter driven by a handful of gale games).
-- 25+ mph is a real step down but rests on 6 games (BC-VT 2026, OSU-Northwestern and MSU-
-  Illinois 2022, Memphis-Tulane 2026, FSU-BC 2023, Northwestern-Illinois 2025).
-- Rain is the clearest weather effect (about 3 SE). The 2026-only estimate (0.4) was too big.
-- Cold under 40 F trims ~0.06 per drive, not significant.
+- Wind is a steady drag that starts low: about 0.011 points per drive per mph above 8 mph
+  (5 SE). A 20 mph game costs ~0.13 per drive, ~3 points per game for both teams combined; a
+  30 mph game ~0.24 per drive. The bands rise in step (-0.03, -0.09, -0.17, -0.30).
+- Threshold: the fit is best at 8-10 mph and gets clearly worse above 12; bootstrap picks 8 or
+  10 mph 79% of the time. There is no cliff at 20 mph.
+- Stable across periods: the linear slope is -0.012 for 2016-20 and -0.009 for 2021-26;
+  dropping 2020 (COVID) changes nothing. Individual bands bounce around within each half.
+- The 2021-26 fit's 25+ estimate (-0.53 on 6 games) was too big; with 20 games it is -0.30.
+- Rain is the strongest weather effect (-0.26 for rain throughout, about 6 SE).
+- Cold under 40 F has no measurable effect once wind and rain are accounted for.
+- Data quality for 2016-20 matches recent seasons (drive points equal the final in 76-80% of
+  team-games; 1-17 games a season without drive data; ~50 of 9,100 games without weather, 14 of
+  them with no venue in ESPN). A joint fit gives effects about 15-20% larger than the two-stage
+  numbers above.
 
 ## VT 2026 defense with the pooled weather terms (`vtwx.py`, VT games left out of the fit)
 
 Boston College (Sept 26; 30 mph, gusts 45, rain throughout): VT allowed 14 on 12 drives against
-26.7 expected in calm weather, so -12.7 unadjusted. Weather is worth -4.3 points (linear wind,
-SE 1.1) to -8.1 (wind bands, SE 3.5; the 25+ band has only 5 other games), leaving VT -8.6 to
--4.8 points better than expected: still a good game, about a third to two thirds of the raw
-margin. Season to date (93 drives): -13.8 points vs expectation unadjusted, -9.8 (linear) or
--5.8 (bands) weather-adjusted; without BC VT's defense is average (-0.01 per drive) either way.
-Season defensive rating: -0.10 pts/drive (54th of 138 FBS) unadjusted, -0.07 (56th) linear,
--0.05 (62nd) bands.
+26.7 expected in calm weather, so -12.7 unadjusted. Weather is worth -5.8 points (linear wind,
+SE 0.8) to -6.5 (wind bands, SE 1.7), leaving VT 6.5-7.2 points better than expected: about half
+the raw margin. Season to date (93 drives): -13.8 points vs expectation unadjusted, -8.1 to -8.5
+weather-adjusted; without BC VT's defense is average (-0.02 per drive). Season defensive
+rating: -0.10 pts/drive (54th of 138 FBS) unadjusted, -0.06 (55th-56th) weather-adjusted.
 
 ---
 

@@ -25,7 +25,7 @@ RETRACT = ['Lucas Oil', 'AT&T Stadium', 'NRG', 'Reliant', 'State Farm Stadium', 
 
 
 def roof(name):
-    n = (name or '').lower()
+    n = name.lower() if isinstance(name, str) else ''
     if any(k.lower() in n for k in RETRACT): return 'retractable'
     if any(k.lower() in n for k in DOME): return 'dome'
     return ''

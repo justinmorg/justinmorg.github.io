@@ -9,7 +9,7 @@ import numpy as np, pandas as pd
 
 SUM = "https://site.api.espn.com/apis/site/v2/sports/football/college-football/summary?event={}"
 UA = "vt-football-archive/1.0 (personal research; github.com/justinmorg)"
-SEASONS = list(range(2021, 2027))
+SEASONS = list(range(2016, 2027))
 
 
 def fetch(eid, tries=5):

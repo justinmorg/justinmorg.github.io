@@ -4,7 +4,7 @@
     python wx.py 2026            # just these seasons (the current season is always re-pulled)
 
 Stations come from the Iowa Environmental Mesonet ASOS network lists (US states plus the
-countries of overseas games). A station must have been reporting since before 2021 and still be
+countries of overseas games). A station must have been reporting since before 2016 and still be
 reporting. Each venue keeps up to 3 candidates within 40 km (sids), best first: stations that
 log hourly precipitation are preferred unless one without it is more than 15 km closer, and
 mountain-top sites are dropped. gamewx.py uses the first candidate with observations in the
@@ -40,7 +40,7 @@ for n in nets:
                            phour=(p.get('attributes') or {}).get('HAS_PHOUR') == '1'))
     except Exception as e: print('net fail', n, e)
 S = pd.DataFrame(st).drop_duplicates('sid')
-S = S[S.end.isna() & (pd.to_datetime(S.begin, errors='coerce') < '2021-06-01')].reset_index(drop=True)
+S = S[S.end.isna() & (pd.to_datetime(S.begin, errors='coerce') < '2016-06-01')].reset_index(drop=True)
 
 
 def near(r):
