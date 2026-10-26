@@ -16,7 +16,15 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
   hokiesports.com box scores (raw JSON in `hokiesports/raw_wmt/`), written to `data/hokiesports/`
   in the same shape as the XML games, so `normalize.py` and `validate_box.py` treat them as
   hokiesports. This is the source for the current season; 2026 Pitt (box 22963) matches the official
-  team totals exactly. All of 2024 (box IDs 5585-5596, bowl 21742) and 2025 (21761-21772) are loaded from WMT;
+  team totals exactly. All of 2020-2023 (box IDs 5535-5583; loaded Oct 25, 2026), 2024 (5585-5596,
+  bowl 21742) and 2025 (21761-21772) are loaded from WMT. Many 2020-2022 box score pages embed the
+  wrong WMT game (5535, NC State 2020, linked UNC 2020; 5537 linked a 2019 game), so
+  `hokiesports/wmt_ids.json` maps box IDs to WMT ids from WMT's own VT team-season schedules
+  (`api.wmt.games/api/statistics/games?team_id=<VT team id>`), and `parse_wmt.py` stops if a box
+  page's date doesn't match the WMT game's. 2021 at Georgia Tech (5553) has no plays in WMT and
+  is skipped. Bad-snap team fumbles written "TEAM rush for loss of N yards ... fumble" (no clock
+  prefix) are typed as team rushes. 2020-2023 unified totals are within 0.3% of the official box
+  (CFBD was off 2.4-6.1%).
   unified team totals are within 0.5% of the official box. The biggest gap, 2024 Duke VT rushing
   (176 vs 190), is in the box itself: VT's individual rushing lines sum to 176.
   Repairs: WMT sometimes stores 0 yards (or the recoverer as rusher) on a fumbled rush, so the text
@@ -86,7 +94,7 @@ any refresh or new crawl.
   | 2001-2004 | hokiesports, except 2001 Gator Bowl and 2003 Insight Bowl (CFBD), 2004 Sugar Bowl (StatCrew text); 2002 West Virginia has none |
   | 2005-2007 | CFBD (repaired), except 2 games in 2005 and 1 in 2006 |
   | 2008-2019 | hokiesports for 10-14 games a season; the rest CFBD (repaired) |
-  | 2020-2023 | CFBD (repaired); to be replaced with WMT stat-crew data |
+  | 2020-2023 | hokiesports (WMT JSON, box IDs 5535-5569 and 5571-5583): all 48 games except 2021 at Georgia Tech (WMT has no plays; CFBD) |
 | 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
 | 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22966 (VMI through Clemson) |

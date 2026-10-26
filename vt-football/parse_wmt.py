@@ -44,18 +44,36 @@ def fetch(url):
         return r.read()
 
 
+# Box score id -> WMT game id where the hokiesports page embeds the wrong WMT game (common for
+# 2020-2022 boxes: e.g. 5535, NC State 2020, links UNC 2020; 5537 links a 2019 game). Built from
+# WMT's own VT team-season schedules (api.wmt.games/api/statistics/games?team_id=<VT team id>).
+IDS_FILE = os.path.join(HERE, "hokiesports", "wmt_ids.json")
+
+
 def wmt_id(box_id):
+    """WMT game id and the box score page's date (YYYY-MM-DD, from its title)."""
     html = fetch(f"https://hokiesports.com/boxscore/{box_id}").decode("utf-8", "replace")
+    t = re.search(r"<title>[^<]*?(\d{1,2})&#x2F;(\d{1,2})&#x2F;(\d{4})", html)
+    page_date = f"{t.group(3)}-{int(t.group(1)):02d}-{int(t.group(2)):02d}" if t else None
+    ids = json.load(open(IDS_FILE)) if os.path.exists(IDS_FILE) else {}
+    if str(box_id) in ids:
+        return str(ids[str(box_id)]), page_date
     m = re.search(r"wmt\.games/[a-z]+/stats/match/full/(\d+)", html)
     if not m: raise SystemExit(f"no WMT id on boxscore {box_id}")
-    return m.group(1)
+    return m.group(1), page_date
 
 
 def load(box_id, force=False):
     os.makedirs(RAW, exist_ok=True)
     path = os.path.join(RAW, f"{box_id}.json")
     if force or not os.path.exists(path):
-        open(path, "wb").write(fetch(API.format(wmt_id(box_id))))
+        wid, page_date = wmt_id(box_id)
+        body = fetch(API.format(wid))
+        game_date = json.loads(body)["data"]["game_date"][:10]
+        if page_date and game_date != page_date:
+            raise SystemExit(f"box {box_id} ({page_date}) links WMT game {wid} played {game_date}; "
+                             f"add the right id to {os.path.relpath(IDS_FILE, HERE)}")
+        open(path, "wb").write(body)
     d = json.load(open(path))
     return d.get("data", d)
 
@@ -175,9 +193,12 @@ def parse(box_id, d):
             tm = re.search(r"rush (?:\w+ )?for (?:(\d+) yards? (gain|loss)|no gain)", text)
             if tm and "lateral" not in text and not re.search(r"yards? (?:gain|loss) \(-?\d+\)", text):  # WMT sometimes stores 0 (or the recoverer's yards) on a fumbled rush; trust the text
                 r["yards"] = 0 if not tm.group(1) else int(tm.group(1)) * (-1 if tm.group(2) == "loss" else 1)
-        elif re.search(r"\) (?:[A-Za-z .'-]+ )?rush ", text) and (tm := re.search(r"for (\d+) yards? (gain|loss)|for no gain", text)):
-            # team rush with no player action (e.g. a team run on 4th down)
-            n = 0 if not tm.group(1) else int(tm.group(1)) * (-1 if tm.group(2) == "loss" else 1)
+        elif re.search(r"(?:^|\) |-)(?:[A-Za-z .'-]+ )?rush ", text) and \
+                (tm := re.search(r"for (\d+) yards? (gain|loss)|for (gain|loss) of (\d+) yards?|for no gain", text)):
+            # team rush with no player action (a team run on 4th down; 2020-23 bad snaps read
+            # "TEAM rush for loss of 12 yards ... fumble by TEAM" with no clock prefix)
+            k, dirn = (tm.group(1), tm.group(2)) if tm.group(1) else (tm.group(4), tm.group(3))
+            n = 0 if not k else int(k) * (-1 if dirn == "loss" else 1)
             r.update(type="R", rusher="TEAM", yards=n)
         elif first("kickoff"): r["type"] = "K"
         elif first("punt"): r["type"] = "U"
@@ -219,5 +240,10 @@ def box_totals(d):
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     for b in args:
-        g, p = parse(int(b), load(int(b), "--force" in sys.argv))
+        raw = load(int(b), "--force" in sys.argv)
+        pl = raw["plays"]
+        if not (pl["data"] if isinstance(pl, dict) else pl):
+            print(f"{b}: WMT has no plays for this game; skipped (keep the existing source)")
+            continue
+        g, p = parse(int(b), raw)
         print(g.to_string(index=False)); print(p.type.value_counts(dropna=False).to_dict())
