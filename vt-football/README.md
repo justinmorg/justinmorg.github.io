@@ -42,6 +42,18 @@ for each game and repairs known CFBD coding problems; the raw per-source tables 
   ESPN data stays on disk but the game now comes from WMT. Penalty parsing (`penalties.py`) skips ESPN-sourced games for now.
 - `data/unified/validation.csv`: per-game check against official box scores (`validate_box.py`)
 
+## Defense rankings by season (`defense_rank.py`)
+`python howell.py` pulls every I-A/FBS score since 1987 from James Howell's historical scores
+(jhowell.net, one page per team; raw pages gitignored) into `data/howell/games.csv`.
+`python defense_rank.py` fits opponent-adjusted scoring ratings per season (ridge least squares:
+league mean + offense + defense + home; non-I-A opponents pooled) and joins VT's play-level
+defense from `data/unified/` and the drive-model rating (2016 on) into
+`data/derived/vt_defense_by_season.csv`. The current season comes from `data/espn/games/`
+(2002-2009 added Oct 25, 2026 via `espn.py`). Points-based, so return/defensive TDs and short
+fields off VT turnovers count against the defense; the drive model corrects for those from 2016.
+As of Oct 2026 the top seasons by adjusted rank are 2004 (2nd), 2005 and 1998 (3rd),
+1999/2001/2007 (4th), 2017 (5th), 2006 and 1995 (6th); the worst are 2018 (92nd) and 2025 (83rd).
+
 ## Known gaps in the CFBD source
 - 2002: no play-by-play for any regular-season game (drives are also mostly missing).
   Filled from hokiesports.com (`data/hokiesports/`, IDs 5295-5308) for all 13 games except
