@@ -84,6 +84,19 @@ any refresh or new crawl.
 - **Plays:** scrimmage plays only (downs 1-4), `category` = rush / sack / comp / inc / int,
   `yards` NCAA-style (sacks negative, incompletions and interceptions 0), `fumble` flag,
   `vtOffense` flag, `opponent`. Goal-to-go `distance` is set to yards to goal.
+- **Hokiesports audit (Oct 25, 2026):** every box score linked from a hokiesports.com schedule
+  page, 1987-2026, is loaded (2021 at Georgia Tech, 5553, has no plays in WMT). The unlinked IDs
+  between 5120 and 5596 are all VT games too (1998's six missing games, the 1997/2000/2001/2003
+  bowls, 2002 West Virginia, 2005-2007, and the CFBD games in 2008-2021; 5570 is the cancelled
+  2022 Virginia game), but their pages are empty shells: statistics.hokiesports.com returns 404
+  for them, so no hokiesports play-by-play exists for any game not already in the repo.
+  stats.hokiesports.com has box pages for 2005-2007 (e.g. 2006 = ids 6031-6042, 8399) with
+  team stats and scoring drives but no play-by-play.
+- **ESPN check for non-stat-crew games:** `python espn_box_totals.py` saves ESPN's team box for
+  games without an official box (`data/espn/box_totals.csv`); `validate_box.py` then prints a
+  third table, "unified vs ESPN box". ESPN's box equals the official stat-crew totals where both
+  exist. ESPN play-by-play for these games was tested as a replacement for repaired CFBD and was
+  worse (5.8% vs 2.3% of yards off the box), so CFBD stays. Neither source has 2002 West Virginia.
 - **Validation:** team plays and yards per game vs. the `<totals>` block of each XML. Unified
   totals are within 1.1% of the official box scores in every season 1987-2019 (most under 0.7%).
 - Coverage by source (games with play-by-play / games played):

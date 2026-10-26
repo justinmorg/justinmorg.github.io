@@ -11,6 +11,7 @@ Usage: python validate_box.py
 import glob, os
 import xml.etree.ElementTree as ET
 import duckdb
+import numpy as np
 import pandas as pd
 import normalize as N
 
@@ -78,7 +79,22 @@ def main():
     cf["vtOffense"] = cf.offense.eq(VT)
     b = compare("repaired CFBD vs box", team_sums(cf), box, games)
 
-    out = pd.concat([a, b])[["check", "season", "date", "opponent", "hsGameId", "vtOffense"] +
+    # Games with no official box (CFBD-sourced): ESPN's team box (espn_box_totals.py), which
+    # matches the official totals where both exist. No sack count in ESPN's box.
+    parts = [a, b]
+    ef = os.path.join(N.HERE, "data", "espn", "box_totals.csv")
+    if os.path.exists(ef):
+        eb = pd.read_csv(ef)
+        eb["hsGameId"] = "es:" + eb.cfbdGameId.astype(str)
+        eb["sacks"] = np.nan
+        eb["plays"] = eb.rush_att + eb.pass_att; eb["yds"] = eb.rush_yds + eb.pass_yds
+        eg = games[games.source != "hokiesports"].dropna(subset=["cfbdGameId"]).copy()
+        eg["hsGameId"] = "es:" + eg.cfbdGameId.astype("Int64").astype(str)
+        eu = duckdb.sql(f"select * from read_parquet('{N.OUT}/plays/*.parquet') where source != 'hokiesports'").df()
+        eu["hsGameId"] = "es:" + eu.cfbdGameId.astype("Int64").astype(str)
+        parts.append(compare("unified vs ESPN box (games with no official box)", team_sums(eu), eb, eg))
+
+    out = pd.concat(parts)[["check", "season", "date", "opponent", "hsGameId", "vtOffense"] +
                             [c for s in STATS for c in (s + "_box", "d_" + s)]]
     out.to_csv(os.path.join(N.OUT, "validation.csv"), index=False)
 
