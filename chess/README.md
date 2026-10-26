@@ -5586,6 +5586,94 @@ considered and rejected: it adds a measurement instrument with unknown error
 rate to a project whose main asset is that its numbers survive re-testing. If
 it's ever wanted, it needs a hand-labelled validation subset built first.
 
+## After the treatment block: plans, not tests (2026-10-26)
+
+**Nothing here starts until the 900-game group F block is finished and
+scored.** The protocol stays frozen until then. Recorded so the ideas
+survive between sessions; none of this is pre-specified, and Justin has said
+he does **not** want another formal test after F. These are things to do
+on a hunch, with the corpus used only to point them.
+
+### Where time goes, in Justin's words and with the evidence pointer
+
+1. **Endgame study — strongest case.** Converting winning endgames ranks
+   first in "Where study time should pay off" (1st in 7 of 10 grid cells);
+   he errs more than same-rated opponents in EG ahead (+1.1 pp) and EG level
+   (+1.6 pp), not explained by the clock; entering an endgame +1 to +3 scores
+   53.2%. Zero prior endgame study, so early hours should be cheap gains.
+   Caveat: panel improvers barely improved endgames — this is his gap, not how
+   climbers typically climb. Emphasis: practical conversion (rook endings,
+   king activity), not theory.
+2. **Opening patch as Black — one evening, not an investment.** Colour is a
+   null (see "Colour, repertoire, and the Englund"). But the confirmed repeat
+   lines in "Opening errors are almost never repeats" are mostly Black
+   (Englund 2.Nf3 Nc6; …Qe7/…Qb4+; Panov …Bf5; Advance …Bg4/…Bh5), plus no
+   settled reply to 1.c4/1.e3/1.b3 etc. (~70 games/yr, book depth 0) and the
+   London 4th-move tabiya as White. Deeper Caro understanding (no edge vs
+   peers, unlike the London) is a separate, slower project.
+3. **Slower games — supplement, for rehearsal rather than clock.** Hang-moves
+   already get *more* time (median 8s vs 6s), so more clock alone is not the
+   fix. Justin's point, and it stands: a full checks → captures → threats
+   pass does not fit in 3+2, and a 2s gap is no room to do it. The value of
+   slower games is rehearsing the scan until it compresses, and room to form
+   plans (group R §4, planlessness before the committal quiet move). Transfer
+   to 3+2 is the open risk.
+4. **Own-game review — the long-term habit.** Keep it light: losses only;
+   find the turning point before the engine; save positions where the
+   engine's answer still makes no sense (the group R §5 category — those are
+   understanding gaps, not scanning ones); review endgames by default. Must
+   not become another data project.
+5. **Videos with heavy rewatching (5–15×), speedruns — the delivery method.**
+   The chessbrah London binge (incl. rewatch) coincides with his London error
+   rate dropping to its permanent level (viewing-history section; confounded,
+   not a finding). Speedruns repeat ideas in real blitz positions, matching
+   how he says he learns; rewatching should address "Danya is too fast".
+   Point it at endgames rather than openings.
+
+Combined plan as discussed: endgame videos with rewatching as the core, light
+review as the habit, the opening patch once, slower games when time allows.
+Thread 9 found improvers got better broadly (~10% fewer errors in all six
+areas), which argues for a mix over one target.
+
+**10-minute windows.** Justin likes blitz and plays in ~10-minute slots. After
+the block, some of those slots go to a video, a review, or the scan exercises
+below instead of one more game. Rationale: the hang rate has been flat for two
+years of blitz, so more games alone are not building the scan.
+
+### "Threats", defined — Justin flagged he isn't sure how to check for them
+
+A threat is a non-forcing move that sets up a check or capture next move.
+Practical question: **"If my opponent moved twice in a row, what would they
+do?"** Two kinds: *new* (the last move created an attack) and *stale* (an
+attack that has stood for several moves and stopped being seen — "Old threats
+are the dangerous ones"). For his own safety the version that matters most is
+the position *after* his candidate move: what are their checks and captures
+there (H2, the dominant group R pattern).
+
+### Group S (proposed): engine-free scan ladder
+
+Justin's idea, to build after F is scored. Replay the same positions as the
+current cards, in passes:
+
+1. find all checks (both sides);
+2. checks and captures;
+3. checks, captures and threats.
+
+- **Answer key is computed, not engine-judged.** Checks and captures are
+  exact enumerations in python-chess. Threats need a mechanical rule; first
+  draft: a quiet move after which the mover has a new check, or a new capture
+  that wins material by `hanging.see`. Settle the rule before building, and
+  document what it excludes (as group F's scope was documented).
+- **Score completeness**, e.g. "found 4 of 5 captures"; record misses per
+  item type and side.
+- **Include the opponent's side and weight it** — that is where the losses
+  are (H2), not his own missed tactics (H1, null).
+- **Loose timing first, then tighten**: the target is compressing the scan,
+  not only doing it correctly.
+- Use positions from his own cards (group F/P), since those are what his
+  games produce. Needs new tick keys that don't collide with F/P (see "Tick
+  keys").
+
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is
