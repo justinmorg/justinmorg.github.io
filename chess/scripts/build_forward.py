@@ -99,6 +99,12 @@ ODO_TARGET = 900
 # card, no protocol step and no outcome, same as the odometer above.
 DOSE_START = "2026-09-03"   # local midnight; the reset intervention start
 DOSE_PER_WEEK = 15
+# Card target for the block (Oct 30 2026). Justin will test at the 900-game floor
+# and wants ~80% of the cards done by then. Once the odometer has a game count,
+# the pace line shows cards/day needed, projecting the 900th game at
+# PACE_GAMES_PER_DAY (his late-Oct pace). Display only, like the line above.
+PACE_TARGET_SHARE = 0.80
+PACE_GAMES_PER_DAY = 16
 N_DECOY = 60          # ~20% of the set
 SEED = 23
 
@@ -391,7 +397,7 @@ margin:.7rem 0;border:2px solid var(--ink);border-radius:2px;overflow:hidden;fon
 
 js = r"""/*F-JS*/
 (function(){
-  var FKEY='drills.forward.v1', ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d, DOSE_START=%r, DOSE_PER_WEEK=%d;
+  var FKEY='drills.forward.v1', ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d, DOSE_START=%r, DOSE_PER_WEEK=%d, PACE_TARGET_SHARE=%s, PACE_GAMES_PER_DAY=%d;
   var cards=JSON.parse(document.getElementById('fdata').textContent);
   var GL={p:'\u265F\uFE0E',n:'\u265E\uFE0E',b:'\u265D\uFE0E',r:'\u265C\uFE0E',q:'\u265B\uFE0E',k:'\u265A\uFE0E'};
   var mem={};   // in-memory fallback so a blocked localStorage still lets a session run
@@ -481,13 +487,26 @@ js = r"""/*F-JS*/
     body.innerHTML=html;
   }
 
+  var gamesN=null;  // set by the odometer once Lichess answers
   function paintPace(){
     var t=document.getElementById('fpace-t'); if(!t)return;
-    var p=DOSE_START.split('-'), start=new Date(+p[0],+p[1]-1,+p[2]);
-    var days=Math.max(0,(Date.now()-start.getTime())/864e5);
-    var due=Math.min(cards.length,Math.floor(days*DOSE_PER_WEEK/7)), done=stepsDone().cards, gap=done-due;
-    t.innerHTML=done+' cards done &middot; '+due+' expected by today ('+DOSE_PER_WEEK+'/week since '+(+p[1])+'/'+(+p[2])+') &middot; '+
-      (gap===0?'on pace':(gap>0?gap+' ahead':(-gap)+' behind'));
+    var done=stepsDone().cards, target=Math.round(cards.length*PACE_TARGET_SHARE), left=Math.max(0,target-done);
+    if(gamesN===null){
+      // no game count yet (or Lichess unreachable): fall back to the original dose line
+      var p=DOSE_START.split('-'), start=new Date(+p[0],+p[1]-1,+p[2]);
+      var days=Math.max(0,(Date.now()-start.getTime())/864e5);
+      var due=Math.min(cards.length,Math.floor(days*DOSE_PER_WEEK/7)), gap=done-due;
+      t.innerHTML=done+' cards done &middot; '+due+' expected by today ('+DOSE_PER_WEEK+'/week since '+(+p[1])+'/'+(+p[2])+') &middot; '+
+        (gap===0?'on pace':(gap>0?gap+' ahead':(-gap)+' behind'));
+      return;
+    }
+    var pct=Math.round(100*PACE_TARGET_SHARE), gamesLeft=Math.max(0,ODO_TARGET-gamesN);
+    if(left===0){ t.innerHTML=done+' cards done &middot; <strong>'+pct+'% target reached</strong> ('+target+' of '+cards.length+')'; return; }
+    if(gamesLeft===0){ t.innerHTML=done+' cards done &middot; block is at '+ODO_TARGET+' games &middot; '+left+' short of the '+pct+'% target ('+target+')'; return; }
+    var daysLeft=gamesLeft/PACE_GAMES_PER_DAY, when=new Date(Date.now()+daysLeft*864e5);
+    var perDay=left/Math.max(1,daysLeft);
+    t.innerHTML=done+' cards done &middot; '+target+' ('+pct+'%) by game '+ODO_TARGET+', about '+(when.getMonth()+1)+'/'+when.getDate()+
+      ' &middot; <strong>'+left+' to go: '+(perDay<10?perDay.toFixed(1):Math.round(perDay))+'/day</strong> ('+Math.round(perDay*7)+'/week)';
   }
   function paintStats(){
     paintPace();
@@ -610,6 +629,7 @@ js = r"""/*F-JS*/
         var g=u&&u.perfs&&u.perfs.blitz&&u.perfs.blitz.games;
         if(typeof g!=='number'){t.textContent='Games toward the test block: count unavailable';return;}
         var n=Math.max(0,g-ODO_BASE), pct=Math.min(100,100*n/ODO_TARGET);
+        gamesN=n; paintPace();
         t.innerHTML=(n>=ODO_TARGET?'<strong>'+n+' / '+ODO_TARGET+' &mdash; block is full; test it when you are ready</strong>':n+' / '+ODO_TARGET+' rated blitz games since the drill began');
         b.style.width=pct+'%';
       })
@@ -617,9 +637,10 @@ js = r"""/*F-JS*/
   })();
 })();
 /*F-JS-END*/"""
-js = js.replace("ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d, DOSE_START=%r, DOSE_PER_WEEK=%d",
+js = js.replace("ODO_USER=%r, ODO_BASE=%d, ODO_TARGET=%d, DOSE_START=%r, DOSE_PER_WEEK=%d, PACE_TARGET_SHARE=%s, PACE_GAMES_PER_DAY=%d",
                 f"ODO_USER={ODO_USER!r}, ODO_BASE={ODO_BASE}, ODO_TARGET={ODO_TARGET}, "
-                f"DOSE_START={DOSE_START!r}, DOSE_PER_WEEK={DOSE_PER_WEEK}")
+                f"DOSE_START={DOSE_START!r}, DOSE_PER_WEEK={DOSE_PER_WEEK}, "
+                f"PACE_TARGET_SHARE={PACE_TARGET_SHARE}, PACE_GAMES_PER_DAY={PACE_GAMES_PER_DAY}")
 
 src = open(PAGE).read()
 
