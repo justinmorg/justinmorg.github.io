@@ -2896,6 +2896,37 @@ no card, no protocol step and no outcome, so it is not a mid-block change
 under the rule above. Constants `DOSE_START` and `DOSE_PER_WEEK` in
 `build_forward.py`.
 
+**Test timing fixed at the floor (Justin, 2026-10-30).** Decided before any
+treatment game was downloaded, annotated or looked at, so this is an amendment
+on the same footing as 2026-09-03, not a broken pre-registration. It replaces
+the 2026-09-02 plan to let the block run past 900 toward the end of the card
+set (~mid-January at the dose). Reason: Justin wants to move to new practice
+methods in November, and expects a null either way.
+
+- **Block end** = the later of (a) the 900th treatment game — rated Lichess
+  3+2/5+0, timestamps after the 2026-09-03 start — and (b) his last F session.
+  The test runs once, on everything up to that point, under the decision rule
+  above unchanged.
+- **No new practice method starts before the block end.** Games played under
+  a second intervention would contaminate this one. The odometer runs about a
+  day's games ahead of the block (it counts from 2026-09-02, and all blitz
+  controls), so treat **~915 on the bar** as the safe reading, and confirm
+  the 900 by timestamp when the games are pulled.
+- **Dose may be front-loaded.** The dose is a floor ("at least"), so doing
+  more cards per session is not a protocol change. Justin is aiming for
+  ~80% of the set (239 of 299) by the block end; the page's pace line was
+  changed the same day to show cards/day needed for that (display only —
+  `PACE_TARGET_SHARE`, `PACE_GAMES_PER_DAY` in `build_forward.py`).
+- **What this costs.** Resolution is unchanged from above (~3,000 eligible
+  moves detects ~1.1 pp). What changes is the dose: cumulative cards done
+  rise across the block, and ~640 of the 900 games (everything before
+  2026-10-30) were played with roughly half the set or less done. A null
+  therefore reads "no effect of ~1.1 pp or more at a partial dose averaged
+  over the block" — weaker than the full-set null the original timing would
+  have given. State it that way when reporting.
+- State at the decision: Lichess `perfs.blitz.games` 6,603 (odometer 639);
+  recent pace ~16 games/day, so 900 lands mid-November.
+
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
 in-page F hit rate or false-alarm rate. Any metric first examined after the
