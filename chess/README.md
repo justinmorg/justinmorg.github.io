@@ -2759,6 +2759,25 @@ depth-18 capture-and-evaluate check proposed under card 34, which would
 also catch this). Applies equally to `hanging.py`'s count, so block
 comparisons are unaffected.
 
+**Card 130, `F-Orh0hlzK-35`, decision 5 — 18.Qf3. Labelled H (dxc3,
+"wins 2.0 pawns", "already on the board"); should be S with the
+engine-disliked note.** Raised by Justin 2026-11-03. Black's d4 pawn is
+effectively pinned: Qd8 sits behind it facing White's Rd1, so 18...dxc3
+19.Rxd8+ Rxd8 20.bxc3 leaves White about +2.4 (depth 24). The threat was not
+live before the move either. At decision 4 (17.Nc3) the same capture is
+correctly labelled C, and 17...dxc3 18.Rxd8+ gives +3.2. The "stale threat"
+attribution in the verdict is therefore also false. The drop is real but
+positional: best is 18.f4, which harasses the e5 rook while Black's king is in
+the centre (+2.09). After 18.Qf3 the eval is +0.51 (both depth 24), about 1.6
+pawns of lost initiative with no material loose. Same family as cards 33/34/112:
+a ≥150 SEE capture on one square ANDed with an eval drop, and nothing ties the
+two together. Here SEE counts only the exchange on c3 and misses the line the
+capture opens. Decision 5 is the card's anchor (ply 35), so the card was built
+around a false hit, and that ply counts in the 2026 block's hanging-material
+numerator. The depth-18 capture-and-evaluate check proposed under card 34
+would catch this (after dxc3, Rxd8+ is the engine's reply). As with the
+others, it applies equally across blocks.
+
 **Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
 every decision marked wrong in the `drills.forward.v1` export**, in both
 directions — H answered safe (possible false H, as here) and S answered
