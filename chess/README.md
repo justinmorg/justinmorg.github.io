@@ -5724,6 +5724,38 @@ current cards, in passes:
   games produce. Needs new tick keys that don't collide with F/P (see "Tick
   keys").
 
+### Plan review and build specs (2026-11-11)
+
+Plain-language review of the plan above, at Justin's request (goal: general
+improvement, no test): `chess/notes/2026-11-11-post-block-plan.md`. Build
+specs, **not built**, in `chess/specs/` (index and shared definitions in
+`specs/README.md`): **W** worked walkthroughs of the move routine, **S** scan
+ladder, **G** guided play-through, **K** conversion play-outs. Nothing is
+built or used before the block end.
+
+- **`specs/S-scan-ladder.md` supersedes the "Group S (proposed)" draft
+  above.** Checks/captures enumeration survives as warm-up rungs; added a
+  target-first rung (own loose pieces), a lands/leaves rung (what the move
+  changes), a two-moves-in-a-row threat rung asking for the biggest threat
+  only, and a final rung (S6) that replaces group F with an SEE-only key.
+- **Changes to the plan above:** at-board practice of the routine becomes a
+  core item via correspondence games (fits the 10-minute windows); endgame
+  study gets an active half (K); blitz carries one instruction only, the two
+  looks (what can they take now; lands, leaves).
+- **The pre-registration's "If it is null … would be pre-registered the
+  same way" clause is not an obligation.** Justin decided (2026-10-23,
+  restated 2026-11-11) against further formal tests. The slow-game idea
+  stands; its pre-registration does not. The pre-registration text itself is
+  left unedited.
+- **Sizing numbers behind the specs** (F card positions, python-chess and
+  `hanging.see` only, scratch script, descriptive, not a finding): per side
+  median 1 check and 3 legal captures; own loose pieces median 1; opponent
+  two-move threats under the draft rule median 3, p90 8, 86% same-piece.
+  First-hang cause once per hung piece, n = 217: already capturable before
+  the move 48%, moved piece lands en prise 22%, lost exchange on the capture
+  square 14%, moved piece was the defender 8%, line opened 4%, other 4%.
+  Card positions are the tail and carry ~10% label error.
+
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is
