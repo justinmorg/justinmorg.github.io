@@ -167,6 +167,7 @@ background:#fff;border:1px solid var(--rule);border-radius:2px;padding:.55rem .6
 .rprog{font-family:'Roboto Mono',monospace;font-size:.85rem;margin:.2rem 0 .8rem}
 .rexport{margin:.4rem 0 0}
 /*R-CSS-END*//*F-CSS*/
+.fodo-t .dim{color:var(--muted);font-size:.74rem}
 .fodo{display:flex;align-items:baseline;gap:.6rem;margin:.2rem 0 .5rem;font-family:'Roboto Mono',monospace;font-size:.8rem;color:var(--ink)}
 .fodo .bar{flex:1}
 .fstage{margin:.6rem 0 0}
@@ -4603,7 +4604,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 /*R-JS-END*/</script>
 <script>/*F-JS*/
 (function(){
-  var FKEY='drills.forward.v1', ODO_USER='jamorgan', ODO_BASE=5964, ODO_TARGET=900, DOSE_START='2026-09-03', DOSE_PER_WEEK=15, PACE_TARGET_SHARE=0.8, PACE_GAMES_PER_DAY=16;
+  var FKEY='drills.forward.v1', ODO_USER='jamorgan', ODO_BASE=5964, ODO_TARGET=900, DOSE_START='2026-09-03', DOSE_PER_WEEK=15, PACE_TARGET_SHARE=0.8,
+      // games-based pace, anchored 2026-11-16 (783 games into the block, 149 cards done): one card per 2.6 games from here
+      PACE_ANCHOR_DATE='11/16', PACE_ANCHOR_GAMES=783, PACE_ANCHOR_DONE=149, PACE_GAMES_PER_CARD=2.6;
   var cards=JSON.parse(document.getElementById('fdata').textContent);
   var GL={p:'\u265F\uFE0E',n:'\u265E\uFE0E',b:'\u265D\uFE0E',r:'\u265C\uFE0E',q:'\u265B\uFE0E',k:'\u265A\uFE0E'};
   var mem={};   // in-memory fallback so a blocked localStorage still lets a session run
@@ -4709,10 +4712,16 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
     var pct=Math.round(100*PACE_TARGET_SHARE), gamesLeft=Math.max(0,ODO_TARGET-gamesN);
     if(left===0){ t.innerHTML=done+' cards done &middot; <strong>'+pct+'% target reached</strong> ('+target+' of '+cards.length+')'; return; }
     if(gamesLeft===0){ t.innerHTML=done+' cards done &middot; block is at '+ODO_TARGET+' games &middot; '+left+' short of the '+pct+'% target ('+target+')'; return; }
-    var daysLeft=gamesLeft/PACE_GAMES_PER_DAY, when=new Date(Date.now()+daysLeft*864e5);
-    var perDay=left/Math.max(1,daysLeft);
-    t.innerHTML=done+' cards done &middot; '+target+' ('+pct+'%) by game '+ODO_TARGET+', about '+(when.getMonth()+1)+'/'+when.getDate()+
-      ' &middot; <strong>'+left+' to go: '+(perDay<10?perDay.toFixed(1):Math.round(perDay))+'/day</strong> ('+Math.round(perDay*7)+'/week)';
+    // due now = the greater of (1) the original weekly dose and (2) one card per 2.6 games since the anchor
+    var p=DOSE_START.split('-'), start=new Date(+p[0],+p[1]-1,+p[2]);
+    var days=Math.max(0,(Date.now()-start.getTime())/864e5);
+    var dueWeek=Math.min(target,Math.floor(days*DOSE_PER_WEEK/7));
+    var dueGames=Math.min(target,PACE_ANCHOR_DONE+Math.floor(Math.max(0,gamesN-PACE_ANCHOR_GAMES)/PACE_GAMES_PER_CARD));
+    var due=Math.max(dueWeek,dueGames), gap=done-due;
+    t.innerHTML=done+' cards done &middot; <strong>'+due+' due now &middot; '+
+      (gap===0?'on pace':(gap>0?gap+' ahead':(-gap)+' behind'))+'</strong><br>'+
+      '<span class="dim">due = greater of '+DOSE_PER_WEEK+'/week since '+(+p[1])+'/'+(+p[2])+' ('+dueWeek+') or 1 per '+PACE_GAMES_PER_CARD+
+      ' games since '+PACE_ANCHOR_DATE+' ('+dueGames+') &middot; goal '+target+' ('+pct+'%) by game '+ODO_TARGET+'</span>';
   }
   function paintStats(){
     paintPace();
