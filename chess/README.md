@@ -5756,6 +5756,122 @@ built or used before the block end.
   square 14%, moved piece was the defender 8%, line opened 4%, other 4%.
   Card positions are the tail and carry ~10% label error.
 
+## chess-study: lessons, drills and play-outs (built 2026-11-16, parked)
+
+Built at Justin's request while the group F block was still open, to be used
+only after it is closed and scored. **Nothing here is a test, and nothing in
+`chess-drills/` was touched**: the frozen page, `drills.done.v1` and
+`drills.forward.v1` are byte-identical to before. The study page is a second
+page (specs decision 6), `https://justinmorg.github.io/chess-study/`, not
+linked from the drill page, storing under its own `localStorage` key
+`study.v1`.
+
+```
+chess-study/index.html            static page, hand-maintained (one card runner, SVG board)
+chess-study/data/index.json       manifest: groups, decks, card keys
+chess-study/data/<deck>.json      generated decks (schema: scripts/studycards.py docstring)
+chess/study/tb_cache.json         Lichess 7-man tablebase answers used by the build
+chess/study/engine_cache.json     Stockfish 17.1 depth-20 answers used by the build
+chess/scripts/build_study.py      manifest; `--all` rebuilds every deck
+chess/scripts/build_study_routine.py    routine, anatomy, walk, s1-s6, s5b
+chess/scripts/build_study_endgames.py   eg_lessons, eg_square, eg_kpk, eg_rook, eg_own, k1, k2
+chess/scripts/build_study_openings.py   op_lessons, op_drills
+chess/scripts/scanlib.py          checks / captures / loose / delta / threats (specs "Definitions"); `python3 scanlib.py` runs its tests
+chess/scripts/studylib.py         corpus loader (all Lichess depth-12 blocks + pending, 3+2/5+0, 5,580 games)
+chess/scripts/study_table.py      per-own-move scan table (cache in /tmp, selection only)
+chess/scripts/studycards.py       deck schema, text helpers, validation
+chess/scripts/studyauthor.py      DSL for authored cards; refuses to build a card whose claims fail
+chess/scripts/tbprobe.py          tablebase client + cache
+chess/scripts/enginecheck.py      engine checks + cache (STOCKFISH_PATH)
+```
+
+`python3 chess/scripts/build_study.py --all` is byte-identical on rerun and
+needs neither network nor Stockfish while the corpus files and the two caches
+are unchanged (verified with `STOCKFISH_PATH=/nonexistent`). Changing a deck
+size or a seed will need both again. Needs `pip install chess`.
+
+**702 cards in 19 decks.**
+
+| deck | n | kind | key |
+|---|---|---|---|
+| routine | 1 | lesson | authored; examples pulled from anatomy / s5 |
+| anatomy (A) | 35 | lesson | his first hang per game, by cause class, scanlib only |
+| walk (W) | 3 | lesson | spec W, six own moves each, text fully computed |
+| s1 checks | 40 | drill | legal checking moves, both sides |
+| s2 takes | 60 | drill | legal captures; SEE >= 100 "wins material" |
+| s3 loose | 60 | drill | `scanlib.loose` |
+| s4 lands, leaves | 100 | drill | `scanlib.delta` |
+| s5 two in a row | 100 | drill | `scanlib.threats`, 42% empty |
+| s5b different piece | 40 | drill | top threat different-piece |
+| s6 two looks | 60 | drill | windows of 4-6 own moves, SEE-only, 28% decoys; the F replacement |
+| eg_lessons | 9 | lesson | authored; every <= 7-man position tablebase-checked per move |
+| eg_square | 16 | drill | tablebase; only positions where the plain rule and the tablebase agree |
+| eg_kpk | 28 | drill | tablebase; exactly one move keeps the result |
+| eg_rook | 15 | drill | Lucena, Philidor, rook behind pawn (unique tablebase move), piece/pawn trade |
+| eg_own | 24 | drill | **engine-keyed**: Stockfish 17.1 depth 20, see below |
+| k1 / k2 | 37 / 39 | play-out | spec K; links `lichess.org/?fen=...#ai` plus analysis board |
+| op_lessons | 5 | lesson | authored; lines legality-checked, `ev=` ranges and answers engine-checked |
+| op_drills | 30 | drill | authored; accepted moves within 70cp of engine best at depth 20 |
+
+**Departures from `specs/` (which remain the reference for G, not built):**
+
+- `delta` judges a capture on the whole exchange: BxN, PxB is not a hang
+  although PxB alone has SEE 300 (`exchange` = SEE of the own move <= -150).
+  Two cause classes were added: `blocks` (moved piece interrupts an own
+  slider's defence) and `check` (already capturable, but the mover was in
+  check: a check that also hit something; null-move view is impossible there,
+  so a turn-flipped copy is used).
+- Cause of every hang the opponent then took, all 134,774 own moves from own
+  move 10 on, no eval filter (descriptive, not comparable to the 217-card
+  table in `specs/README.md`): stale 2,352, lands 922, check 897, exchange
+  783, leaves 381, opens 271, blocks 19, other 8.
+- S2 is three stages (their captures; which win; own winning captures), not a
+  per-piece three-way classification. S4 asks "lands" as a three-way choice
+  and "leaves" as taps; "opens" is folded into the leaves key.
+- Not implemented from spec S: par times and the last-20 stats line, self-tags
+  (decision 5), a generalized `fbackup.py`. The page has "Copy my results as
+  JSON" (object `study.v1`: per card n, ok, ok1, good/asked, ms, hist, flags).
+  Decisions over 60s are flagged `slow`, not dropped.
+- **The 60-position hand check of the threat rule (spec S section 6) has not
+  been done.** Every tap/move reveal has "I think the key is wrong"; flags are
+  in the export. Do the hand check, or read the first flags, before trusting
+  s5/s5b.
+- W text is entirely computed (no hand-written idea lines, so no tag syntax).
+  Candidates found: W1 216, W2 2, W3 2 under the selection rules in
+  `find_walks`; W3 additionally requires no own capture on the two stale
+  moves and a >= 250cp fall, after the first pick turned out to be an even
+  trade.
+- Positions come from games not on the drill pages (`studylib.drilled_gids`),
+  older and pending blocks first. Depth-12 evals are used only to select.
+
+**eg_own is the one deck with an engine verdict as its key**, because "which
+move holds a 12-piece ending" has no rule-based answer. Selection: plateau
+blocks + Q2 2025 + pending, endgame per the 2026-11-16 note's definition, own
+passed pawn, <= 16 men, eval -1.5 to +4, depth-12 win-chance drop >= 15
+points, one per game; then Stockfish 17.1 depth 20 must put the played move
+>= 150cp below best, at most two moves within 50cp of best, and >= 100cp
+between those and the rest. Best-move type in the 24 kept: rook 9, king 5,
+passed-pawn push 5, other pawn 5. So "support before pushing" is the theme
+of the lesson, not a description of this deck: in 5 of 24 the push was the
+right move and he delayed it.
+
+**Opening figures on cards are computed at build time** (`stat()` in
+`build_study_openings.py`) over the 5,580-game load, all years, so they
+differ from the plateau-only figures elsewhere in this file. New here,
+exploratory, small n:
+
+- The London ...Nc6 tabiya is one position reached by two move orders (245
+  games). Pooled, 4.Nf3 scores 49% (134) and 4.c4 51% (88). The 38% vs 57%
+  split by move order is the same position and is noise. The hole is clock,
+  not result.
+- 1.d4 d5 2.Bf4 Nc6 3.e3 Bf5 4.c4 e6 5.Nc3 Bb4 6.Qb3: 17 of 31 games, 35%;
+  engine -0.19 against +0.5 for Nf3 / cxd5 / Rc1. Qb3 is also -0.64 in the
+  Nf3 / ...Bf5 / c4 / ...e6 version (...Nb4).
+- Caro 3.Nc3 dxe4 4.Nxe4 Nf6 5.Ng5: 29 games, 31%, seven different replies.
+- Panov 4.c4 Nc6 is fine (engine -0.30); the error is 5.Nc3 Bf5 (-2.9).
+- Englund objective evals at depth 20 (White's view): 5.Bd2 Qxb2 +2.1,
+  main line 8.Nd5 +2.1, 8.Rb3 +2.0. Score over 682 games: 50%.
+
 ## What this is for
 
 The corpus exists to study **converting winning positions into wins**, which is

@@ -1,5 +1,11 @@
 # specs/ — post-block exercise specs (not built)
 
+**Status 2026-11-16: W, S and K are built** (with departures, listed in
+`chess/README.md` "chess-study"), on a separate page, `/chess-study/`,
+together with endgame and opening decks that have no spec here. **G is not
+built.** Nothing is to be used before the block closes. The text below is
+the original spec and still governs G.
+
 Written 2026-11-11. Build specs for four card groups that replace group F
 after the 900-game block closes. Rationale and the routine they teach, in
 plain language: `chess/notes/2026-11-11-post-block-plan.md`. Read that first.
