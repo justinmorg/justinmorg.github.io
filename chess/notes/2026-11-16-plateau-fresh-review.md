@@ -225,3 +225,55 @@ Differ:
 The post-block plan stands. One addition for blitz, as a habit and not a
 test: be level with the opponent's clock around move 20, and do not slow down
 once ahead.
+
+## Addendum: which endgame areas (same day)
+
+Justin asked which endgame rules to learn and drill first. Same games, same
+scratch scripts, endgame plies only, each position classified from its FEN
+(piece set, piece moved, passed pawns by the usual no-enemy-pawn-ahead-on-
+three-files rule, king distance to the four centre squares). "Close" is a
+mover win chance of 25-75%. Rates are big errors per move, his against
+opponents' in the mirrored state, 95% game-level bootstrap.
+
+**About 45 cuts were run. Treat this as a pointer for study, not a set of
+findings.** He is 1-2 points worse on nearly every cut, so the gap is broad;
+the rows below are where it is widest or most frequent.
+
+| cut (close endgames) | his moves | him | opponents | gap |
+|---|---|---|---|---|
+| has a passed pawn | 2,704 | 12.5% | 9.3% | +3.2 [+1.4, +4.9] |
+| has a passed pawn on the 5th or beyond | 1,090 | 14.8% | 10.0% | +4.8 [+1.3, +7.4] |
+| opponent has a passed pawn on the 5th | 823 | 12.8% | 9.1% | +3.7 [-0.1, +6.7] |
+| king moves | 2,176 | 10.5% | 8.4% | +2.0 [+0.1, +3.8] |
+| pawn moves | 2,035 | 11.4% | 9.0% | +2.3 [+0.3, +4.2] |
+| rook moves | 2,559 | 9.5% | 9.2% | +0.4 [-1.0, +2.0] |
+| rook endings | 2,344 | 9.2% | 7.3% | +1.9 [+0.1, +3.7] |
+| rooks + minors | 4,854 | 11.0% | 9.7% | +1.4 [+0.2, +2.5] |
+| pawn endings | 341 | 14.4% | 10.7% | +3.7 [-1.9, +9.2] |
+| up a pawn or two | 1,551 | 9.7% | 7.2% | +2.5 [+0.6, +4.7] |
+| material level | 6,821 | 10.2% | 8.3% | +1.9 [+0.9, +2.9] |
+
+- With a passed pawn the excess is on every kind of move, not the push itself
+  (push 13.6% vs 10.5%, king 11.3% vs 8.6%, other pawn 13.5% vs 8.1%, rook
+  10.7% vs 9.8%), and he pushes it as often as they do (14.9% of moves vs
+  15.3%).
+- In close rook endings the excess is in king and pawn moves (9.9% / 9.8%
+  against 7.4% / 7.4%); rook moves 8.5% vs 7.2%.
+- King distance from the centre in queenless endgames (0 centre, 3 edge):
+  his 2.27, theirs 2.19.
+- Piece captures that produce a pawn ending: 1 big error in 107. Trading down
+  is not the problem.
+- Share of his endgame games containing each type: rooks + minors 73%,
+  queens + other 40%, rook 29%, pawn 14%, minor-piece 13%, queen 8%.
+
+Study order suggested from this (the rule inside each area is standard
+teaching, not something the data tested):
+
+1. Own passed pawn: support before pushing (rook behind, king escorting).
+2. King to the centre once queens are off.
+3. Rook endings: active rook, Lucena, Philidor.
+4. Pawn endings: opposition, square of the pawn, count before committing.
+5. Ahead trade pieces, behind trade pawns.
+
+Feeds spec K (conversion play-outs): choose play-out positions by these
+types. Confidence: 1 solid, 2/3/5 moderate, 4 unconfirmed against opponents.
