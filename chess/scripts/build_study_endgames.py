@@ -641,8 +641,9 @@ def playout_cards(games, eng16):
             pp = passed_pawns(b, me)
             fenq = urllib.parse.quote(b.fen())
             text = "<p><b>You:</b> %s. <b>They:</b> %s. It is your move.</p>" % (material_words(b, me), material_words(b, not me))
-            text += "<p>In the game %s. Play it out against the computer until it is won. No clock.</p>" % how_ended(g)
-            text += "<p class=\"dim\">Suggested computer level: %d. Raise it a level when you have won three in a row.</p>" % level
+            text += "<p>In the game %s. Play it out against the computer until it is won.</p>" % how_ended(g)
+            text += "<p class=\"dim\">On the Lichess screen choose <b>%s</b>, strength <b>%d</b>, Unlimited. Lichess starts on Random side and whatever strength you used last, so set both each time. Raise the strength a level when you have won three in a row.</p>" % (
+                "White" if g["me"] else "Black", level)
             tag = t + (", you have a passed pawn" if pp else "")
             cards.append({"k": "%s-%s-%d" % (deck.upper(), g["gid"], ply), "t": tag[0].upper() + tag[1:],
                           "sub": gsub(None, me, b.fullmove_number, "%s &middot; %s" % (fam(g["opening"]), g["date"][:4])),

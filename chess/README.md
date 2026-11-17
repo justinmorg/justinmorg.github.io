@@ -5799,6 +5799,18 @@ report" exports device details plus answers as JSON to paste into a chat.
 Test mode stores under `study.test.v1`; `study.v1` is never touched. Card 5
 is the live check of the `?fen=...#ai` play-out link form.
 
+**Palette (2026-11-16, after the phone test):** Justin has deuteranomaly. The
+page uses no green. Colour codes in deck JSON keep their letters but mean:
+`g` blue (good / his own / found), `r` red, `y` light gold, `b` and `k`
+black (the move under discussion). Arrows carry a white edge; tap reveals
+add a tick / cross / plus badge so nothing depends on hue. Board is
+grey-blue. Card text must not name a colour the page does not draw. The
+first phone report (iPhone, Safari) passed everything except the flipped-board
+check on test card 1, whose verify screen had dropped the flip and tint;
+fixed. `?fen=...#ai` confirmed working on the phone: it opens "Play against
+computer / From Position" with the FEN filled in, but on Random side and the
+last-used strength, so K cards now say which side and strength to pick.
+
 **702 cards in 19 decks.**
 
 | deck | n | kind | key |

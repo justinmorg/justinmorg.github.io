@@ -556,7 +556,7 @@ def card_anatomy(r):
          "text": "<p>They have just played %s.</p><p>%s</p>" % (mv(r["prev_san"]), t1),
          "arrows": [[c["move"].uci(), "r"] for c in best.values()]},
         {"type": "show", "fen": b.fen(), "last": r["last"], "arrows": [[m.uci(), "b"]],
-         "text": "<p>You played %s (blue arrow).</p><p>%s</p><p>%s</p>" % (mv(r["san"]), sents[0], sents[1])},
+         "text": "<p>You played %s (black arrow).</p><p>%s</p><p>%s</p>" % (mv(r["san"]), sents[0], sents[1])},
         {"type": "show", "fen": a2.fen(), "last": cap.uci(),
          "text": "<p>They replied %s: it %s.</p><p><b>Cause: %s.</b> %s</p>" % (
              mv(a.san(cap)), cap_text(a, hcap).split("</span> ", 1)[1], WHY_WORD[why].lower(), LOOK[why])},
@@ -626,7 +626,7 @@ def walk_screens(r, last_in_walk=False):
     out.append({"type": "show", "fen": b.fen(), "last": r["last"], "text": t, "arrows": arrows})
     # 2. inventory
     Lm, Lt = scanlib.loose(b, me), scanlib.loose(b, opp)
-    t = "<p><b>Step 2, inventory.</b> Your loose pieces (red): %s</p><p>Theirs (green): %s</p>" % (
+    t = "<p><b>Step 2, inventory.</b> Your loose pieces (red squares): %s</p><p>Theirs (blue squares): %s</p>" % (
         loose_text(b, me, Lm), loose_text(b, opp, Lt))
     out.append({"type": "show", "fen": b.fen(), "last": r["last"], "text": t,
                 "marks": [[SQ(x["sq"]), "r"] for x in Lm] + [[SQ(x["sq"]), "g"] for x in Lt]})
@@ -637,7 +637,7 @@ def walk_screens(r, last_in_walk=False):
     a = d["after"]
     t = "<p><b>Step 3, candidates.</b> Your checks: %s. Your captures that win material: %s.</p>" % (
         sanlist(b, chk) if chk else "none", sanlist(b, [c["move"] for c in wins]) if wins else "none")
-    t += "<p>You played %s (blue).</p>" % mv(r["san"])
+    t += "<p>You played %s (black arrow).</p>" % mv(r["san"])
     sents = delta_sentences(b, m, d)
     t += "<p><b>Step 4, safety check, before letting go of the piece.</b> %s %s</p>" % (sents[0], sents[1])
     arr = [[m.uci(), "b"]] + [[c["move"].uci(), "r"] for c in d["lands"][:2]]

@@ -29,8 +29,8 @@ def show(text, fen=START, **kw):
     return dict({"type": "show", "fen": fen, "text": p(*text) if isinstance(text, (list, tuple)) else p(text)}, **kw)
 
 
-def verify(ask, options=None, fen=None):
-    st = {"type": "verify", "ask": ask}
+def verify(ask, options=None, fen=None, **kw):
+    st = dict({"type": "verify", "ask": ask}, **kw)
     if options:
         st["options"] = options
     if fen:
@@ -42,22 +42,22 @@ def cards():
     C = []
     C.append({"k": "T-1-board", "t": "Test 1: the board", "sub": "nothing to answer except the checks", "flip": False, "steps": [
         show(["This is the normal starting position, seen from White's side.",
-              "There should be four arrows (green, red, blue, gold) and two shaded squares (e4 gold, d5 red)."],
+              "There should be four arrows (blue e2 to e4, red d7 to d5, black g1 to f3, light gold b8 to c6), each with a thin white edge, and two shaded squares (e4 gold, d5 red)."],
              arrows=[["e2e4", "g"], ["d7d5", "r"], ["g1f3", "b"], ["b8c6", "y"]], marks=[["e4", "y"], ["d5", "r"]]),
         verify("All 32 pieces drawn, white at the bottom, small letters and numbers on the edge squares?", fen=START),
-        verify("Four arrows in four colours and two shaded squares were visible on the previous screen? (Use the back arrow to look again.)", fen=START),
-        show("The same position seen from Black's side. The white pieces should now be at the top, and the squares e2 and e4 should be tinted yellow as a last move.",
+        verify("Could you tell all four arrow colours apart, and see both shaded squares, on the previous screen? (Use the back arrow to look again.)", ["Yes, all four distinct", "No, two looked alike", "No, something was hard to see"], fen=START),
+        show("The same position seen from Black's side. The white pieces should now be at the top, and the squares e2 and e4 should be tinted gold as the last move.",
              fen=E4, flip=True, last="e2e4"),
-        verify("Board flipped, with the last move tinted?", fen=E4),
+        verify("On the previous screen: board flipped (white pieces at the top), with e2 and e4 tinted gold?", ["Yes", "Flipped, but no tint", "Tint, but not flipped", "Neither"], fen=E4, flip=True, last="e2e4"),
         verify("Did the small back arrow (&larr;) take you to the previous screen when you tried it?"),
     ]})
     C.append({"k": "T-2-tap", "t": "Test 2: tapping squares", "sub": "three tap questions", "flip": False, "steps": [
         {"type": "tap", "fen": START, "ask": "Tap both white knights, then press Done.", "key": ["b1", "g1"], "none": "Nothing to tap",
-         "rtext": "Both knights should now be shaded green."},
-        verify("Each tapped square got a dark outline, the button counted them, and after Done both turned green with &ldquo;Found 2 of 2&rdquo;?"),
+         "rtext": "Both knights should now be shaded blue, each with a tick."},
+        verify("Each tapped square got a dark outline, the button counted them, and after Done both turned blue with a tick and &ldquo;Found 2 of 2&rdquo;?"),
         {"type": "tap", "fen": START, "ask": "Now get it wrong on purpose: tap the knight on b1 and the rook on a1, then Done.", "key": ["b1", "g1"],
-         "rtext": "Expected: b1 green (found), g1 red (missed), a1 gold (extra).", "rarrows": [["g1f3", "g"]]},
-        verify("One green, one red, one gold square, a colour legend under the text, and a green arrow from g1?"),
+         "rtext": "Expected: b1 blue with a tick (found), g1 red with a cross (missed), a1 gold with a plus (extra).", "rarrows": [["g1f3", "g"]]},
+        verify("One blue tick, one red cross, one gold plus, a legend under the text, and a blue arrow from g1?", ["Yes, and the three were easy to tell apart", "Yes, but hard to tell apart", "No"]),
         {"type": "tap", "fen": START, "ask": "Tap nothing. Press the button, which should read &ldquo;None of them&rdquo;.", "key": [], "none": "None of them",
          "rtext": "Expected verdict: Right, nothing."},
         verify("With nothing tapped the button read &ldquo;None of them&rdquo;, and the verdict was &ldquo;Right, nothing&rdquo;?"),
@@ -90,7 +90,7 @@ def cards():
     C.append({"k": "T-4-choice", "t": "Test 4: multiple choice", "sub": "answer wrongly on purpose", "flip": False, "steps": [
         {"type": "choice", "fen": START, "ask": "Is this the starting position? Answer No on purpose.", "options": ["Yes", "No", "Not sure"], "answer": 0,
          "explain": "This is the explanation text.", "rmarks": [["e1", "g"], ["e8", "g"]]},
-        verify("Three buttons, then &ldquo;Not quite&rdquo; with the explanation, and both kings shaded green?"),
+        verify("Three buttons, then &ldquo;Not quite&rdquo; with the explanation, and both kings shaded blue?"),
         verify("The button &ldquo;I think the key is wrong&rdquo; appeared under the answer and changed to &ldquo;Flagged, thanks&rdquo; when pressed?"),
     ]})
     fq = urllib.parse.quote(LUCENA)
@@ -125,7 +125,7 @@ def cards():
             st.pop("last", None)
     C.append({"k": "T-8-speed", "t": "Test 8: speed", "sub": "does it keep up", "flip": False, "steps": [
         {"type": "tap", "fen": START, "ask": "Tap all sixteen white pieces and pawns as fast as you can, then Done.",
-         "key": [f + r for r in "12" for f in "abcdefgh"], "rtext": "All sixteen should be green."},
+         "key": [f + r for r in "12" for f in "abcdefgh"], "rtext": "All sixteen should be blue with ticks."},
         verify("Every tap registered, with no lag and no accidental zooming or text selection?", ["Yes", "No, taps were missed", "No, the page zoomed or selected text"]),
     ]})
     C.append({"k": "T-9-memory", "t": "Test 9: does it remember", "sub": "the last one", "flip": False, "steps": [

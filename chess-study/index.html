@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" href="../chess-drills/icon.png">
 <style>
 :root{
-  --ink:#16180F; --board:#7C8F5A; --cream:#E9E5CE; --paper:#F4F2E6;
-  --flag:#B3372A; --muted:#6E7059; --rule:#CFCBB0; --good:#2F6B3A; --gold:#B8860B; --blue:#2C5F8A;
+  --ink:#16180F; --board:#5F7888; --cream:#E6E9EC; --paper:#F4F2E6;
+  --flag:#C4370F; --muted:#6E7059; --rule:#CFCBB0; --good:#0B62B0; --gold:#F7D24C; --blue:#0B62B0;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -33,7 +33,7 @@ h3{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:1.25rem;ma
 .deck:active{background:#ECE9D6}
 .dtag{font-family:'Saira Condensed',sans-serif;font-weight:800;font-size:1rem;background:var(--ink);color:var(--paper);min-width:2.5rem;height:2.5rem;display:grid;place-items:center;flex:none;padding:0 .3rem}
 .dtag.lesson{background:var(--board)}
-.dtag.play{background:var(--blue)}
+.dtag.play{background:var(--gold);color:var(--ink)}
 .dbody{flex:1;min-width:0}
 .dbody p{margin:.1rem 0 0;font-size:.9rem;color:#4A4D3B;line-height:1.35}
 .dprog{font-family:'Roboto Mono',monospace;font-size:.78rem;color:var(--muted);flex:none;text-align:right}
@@ -104,7 +104,8 @@ var TEST=/[?&]test=1/.test(location.search);
 var KEY=TEST?'study.test.v1':'study.v1';
 var app=document.getElementById('app');
 var manifest=null, deckCache={};
-var COL={g:'#2F6B3A',r:'#B3372A',b:'#2C5F8A',y:'#B8860B',k:'#16180F'};
+var COL={g:'#0B62B0',r:'#D5380B',b:'#16180F',y:'#F7D24C',k:'#16180F'};
+var GLYPH={found:'\u2713',missed:'\u2715',extra:'+'};
 
 // ---------------------------------------------------------------- storage
 function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){return {};} }
@@ -131,12 +132,12 @@ function boardSvg(o){
   var lastSq=o.last?[o.last.slice(0,2),o.last.slice(2,4)]:[];
   for(var r=1;r<=8;r++)for(var f=0;f<8;f++){
     var u=String.fromCharCode(97+f)+r, p=xy(u,flip), dark=((f+r)%2)===1;
-    var fill=dark?'#7C8F5A':'#E9E5CE';
+    var fill=dark?'#93A5B1':'#E6E9EC';
     h.push('<rect x="'+p.x+'" y="'+p.y+'" width="1" height="1" fill="'+fill+'"/>');
-    if(lastSq.indexOf(u)>=0) h.push('<rect x="'+p.x+'" y="'+p.y+'" width="1" height="1" fill="#E8C83A" opacity=".45"/>');
+    if(lastSq.indexOf(u)>=0) h.push('<rect x="'+p.x+'" y="'+p.y+'" width="1" height="1" fill="#F7D24C" opacity=".62"/>');
   }
-  (o.marks||[]).forEach(function(m){ var p=xy(m[0],flip);
-    h.push('<rect x="'+(p.x+.04)+'" y="'+(p.y+.04)+'" width=".92" height=".92" fill="'+COL[m[1]||'r']+'" opacity=".28"/><rect x="'+(p.x+.04)+'" y="'+(p.y+.04)+'" width=".92" height=".92" fill="none" stroke="'+COL[m[1]||'r']+'" stroke-width=".08"/>'); });
+  (o.marks||[]).forEach(function(m){ var p=xy(m[0],flip), c=COL[m[1]||'r'], op=(m[1]==='y')?'.55':'.3';
+    h.push('<rect x="'+(p.x+.04)+'" y="'+(p.y+.04)+'" width=".92" height=".92" fill="'+c+'" opacity="'+op+'"/><rect x="'+(p.x+.04)+'" y="'+(p.y+.04)+'" width=".92" height=".92" fill="none" stroke="'+c+'" stroke-width=".09"/>'); });
   (o.sel||[]).forEach(function(u){ var p=xy(u,flip);
     h.push('<rect x="'+(p.x+.05)+'" y="'+(p.y+.05)+'" width=".9" height=".9" fill="none" stroke="#16180F" stroke-width=".1"/>'); });
   // coordinates
@@ -147,10 +148,13 @@ function boardSvg(o){
   }
   Object.keys(pcs).forEach(function(u){ var c=pcs[u], p=xy(u,flip), id=(c===c.toUpperCase()?'w':'b')+c.toUpperCase();
     h.push('<use href="#pc-'+id+'" transform="translate('+p.x+','+p.y+') scale(0.02222)"/>'); });
+  (o.marks||[]).forEach(function(m){ if(!m[2])return; var p=xy(m[0],flip);
+    h.push('<circle cx="'+(p.x+.82)+'" cy="'+(p.y+.18)+'" r=".17" fill="#fff" stroke="'+COL[m[1]||'r']+'" stroke-width=".04"/><text x="'+(p.x+.82)+'" y="'+(p.y+.26)+'" font-size=".24" font-weight="700" text-anchor="middle" fill="#16180F" font-family="Roboto Mono,monospace">'+m[2]+'</text>'); });
   (o.arrows||[]).forEach(function(a){ var p1=xy(a[0].slice(0,2),flip), p2=xy(a[0].slice(2,4),flip), c=a[1]||'g';
     var x1=p1.x+.5,y1=p1.y+.5,x2=p2.x+.5,y2=p2.y+.5, dx=x2-x1, dy=y2-y1, L=Math.sqrt(dx*dx+dy*dy)||1;
     x1+=dx/L*.28; y1+=dy/L*.28; x2-=dx/L*.3; y2-=dy/L*.3;
-    h.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+COL[c]+'" stroke-width=".14" stroke-linecap="round" opacity=".85" marker-end="url(#ah-'+c+')"/>'); });
+    h.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+(x2+dx/L*.12)+'" y2="'+(y2+dy/L*.12)+'" stroke="#fff" stroke-width=".24" stroke-linecap="round" opacity=".8"/>');
+    h.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+COL[c]+'" stroke-width=".14" stroke-linecap="round" opacity=".95" marker-end="url(#ah-'+c+')"/>'); });
   if(o.tap){ for(var r2=1;r2<=8;r2++)for(var f2=0;f2<8;f2++){ var u2=String.fromCharCode(97+f2)+r2, p3=xy(u2,flip);
     h.push('<rect data-sq="'+u2+'" x="'+p3.x+'" y="'+p3.y+'" width="1" height="1" fill="transparent"/>'); } }
   h.push('</svg>');
@@ -179,7 +183,7 @@ function hub(){
         h.push('<a class="deck" href="#/d/'+d.id+'"><span class="dtag '+(d.kind==='lesson'?'lesson':d.kind==='playout'?'play':'')+'">'+d.tag+'</span><span class="dbody"><h3>'+d.title+'</h3><p>'+d.blurb+'</p></span><span class="dprog">'+prog+'</span></a>');
       });
     });
-    h.push('<div class="tools"><p>Green tags are lessons to read. Black tags are drills you answer. Blue tags send you to Lichess to play a position out. Progress is stored in this browser only.</p>');
+    h.push('<div class="tools"><p>Grey tags are lessons to read. Black tags are drills you answer. Gold tags send you to Lichess to play a position out. Nothing on these pages uses green, and nothing depends on telling red from another colour: answers are also marked with a tick, a cross or a plus. Progress is stored in this browser only.</p>');
     h.push('<div class="row"><button class="btn sm ghost" id="exp">Copy my results as JSON</button></div><div id="expout"></div>');
     h.push('<p class="dim">Chess pieces: Colin M. L. Burnett, via python-chess.</p></div>');
     app.innerHTML=h.join('');
@@ -274,8 +278,8 @@ function draw(){
   if(st.type==='tap'){
     if(!S.done){ sel=S.sel; tap=true; }
     else { var key=st.key||[];
-      key.forEach(function(u){ marks.push([u, S.sel.indexOf(u)>=0?'g':'r']); });
-      S.sel.forEach(function(u){ if(key.indexOf(u)<0) marks.push([u,'y']); });
+      key.forEach(function(u){ var f=S.sel.indexOf(u)>=0; marks.push([u, f?'g':'r', f?GLYPH.found:GLYPH.missed]); });
+      S.sel.forEach(function(u){ if(key.indexOf(u)<0) marks.push([u,'y',GLYPH.extra]); });
       arrows=arrows.concat(st.rarrows||[]); marks=marks.concat(st.rmarks||[]);
       if(st.rfen){ fen=st.rfen; last=st.rlast; }
     }
@@ -295,7 +299,7 @@ function draw(){
       var key2=st.key||[], found=key2.filter(function(u){return S.sel.indexOf(u)>=0;}).length, extra=S.sel.filter(function(u){return key2.indexOf(u)<0;}).length;
       var clean=found===key2.length&&extra===0;
       h.push('<p><span class="verdict '+(clean?'ok':'no')+'">'+(key2.length===0?(extra?'Nothing was there':'Right, nothing'):('Found '+found+' of '+key2.length))+(extra?', '+extra+' extra':'')+'.</span> '+(st.rtext||'')+'</p>');
-      if(key2.length||extra) h.push('<div class="legend"><span style="--c:#2F6B3A">found</span><span style="--c:#B3372A">missed</span>'+(extra?'<span style="--c:#B8860B">extra</span>':'')+'</div>');
+      if(key2.length||extra) h.push('<div class="legend"><span style="--c:#0B62B0">'+GLYPH.found+' found (blue)</span><span style="--c:#D5380B">'+GLYPH.missed+' missed (red)</span>'+(extra?'<span style="--c:#F7D24C">+ extra (gold)</span>':'')+'</div>');
     }
   } else if(st.type==='move'){
     h.push('<p class="ask">'+st.ask+'</p>');
