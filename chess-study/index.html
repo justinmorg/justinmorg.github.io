@@ -151,10 +151,11 @@ function boardSvg(o){
   (o.marks||[]).forEach(function(m){ if(!m[2])return; var p=xy(m[0],flip);
     h.push('<circle cx="'+(p.x+.82)+'" cy="'+(p.y+.18)+'" r=".17" fill="#fff" stroke="'+COL[m[1]||'r']+'" stroke-width=".04"/><text x="'+(p.x+.82)+'" y="'+(p.y+.26)+'" font-size=".24" font-weight="700" text-anchor="middle" fill="#16180F" font-family="Roboto Mono,monospace">'+m[2]+'</text>'); });
   (o.arrows||[]).forEach(function(a){ var p1=xy(a[0].slice(0,2),flip), p2=xy(a[0].slice(2,4),flip), c=a[1]||'g';
-    var x1=p1.x+.5,y1=p1.y+.5,x2=p2.x+.5,y2=p2.y+.5, dx=x2-x1, dy=y2-y1, L=Math.sqrt(dx*dx+dy*dy)||1;
-    x1+=dx/L*.28; y1+=dy/L*.28; x2-=dx/L*.3; y2-=dy/L*.3;
-    h.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+(x2+dx/L*.12)+'" y2="'+(y2+dy/L*.12)+'" stroke="#fff" stroke-width=".24" stroke-linecap="round" opacity=".8"/>');
-    h.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+COL[c]+'" stroke-width=".14" stroke-linecap="round" opacity=".95" marker-end="url(#ah-'+c+')"/>'); });
+    // one outline for shaft and head together, so the white edge follows the whole arrow
+    var x1=p1.x+.5,y1=p1.y+.5,x2=p2.x+.5,y2=p2.y+.5, dx=x2-x1, dy=y2-y1, L=Math.sqrt(dx*dx+dy*dy)||1, ux=dx/L, uy=dy/L, nx=-uy, ny=ux;
+    var sx=x1+ux*.28, sy=y1+uy*.28, tx=x2-ux*.14, ty=y2-uy*.14, hl=.34, hw=.2, w=.07, bx=tx-ux*hl, by=ty-uy*hl;
+    var pts=[[sx+nx*w,sy+ny*w],[bx+nx*w,by+ny*w],[bx+nx*hw,by+ny*hw],[tx,ty],[bx-nx*hw,by-ny*hw],[bx-nx*w,by-ny*w],[sx-nx*w,sy-ny*w]];
+    h.push('<polygon points="'+pts.map(function(q){return q[0].toFixed(3)+','+q[1].toFixed(3);}).join(' ')+'" fill="'+COL[c]+'" stroke="#fff" stroke-width=".045" stroke-linejoin="round" opacity=".95"/>'); });
   if(o.tap){ for(var r2=1;r2<=8;r2++)for(var f2=0;f2<8;f2++){ var u2=String.fromCharCode(97+f2)+r2, p3=xy(u2,flip);
     h.push('<rect data-sq="'+u2+'" x="'+p3.x+'" y="'+p3.y+'" width="1" height="1" fill="transparent"/>'); } }
   h.push('</svg>');
