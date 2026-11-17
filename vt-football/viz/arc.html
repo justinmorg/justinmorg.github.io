@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The arc · Virginia Tech football</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body data-root="../">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>The arc</h1>
+  <p class="lede">How good Virginia Tech has been, season by season and game by game, from the 2-9 start in 1987 through the national title game and back.</p>
+  <section class="card">
+    <h2>Program strength, game by game</h2>
+    <p class="sub">An Elo-style rating rebuilt from every major-college score since 1987. 1500 is an average team; each point on the line is the rating after one game.</p>
+    <div class="chart" id="elo"></div>
+    <p class="note">2026 uses the repo's ESPN-based Elo movement added to the 2025 close. Ratings carry 80% of the gap to average into the next season.</p>
+  </section>
+  <section class="card">
+    <h2>Wins and losses by season</h2>
+    <p class="sub">Wins rise above the line, losses fall below it.</p>
+    <div id="recL"></div><div class="chart" id="rec"></div>
+  </section>
+  <section class="card">
+    <h2>Where the rating ranked nationally</h2>
+    <p class="sub">Season-ending rank among all major-college teams by the same rating. Lower is better.</p>
+    <div class="chart" id="rank"></div>
+  </section>
+  <section class="card">
+    <h2>AP rank at kickoff</h2>
+    <p class="sub">One dot per game Virginia Tech entered ranked. Games played unranked sit in the bottom row.</p>
+    <div id="apL"></div><div class="chart" id="ap"></div>
+    <p class="note">Ranks come from the official game files through 2004 and from ESPN after that.</p>
+  </section>
+  <section class="card">
+    <h2>Points scored and allowed per game</h2>
+    <p class="sub">The shaded gap is the scoring margin.</p>
+    <div id="ptsL"></div><div class="chart" id="pts"></div><div id="tbl"></div>
+  </section>
+
+  <footer>Data: the vt-football tables in this repo. Rebuild with viz/build_data.py.</footer>
+</div>
+<script src="viz.js"></script>
+<script>
+(async function(){
+const {C,s,h,tip,hideTip,lines,bars,table,legend,frame,seasonAxis,hit,fmtDate,gameLine,result,margeColor}=VT;VT.nav('viz/arc.html');
+const D=await VT.load(),G=D.games,S=D.seasons,YRS=S.map(x=>x.s),$=id=>document.getElementById(id);
+const card=(id)=>$(id);
+
+function elo(){
+  const el=$('elo'),g=G.filter(x=>x.elo!=null),n=g.length,v=g.map(x=>x.elo);
+  const f=frame(el,{h:280,y0:1250,y1:1950,yTicks:[1300,1500,1700,1900],m:{t:26,r:12,b:24,l:38},label:'Elo rating after each game'});
+  const {svg,W,H,m}=f,x=i=>m.l+(W-m.l-m.r)*(i+.5)/n;
+  let last=0;g.forEach((q,i)=>{if(q.s!==last){last=q.s;
+    if(q.s%5===0){s('text',{x:x(i),y:H-m.b+15,'text-anchor':'start'},svg,"'"+String(q.s).slice(2));s('line',{x1:x(i),x2:x(i),y1:H-m.b,y2:H-m.b+4,stroke:C.axis},svg)}
+    const e=VT.ERAS.find(z=>z[1]===q.s);if(e){if(i)s('line',{x1:x(i),x2:x(i),y1:m.t-6,y2:H-m.b,stroke:C.axis},svg);if(e[0]!=='Franklin'&&e[0]!=='Pry')s('text',{x:x(i)+4,y:m.t-10,class:'era'},svg,e[0])}}});
+  s('line',{x1:m.l,x2:W-m.r,y1:f.y(1500),y2:f.y(1500),stroke:C.axis},svg);
+  s('path',{d:v.map((q,i)=>(i?'L':'M')+x(i).toFixed(1)+','+f.y(q).toFixed(1)).join(''),fill:'none',stroke:C.vt,'stroke-width':1.6,'stroke-linejoin':'round'},svg);
+  const hi=v.indexOf(Math.max(...v)),lo=v.indexOf(Math.min(...v.slice(60)));
+  [[hi,-8],[lo,16]].forEach(([i,dy])=>{s('circle',{cx:x(i),cy:f.y(v[i]),r:3.5,fill:C.deep,stroke:C.card,'stroke-width':1.5},svg);
+    s('text',{x:x(i),y:f.y(v[i])+dy,'text-anchor':x(i)>W-90?'end':'middle',class:'lab'},svg,v[i]+', '+fmtDate(g[i].d).replace(/ \d+,/,''))});
+  const cross=s('line',{y1:m.t-6,y2:H-m.b,stroke:C.ink2,visibility:'hidden'},svg),r=s('rect',{x:m.l,y:0,width:W-m.l-m.r,height:H,fill:'transparent'},svg);
+  const mv=e=>{const b=svg.getBoundingClientRect(),px=(e.clientX-b.left)*(W/b.width),i=Math.max(0,Math.min(n-1,Math.round((px-m.l)/(W-m.l-m.r)*n-.5))),q=g[i];
+    cross.setAttribute('x1',x(i));cross.setAttribute('x2',x(i));cross.setAttribute('visibility','visible');
+    tip(b.left+x(i)*b.width/W,b.top+m.t,fmtDate(q.d),[[gameLine(q),result(q)],['rating after the game',String(q.elo),C.vt],['pregame win chance',q.wp+'%']])};
+  r.addEventListener('pointermove',mv);r.addEventListener('pointerdown',mv);r.addEventListener('pointerleave',()=>{cross.setAttribute('visibility','hidden');hideTip()});
+}
+function ap(){
+  const el=$('ap'),n=G.length,f=frame(el,{h:250,y0:1,y1:28.5,invert:true,yTicks:[1,5,10,15,20,25],m:{t:22,r:12,b:24,l:34},label:'AP rank at kickoff'});
+  const {svg,W,H,m}=f,x=i=>m.l+(W-m.l-m.r)*(i+.5)/n;s('text',{x:m.l-6,y:f.y(28)+4,'text-anchor':'end'},svg,'NR');
+  let last=0;G.forEach((q,i)=>{if(q.s!==last){last=q.s;if(q.s%5===0)s('text',{x:x(i),y:H-m.b+15},svg,"'"+String(q.s).slice(2));
+      const e=VT.ERAS.find(z=>z[1]===q.s);if(e&&i)s('line',{x1:x(i),x2:x(i),y1:m.t-6,y2:H-m.b,stroke:C.axis},svg);if(e&&e[0]!=='Franklin'&&e[0]!=='Pry')s('text',{x:x(i)+4,y:m.t-10,class:'era'},svg,e[0])}
+    if(q.vr)s('circle',{cx:x(i),cy:f.y(q.vr),r:2.6,fill:q.vp>q.op?C.vt:C.opp},svg);else s('rect',{x:x(i)-.6,y:f.y(28)-4,width:1.2,height:8,fill:C.axis},svg)});
+  const top=G.filter(q=>q.vr).sort((a,b)=>a.vr-b.vr)[0],ti=G.indexOf(top);s('text',{x:x(ti),y:f.y(top.vr)-8,'text-anchor':'middle',class:'lab'},svg,'#'+top.vr+', '+top.s);
+  const r=s('rect',{x:m.l,y:0,width:W-m.l-m.r,height:H,fill:'transparent'},svg);
+  const mv=e=>{const b=svg.getBoundingClientRect(),px=(e.clientX-b.left)*(W/b.width),i=Math.max(0,Math.min(n-1,Math.round((px-m.l)/(W-m.l-m.r)*n-.5))),q=G[i];
+    tip(b.left+x(i)*b.width/W,b.top+m.t,fmtDate(q.d),[[gameLine(q),result(q)],['VT at kickoff',q.vr?'#'+q.vr:'Unranked']])};
+  r.addEventListener('pointermove',mv);r.addEventListener('pointerdown',mv);r.addEventListener('pointerleave',hideTip);
+}
+function draw(){
+  elo();ap();
+  bars($('rec'),{seasons:YRS,h:220,stacks:[{name:'wins',color:C.vt,values:S.map(x=>x.w)}],down:[{name:'losses',color:C.opp,values:S.map(x=>x.l)}],yTicks:[-8,-4,0,4,8,12],yFmt:v=>Math.abs(v),label:'Wins and losses by season',
+    head:i=>S[i].s+' · '+S[i].coach+' · '+S[i].conf});
+  lines($('rank'),{seasons:YRS,h:230,invert:true,y0:1,y1:120,yTicks:[1,25,50,75,100],series:[{name:'national rank',color:C.vt,values:S.map(x=>x.eloRank),dots:true}],fmt:v=>'#'+v,
+    marks:[{s:2000,t:'#5'},{s:2005,t:'#5'},{s:2022,t:'#113',below:true},{s:1987,t:'#89',below:true}],label:'National rank by rating'});
+  lines($('pts'),{seasons:YRS,h:230,y0:8,y1:44,yTicks:[10,20,30,40],series:[{name:'scored',color:C.vt,values:S.map(x=>x.pf)},{name:'allowed',color:C.opp,values:S.map(x=>x.pa)}],band:[{values:S.map(x=>x.pf)},{values:S.map(x=>x.pa)}],label:'Points per game'});
+}
+legend($('apL'),[['Won',C.vt,'dot'],['Lost',C.opp,'dot'],['Unranked',C.axis]]);legend($('recL'),[['Wins',C.vt],['Losses',C.opp]]);legend($('ptsL'),[['Scored',C.vt,'ln'],['Allowed',C.opp,'ln']]);
+draw();VT.onResize(draw);
+table($('tbl'),['Season','Coach','W','L','T','PF/g','PA/g','Rating','Rank'],S.map(x=>[x.s,x.coach,x.w,x.l,x.t,x.pf,x.pa,x.elo,x.eloRank]),'Season table');
+
+})();
+</script>
+</body>
+</html>

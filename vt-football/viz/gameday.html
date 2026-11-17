@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game day · Virginia Tech football</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body data-root="../">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>Game day</h1>
+  <p class="lede">When Virginia Tech plays, how it behaves, and who shows up to watch.</p>
+  <section class="card">
+    <h2>Night games by season</h2>
+    <p class="sub">Games that kicked off at 6 p.m. or later, against all other games.</p>
+    <div id="nightL"></div><div class="chart" id="night"></div>
+    <p class="note">Kickoff times are local to the stadium from the official game files; games sourced from CFBD use ESPN's time converted to Eastern.</p>
+  </section>
+  <section class="card">
+    <h2>When games kick off</h2>
+    <p class="sub">One dot per game by local kickoff time. Thursday-night and prime-time slots show up as the upper band.</p>
+    <div class="chart" id="ko"></div>
+  </section>
+  <section class="card">
+    <h2>Penalties per game, in three buckets</h2>
+    <p class="sub">Accepted Virginia Tech penalties per game: pre-snap mental errors, football and technique fouls during the play, and discipline fouls. The line is the opponents' total.</p>
+    <div id="penL"></div><div class="chart" id="pen"></div>
+  </section>
+  <section class="card">
+    <h2>Penalty yards per game</h2>
+    <p class="sub">Virginia Tech against its opponents.</p>
+    <div id="pyL"></div><div class="chart" id="py"></div>
+  </section>
+  <section class="card">
+    <h2>The crowd at Lane Stadium</h2>
+    <p class="sub">Average attendance at home games each season.</p>
+    <div class="chart" id="att"></div>
+    <p class="note">2020 was played with restricted attendance and is left out. 2005 has no home attendance on file.</p>
+  </section>
+  <section class="card">
+    <h2>Coldest and hottest kickoffs</h2>
+    <p class="sub">Temperature at kickoff from the official game files, 1987-2019.</p>
+    <div id="cold"></div><div id="hot" style="margin-top:.8rem"></div>
+  </section>
+
+  <footer>Data: the vt-football tables in this repo. Rebuild with viz/build_data.py.</footer>
+</div>
+<script src="viz.js"></script>
+<script>
+(async function(){
+const {C,s,h,tip,hideTip,lines,bars,table,legend,frame,seasonAxis,hit,fmtDate,gameLine,result,margeColor}=VT;VT.nav('viz/gameday.html');
+const D=await VT.load(),G=D.games,S=D.seasons,YRS=S.map(x=>x.s),$=id=>document.getElementById(id);
+const card=(id)=>$(id);
+
+legend($('nightL'),[['6 p.m. or later',C.deep],['Earlier',C.win[0]]]);legend($('penL'),[['Pre-snap',C.vt],['Football',C.orange],['Discipline',C.teal],['Opponents, all penalties',C.ink2,'ln']]);legend($('pyL'),[['Virginia Tech',C.vt,'ln'],['Opponents',C.opp,'ln']]);
+const hr=v=>{const hh=Math.floor(v),mm=Math.round((v-hh)*60);return((hh+11)%12+1)+':'+String(mm).padStart(2,'0')+(hh>=12?' p.m.':' a.m.')};
+function ko(){
+  const el=$('ko'),f=frame(el,{h:270,y0:11,y1:21.6,yTicks:[12,15,18,21],yFmt:v=>v===12?'noon':(v-12)+' pm',m:{t:22,r:10,b:24,l:40},label:'Kickoff time by game'}),ax=seasonAxis(f,YRS),{svg,W,H,m}=f;
+  s('line',{x1:m.l,x2:W-m.r,y1:f.y(18),y2:f.y(18),stroke:C.axis},svg);
+  const pts=G.filter(g=>g.ko!=null).map(g=>({g,cx:ax.x(YRS.indexOf(g.s)),cy:f.y(Math.max(11,g.ko))}));
+  pts.forEach(p=>s('circle',{cx:p.cx,cy:p.cy,r:3,fill:p.g.ko>=18?C.deep:C.win[1],'fill-opacity':.75},svg));
+  const ring=s('circle',{r:6,fill:'none',stroke:C.ink,'stroke-width':2,visibility:'hidden'},svg),r=s('rect',{x:0,y:0,width:W,height:H,fill:'transparent'},svg);
+  const mv=e=>{const b=svg.getBoundingClientRect(),px=(e.clientX-b.left)*W/b.width,py=(e.clientY-b.top)*H/b.height;let best=pts[0],bd=1e9;pts.forEach(p=>{const d=(p.cx-px)**2+(p.cy-py)**2;if(d<bd){bd=d;best=p}});
+    ring.setAttribute('cx',best.cx);ring.setAttribute('cy',best.cy);ring.setAttribute('visibility','visible');const g=best.g;tip(b.left+best.cx*b.width/W,b.top+best.cy*b.height/H,fmtDate(g.d),[[gameLine(g),result(g)],['kickoff',hr(g.ko)]])};
+  r.addEventListener('pointermove',mv);r.addEventListener('pointerdown',mv);r.addEventListener('pointerleave',()=>{ring.setAttribute('visibility','hidden');hideTip()});
+}
+function draw(){
+  bars($('night'),{seasons:YRS,h:210,stacks:[{name:'6 p.m. or later',color:C.deep,values:S.map(x=>x.night)},{name:'earlier',color:C.win[0],values:S.map(x=>x.koN-x.night)}],yTicks:[0,4,8,12],label:'Night games by season'});
+  ko();
+  const P=i=>S.map(x=>x.penVT?x.penVT[i]:null),f2=v=>v.toFixed(1);
+  bars($('pen'),{seasons:YRS,h:230,y1:9.5,stacks:[{name:'pre-snap',color:C.vt,values:P(0)},{name:'football',color:C.orange,values:P(1)},{name:'discipline',color:C.teal,values:P(2)}],
+    overlay:[{name:'opponents, all',color:C.ink2,values:S.map(x=>x.penOpp?+(x.penOpp[0]+x.penOpp[1]+x.penOpp[2]).toFixed(2):null)}],yTicks:[0,2,4,6,8],fmt:f2,label:'Penalties per game by bucket'});
+  lines($('py'),{seasons:YRS,h:210,y0:25,y1:80,yTicks:[30,45,60,75],series:[{name:'Virginia Tech',color:C.vt,values:S.map(x=>x.penYdsVT)},{name:'opponents',color:C.opp,values:S.map(x=>x.penYdsOpp)}],label:'Penalty yards per game'});
+  lines($('att'),{seasons:YRS,h:220,y0:25000,y1:70000,yTicks:[30000,40000,50000,60000],yFmt:v=>v/1000+'k',fmt:v=>v.toLocaleString(),m:{t:22,r:14,b:24,l:36},series:[{name:'average home crowd',color:C.vt,values:S.map(x=>x.s===2020?null:x.homeAtt),dots:true}],label:'Home attendance'});
+}
+function temps(id,title,rows){const el=$(id);h('p',{class:'sub',style:'margin:0 0 .3rem;font-weight:600'},el,title);const t=h('table',{class:'list'},el),tb=h('tbody',{},t);
+  rows.forEach(g=>{const r=h('tr',{},tb);h('td',{class:'t'},r,fmtDate(g.d));h('td',{class:'t'},r,gameLine(g));h('td',{},r,result(g));h('td',{},r,g.temp+'°F')})}
+const T=G.filter(g=>g.temp!=null&&g.temp>-20&&g.temp<120);
+temps('cold','Coldest',T.slice().sort((a,b)=>a.temp-b.temp).slice(0,6));temps('hot','Hottest',T.slice().sort((a,b)=>b.temp-a.temp).slice(0,6));
+draw();VT.onResize(draw);
+
+})();
+</script>
+</body>
+</html>

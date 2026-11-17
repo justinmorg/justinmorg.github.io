@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offense & defense · Virginia Tech football</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body data-root="../">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>Offense & defense</h1>
+  <p class="lede">Play-by-play measures of both units across forty seasons, and where the defense stood nationally.</p>
+  <section class="card">
+    <h2>Success rate: offense against defense</h2>
+    <p class="sub">Share of plays that stay on schedule (half the distance on first down, 70% on second, all of it on third and fourth). The gap between the lines is the down-to-down edge.</p>
+    <div id="srL"></div><div class="chart" id="sr"></div>
+    <p class="note">From scrimmage play-by-play. 1998 covers 6 of 12 games.</p>
+  </section>
+  <section class="card">
+    <h2>Yards per play</h2>
+    <p class="sub">Sacks count as pass plays.</p>
+    <div id="yppL"></div><div class="chart" id="ypp"></div>
+  </section>
+  <section class="card">
+    <h2>Explosive plays</h2>
+    <p class="sub">Share of plays that are runs of 12 or more yards or passes of 16 or more.</p>
+    <div id="exL"></div><div class="chart" id="ex"></div>
+  </section>
+  <section class="card">
+    <h2>The defense, ranked nationally</h2>
+    <p class="sub">Opponent-adjusted scoring defense rank among major-college teams each season. Lower is better.</p>
+    <div class="chart" id="dr"></div>
+    <p class="note">Points-based, so return touchdowns and short fields after turnovers count against the defense.</p>
+  </section>
+  <section class="card">
+    <h2>Takeaways per game</h2>
+    <p class="sub">Interceptions plus fumble recoveries. The FBS average is available from 2010.</p>
+    <div id="toL"></div><div class="chart" id="to"></div>
+  </section>
+  <section class="card">
+    <h2>Third downs</h2>
+    <p class="sub">Conversion rate for the offense and the rate allowed by the defense.</p>
+    <div id="tdL"></div><div class="chart" id="td"></div>
+  </section>
+  <section class="card">
+    <h2>How often the offense runs</h2>
+    <p class="sub">Share of scrimmage plays that are rushes; sacks count as passes.</p>
+    <div class="chart" id="run"></div>
+  </section>
+  <section class="card">
+    <h2>Scoring by quarter, by head coach</h2>
+    <p class="sub">Average points per quarter for Virginia Tech and its opponents in regulation.</p>
+    <div id="qL"></div><div class="chart" id="q"></div>
+    <p class="note">Franklin covers ten games in 2026.</p>
+  </section>
+  <section class="card"><div id="tbl"></div></section>
+
+  <footer>Data: the vt-football tables in this repo. Rebuild with viz/build_data.py.</footer>
+</div>
+<script src="viz.js"></script>
+<script>
+(async function(){
+const {C,s,h,tip,hideTip,lines,bars,table,legend,frame,seasonAxis,hit,fmtDate,gameLine,result,margeColor}=VT;VT.nav('viz/units.html');
+const D=await VT.load(),G=D.games,S=D.seasons,YRS=S.map(x=>x.s),$=id=>document.getElementById(id);
+const card=(id)=>$(id);
+
+const O=k=>S.map(x=>x.off?x.off[k]:null),Df=k=>S.map(x=>x.deff?x.deff[k]:null),pct=v=>v+'%';
+const T3=(off)=>YRS.map(y=>{const r=D.third.find(t=>t[0]===y&&t[1]===off);return r?r[3]:null});
+const two=(a,b)=>[['VT offense',C.vt,'ln'],[b||'Opponents against VT',C.orange,'ln']];
+['sr','ypp','ex','td'].forEach(i=>legend($(i+'L'),two()));legend($('toL'),[['Virginia Tech',C.vt,'ln'],['FBS average',C.muted,'ln']]);legend($('qL'),[['Virginia Tech',C.vt],['Opponents',C.opp]]);
+function quarters(){
+  const el=$('q');el.replaceChildren();const W=Math.max(300,el.clientWidth),pw=W,ph=132,H=ph*D.quarters.length,svg=s('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:'img','aria-label':'Points per quarter by coach'},el);
+  D.quarters.forEach((c,k)=>{const ox=0,oy=k*ph,y=VT.lin(0,13,oy+ph-22,oy+34),gw=(pw-30)/4;
+    s('text',{x:ox+8,y:oy+16,class:'lab'},svg,c.coach+' ('+c.n+' games)');s('line',{x1:ox+8,x2:ox+pw-10,y1:y(0),y2:y(0),stroke:C.axis},svg);
+    for(let i=0;i<4;i++){const cx=ox+14+gw*(i+.5),bw=Math.min(26,gw/2-6);
+      [[c.vt[i],C.vt,-bw-1],[c.opp[i],C.opp,1]].forEach(([v,col,dx])=>{s('rect',{x:cx+dx,y:y(v),width:bw,height:y(0)-y(v),fill:col,rx:2},svg);
+        s('text',{x:cx+dx+bw/2,y:y(v)-4,'text-anchor':'middle','font-size':11},svg,v.toFixed(1))});
+      s('text',{x:cx,y:y(0)+14,'text-anchor':'middle'},svg,'Q'+(i+1))}});
+}
+function draw(){
+  lines($('sr'),{seasons:YRS,h:240,y0:25,y1:52,yTicks:[30,35,40,45,50],yFmt:pct,fmt:pct,series:[{name:'VT offense',color:C.vt,values:O('sr')},{name:'opponents',color:C.orange,values:Df('sr')}],band:[{values:O('sr')},{values:Df('sr')}],label:'Success rate by season'});
+  lines($('ypp'),{seasons:YRS,h:220,y0:3.5,y1:7,yTicks:[4,5,6,7],series:[{name:'VT offense',color:C.vt,values:O('ypp')},{name:'opponents',color:C.orange,values:Df('ypp')}],band:[{values:O('ypp')},{values:Df('ypp')}],label:'Yards per play'});
+  lines($('ex'),{seasons:YRS,h:220,y0:4,y1:18,yTicks:[5,10,15],yFmt:pct,fmt:pct,series:[{name:'VT offense',color:C.vt,values:O('ex')},{name:'opponents',color:C.orange,values:Df('ex')}],label:'Explosive play rate'});
+  const dr=S.map(x=>x.defRank);
+  lines($('dr'),{seasons:YRS,h:240,invert:true,y0:1,y1:100,yTicks:[1,25,50,75,100],fmt:v=>'#'+v,series:[{name:'defense rank',color:C.orange,values:dr,dots:true}],
+    marks:[{s:2004,t:'#2'},{s:1998,t:'#3'},{s:2017,t:'#5'},{s:2018,t:'#92',below:true},{s:2025,t:'#83',below:true}],label:'Defense national rank'});
+  lines($('to'),{seasons:YRS,h:220,y0:0,y1:3.7,yTicks:[0,1,2,3],series:[{name:'Virginia Tech',color:C.vt,values:S.map(x=>x.tpg)},{name:'FBS average',color:C.muted,values:S.map(x=>x.fbsT),thin:true}],label:'Takeaways per game'});
+  lines($('td'),{seasons:YRS,h:220,y0:20,y1:55,yTicks:[20,30,40,50],yFmt:pct,fmt:pct,series:[{name:'VT offense',color:C.vt,values:T3(true)},{name:'opponents',color:C.orange,values:T3(false)}],label:'Third-down conversion'});
+  lines($('run'),{seasons:YRS,h:200,y0:40,y1:75,yTicks:[40,50,60,70],yFmt:pct,fmt:pct,series:[{name:'run share',color:C.vt,values:O('run')}],label:'Run share'});
+  quarters();
+}
+draw();VT.onResize(draw);
+table($('tbl'),['Season','Off SR%','Def SR%','Off YPP','Def YPP','Off expl%','Def expl%','Run%','Def rank','TO/g'],S.map(x=>[x.s,x.off&&x.off.sr,x.deff&&x.deff.sr,x.off&&x.off.ypp,x.deff&&x.deff.ypp,x.off&&x.off.ex,x.deff&&x.deff.ex,x.off&&x.off.run,x.defRank,x.tpg]),'Season table for every chart on this page');
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game explorer · Virginia Tech football</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body data-root="../">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>Game explorer</h1>
+  <p class="lede">Every game with play-by-play, placed by how well each side stayed on schedule. Filter by coach or opponent.</p>
+  <div class="filters"><div class="chips" id="era"></div><div class="chips"><select id="opp" aria-label="Opponent"></select></div></div>
+  <div class="tiles" id="tiles"></div>
+  <section class="card">
+    <h2>Winning the downs, winning the game</h2>
+    <p class="sub">Each dot is a game. Left to right: Virginia Tech's success rate minus the opponent's. Bottom to top: the final margin.</p>
+    <div id="scL"></div><div class="chart" id="sc"></div>
+    <p class="note">Groups are fixed at below -5, -5 to +5, +5 to +15, and +15 or more points of net success rate. Margins beyond 50 are drawn at the edge.</p>
+  </section>
+  <section class="card">
+    <h2>Won the scoreboard, lost the downs</h2>
+    <p class="sub">Wins with the worst net success rate.</p>
+    <div id="steal"></div>
+  </section>
+  <section class="card">
+    <h2>Lost the scoreboard, won the downs</h2>
+    <p class="sub">Losses with the best net success rate.</p>
+    <div id="blown"></div>
+  </section>
+  <section class="card">
+    <h2>Biggest upset wins</h2>
+    <p class="sub">Wins with the lowest pregame win chance from the Elo-style rating.</p>
+    <div id="upw"></div>
+  </section>
+  <section class="card">
+    <h2>Biggest upset losses</h2>
+    <p class="sub">Losses with the highest pregame win chance.</p>
+    <div id="upl"></div>
+  </section>
+
+  <footer>Data: the vt-football tables in this repo. Rebuild with viz/build_data.py.</footer>
+</div>
+<script src="viz.js"></script>
+<script>
+(async function(){
+const {C,s,h,tip,hideTip,lines,bars,table,legend,frame,seasonAxis,hit,fmtDate,gameLine,result,margeColor}=VT;VT.nav('viz/games.html');
+const D=await VT.load(),G=D.games,S=D.seasons,YRS=S.map(x=>x.s),$=id=>document.getElementById(id);
+const card=(id)=>$(id);
+
+const GC=['#1d4f85','#9a968a','#d48aa3','#6e1535'],GN=['Below -5','-5 to +5','+5 to +15','+15 or more'];
+const grp=v=>v<-5?0:v<5?1:v<15?2:3;
+let era='All',opp='';
+const eraB=$('era');['All','Beamer','Fuente','Pry','Franklin'].forEach(e=>{const b=h('button',{},eraB,e);if(e==='All')b.className='on';b.onclick=()=>{era=e;[...eraB.children].forEach(c=>c.className=c===b?'on':'');draw()}});
+const sel=$('opp');h('option',{value:''},sel,'All opponents');D.opps.forEach(o=>h('option',{value:o.o},sel,o.o+' ('+o.n+')'));sel.onchange=()=>{opp=sel.value;draw()};
+const coach=y=>VT.ERAS.find(e=>y>=e[1]&&y<=e[2])[0];
+legend($('scL'),GN.map((n,i)=>[n,GC[i],'dot']));
+function list(id,rows,extra){const el=$(id);el.replaceChildren();if(!rows.length){h('p',{class:'note'},el,'No games match the filters.');return}
+  const t=h('table',{class:'list'},el),tb=h('tbody',{},t);rows.forEach(g=>{const r=h('tr',{},tb);h('td',{class:'t'},r,fmtDate(g.d));h('td',{class:'t'},r,gameLine(g));h('td',{},r,result(g));h('td',{},r,extra(g))})}
+function draw(){
+  const F=G.filter(g=>(era==='All'||coach(g.s)===era)&&(!opp||g.o===opp)),P=F.filter(g=>g.nsr!=null);
+  const tl=$('tiles');tl.replaceChildren();GN.forEach((n,i)=>{const q=P.filter(g=>grp(g.nsr)===i),w=q.filter(g=>g.vp>g.op).length,l=q.filter(g=>g.vp<g.op).length,t=q.length-w-l;
+    const d=h('div',{class:'tile'},tl);d.style.borderTop='4px solid '+GC[i];h('b',{},d,w+'-'+l+(t?'-'+t:''));h('span',{},d,'record when net success rate is '+n.toLowerCase())});
+  const el=$('sc'),xs=P.map(g=>g.nsr),x0=-35,x1=60,f=frame(el,{h:340,y0:-52,y1:52,yTicks:[-50,-25,0,25,50],zero:true,yFmt:v=>(v>0?'+':'')+v,m:{t:14,r:12,b:34,l:38},label:'Net success rate against final margin'});
+  const {svg,W,H,m}=f,x=VT.lin(x0,x1,m.l,W-m.r),cl=v=>Math.max(-51,Math.min(51,v));
+  [-20,0,20,40].forEach(v=>{s('line',{x1:x(v),x2:x(v),y1:m.t,y2:H-m.b,stroke:v?C.grid:C.axis},svg);s('text',{x:x(v),y:H-m.b+14,'text-anchor':'middle'},svg,(v>0?'+':'')+v)});
+  s('text',{x:(m.l+W-m.r)/2,y:H-4,'text-anchor':'middle'},svg,'net success rate, percentage points');
+  s('text',{x:m.l+4,y:m.t+10},svg,'won by');s('text',{x:m.l+4,y:H-m.b-6},svg,'lost by');
+  const pts=P.map(g=>({g,cx:x(Math.max(x0,Math.min(x1,g.nsr))),cy:f.y(cl(g.vp-g.op))}));
+  pts.forEach(p=>s('circle',{cx:p.cx,cy:p.cy,r:P.length>150?3:4.5,fill:GC[grp(p.g.nsr)],'fill-opacity':.8,stroke:C.card,'stroke-width':.8},svg));
+  const ring=s('circle',{r:7,fill:'none',stroke:C.ink,'stroke-width':2,visibility:'hidden'},svg),r=s('rect',{x:0,y:0,width:W,height:H,fill:'transparent'},svg);
+  const mv=e=>{if(!pts.length)return;const b=svg.getBoundingClientRect(),px=(e.clientX-b.left)*W/b.width,py=(e.clientY-b.top)*H/b.height;let best=pts[0],bd=1e9;
+    pts.forEach(p=>{const d=(p.cx-px)**2+(p.cy-py)**2;if(d<bd){bd=d;best=p}});const g=best.g;ring.setAttribute('cx',best.cx);ring.setAttribute('cy',best.cy);ring.setAttribute('visibility','visible');
+    tip(b.left+best.cx*b.width/W,b.top+best.cy*b.height/H,fmtDate(g.d),[[gameLine(g),result(g)],['net success rate',(g.nsr>0?'+':'')+g.nsr],['success rate, VT vs opp',g.off.sr+'% / '+g.def.sr+'%'],['yards per play, VT vs opp',g.off.ypp+' / '+g.def.ypp]])};
+  r.addEventListener('pointermove',mv);r.addEventListener('pointerdown',mv);r.addEventListener('pointerleave',()=>{ring.setAttribute('visibility','hidden');hideTip()});
+  const sg=v=>(v>0?'+':'')+v;
+  list('steal',P.filter(g=>g.vp>g.op).sort((a,b)=>a.nsr-b.nsr).slice(0,8),g=>sg(g.nsr));
+  list('blown',P.filter(g=>g.vp<g.op).sort((a,b)=>b.nsr-a.nsr).slice(0,8),g=>sg(g.nsr));
+  const E=F.filter(g=>g.wp!=null);
+  list('upw',E.filter(g=>g.vp>g.op).sort((a,b)=>a.wp-b.wp).slice(0,8),g=>g.wp+'%');
+  list('upl',E.filter(g=>g.vp<g.op).sort((a,b)=>b.wp-a.wp).slice(0,8),g=>g.wp+'%');
+}
+draw();VT.onResize(draw);
+
+})();
+</script>
+</body>
+</html>

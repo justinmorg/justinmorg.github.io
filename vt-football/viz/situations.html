@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Down & distance · Virginia Tech football</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body data-root="../">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>Down & distance</h1>
+  <p class="lede">What has worked in each situation, for the offense and against the defense, across 66,000 scrimmage plays.</p>
+  <div class="filters"><div class="chips" id="side"></div><div class="chips" id="era"></div></div>
+  <section class="card">
+    <h2>Success rate by down and distance</h2>
+    <p class="sub">Each cell is a down and distance to go. Darker cells succeed more often; the number is the success rate.</p>
+    <div class="chips" id="metric"></div><div class="chart" id="heat"></div>
+    <p class="note">Tap a cell for the number of plays, run share and average gain. Cells with fewer than 25 plays are left blank.</p>
+  </section>
+  <section class="card">
+    <h2>By field position</h2>
+    <p class="sub">Yards per play in each ten-yard band, from the offense's own goal line on the left to the end zone it is attacking on the right.</p>
+    <div class="chart" id="fz"></div>
+    <p class="note">Gains shrink near the goal line because the field runs out.</p>
+  </section>
+  <section class="card">
+    <h2>Longest plays for Virginia Tech</h2>
+    <p class="sub">From scrimmage, in the play-by-play on file. The text is the scorer's own description.</p>
+    <div id="lo"></div>
+  </section>
+  <section class="card">
+    <h2>Longest plays allowed</h2>
+    <p class="sub">From scrimmage.</p>
+    <div id="ld"></div>
+  </section>
+
+  <footer>Data: the vt-football tables in this repo. Rebuild with viz/build_data.py.</footer>
+</div>
+<script src="viz.js"></script>
+<script>
+(async function(){
+const {C,s,h,tip,hideTip,lines,bars,table,legend,frame,seasonAxis,hit,fmtDate,gameLine,result,margeColor}=VT;VT.nav('viz/situations.html');
+const D=await VT.load(),G=D.games,S=D.seasons,YRS=S.map(x=>x.s),$=id=>document.getElementById(id);
+const card=(id)=>$(id);
+
+let side='off',era=D.eras[0],metric=0;const MET=[['Success rate',3,'%'],['Run share',4,'%'],['Yards per play',5,'']];
+function chips(id,opts,get,set){const el=$(id);opts.forEach(([v,t])=>{const b=h('button',{},el,t);if(v===get())b.className='on';b.onclick=()=>{set(v);[...el.children].forEach(c=>c.className=c===b?'on':'');draw()}})}
+chips('side',[['off','VT offense'],['def','VT defense']],()=>side,v=>side=v);
+chips('era',D.eras.map(e=>[e,e]),()=>era,v=>era=v);
+chips('metric',MET.map((m,i)=>[i,m[0]]),()=>metric,v=>metric=v);
+const RAMP=['#f3e3e8','#ecc9d4','#e0a9bb','#d48aa3','#c05c7f','#a8305a','#8a2147','#6e1535'];
+function draw(){
+  const cells=D.dd[era+'|'+side],el=$('heat');el.replaceChildren();const W=Math.max(300,el.clientWidth),L=44,T=26,cw=(W-L)/5,ch=58,H=T+ch*4+4;
+  const svg=s('svg',{viewBox:`0 0 ${W} ${H}`,width:W,height:H,role:'img','aria-label':'Heat map by down and distance'},el),mi=MET[metric][1];
+  const vals=cells.filter(c=>c[2]>=25).map(c=>c[mi]),lo=Math.min(...vals),hi=Math.max(...vals);
+  D.distBuckets.forEach((b,i)=>s('text',{x:L+cw*(i+.5),y:16,'text-anchor':'middle',class:'lab'},svg,b+(i===0?' to go':'')));
+  ['1st','2nd','3rd','4th'].forEach((d,i)=>s('text',{x:L-8,y:T+ch*(i+.5)+4,'text-anchor':'end',class:'lab'},svg,d));
+  cells.forEach(c=>{const [dn,db,n]=c;if(dn<1||dn>4)return;const x=L+cw*db,y=T+ch*(dn-1);
+    if(n<25){s('rect',{x:x+1,y:y+1,width:cw-2,height:ch-2,rx:5,fill:'#f0ede4'},svg);return}
+    const k=Math.min(7,Math.floor((c[mi]-lo)/(hi-lo||1)*8)),r=s('rect',{x:x+1,y:y+1,width:cw-2,height:ch-2,rx:5,fill:RAMP[k],tabindex:0},svg);
+    const tx=s('text',{x:x+cw/2,y:y+ch/2+5,'text-anchor':'middle','font-size':15,'font-weight':650,'pointer-events':'none'},svg,c[mi]+MET[metric][2]);tx.style.fill=k>=4?'#fff':C.ink;
+    const show=()=>{const b=r.getBoundingClientRect();tip(b.left+b.width/2,b.top,['1st','2nd','3rd','4th'][dn-1]+' and '+D.distBuckets[db],[['plays',n.toLocaleString()],['success rate',c[3]+'%'],['run share',c[4]+'%'],['yards per play',String(c[5])]])};
+    r.addEventListener('pointerenter',show);r.addEventListener('click',show);r.addEventListener('focus',show);r.addEventListener('pointerleave',hideTip)});
+  const z=D.fz[era+'|'+side].slice().sort((a,b)=>b[0]-a[0]),e2=$('fz'),f=frame(e2,{h:210,y0:0,y1:7.5,yTicks:[0,2,4,6],m:{t:12,r:8,b:38,l:28},label:'Yards per play by field position'});
+  const bw=(f.W-f.m.l-f.m.r)/10;z.forEach((c,i)=>{const x=f.m.l+bw*i,col=side==='off'?C.vt:C.orange,r=s('rect',{x:x+2,y:f.y(c[3]),width:bw-4,height:f.y(0)-f.y(c[3]),fill:col,rx:3,tabindex:0},f.svg);
+    s('text',{x:x+bw/2,y:f.y(c[3])-5,'text-anchor':'middle'},f.svg,c[3].toFixed(1));
+    const show=()=>{const b=r.getBoundingClientRect();tip(b.left+b.width/2,b.top,(c[0]*10+1)+' to '+(c[0]*10+10)+' yards from the end zone',[['plays',c[1].toLocaleString()],['yards per play',String(c[3])],['success rate',c[2]+'%'],['explosive plays',c[4]+'%']])};
+    r.addEventListener('pointerenter',show);r.addEventListener('click',show);r.addEventListener('focus',show);r.addEventListener('pointerleave',hideTip)});
+  [['own goal',0,'start'],['midfield',5,'middle'],['end zone',10,'end']].forEach(([t,i,a])=>s('text',{x:f.m.l+bw*i,y:f.H-f.m.b+16,'text-anchor':a},f.svg,t));
+  s('text',{x:(f.m.l+f.W)/2,y:f.H-4,'text-anchor':'middle'},f.svg,'direction of the offense →');
+}
+function plays(id,rows){const t=h('table',{class:'list'},$(id)),tb=h('tbody',{},t);rows.forEach(p=>{const r=h('tr',{},tb);h('td',{},r,p.y+' yds');const c=h('td',{class:'t'},r);h('b',{},c,p.s+' '+p.o);h('br',{},c);c.appendChild(document.createTextNode(p.t))})}
+plays('lo',D.longOff);plays('ld',D.longDef);
+draw();VT.onResize(draw);
+
+})();
+</script>
+</body>
+</html>

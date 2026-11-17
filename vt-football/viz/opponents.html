@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opponents · Virginia Tech football</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body data-root="../">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>Opponents</h1>
+  <p class="lede">Forty seasons of series history, from the Commonwealth Cup to one-off bowl games.</p>
+  <section class="card">
+    <h2>Series history</h2>
+    <p class="sub">Pick an opponent. Each bar is one meeting: up for a Virginia Tech win, down for a loss, as tall as the margin.</p>
+    <div class="chips"><select id="opp" aria-label="Opponent"></select></div><div class="detail" id="rec" style="border:0;margin:0;padding:0;min-height:0"></div><div class="chart" id="ser"></div>
+  </section>
+  <section class="card">
+    <h2>Record against the most-played opponents</h2>
+    <p class="sub">Teams met at least six times since 1987. Tap a row to load its series above.</p>
+    <div id="oL"></div><div id="list"></div>
+  </section>
+  <section class="card">
+    <h2>Against AP-ranked opponents</h2>
+    <p class="sub">Wins rise above the line, losses fall below it, by season.</p>
+    <div id="rkL"></div><div class="chart" id="rk"></div><div class="tiles" id="tier" style="margin:.8rem 0 0"></div>
+    <p class="note">Opponent rank at kickoff, from the official game files through 2004 and ESPN after that.</p>
+  </section>
+
+  <footer>Data: the vt-football tables in this repo. Rebuild with viz/build_data.py.</footer>
+</div>
+<script src="viz.js"></script>
+<script>
+(async function(){
+const {C,s,h,tip,hideTip,lines,bars,table,legend,frame,seasonAxis,hit,fmtDate,gameLine,result,margeColor}=VT;VT.nav('viz/opponents.html');
+const D=await VT.load(),G=D.games,S=D.seasons,YRS=S.map(x=>x.s),$=id=>document.getElementById(id);
+const card=(id)=>$(id);
+
+const sel=$('opp');D.opps.forEach(o=>h('option',{value:o.o},sel,o.o+' ('+o.n+')'));let cur='Virginia';sel.value=cur;sel.onchange=()=>{cur=sel.value;draw()};
+legend($('oL'),[['Wins',C.vt],['Losses',C.opp],['Ties',C.tie]]);legend($('rkL'),[['Wins',C.vt],['Losses',C.opp]]);
+const top=D.opps.filter(o=>o.n>=6),mx=Math.max(...top.map(o=>o.n)),lst=$('list');
+top.forEach(o=>{const b=h('button',{class:'hbar','data-o':o.o},lst);h('span',{},b,o.o);const bar=h('span',{class:'bar'},b);
+  [[o.w,C.vt],[o.l,C.opp],[o.t,C.tie]].forEach(([v,c])=>{if(v){const i=h('i',{},bar);i.style.width=(v/mx*100)+'%';i.style.background=c}});
+  h('span',{class:'rec'},b,o.w+'-'+o.l+(o.t?'-'+o.t:''));b.onclick=()=>{cur=o.o;sel.value=cur;draw();$('opp').scrollIntoView({behavior:'smooth',block:'start'})}});
+function draw(){
+  [...lst.children].forEach(b=>b.classList.toggle('on',b.dataset.o===cur));
+  const gs=G.filter(g=>g.o===cur),o=D.opps.find(x=>x.o===cur),rec=$('rec');rec.replaceChildren();
+  h('b',{class:'big'},rec,o.w+'-'+o.l+(o.t?'-'+o.t:''));rec.appendChild(document.createTextNode(' in '+o.n+' meetings, '+o.first+'-'+o.last+' · average margin '+(o.mg>0?'+':'')+o.mg));
+  const f=frame($('ser'),{h:250,y0:-50,y1:50,yTicks:[-40,-20,0,20,40],zero:true,yFmt:v=>(v>0?'+':'')+v,m:{t:14,r:10,b:24,l:36},label:'Margin by meeting'});
+  const {svg,W,H,m}=f,x=VT.lin(1986.5,2026.5,m.l,W-m.r),bw=Math.max(3,(W-m.l-m.r)/40-2);
+  [1990,2000,2010,2020].forEach(y=>s('text',{x:x(y),y:H-m.b+15,'text-anchor':'middle'},svg,y));
+  const seen={};gs.forEach(g=>{const k=seen[g.s]=(seen[g.s]||0)+1,mg=Math.max(-50,Math.min(50,g.vp-g.op)),xx=x(g.s)+(k>1?bw*.6:0)-bw/2;
+    const r=s('rect',{x:xx,y:Math.min(f.y(0),f.y(mg)),width:bw,height:Math.max(2,Math.abs(f.y(mg)-f.y(0))),fill:mg>0?C.vt:mg<0?C.opp:C.tie,rx:1.5,tabindex:0},svg);
+    if(g.tag)s('circle',{cx:xx+bw/2,cy:f.y(mg)+(mg>0?-6:6),r:2.5,fill:C.ink},svg);
+    const hitr=s('rect',{x:xx-3,y:m.t,width:bw+6,height:H-m.t-m.b,fill:'transparent'},svg);
+    const show=()=>{const b=r.getBoundingClientRect();tip(b.left+b.width/2,b.top,fmtDate(g.d),[[gameLine(g)+(g.tag?' · '+g.tag:''),result(g)]].concat(g.vr?[['VT AP rank','#'+g.vr]]:[]).concat(g.nsr!=null?[['net success rate',(g.nsr>0?'+':'')+g.nsr]]:[]))};
+    hitr.addEventListener('pointerenter',show);hitr.addEventListener('click',show);hitr.addEventListener('pointerleave',hideTip)});
+  bars($('rk'),{seasons:YRS,h:210,stacks:[{name:'wins over ranked teams',color:C.vt,values:S.map(x=>x.rkW)}],down:[{name:'losses to ranked teams',color:C.opp,values:S.map(x=>x.rkL)}],yTicks:[-4,-2,0,2,4],yFmt:v=>Math.abs(v),label:'Record against ranked opponents'});
+}
+const tier=$('tier');[[1,5,'top 5'],[6,10,'ranked 6-10'],[11,25,'ranked 11-25']].forEach(([a,b,t])=>{const q=G.filter(g=>g.orr>=a&&g.orr<=b),w=q.filter(g=>g.vp>g.op).length;const d=h('div',{class:'tile'},tier);h('b',{},d,w+'-'+(q.length-w));h('span',{},d,'against the '+t)});
+{const q=G.filter(g=>g.orr&&g.vr),w=q.filter(g=>g.vp>g.op).length,d=h('div',{class:'tile'},tier);h('b',{},d,w+'-'+(q.length-w));h('span',{},d,'when both teams were ranked')}
+draw();VT.onResize(draw);
+
+})();
+</script>
+</body>
+</html>

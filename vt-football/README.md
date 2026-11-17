@@ -305,3 +305,21 @@ games (Clemson), VT's first two second-half drives ran 30% success / 3.5 yds per
 which fit the pattern (two three-and-outs). Nationally the same gap looks like noise (team-to-team
 spread about equal to sampling error), so keep tracking it before calling it real.
 Re-run after each game: `parse_wmt.py`, `normalize.py`, `phase_splits.py`.
+
+## Visualization pages (`index.html`, `viz/`)
+Static pages served by GitHub Pages at `/vt-football/`: the every-game grid (`index.html`), then
+`viz/arc.html` (Elo-style rating, records, AP rank at kickoff), `viz/units.html` (offense and
+defense by season, defense rank, takeaways, scoring by quarter), `viz/games.html` (net success
+rate vs. margin with the four fixed groups, upsets), `viz/situations.html` (down-and-distance and
+field-position heat maps, longest plays), `viz/opponents.html` (series history, ranked opponents)
+and `viz/gameday.html` (night games, kickoff times, penalty buckets, attendance, temperature).
+No libraries; charts are hand-drawn SVG in `viz/viz.js`, styles in `viz/viz.css`.
+```bash
+python viz/fetch_espn_schedule.py 1999 2026   # AP ranks + kickoff times -> data/espn/vt_schedule.parquet
+python viz/build_data.py                      # -> viz/data/site.json (run after normalize.py / elo.py)
+```
+`build_data.py` notes: the full schedule and game sites come from `data/howell/` (8 games have a
+score but no play-by-play); the Elo-style rating is rebuilt from Howell scores for 1987-2025 with
+`elo.py`'s parameters, and 2026 adds the ESPN-based Elo movement to the 2025 close; AP rank at
+kickoff is the stat-crew value through 2004 and ESPN's from 2005; kickoff time is the stat-crew
+or WMT local time, else ESPN's converted to Eastern.

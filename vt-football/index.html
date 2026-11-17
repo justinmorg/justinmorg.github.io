@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virginia Tech football, 1987-2026: every game</title>
+<meta name="description" content="Forty seasons of Virginia Tech football drawn from play-by-play data.">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="viz/viz.css">
+</head>
+<body data-root="">
+<div class="wrap">
+  <p class="eyebrow">Virginia Tech football · 1987-2026</p>
+  <h1>Forty seasons, one square per game</h1>
+  <p class="lede">Every game since Frank Beamer's first season, colored by the final margin. Tap a square for the score, rankings and how the game was played.</p>
+  <div class="tiles" id="tiles"></div>
+  <section class="card">
+    <h2>Every game since 1987</h2>
+    <p class="sub">Maroon is a win, blue a loss; darker means a wider margin. A dot marks a bowl or conference title game.</p>
+    <div id="lg"></div>
+    <div class="chart" id="grid"></div>
+    <p class="note" id="gridnote"></p>
+  </section>
+  <section class="card">
+    <h2>More views</h2>
+    <div class="hub">
+      <a href="viz/arc.html"><b>The arc</b><span>Program strength game by game, records, AP rank at kickoff</span></a>
+      <a href="viz/units.html"><b>Offense &amp; defense</b><span>Success rate, explosiveness, national defense rank, takeaways, scoring by quarter</span></a>
+      <a href="viz/games.html"><b>Game explorer</b><span>Net success rate against the final margin for every game; biggest upsets</span></a>
+      <a href="viz/situations.html"><b>Down &amp; distance</b><span>What works where: heat maps by down, distance and field position; longest plays</span></a>
+      <a href="viz/opponents.html"><b>Opponents</b><span>Series history against every team; record against ranked opponents</span></a>
+      <a href="viz/gameday.html"><b>Game day</b><span>Night games, kickoff times, penalties in three buckets, crowds, weather</span></a>
+    </div>
+  </section>
+  <footer id="foot"></footer>
+</div>
+<script src="viz/viz.js"></script>
+<script>
+(async function(){
+  const {C,s,h,tip,hideTip,margeColor,marginLegend,fmtDate,gameLine,result}=VT;VT.nav('index.html');
+  const D=await VT.load(),G=D.games,S=D.seasons;
+  const w=G.filter(g=>g.vp>g.op).length,l=G.filter(g=>g.vp<g.op).length,t=G.length-w-l;
+  const bowl=new Set(G.filter(g=>g.tag&&g.tag!=='ACC Championship').map(g=>g.s));
+  let best=0,run=0,end=0;S.forEach(x=>{run=bowl.has(x.s)?run+1:0;if(run>best){best=run;end=x.s}});
+  const rk=G.filter(g=>g.orr),rw=rk.filter(g=>g.vp>g.op).length;
+  const tiles=[[w+'-'+l+'-'+t,'record since 1987'],[String(best),'straight bowl seasons, '+(end-best+1)+'-'+end],
+    [String(S.filter(x=>x.w>=10).length),'seasons with 10 or more wins'],[rw+'-'+(rk.length-rw),'against AP-ranked opponents']];
+  tiles.forEach(([b,sp])=>{const d=h('div',{class:'tile'},document.getElementById('tiles'));h('b',{},d,b);h('span',{},d,sp)});
+  marginLegend(document.getElementById('lg'));
+  function draw(){
+    const el=document.getElementById('grid');el.replaceChildren();
+    const W=Math.max(300,el.clientWidth),L=40,R=46,cols=14,cw=Math.min(34,(W-L-R)/cols),rh=Math.max(20,Math.min(26,cw));
+    let y=4;const rows=[];let last='';
+    S.forEach(x=>{if(x.coach!==last){y+=last?22:16;rows.push({era:x.coach,y:y-6});last=x.coach}rows.push({x,y});y+=rh});
+    const svg=s('svg',{viewBox:`0 0 ${W} ${y+4}`,width:W,height:y+4,role:'img','aria-label':'Grid of every game by season'},el);
+    rows.forEach(r=>{
+      if(r.era){s('text',{x:L,y:r.y,class:'era'},svg,r.era+' era');return}
+      const x=r.x,gs=G.filter(g=>g.s===x.s);
+      s('text',{x:L-8,y:r.y+rh/2+4,'text-anchor':'end',class:'lab'},svg,x.s);
+      s('text',{x:L+cols*cw+6,y:r.y+rh/2+4},svg,x.w+'-'+x.l+(x.t?'-'+x.t:''));
+      gs.forEach((g,i)=>{const m=g.vp-g.op;
+        const c=s('rect',{x:L+i*cw+1,y:r.y+1,width:cw-2,height:rh-2,rx:3,fill:margeColor(m),tabindex:0},svg);
+        if(g.tag)s('circle',{cx:L+i*cw+cw/2,cy:r.y+rh/2,r:2.6,fill:Math.abs(m)>16?'#fff':C.ink,'pointer-events':'none'},svg);
+        const show=e=>{const b=c.getBoundingClientRect();
+          const rows=[[gameLine(g)+(g.tag?' · '+g.tag:''),result(g)]];
+          if(g.vr)rows.push(['VT AP rank at kickoff','#'+g.vr]);
+          if(g.nsr!=null)rows.push(['net success rate ('+g.off.sr+'% vs '+g.def.sr+'%)',(g.nsr>0?'+':'')+g.nsr]);
+          if(g.off)rows.push(['yards per play, VT vs opp',g.off.ypp+' / '+g.def.ypp]);
+          if(!g.off)rows.push(['in the repo for this game','Score only']);
+          tip(b.left+b.width/2,b.top,fmtDate(g.d),rows)};
+        c.addEventListener('pointerenter',show);c.addEventListener('click',show);c.addEventListener('focus',show);c.addEventListener('pointerleave',hideTip)})});
+  }
+  draw();VT.onResize(draw);
+  document.getElementById('gridnote').textContent=G.filter(g=>!g.off).length+' games have a final score but no play-by-play in the repo: six from 1998, the Gator Bowls after the 1997 and 2000 seasons, and 2002 West Virginia.';
+  document.getElementById('foot').textContent='Built '+D.built+' from the vt-football data in this repo: official stat-crew play-by-play, repaired CFBD games, James Howell\'s historical scores and ESPN schedules. Rebuild with viz/build_data.py.';
+})();
+</script>
+</body>
+</html>
