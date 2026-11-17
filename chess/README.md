@@ -5790,6 +5790,15 @@ needs neither network nor Stockfish while the corpus files and the two caches
 are unchanged (verified with `STOCKFISH_PATH=/nonexistent`). Changing a deck
 size or a seed will need both again. Needs `pip install chess`.
 
+**Phone test suite:** `https://justinmorg.github.io/chess-study/?test=1`
+(`build_study_test.py` -> `data/test.json`, `data/test_index.json`). Nine
+cards on made-up positions exercising every step type and control, each
+followed by `verify` steps ("did that work?"); the test hub runs automatic
+checks (storage, piece rendering, fonts, all real decks load) and "Copy test
+report" exports device details plus answers as JSON to paste into a chat.
+Test mode stores under `study.test.v1`; `study.v1` is never touched. Card 5
+is the live check of the `?fen=...#ai` play-out link form.
+
 **702 cards in 19 decks.**
 
 | deck | n | kind | key |

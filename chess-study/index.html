@@ -100,7 +100,8 @@ ul.tight{margin:.2rem 0 .6rem;padding-left:1.2rem} ul.tight li{margin:.2rem 0}
 <script>
 (function(){
 'use strict';
-var KEY='study.v1';
+var TEST=/[?&]test=1/.test(location.search);
+var KEY=TEST?'study.test.v1':'study.v1';
 var app=document.getElementById('app');
 var manifest=null, deckCache={};
 var COL={g:'#2F6B3A',r:'#B3372A',b:'#2C5F8A',y:'#B8860B',k:'#16180F'};
@@ -158,7 +159,7 @@ function boardSvg(o){
 
 // ---------------------------------------------------------------- data
 function getJSON(url){ return fetch(url,{cache:'no-cache'}).then(function(r){ if(!r.ok)throw new Error(url+' '+r.status); return r.json(); }); }
-function getManifest(){ return manifest?Promise.resolve(manifest):getJSON('data/index.json').then(function(m){manifest=m;return m;}); }
+function getManifest(){ return manifest?Promise.resolve(manifest):getJSON(TEST?'data/test_index.json':'data/index.json').then(function(m){manifest=m;return m;}); }
 function getDeck(id){ return deckCache[id]?Promise.resolve(deckCache[id]):getJSON('data/'+id+'.json').then(function(d){deckCache[id]=d;return d;}); }
 function findDeckMeta(id){ var out=null; manifest.groups.forEach(function(g){ g.decks.forEach(function(d){ if(d.id===id)out=d; }); }); return out; }
 function cardDone(r,kind){ return !!r && (kind==='lesson'? !!r.read : (r.n>0)); }
@@ -192,6 +193,52 @@ function hub(){
   }).catch(function(e){ app.innerHTML='<p style="padding:2rem 0">Could not load the study data ('+e.message+').</p>'; });
 }
 
+// ---------------------------------------------------------------- test hub
+var AUTO={};
+function testHub(){
+  getManifest().then(function(m){
+    var d=m.groups[0].decks[0], s=load(), done=0, fails=[];
+    d.keys.forEach(function(k){ var r=s[k]; if(r&&r.verify){ done++; for(var i in r.verify){ if(!/^(Worked|Yes)/.test(r.verify[i])) fails.push(k+' step '+i+': '+r.verify[i]); } } });
+    var h=[];
+    h.push('<div class="mast"><p class="eyebrow">chess study &middot; test mode</p><h1>Test suite</h1>');
+    h.push('<p class="lede">Made-up positions only. None of your real cards appear here, and nothing you do here touches your real progress.</p></div>');
+    h.push('<h2>1. Automatic checks</h2><div id="auto"><p class="dim">Running&hellip;</p></div>');
+    h.push('<h2>2. Hands-on checks</h2><p class="gblurb">'+d.keys.length+' short cards. Each one says what to tap, then asks whether it worked. About five minutes.</p>');
+    h.push('<a class="deck" href="#/d/'+d.id+'/0"><span class="dtag">T</span><span class="dbody"><h3>'+(done?'Continue or redo the cards':'Start the cards')+'</h3><p>'+done+' of '+d.keys.length+' answered'+(fails.length?', '+fails.length+' marked not working':'')+'</p></span></a>');
+    h.push('<h2>3. Send the report</h2><p class="gblurb">Tap the button, then paste into the chat. If copying fails, the text appears below to select by hand.</p>');
+    h.push('<div class="row"><button class="btn pri" id="rep">Copy test report</button><button class="btn ghost" id="wipe" style="flex:0 0 auto">Reset test</button></div><div id="repout"></div>');
+    h.push('<p class="dim" style="margin-top:2rem"><a href="./">Leave test mode</a></p>');
+    app.innerHTML=h.join('');
+    runAuto();
+    document.getElementById('rep').onclick=function(){
+      var rpt={v:1,when:new Date().toISOString(),ua:navigator.userAgent,screen:[window.innerWidth,window.innerHeight,window.devicePixelRatio],
+        standalone:!!(window.navigator.standalone||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)),auto:AUTO,cards:load()};
+      var t=JSON.stringify(rpt), o=document.getElementById('repout'), btn=document.getElementById('rep');
+      o.innerHTML='<textarea class="exp" readonly></textarea>'; o.firstChild.value=t;
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){ btn.textContent='Copied. Paste it in the chat'; },function(){ btn.textContent='Copy failed: select the text below'; }); }
+      else { btn.textContent='Select the text below and copy'; }
+    };
+    document.getElementById('wipe').onclick=function(){ try{localStorage.removeItem(KEY);}catch(e){} testHub(); };
+    window.scrollTo(0,0);
+  }).catch(function(e){ app.innerHTML='<p style="padding:2rem 0">Could not load the test data ('+e.message+').</p>'; });
+}
+function runAuto(){
+  var rows=[], box=document.getElementById('auto');
+  function row(name,ok,detail){ AUTO[name]={ok:ok,detail:detail||''}; rows.push('<p><span class="verdict '+(ok?'ok':'no')+'">'+(ok?'OK':'FAIL')+'</span> '+name+(detail?' <span class="dim">'+detail+'</span>':'')+'</p>'); if(box)box.innerHTML=rows.join(''); }
+  try{ localStorage.setItem('study.probe','1'); var v=localStorage.getItem('study.probe'); localStorage.removeItem('study.probe'); row('Progress can be saved on this phone',v==='1'); }catch(e){ row('Progress can be saved on this phone',false,String(e)); }
+  try{ var tmp=document.createElement('div'); tmp.style.cssText='position:absolute;left:-999px;width:200px'; tmp.innerHTML=boardSvg({fen:'8/8/8/8/8/8/8/K6k w - - 0 1'}); document.body.appendChild(tmp);
+    var u=tmp.querySelector('use'), bb=u?u.getBoundingClientRect():{width:0}; document.body.removeChild(tmp); row('Chess pieces draw',bb.width>5,'piece width '+Math.round(bb.width)+'px'); }catch(e){ row('Chess pieces draw',false,String(e)); }
+  row('Copy button is supported',!!(navigator.clipboard&&navigator.clipboard.writeText));
+  row('Screen size',true,window.innerWidth+' x '+window.innerHeight);
+  if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(function(){ var f=document.fonts.check('800 20px "Saira Condensed"')&&document.fonts.check('16px Spectral'); row('Fonts loaded',f,f?'':'falls back to system fonts; harmless'); }); }
+  getJSON('data/index.json').then(function(m){
+    var ids=[], want=0; m.groups.forEach(function(g){ g.decks.forEach(function(d){ ids.push(d); want+=d.keys.length; }); });
+    return Promise.all(ids.map(function(d){ return getJSON('data/'+d.id+'.json').then(function(x){ return x.cards.length===d.keys.length?x.cards.length:-1; },function(){ return -1; }); })).then(function(ns){
+      var bad=ns.filter(function(n){return n<0;}).length, got=ns.reduce(function(a,n){return a+(n>0?n:0);},0);
+      row('All '+ids.length+' real decks load',bad===0,got+' of '+want+' cards'+(bad?', '+bad+' decks failed':'')); });
+  }).catch(function(e){ row('All real decks load',false,e.message); });
+}
+
 // ---------------------------------------------------------------- runner
 var R=null; // runner state
 function run(deckId, idx){
@@ -211,7 +258,7 @@ function step(){ return R.card.steps[R.si]; }
 function newState(st){
   if(st.type==='tap') return {sel:[],done:false};
   if(st.type==='move') return {from:null,done:false,tries:0,msg:''};
-  if(st.type==='choice') return {pick:null,done:false};
+  if(st.type==='choice'||st.type==='verify') return {pick:null,done:false};
   if(st.type==='playout') return {};
   return {done:true};
 }
@@ -258,6 +305,9 @@ function draw(){
     if(S.done) h.push('<p><span class="verdict '+(S.pick===st.answer?'ok':'no')+'">'+(S.pick===st.answer?'Right.':'Not quite.')+'</span> '+(st.explain||'')+'</p>');
   } else if(st.type==='playout'){
     h.push(playoutHtml(c,st));
+  } else if(st.type==='verify'){
+    h.push('<p class="ask">'+st.ask+'</p>');
+    if(S.done) h.push('<p class="dim">Recorded: '+S.pick+'</p>');
   }
   h.push('</div>');
   // buttons
@@ -269,8 +319,8 @@ function draw(){
     if(S.tries>0 || st.hint) h.push((st.hint&&!S.hinted?'<button class="btn ghost" data-a="hint">Hint</button>':'')+'<button class="btn ghost" data-a="showme">Show me</button>');
   } else if(st.type==='choice' && !S.done){
     st.options.forEach(function(o,i){ h.push('<button class="btn" data-a="pick" data-i="'+i+'">'+o+'</button>'); });
-  } else if(st.type==='choice' && S.done){
-    // keep chosen visible
+  } else if(st.type==='verify'){
+    (st.options||['Worked','Did not work']).forEach(function(o){ h.push('<button class="btn'+(S.pick===o?' on':'')+'" data-a="verify" data-v="'+o.replace(/"/g,'&quot;')+'">'+o+'</button>'); });
   }
   h.push('</div>');
   var last2=R.si>=n-1;
@@ -323,6 +373,7 @@ app.addEventListener('click',function(e){
   if(!b) return;
   var a=b.getAttribute('data-a');
   if(a==='tapdone'){ var key=st.key||[]; var ok=key.length===S.sel.length&&key.every(function(k){return S.sel.indexOf(k)>=0;}); S.done=true; finishStep(ok,{sel:S.sel.slice()}); draw(); }
+  else if(a==='verify'){ S.pick=b.getAttribute('data-v'); S.done=true; var si=R.si; put(R.card.k,function(r){ r.verify=r.verify||{}; r.verify[si]=S.pick; r.n=r.n||1; }); draw(); }
   else if(a==='pick'){ S.pick=+b.getAttribute('data-i'); S.done=true; finishStep(S.pick===st.answer,{pick:S.pick}); draw(); }
   else if(a==='movenone'){
     if(st.noneOk){ S.done=true; S.msg='<span class="verdict ok">Right.</span> '+(st.noneText||''); finishStep(S.tries===0); }
@@ -374,7 +425,7 @@ function altFor(st,uci){ for(var k in st.alt){ if(k.slice(0,4)===uci) return st.
 function route(){
   var h=location.hash||'#/';
   var m=h.match(/^#\/d\/([A-Za-z0-9_-]+)(?:\/(\d+))?/);
-  if(m){ run(m[1], m[2]!=null?+m[2]:null); } else { R=null; hub(); }
+  if(m){ run(m[1], m[2]!=null?+m[2]:null); } else { R=null; if(TEST) testHub(); else hub(); }
 }
 window.addEventListener('hashchange',route);
 route();

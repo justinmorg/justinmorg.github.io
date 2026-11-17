@@ -15,6 +15,7 @@ Deck JSON schema (consumed by chess-study/index.html):
     type "choice"  ask, options: [label], answer: index, explain?, rarrows?,
                    rmarks?, rfen?, rlast?
     type "playout" play: [[label, url]]
+    type "verify"  ask, options?: [label]   (test suite only: "did that work?")
   colours: g green, r red, b blue, y gold, k ink.
 
 Card keys are stable ids: `{deck}-{gid}-{ply}` for positions from games,
@@ -131,7 +132,7 @@ def write_deck(deck):
 
 
 def validate_step(st, k):
-    assert st["type"] in ("show", "tap", "move", "choice", "playout"), k
+    assert st["type"] in ("show", "tap", "move", "choice", "playout", "verify"), k
     if "fen" in st:
         chess.Board(st["fen"])                       # parses
     for a in st.get("arrows", []) + st.get("rarrows", []):
