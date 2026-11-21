@@ -2778,6 +2778,24 @@ numerator. The depth-18 capture-and-evaluate check proposed under card 34
 would catch this (after dxc3, Rxd8+ is the engine's reply). As with the
 others, it applies equally across blocks.
 
+**Card 153, `F-Nx6N7VgX-54`, decision 5 — 27...Nxh1. Labelled H (Bxf8,
+SEE 200); should be S with the engine-disliked note.** Raised by Justin
+2026-11-21. At decision 4, 26.Bh6 attacks the Rf8 and 26...Ng3 (the engine's
+best, +1.56 at depth 22) forks Qf1 and Rh1, so Bxf8 is refuted by Nxf1 —
+correctly labelled C. White then blundered with 27.Qg1, allowing 27...Ne2+,
+a king-and-queen fork (+5.34 at depth 22; cache depth 18 `fb` 527). Played was
+27...Nxh1 28.Qxh1, about +1.68 — the same edge as decision 4's line under
+White's best defence (27.Qf3 Nxh1 28.Qxh1, +1.73). Nothing hangs after
+Nxh1: 28.Bxf8 is answered by Qxf4+ and Black is +5.21 (depth 22), so White's
+real best is Qxh1. The whole drop (cache `fa` 166, wp 0.226) is the missed
+Ne2+. Same family as cards 33/34/112/130, and closest to card 34: a ≥150
+SEE capture on one square ANDed with an eval drop that comes from a better
+move passed up, with nothing tying the two together. Decision 5 is the card's
+anchor (ply 54), so the card was built around a false hit, and that ply
+counts in the 2026 block's hanging-material numerator. The depth-18
+capture-and-evaluate check proposed under card 34 would catch this. As with
+the others, it applies equally across blocks.
+
 **Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
 every decision marked wrong in the `drills.forward.v1` export**, in both
 directions — H answered safe (possible false H, as here) and S answered
