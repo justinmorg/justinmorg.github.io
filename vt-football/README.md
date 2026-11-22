@@ -110,7 +110,7 @@ any refresh or new crawl.
   | 2020-2023 | hokiesports (WMT JSON, box IDs 5535-5569 and 5571-5583): all 48 games except 2021 at Georgia Tech (WMT has no plays; CFBD) |
 | 2024 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 5585-5596 and 21742 for the Duke's Mayo Bowl): all 13 games |
 | 2025 | hokiesports (WMT JSON, `parse_wmt.py`, box IDs 21761-21772): all 12 games |
-| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22966 (VMI through Clemson) |
+| 2026 on | hokiesports (WMT JSON, `parse_wmt.py`): 2026 box IDs 22958-22960, 22962-22969 (VMI through Miami) |
 
 ## CFBD data quality
 Found by comparing CFBD play-by-play with the official box totals (Sept 2026). `normalize.py`
