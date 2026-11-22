@@ -2796,6 +2796,27 @@ counts in the 2026 block's hanging-material numerator. The depth-18
 capture-and-evaluate check proposed under card 34 would catch this. As with
 the others, it applies equally across blocks.
 
+**Card 158, `F-gydhyXwc-40`, decision 4 — 20...Qxb4. Labelled H (cxb4,
+"wins 7 pawns"); the label is correct, the diagnosis is not.** Raised by
+Justin 2026-11-21. The named capture is refuted: 21.cxb4 Rxc2 wins the queen
+back and leaves Black +3.07 (depth 22). The real loss is 21.Qxg6: the queen
+takes the pawn-defended Ng6 *and* leaves the c-file, so Rxc2 is no longer
+available and cxb4 becomes a live threat. Black cannot recapture on g6
+(cxb4 takes the queen), and best is 21...Rxc3, a knight for two pawns down —
++1.79 before the move, −0.95 after (depth 22; cache depth 18 `fb` 179 /
+`fa` −114). The drop is real and the move does cost a piece, so H stands;
+the verdict names the wrong capture. White did not find it (21.Bd4??, when
+21...Qxd4 22.cxd4 Rxc2 wins the queen, +6.23). Same error class as card 78
+(correct label, wrong explanation), reached here through a different gap:
+SEE on b4 counts only the exchange on that square and misses the c-file
+counter (Rxc2), while Qxg6 itself has negative SEE, so the probe cannot see
+the capture that actually wins. A two-purpose capture (take a defended unit
+and unmask a threat by another piece) is outside what a one-square probe can
+attribute. The depth-18 capture-and-evaluate check proposed under card 34
+would reject cxb4 and fall back to C/S, so this card would then need the
+engine PV (Qxg6) to keep its H — worth handling explicitly in the next card
+set rather than letting the fix silently downgrade a real hang.
+
 **Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
 every decision marked wrong in the `drills.forward.v1` export**, in both
 directions — H answered safe (possible false H, as here) and S answered
