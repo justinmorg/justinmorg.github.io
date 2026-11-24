@@ -2817,6 +2817,44 @@ would reject cxb4 and fall back to C/S, so this card would then need the
 engine PV (Qxg6) to keep its H — worth handling explicitly in the next card
 set rather than letting the fix silently downgrade a real hang.
 
+**Card 187, `F-vvoJl3Ii-45`, decision 5 — 24.Nxb6. Labelled C; should not
+be "safe" — the Ng4 genuinely hangs and is taken next move.** Raised by
+Justin 2026-11-24. The loss happens at decision 4, 23.Qb6 (labelled H, cap
+Bxg4, SEE 300, "already on the board (Rxd4)"). The Qd4 was the Ng4's only
+defender along the 4th rank; Qb6 forces 23...Qxb6 24.Nxb6 and then ...Bxg4
+wins the knight. Depth 22: best 23.Qe5 (+5.83; the trade lands on e5 and
+the g4 knight recaptures out of danger), after Qb6 +3.23, consistent with the
+corpus `cb` 543 / `ca` 308. So decision 4's H is **correct, but its verdict
+is wrong twice**: 23...Bxg4 immediately is refuted by 24.Qxa5 (+7.61), and
+the "already on the board" capture it names (Rxd4) is the rook attack that
+forced the queen to move, not a stale threat. Same class as cards 78/158
+(right label, wrong explanation). 24.Nxb6 is forced and best (+3.40), so
+`cb` 296 / `ca` 304 shows no drop, and the C rule (SEE ≥150 AND no eval drop)
+calls it compensation. There is none: the material was already lost on the
+previous move.
+
+**This is a new failure class, the mirror of cards 33/34/112/130/153.**
+Those are false H; this is a false C. The C rule cannot tell "the capture is
+answered" from "the capture was already paid for one decision earlier", so
+any forced continuation after an H step that leaves the same capture
+standing is labelled safe, and the C verdict text ("a bigger capture, a
+check, or a counter-threat") is then plainly false. Answering *hangs*, which
+is the right scan result, is marked wrong.
+
+Mechanical screen, 2026-11-24, not engine-verified: 22 of the 64 C steps
+directly follow an H step, and in **16 cards (14 distinct positions)** the C
+step names the same capture as the H before it: 42, 55, 73, 76, 82, 128,
+140, 142, 155, 164, 187, 191, 207, 211, 220, 224 (76/207 and 128/140 are
+overlapping windows of the same games). These are candidates, an upper bound;
+some will be real compensation. Only 187 has been checked.
+
+Consequences: none for the frozen block or the outcome metric — C steps are
+not hits in `hanging.py`'s count, and the cards are not edited mid-block.
+Fix for the next card set: when a C step's capture is the one flagged H on
+the previous decision (same target square), label it **already lost** —
+*hangs* scores right, and the verdict says the piece went on the previous
+move. Engine-check the 15 other candidates in the post-block review.
+
 **Plan (Justin, 2026-09-27): after the block closes, re-check at depth 18+
 every decision marked wrong in the `drills.forward.v1` export**, in both
 directions — H answered safe (possible false H, as here) and S answered
