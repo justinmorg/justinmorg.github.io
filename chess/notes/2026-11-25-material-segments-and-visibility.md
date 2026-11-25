@@ -140,3 +140,24 @@ when even or behind, 19% up 1–2, 30% up a piece+ (only ~15 cases each when
 ahead; suggestive, not established). Direct hangs when up 1–2: 45% a standing
 threat already there before the move, 35% the piece just moved, 13% the move
 took away a defender, 3% the move opened a line; same as other states.
+
+## Part 5 — up-a-piece mistakes split three ways (added same day)
+
+Justin read the three "up a piece" study examples as: didn't finish the tactic
+after the opponent's blunder; a time scramble; firmly in control, then hung a
+piece several moves later. Rules (first match wins), on the 1,363 mistakes made
+at perceived material >= +3 (fullmove >= 6): my clock < 20s → scramble; first
+own move at >= +3 (lead not banked yet; 28% of these still had the piece to
+collect) → unfinished; lead 1–2 own moves old; lead 3+ own moves old. All three
+study examples land where Justin put them.
+
+| | all games: errors / cost | lost games: errors / cost |
+|---|---|---|
+| time scramble (< 20s) | 26% / 27% | 22% / 22% |
+| lead not banked yet | 14% / 15% | 17% / 18% |
+| lead 1–2 moves old | 16% / 16% | 19% / 19% |
+| lead 3+ moves old | 44% / 42% | 43% / 40% |
+
+First up-a-piece mistake in each of 336 lost games: scramble 14%, unbanked
+28%, 1–2 moves 22%, 3+ moves 35%. Scramble share is threshold-sensitive (<10s
+9%, <15s 20%, <30s 35% of all up-a-piece mistakes).
