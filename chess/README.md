@@ -3054,17 +3054,19 @@ step, outcome or decision rule.
    timestamp, and run the test once.
 
 **Block closed: 2026-11-24 23:28:25 CT** (recorded the same night, before any
-treatment game was downloaded for analysis, annotated or looked at).
+treatment game was annotated or any outcome was computed).
 
-- **End** = the last F session, 23:28:25 CT. It came after the last game of the
-  night, which finished at 23:19:50 CT, so the 900-game condition was already
-  met. Both conditions under "Block end" hold.
-- **Games**: 902 rated Lichess 3+2/5+0 games from 2026-09-03 00:00 CT to the
-  block end (901 if counted from the first card session at 02:49 CT). The
-  900th started at 23:00:12 CT (23:08:29 CT on the stricter count). One 3+0
-  game (2026-10-15) is excluded as out of scope. The analyzed block is the
-  midnight-start set, 902 games, matching the intervention-start date
-  convention above.
+- **End** = the last F session, finished 23:28:25 CT (first step 23:27:57).
+  The last game of the night (`hpSbZ50D`, 3+2) started 23:19:55 and was
+  resigned 23:27:38 CT, before that session, so it is in the block. Both
+  conditions under "Block end" hold.
+- **Games**: **903** rated Lichess 3+2/5+0 games from 2026-09-03 00:00 CT to
+  the block end (902 if counted from the first card session at 02:49 CT). The
+  first note of this entry said 902 because the Lichess user export had not yet
+  listed `hpSbZ50D`, which finished seconds before the query. Corrected from
+  the by-ID download the same night, still before annotation. One 3+0 game
+  (2026-10-15) is excluded as out of scope. The analyzed block is the
+  midnight-start set, matching the intervention-start date convention above.
 - **Dose taken**: 196 of 243 cards (81%), 1,133 decisions, archived at
   `chess/data/f_results/f_results_2026-11-24-final.json`.
 - **From here**: the test runs once, under the decision rule above,
