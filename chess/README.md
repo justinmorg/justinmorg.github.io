@@ -5913,6 +5913,30 @@ Full write-up: `chess/notes/2026-11-25-hang-anatomy.md`. Scripts:
 - Side check: of the known opening repeats only Englund 2.Nf3 …Nc6 is still
   live (7 of 8 in TREAT).
 
+## Endgame truth check and time map (2026-11-25, exploratory, not pre-registered)
+
+Full write-up: `chess/notes/2026-11-25-endgame-truth-and-time.md`. Scripts:
+`chess/scripts/egtruth/`. Outputs: `data/egtruth_tb.jsonl.gz` (7-man
+tablebase, 17,797 positions), `data/egtruth_eng_close.jsonl.gz` (SF17.1 150k
+nodes MultiPV 4, 38,466 close > 7-man plies), `data/egtruth_verify_d20.jsonl.gz`.
+Plateau + TREAT blocks, both sides' moves, 3+2 / 5+0.
+
+- **≤ 7 men: no gap vs opponents.** Win let go 4.2% vs 4.8% of moves (−0.6
+  [−1.8, +0.6]); draw lost 9.1% vs 10.0%; first TB win converted 76.5% vs
+  80.2% (interval covers 0).
+- **Close > 7-man endgames: gap confirmed** with the deeper engine, 12.2% vs
+  10.3% (+1.9 [+1.3, +2.5]), TREAT +2.0 [+0.7, +3.3]; widest in rook,
+  minor-piece and queen endings, pawn moves, passed pawns. Depth-20 sample
+  confirms 90% of errors, equally for both sides.
+- **Time does not track difficulty** for either player (median 2–3 s whether
+  1 or 4+ moves are fine). Of 435 excess errors, 225 are in positions where 4+
+  moves were fine; at ≤ 20 s own clock those run 11.0% vs 5.4% (+5.6 [+3.3,
+  +8.0]). Clock-matched, not position-matched.
+- Depth 12 in small endgames: 83% of flags are real TB errors, catches 94%.
+- Decks `eg_tm`, `eg_om`, `eg_tb` on chess-study, built by
+  `scripts/build_study_egtruth.py` from `analyze.py`'s tables, own caches in
+  `chess/study/*_egtruth.json` (not pruned by `build_study_endgames.py`).
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and

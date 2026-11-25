@@ -44,6 +44,9 @@ GROUPS = [
      "blurb": "Your widest gap against same-rated opponents is in close endgames, most of all with a passed pawn on the board. Lessons first, then drills, then play-outs of your own positions against the computer.",
      "decks": [
          ("eg_lessons", "E", "lesson", "Endgame lessons", "Nine short lessons in the order your games suggest. Checked move by move against a tablebase."),
+         ("eg_tm", "TM", "lesson", "What the endgame check found", "Six short cards from the 2026-11-25 tablebase and time check: where the gap is, where it isn't, and where your clock goes."),
+         ("eg_om", "OM", "drill", "One move or many?", "Your endgame positions. Decide whether one move matters or lots will do, then play. Engine-judged."),
+         ("eg_tb", "TB", "drill", "Win it or hold it", "Your own small endgames where only one to three moves kept the result. Checked against the tablebase."),
          ("eg_own", "PP", "drill", "Your passed pawns", "Close endgames from your games where a passed pawn was mishandled. Find the better move. Engine-judged."),
          ("eg_kpk", "KP", "drill", "King and pawn: the only move", "One move wins or one move draws. Opposition and key squares."),
          ("eg_square", "SQ", "drill", "The square of the pawn", "Does it queen, or does the king catch it? Answer without counting."),
@@ -62,6 +65,7 @@ GROUPS = [
 
 def main():
     if "--all" in sys.argv:
+        # build_study_egtruth.py needs the egtruth tables (see its docstring) and is run on its own
         for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py", "build_study_losses.py"):
             subprocess.check_call([sys.executable, os.path.join(HERE, script)])
     groups = []
