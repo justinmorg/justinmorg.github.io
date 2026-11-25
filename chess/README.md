@@ -6033,6 +6033,33 @@ built or used before the block end.
   square 14%, moved piece was the defender 8%, line opened 4%, other 4%.
   Card positions are the tail and carry ~10% label error.
 
+### Parked for later (2026-11-25) — not started
+
+Captured at Justin's request while the endgame truth-check / time-map /
+practice-deck work went first. No tests intended; these are study builds.
+
+1. **Caro by variety.** Recognise which Caro variety a game is in (Advance,
+   Exchange, Panov, Classical 4…Bf5, Two Knights, Fantasy, others), find
+   where each goes wrong for him (eval drop by move, clock, structure), and
+   teach the concepts and plans most relevant to each, Chessbrah-style
+   (plans first; flag which moves don't matter), with practice pages on
+   chess-study. Context: book recovery in "The opening book, recovered from
+   move times"; he has no sense of how the Advance and Exchange differ.
+2. **Close read of ~30 recent losses**, aimed at teaching a repeatable
+   game-review method rather than at the 30 games themselves (fits the
+   post-block plan's "rigorous habit of studying his games" and the
+   Heisman-routine idea). Pick from the F block so it reflects current play.
+3. **Trades from materially level positions.** Where does he trade when level
+   and shouldn't? He had believed taking every even trade is right in any
+   Caro, and also simplifies when short on clock; wants to know when each is
+   sound. Measure: trade/simplification rate from level positions vs
+   opponents (mirrored), by family (Caro vs London vs Englund), by clock, and
+   what level endgames reached by trading score vs level middlegames kept
+   (conditioning on reaching a phase biases this — design around it). Prior
+   lead: piece trades that produce a pawn ending carry 1 big error in 107
+   (plateau review addendum), so the act of trading is not itself where
+   errors happen.
+
 ## chess-study: lessons, drills and play-outs (built 2026-11-16, parked)
 
 Built at Justin's request while the group F block was still open, to be used
