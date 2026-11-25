@@ -3072,6 +3072,59 @@ treatment game was annotated or any outcome was computed).
 - **From here**: the test runs once, under the decision rule above,
   unchanged. Games after 23:28:25 CT are post-block.
 
+**Result (run once, 2026-11-25): null. F did not measurably move the rate.**
+
+Tripwire first: the six settled blocks at the 0.05 floor reproduce the
+published table exactly (same rates, spread 0.91 pp, p = 0.7921).
+
+Treatment block: 903 games annotated at depth 12 (60,763 evaluated plies),
+`blockstats.py shuffle --metric hang --floor 0.05 --seed 23 --n 20000
+--tc 180+2,300+0`, treatment added as the seventh block (`TREAT`):
+
+| block | games | eligible | hang, 0.05 |
+|---|---|---|---|
+| 2024 H2 | 651 | 2,090 | 4.45% |
+| Q1 2025 | 375 | 1,228 | 4.15% |
+| Q2 2025 | 1,559 | 5,005 | 3.66% |
+| Q3 2025 | 363 | 1,300 | 3.54% |
+| Q4 2025 | 232 | 693 | 4.04% |
+| 2026 (to Aug 19) | 1,511 | 5,517 | 3.55% |
+| **Treatment (Sep 3 – Nov 24)** | **903** | **2,537** | **3.63%** |
+
+- **Decision rule: not met.** The treatment block is not the minimum block
+  (Q3 is 3.54%), so it is a null whatever its p. Spread 0.91 pp,
+  p = 0.84; the minimum block is Q3, p = 0.98.
+- **Size.** The pooled baseline is 3.77% (15,833 eligible moves), so the
+  treatment block reads −0.14 pp, 95% CI about [−0.94, +0.66] (normal
+  approximation, not game-clustered, so slightly narrow). The block had 2,537
+  eligible moves, not the ~3,000 assumed, so the detectable drop at 80% power
+  was about **1.0 pp** (a quarter of the rate), not 1.1 pp.
+- **Wording, as pre-specified:** no effect of about 1 pp or more on the
+  hanging-material rate, at the dose actually taken (196 of 243 cards by the
+  end, about half the set or less for most of the block). This is not
+  evidence that there was no effect at all.
+
+Secondary flags (no decision rides on them):
+
+1. `hungself`, same test: treatment 1.18% against 0.89–1.30% in the other
+   blocks; spread p = 0.89. Null.
+2. Standing-threat failure rate (`fblock_standing.py`, `see_standing >= 150`,
+   `opp_created_threat == 0`, standardized on oppmove.py's strata). Tripwire:
+   six-block standing arm = **17.74%**, matching the published figure.
+   Treatment raw 15.97% (n = 382) against 16.77% (n = 2,600); standardized on
+   the shared strata 16.81% against 15.76%, +1.05 pp, one-sided game-level
+   permutation p = 0.67. Null, and the sign flips under standardization.
+3. H2 share among permanent hot-zone first drops (`forcingtest.py`): not run.
+   It needs fresh engine searches, it was declared underpowered on one block,
+   and it was logged only.
+
+**What this means for the plan.** As the "If it is null" paragraph below
+says, the next step is practice at the board, not more cards. Do not re-cut
+this block looking for a subgroup where F worked; that is the June-dip
+mistake. The annotated treatment block is in the repo as
+`chess/data/jamorgan_blitz_2026_fblock_analyzed.pgn.gz`, not merged into the
+2026 corpus file, so the settled blocks stay as published.
+
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
 in-page F hit rate or false-alarm rate. Any metric first examined after the
