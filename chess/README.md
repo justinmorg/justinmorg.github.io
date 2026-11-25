@@ -5869,6 +5869,26 @@ Asked for by Justin after the F result. Full write-up:
 - **Per game (F block, move 15+):** about 11 points of expected score go to
   clock against about 75 to the board. The board still dominates about 7:1.
 
+## Errors by observable state, and how visible they are (2026-11-25, exploratory, not pre-registered)
+
+Full write-up: `chess/notes/2026-11-25-material-segments-and-visibility.md`.
+Scripts: `chess/scripts/visibility/`. Engine outputs: `data/vis_playouts.jsonl.gz`,
+`data/vis_deep16.jsonl.gz`.
+
+- **Clock-aware error** = board part of the change in `clockmodel.py`-style
+  expected score (refitted move 8+), >= 10 points. Lichess 3+2, 4,605 games.
+- **Lost games:** 36% of error cost comes while materially ahead (up 1–2 pawns
+  is 12.5% of moves but 25% of cost, 21 errors/100 moves vs 13 when even);
+  queens on is 57% of moves and 72% of cost. Clock imbalance barely matters
+  (9–14 errors/100 across clock states).
+- **Visibility (paired engine playouts, placebo-checked):** 24% of errors lose
+  material or get mated within 3 moves (41% of lost-game cost); 12% miss a
+  material win available within 3 moves; the rest (~2/3) give no material
+  signal within 3 moves.
+- **After opponent mistakes:** give-back 35% when nothing is grab-able vs 18%
+  when material is (depth-16 confirmed). **After own mistakes:** next-move
+  error rate 1.5–2x expected whether or not the mistake was visible.
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and
