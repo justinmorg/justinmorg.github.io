@@ -3053,6 +3053,23 @@ step, outcome or decision rule.
    end. Start nothing new before it. Then pull the games, confirm ≥900 by
    timestamp, and run the test once.
 
+**Block closed: 2026-11-24 23:28:25 CT** (recorded the same night, before any
+treatment game was downloaded for analysis, annotated or looked at).
+
+- **End** = the last F session, 23:28:25 CT. It came after the last game of the
+  night, which finished at 23:19:50 CT, so the 900-game condition was already
+  met. Both conditions under "Block end" hold.
+- **Games**: 902 rated Lichess 3+2/5+0 games from 2026-09-03 00:00 CT to the
+  block end (901 if counted from the first card session at 02:49 CT). The
+  900th started at 23:00:12 CT (23:08:29 CT on the stricter count). One 3+0
+  game (2026-10-15) is excluded as out of scope. The analyzed block is the
+  midnight-start set, 902 games, matching the intervention-start date
+  convention above.
+- **Dose taken**: 196 of 243 cards (81%), 1,133 decisions, archived at
+  `chess/data/f_results/f_results_2026-11-24-final.json`.
+- **From here**: the test runs once, under the decision rule above,
+  unchanged. Games after 23:28:25 CT are post-block.
+
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
 in-page F hit rate or false-alarm rate. Any metric first examined after the
