@@ -105,3 +105,38 @@ one. Likely harder positions / same blind spot persisting.
 Exploratory; segment cut points chosen once, not tuned. Depth 10 playouts;
 15-move horizon. Move-level rows not independent (bootstrap by game where CIs
 given). Perceived material ignores pieces en prise elsewhere on the board.
+
+## Part 4 — how quick material losses happen, by material state (added same day)
+
+Justin's question: the three "up 1–2 pawns" examples on the study page were
+two pieces attacked more times than defended (one defended only by the king)
+and one discovered attack. Typical for being ahead?
+
+`scripts/visibility/mech.py` (depth 13 PV from the position after each of the
+12,184 non-mate errors; output `data/vis_mechanism.jsonl.gz`) →
+`mechan.py`. Quick material loss = engine line loses >= 2 (resolved) within
+three moves: 3,487 errors. If the opponent's first move wins an en-prise piece
+(SEE > 0): no defender / attacked by a cheaper piece / more attackers than
+defenders (batteries counted) / other. Otherwise: discovered attack (a piece
+other than the mover newly attacks a non-pawn of mine), fork / double attack,
+or other. Checked by hand on the three study-page examples (all classed as
+Justin read them).
+
+| mechanism (all games) | down piece+ | down 1–2 | even | up 1–2 | up piece+ | all |
+|---|---|---|---|---|---|---|
+| piece with no defender | 30 | 36 | 35 | 35 | 38 | 35 |
+| attacked by a cheaper piece | 7 | 10 | 11 | 11 | 10 | 10 |
+| attacked more times than defended | 9 | 9 | 10 | 9 | 9 | 10 |
+| discovered attack | 6 | 4 | 5 | 6 | 4 | 5 |
+| fork / double attack | 3 | 5 | 5 | 5 | 2 | 4 |
+| other (longer combinations, checks first, mate threats, promotions) | 45 | 35 | 33 | 35 | 36 | 35 |
+| n | 156 | 705 | 1,154 | 899 | 573 | 3,487 |
+
+Lost games only: same shape within 1–2 points. The mix of mechanisms does
+not depend on material. What changes is how often a mistake is a quick
+material loss: 24% of errors at even material, 29% up 1–2, 51% up a piece+.
+King as the only defender among "attacked more times than defended": 11–14%
+when even or behind, 19% up 1–2, 30% up a piece+ (only ~15 cases each when
+ahead; suggestive, not established). Direct hangs when up 1–2: 45% a standing
+threat already there before the move, 35% the piece just moved, 13% the move
+took away a defender, 3% the move opened a line; same as other states.

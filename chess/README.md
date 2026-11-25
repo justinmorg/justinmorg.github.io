@@ -5885,6 +5885,10 @@ Scripts: `chess/scripts/visibility/`. Engine outputs: `data/vis_playouts.jsonl.g
   material or get mated within 3 moves (41% of lost-game cost); 12% miss a
   material win available within 3 moves; the rest (~2/3) give no material
   signal within 3 moves.
+- **Mechanism of quick material losses** (Part 4 of the note): the same mix
+  at every material state — no defender 35%, cheaper attacker 10%, more
+  attackers than defenders 10%, discovered attack 5%, fork 4%, other 35%.
+  Being ahead changes the rate, not the type.
 - **After opponent mistakes:** give-back 35% when nothing is grab-able vs 18%
   when material is (depth-16 confirmed). **After own mistakes:** next-move
   error rate 1.5–2x expected whether or not the mistake was visible.
