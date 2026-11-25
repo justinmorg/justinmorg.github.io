@@ -3010,7 +3010,7 @@ methods in November, and expects a null either way.
   the 900 by timestamp when the games are pulled.
 - **Dose may be front-loaded.** The dose is a floor ("at least"), so doing
   more cards per session is not a protocol change. Justin is aiming for
-  ~80% of the set (239 of 299) by the block end; the page's pace line was
+  ~80% of the set (194 of 243; the "299" above predates the 2026-09-03 audit) by the block end; the page's pace line was
   changed the same day to show cards/day needed for that (display only —
   `PACE_TARGET_SHARE`, `PACE_GAMES_PER_DAY` in `build_forward.py`).
 - **What this costs.** Resolution is unchanged from above (~3,000 eligible
@@ -3022,6 +3022,36 @@ methods in November, and expects a null either way.
   have given. State it that way when reporting.
 - State at the decision: Lichess `perfs.blitz.games` 6,603 (odometer 639);
   recent pace ~16 games/day, so 900 lands mid-November.
+
+**Ending the block, in plain terms (clarification 2026-11-24, note only).**
+This restates the rule above and changes nothing in it: no card, protocol
+step, outcome or decision rule.
+
+1. **The card count is not a requirement for the test.** There's no minimum
+   number of cards. 194 (80% of 243) was the aim, and it was reached on
+   2026-11-24 (archive `f_results` 2026-11-24). Card count only changes how
+   a null is worded: "at the dose actually taken," stated with the final
+   count.
+2. **What is required: keep to the dose until the end.** At least five
+   sessions a week, at least three cards a session, right up to the block
+   end. Doing more cards per session is fine.
+3. **The end is when both are done.** The block ends when the 900th
+   qualifying game (rated Lichess 3+2/5+0 after 2026-09-03 00:00 CT) has
+   been played *and* the last F session is done. Games played while card
+   sessions continue are still treatment, so stopping the card sessions is
+   what closes the block.
+4. **Where the end is on the bar: about 901, not 915.** A timestamp pull on
+   2026-11-23 found 839 rated blitz games since 2026-09-03 00:00 CT (652 at
+   3+2, 186 at 5+0, one 3+0). That makes **838 qualifying** (837 if counted
+   from the first card session, 02:49 CT), against an odometer reading of
+   838. No blitz was played on 2026-09-02 after the base count, so the
+   day-ahead overcount described above never happened. The bar matches the
+   block to within a game, provided only 3+2/5+0 is played; any other blitz
+   control moves the bar but not the block.
+5. **The routine:** keep doing card sessions as usual. On the day the bar
+   reaches ~901, do that day's card session, then stop. That is the block
+   end. Start nothing new before it. Then pull the games, confirm ≥900 by
+   timestamp, and run the test once.
 
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
