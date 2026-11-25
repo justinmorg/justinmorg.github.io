@@ -5889,6 +5889,26 @@ Scripts: `chess/scripts/visibility/`. Engine outputs: `data/vis_playouts.jsonl.g
   when material is (depth-16 confirmed). **After own mistakes:** next-move
   error rate 1.5–2x expected whether or not the mistake was visible.
 
+## What a hang flag actually is (2026-11-25, exploratory, not pre-registered)
+
+Full write-up: `chess/notes/2026-11-25-hang-anatomy.md`. Scripts:
+`chess/scripts/hanganatomy/`. Outputs: `data/hanganatomy_d18.jsonl.gz`,
+`data/hanganatomy.csv.gz`. Not a re-test of F.
+
+- All 689 floored hits (0.05, seven Lichess blocks, tripwire exact), depth 18,
+  6-ply material horizon. **hang 54%** (flagged capture real, ≥ 2 pawns lost),
+  other material loss 10%, missed a material win without losing any 13%,
+  eval-only 17%, not an error at depth 18 6%. Large hits (wp_error ≥ 0.20)
+  are 86% real losses; 0.05–0.10 hits only 25%.
+- Real hangs: standing threat 63%, moved piece en prise 14%, defender moved /
+  line opened 12%, losing trade 10%. 60% leave a sustained deficit (score
+  0.16 when they do, 0.68 when they don't); opponents take the flagged piece
+  at once 64% of the time.
+- Missed wins are seldom a free piece (13 of 88), and half follow an opponent
+  mistake. Spend is 7–9s median in every class.
+- Side check: of the known opening repeats only Englund 2.Nf3 …Nc6 is still
+  live (7 of 8 in TREAT).
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and
