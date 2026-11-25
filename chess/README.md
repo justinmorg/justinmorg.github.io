@@ -5845,6 +5845,30 @@ considered and rejected: it adds a measurement instrument with unknown error
 rate to a project whose main asset is that its numbers survive re-testing. If
 it's ever wanted, it needs a hand-labelled validation subset built first.
 
+## Clock value and long thinks (2026-11-25, exploratory, not pre-registered)
+
+Asked for by Justin after the F result. Full write-up:
+`chess/notes/2026-11-25-clock-model-and-long-thinks.md`. Scripts:
+`chess/scripts/clockmodel.py`, `chess/scripts/longthink/`.
+
+- **Clock model (3+2).** Expected score from engine win% and both clocks,
+  fitted on the six settled blocks and held out on the F block. Adding the
+  clocks lowers held-out Brier from 0.1680 to 0.1622. Example: engine 80%,
+  you 10s against opponent 2:30 → about **39%**; level clocks at 1:00 →
+  72%. A 30s think costs about 8 points of expected score from 1:00, 4 from
+  1:30 and 2 from 2:30. It breaks even only if the move gains about 9, 6 and
+  3–4 engine-win points respectively. Predictive, not causal; it likely
+  overstates the true clock cost.
+- **What long thinks (≥ 15s, 3+2, 2026 + F) are spent on.** 4+ fine moves
+  43%, 2–3 good moves 31%, already lost 9.5%, winning with several moves that
+  keep it 9%, only move (puzzle) 7%. Long thinks at moves ≤ 15 with 4+
+  fine moves are **20% of all long thinks** (mean 22s, with 141s left).
+  Justin's hypothesis 1 (spending fresh-out-of-prep clock where many moves
+  are fine) is the largest single bucket. Hypothesis 2 (already lost) is
+  real but smaller, and less common than among quick moves (20%).
+- **Per game (F block, move 15+):** about 11 points of expected score go to
+  clock against about 75 to the board. The board still dominates about 7:1.
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and
