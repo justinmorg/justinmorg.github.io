@@ -3125,6 +3125,36 @@ mistake. The annotated treatment block is in the repo as
 `chess/data/jamorgan_blitz_2026_fblock_analyzed.pgn.gz`, not merged into the
 2026 corpus file, so the settled blocks stay as published.
 
+**Exploratory comparison after the test (2026-11-25), not pre-registered.**
+Asked for by Justin after the null, to see whether *anything* moved. The 11
+measures were fixed before running (`fblock_explore.py`): treatment against
+the six settled blocks pooled, game-level label permutation, 5,000 draws,
+seed 23, two-sided. The bar is **p < 0.005** (Bonferroni over 11).
+
+| measure | treatment | six blocks | 2026 block | p |
+|---|---|---|---|---|
+| reached ≥ +200 in middlegame (`reached` bucket) | **46.7%** | 52.2% | 53.9% | **0.003** |
+| blunder rate, moves 13+ | 8.74% | 9.46% | 8.58% | 0.014 |
+| blunder rate, level positions (±100) | 8.47% | 9.82% | 10.25% | 0.023 |
+| avg s/move, moves 1–25, 3+2 | 5.78 | 5.95 | 6.01 | 0.014 |
+| share of 3+2 moves with ≤ 15s left | 5.74% | 6.98% | 7.89% | 0.073 |
+| blunder rate, move 26+, not lost | 10.09% | 10.78% | 9.49% | 0.23 |
+| score when ever ≥ +300 | 68.6% | 67.3% | 68.3% | 0.61 |
+| score in level endgames | 44.9% | 43.5% | 43.3% | 0.76 |
+| lost on time / won on time | 3.3% / 8.2% | 3.1% / 8.1% | 4.8% / 7.9% | 0.83 / 0.90 |
+| score − Elo-expected | −0.14 pts/100 | +0.24 | +0.34 | 0.83 |
+
+Only `reached` clears the bar. The difference holds within each time control
+(3+2: 46.4% vs 51.7%; 5+0: 47.8% vs 54.8%). The games that did not reach a
+winning position went to `even` and `losing`, not `lost`. By month: Sep
+45.6%, Oct 47.1%, Nov 47.1%, against 50–61% in every 2026 month before. **Read it the way Q4 2025's 43.5% is read**:
+an untested flag, not a finding, and not evidence about F. It was not
+pre-specified, `reached` has dipped like this once before with no
+explanation, and the block's average rating was higher (1,404 against 1,374
+for 2026 and 1,351 pooled), so opponents were stronger. Rating within the
+block was flat: about 1,450 over the first five games, about 1,440 over the
+last five, score − expected ≈ 0.
+
 **What is not an outcome.** Rating (150 points of movement with no change in
 play is the calibration). Score rate (matchmaking holds it at 50%). The
 in-page F hit rate or false-alarm rate. Any metric first examined after the
