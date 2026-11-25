@@ -78,7 +78,7 @@ def main():
         groups.append({"title": g["title"], "blurb": g["blurb"], "decks": decks})
     man = {"built": BUILT,
            "lede": "Lessons, drills and play-outs built from your own games.",
-           "note": "Built on 2026-11-16 while the 900-game block was still running. Nothing here is meant to be opened for practice until that block is closed and scored.",
+           "note": "First built on 2026-11-16, while the 900-game block was running. That block is now closed and scored, so everything here is open for practice.",
            "groups": groups}
     json.dump(man, open(os.path.join(OUT, "index.json"), "w", encoding="utf-8"), ensure_ascii=False,
               separators=(",", ":"), sort_keys=True)
