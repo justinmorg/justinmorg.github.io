@@ -6064,6 +6064,19 @@ fixed. `?fen=...#ai` confirmed working on the phone: it opens "Play against
 computer / From Position" with the FEN filled in, but on Random side and the
 last-used strength, so K cards now say which side and strength to pick.
 
+**Added 2026-11-25: deck `losses` (M), group "Where your games are lost", 14
+lesson cards.** The material/visibility findings
+(`notes/2026-11-25-material-segments-and-visibility.md`) bullet by bullet,
+three lost games per mistake type. Built by `build_study_losses.py` from
+`chess/study/losses_examples.json` (picked and checked by
+`scripts/visibility/select_examples.py`: Stockfish 16, depth 18 for every
+quoted eval, depth-14 self-play for the 15-move material lines; the builder
+asserts each material claim and refuses to write a card that fails). Rebuild
+needs no engine. Three first picks were swapped after reading the cards: two
+"missed win" lines whose gain rested on a recapture blocked by check or a
+temporary dip, and one "4-15 moves" line whose loss landed at the horizon;
+the selector and builder now require the material change to persist.
+
 **702 cards in 19 decks.**
 
 | deck | n | kind | key |

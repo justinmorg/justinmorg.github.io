@@ -21,6 +21,11 @@ OUT = os.path.join(HERE, "..", "..", "chess-study", "data")
 BUILT = "2026-11-16"
 
 GROUPS = [
+    {"title": "Where your games are lost",
+     "blurb": "Your mistakes sorted by what you can see at the board (material, clocks, queens), then by how visible each one was. Three of your lost games for every point, with links. Exploratory, from 2026-11-25.",
+     "decks": [
+         ("losses", "M", "lesson", "Mistakes you can see, and ones you can't", "Fourteen short cards: where the damage happens, how often you'd even know, and what happens after a mistake."),
+     ]},
     {"title": "The move routine",
      "blurb": "The pre-move check: two looks for blitz, four steps when there is time. Read the first three, then work down the ladder. Every key is computed from the rules alone, with no engine.",
      "decks": [
@@ -57,7 +62,7 @@ GROUPS = [
 
 def main():
     if "--all" in sys.argv:
-        for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py"):
+        for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py", "build_study_losses.py"):
             subprocess.check_call([sys.executable, os.path.join(HERE, script)])
     groups = []
     for g in GROUPS:
