@@ -5967,6 +5967,37 @@ Parked idea 3, picked up the same day. Full write-up:
   only `eg_tb` states the result up front — tablebase endings where the result
   is the premise of a find-the-only-move drill; left as is.)
 
+## Caro-Kann by variety (2026-11-26, exploratory, not pre-registered)
+
+Parked idea 1, picked up the same day it was parked. Full write-up:
+`chess/notes/2026-11-26-caro-varieties.md`. Scripts: `chess/scripts/caro/`
+(`classify.py` -> `analyze.py` -> `movetypes.py` -> `breaks.py` / `setups.py` /
+`kside.py` / `kingzone.py`; `select_moments.py` for the deck). Benchmark: the
+thread-9 panel's own Caro games as Black (15 players, 681 games).
+
+- 1,871 Caro games (Lichess 3+2/5+0, all blocks + pending). Advance 532 (49%),
+  Exchange 483 + 99 without d4 (51% / 53%), 4.Nxe4 Nf6 141 (46%; he never
+  plays 4...Bf5), 2.Bc4 187, Panov 50 (44%).
+- **P1 rate at or below the panel in every main variety** (moves 13-30:
+  Advance 8.4 vs 9.8, Exchange 8.5 vs 10.4 per 100 moves).
+- Weak spots: 4.Nxe4 Nf6 (wp 44 -> 39 from move 10 to 25; opening P1 5.5 vs
+  3.3-4.0); Exchange with White c3 (137 games 45%, wp 45 -> 37) vs Nc3 (379,
+  52%), same opponent rating, same per-move loss (so White plays the c3 set-up
+  better); Advance 4.dxc5 (30 games 42%, wp12 38; small n).
+- Kingside pawn moves: 12.3% P1 vs 7.1% other moves; panel 11.9% vs 8.0%, same
+  frequency — opening property, not his gap. 40% of his P1s are answered at
+  his king; panel 36-39%. Single moves above panel on small panel n: Advance
+  ...f6 22% vs 12.5% (n 40), ...g5 26% vs 6% (16); Exchange ...f6 22% vs 0%
+  (16), ...Nf5 23% vs 6% (53). Advance ...d4 26% and Exchange ...e5 27% are
+  matched by the panel (23%, 25%).
+- Light bishop for knight by move 12 is not costly (Exchange 54% traded vs 47%
+  kept; Advance 49% both).
+- Decks `caro_lessons` (5), `caro_which` (24), `caro_moves` (36) on
+  chess-study, group "Caro-Kann by variety", built by
+  `scripts/build_study_caro.py` (in `build_study.py --all`), caches
+  `study/engine_cache_caro.json`, `study/caro_moments.json`; offline rebuild
+  byte-identical.
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and
@@ -6087,12 +6118,13 @@ built or used before the block end.
   square 14%, moved piece was the defender 8%, line opened 4%, other 4%.
   Card positions are the tail and carry ~10% label error.
 
-### Parked for later (2026-11-25) — 1 and 2 not started
+### Parked for later (2026-11-25) — 1 done 2026-11-26, 2 not started
 
 Captured at Justin's request while the endgame truth-check / time-map /
 practice-deck work went first. No tests intended; these are study builds.
 
-1. **Caro by variety.** Recognise which Caro variety a game is in (Advance,
+1. **Caro by variety.** — **DONE 2026-11-26**, see "Caro-Kann by variety"
+   above. Original note: Recognise which Caro variety a game is in (Advance,
    Exchange, Panov, Classical 4…Bf5, Two Knights, Fantasy, others), find
    where each goes wrong for him (eval drop by move, clock, structure), and
    teach the concepts and plans most relevant to each, Chessbrah-style

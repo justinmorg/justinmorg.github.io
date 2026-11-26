@@ -26,6 +26,13 @@ GROUPS = [
      "decks": [
          ("losses", "M", "lesson", "Mistakes you can see, and ones you can't", "Fourteen short cards: where the damage happens, how often you'd even know, and what happens after a mistake."),
      ]},
+    {"title": "Caro-Kann by variety",
+     "blurb": "Tell the Advance, the Exchange and your 4...Nf6 line apart, know the plan against each White set-up, and judge the pawn moves where your Caro games go wrong. Exploratory, from 2026-11-26.",
+     "decks": [
+         ("caro_lessons", "CK", "lesson", "Caro-Kann by variety", "Five lessons: which Caro you are in, what your games say, and the plans for the Advance, the Exchange against c3, and 4...Nf6."),
+         ("caro_which", "CW", "drill", "Which Caro is this?", "Positions from your games. Name the variety, then pick the plan."),
+         ("caro_moves", "CB", "drill", "Good idea or mistake?", "Your Caro positions where you pushed a kingside pawn, ...d4 or ...e5. Was it right? Then find a good move. Engine-judged."),
+     ]},
     {"title": "When to trade",
      "blurb": "Even trades from level material: safe when the game is even, costly when you are already better. Exploratory, from 2026-11-25.",
      "decks": [
@@ -72,7 +79,8 @@ GROUPS = [
 def main():
     if "--all" in sys.argv:
         # build_study_egtruth.py and build_study_trades.py need their analysis tables (see their docstrings) and are run on their own
-        for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py", "build_study_losses.py"):
+        for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py", "build_study_losses.py",
+                       "build_study_caro.py"):
             subprocess.check_call([sys.executable, os.path.join(HERE, script)])
     groups = []
     for g in GROUPS:
