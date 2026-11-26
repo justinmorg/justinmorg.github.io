@@ -5937,6 +5937,29 @@ Plateau + TREAT blocks, both sides' moves, 3+2 / 5+0.
   `scripts/build_study_egtruth.py` from `analyze.py`'s tables, own caches in
   `chess/study/*_egtruth.json` (not pruned by `build_study_endgames.py`).
 
+## Trades from materially level positions (2026-11-25, exploratory, not pre-registered)
+
+Parked idea 3, picked up the same day. Full write-up:
+`chess/notes/2026-11-25-trades-from-level.md`. Scripts: `chess/scripts/trades/`
+(`extract.py` → `deep.py` → `analyze.py`). Outputs: `data/trades.csv.gz`,
+`data/trades_d18.jsonl.gz`.
+
+- Decision point = level material (P1 N3 B3 R5 Q9), not in check, an even
+  piece trade available (same value class, SEE 0, recapture exists). 30,177
+  points, 5,098 games, plateau + F, both sides. Error = win-prob lost >= 0.05
+  at depth 12; band-standardized; opponents as benchmark; game bootstrap.
+- **Even eval: trading is safe** for both (his trades 13.9% vs his declines
+  39.5%; opp 15.1 / 37.4).
+- **Clearly better (>= +150), material level: his trades 40.4% vs opp 31.8%,
+  +8.7 [+1.9, +15.6]; no safer than his declines (43.2%).** Depth-18 re-check
+  (1,624 trades): 41% vs 26%, +14.9 [+4.6, +25.0]. Minor-piece trades; London
+  widest. Caro Advance after move 12 +11.5 [+2.0, +20.8] (he is usually better
+  there); Caro Exchange no gap; Caro opening trades fine.
+- Low clock (<= 20 s): trading does not detectably change errors over the next
+  10 moves (+2.5 per 100 [-3.0, +8.0], 103 games).
+- Decks `tr_lessons`, `tr_keep` on chess-study (group "When to trade"), built
+  by `scripts/build_study_trades.py`, cache `study/engine_cache_trades.json`.
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and
@@ -6057,7 +6080,7 @@ built or used before the block end.
   square 14%, moved piece was the defender 8%, line opened 4%, other 4%.
   Card positions are the tail and carry ~10% label error.
 
-### Parked for later (2026-11-25) — not started
+### Parked for later (2026-11-25) — 1 and 2 not started
 
 Captured at Justin's request while the endgame truth-check / time-map /
 practice-deck work went first. No tests intended; these are study builds.
@@ -6073,7 +6096,8 @@ practice-deck work went first. No tests intended; these are study builds.
    game-review method rather than at the 30 games themselves (fits the
    post-block plan's "rigorous habit of studying his games" and the
    Heisman-routine idea). Pick from the F block so it reflects current play.
-3. **Trades from materially level positions.** Where does he trade when level
+3. **Trades from materially level positions.** — **DONE 2026-11-25**, see
+   "Trades from materially level positions" above. Original note: Where does he trade when level
    and shouldn't? He had believed taking every even trade is right in any
    Caro, and also simplifies when short on clock; wants to know when each is
    sound. Measure: trade/simplification rate from level positions vs

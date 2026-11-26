@@ -26,6 +26,12 @@ GROUPS = [
      "decks": [
          ("losses", "M", "lesson", "Mistakes you can see, and ones you can't", "Fourteen short cards: where the damage happens, how often you'd even know, and what happens after a mistake."),
      ]},
+    {"title": "When to trade",
+     "blurb": "Even trades from level material: safe when the game is even, costly when you are already better. Exploratory, from 2026-11-25.",
+     "decks": [
+         ("tr_lessons", "TRL", "lesson", "When to trade", "Five short cards: when your trades are safe, when they give your edge back, and trading short of time."),
+         ("tr_keep", "TR", "drill", "Trade or keep?", "Your positions where you were better with material level and could trade. Decide, then play. Engine-judged."),
+     ]},
     {"title": "The move routine",
      "blurb": "The pre-move check: two looks for blitz, four steps when there is time. Read the first three, then work down the ladder. Every key is computed from the rules alone, with no engine.",
      "decks": [
@@ -65,7 +71,7 @@ GROUPS = [
 
 def main():
     if "--all" in sys.argv:
-        # build_study_egtruth.py needs the egtruth tables (see its docstring) and is run on its own
+        # build_study_egtruth.py and build_study_trades.py need their analysis tables (see their docstrings) and are run on their own
         for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py", "build_study_losses.py"):
             subprocess.check_call([sys.executable, os.path.join(HERE, script)])
     groups = []
