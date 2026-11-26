@@ -27,6 +27,8 @@ CARDS = [
     ("TRL-do", "What to practise", [
         "<b>Before an even trade, look at the evaluation first.</b> If it is level or you are worse, trading is fine. If you are better, ask: <i>what does this trade get me?</i>",
         "Good answers: it wins material, it removes their best defender, it gets their active piece off the board, or it leads to an ending you know is won. If there is no answer, keep the pieces on and improve your worst piece.",
-        "<b>The deck &ldquo;Trade or keep?&rdquo;</b> is your own positions where you were better with material level. In some, the trade you played threw the edge away. In others, the trade really was the best move. Decide first, then play a move.",
+        "<b>The deck &ldquo;Who's better? Trade or keep?&rdquo;</b> uses your own positions with material level and a trade on offer. It never tells you who is better: you decide that first, then trade or keep, then play a move. Some are positions where you were better and your trade threw the edge away. Others are positions where trading really was right, including even positions and ones where you were worse.",
+        "<b>Signs you are better with material level:</b> their king is less safe; your pieces have more squares and theirs are tied to defence; they have a weak pawn or a hole you can use; you have more space; you are the one making threats; they are the one offering trades.",
+        "<b>A shortcut when unsure:</b> compare the two pieces. Your bad piece for their good one: trade. Your best piece for their bad one: don't, unless it wins something.",
     ]),
 ]

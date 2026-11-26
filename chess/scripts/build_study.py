@@ -30,7 +30,7 @@ GROUPS = [
      "blurb": "Even trades from level material: safe when the game is even, costly when you are already better. Exploratory, from 2026-11-25.",
      "decks": [
          ("tr_lessons", "TRL", "lesson", "When to trade", "Five short cards: when your trades are safe, when they give your edge back, and trading short of time."),
-         ("tr_keep", "TR", "drill", "Trade or keep?", "Your positions where you were better with material level and could trade. Decide, then play. Engine-judged."),
+         ("tr_keep", "TR", "drill", "Who's better? Trade or keep?", "Your positions with material level and a trade on offer. Judge who is better, decide whether to trade, then play. Engine-judged."),
      ]},
     {"title": "The move routine",
      "blurb": "The pre-move check: two looks for blitz, four steps when there is time. Read the first three, then work down the ladder. Every key is computed from the rules alone, with no engine.",

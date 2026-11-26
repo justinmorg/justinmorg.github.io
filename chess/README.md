@@ -5959,6 +5959,13 @@ Parked idea 3, picked up the same day. Full write-up:
   10 moves (+2.5 per 100 [-3.0, +8.0], 103 games).
 - Decks `tr_lessons`, `tr_keep` on chess-study (group "When to trade"), built
   by `scripts/build_study_trades.py`, cache `study/engine_cache_trades.json`.
+  `tr_keep` asks who is better first and never states it (mix: 22 you better,
+  8 even, 6 them; keep is the answer on 14 of 36).
+- **Rule for all future decks (Justin, 2026-11-25):** on a materially level
+  position, never reveal the evaluation before the answer. Judging who is
+  better at level material is the skill being trained. (Existing decks checked:
+  only `eg_tb` states the result up front — tablebase endings where the result
+  is the premise of a find-the-only-move drill; left as is.)
 
 ## After the treatment block: plans, not tests (2026-10-26)
 

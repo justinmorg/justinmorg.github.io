@@ -86,13 +86,18 @@ Outputs: `data/trades.csv.gz` (40,889 decision rows, |bal| ≤ 1),
 ## Decks (chess-study, group "When to trade")
 
 - `tr_lessons` — five lesson cards (text in `scripts/trades_lesson_text.py`).
-- `tr_keep` "Trade or keep?" — his own positions after move 12, material
-  level, depth-12 eval +1.2..+5, an even trade available. Keep cards: he
-  traded, Stockfish 17.1 depth 18 says the best is not a trade and the best
-  trade is ≥ 8 points below. Trade cards: a trade within 3 points of best and
-  the best non-trade ≥ 8 points below. Choice step, then a move step
-  (accepted within 5 points, of the right kind). Built by
+- `tr_keep` "Who's better? Trade or keep?" — reworked the same evening at
+  Justin's request: **with level material the card must not reveal who is
+  better**, because judging that is the skill. His own positions after move
+  12, material level, an even trade available. Step 1: who is better (key from
+  Stockfish 17.1 depth 18 winning chance: >= 62% you, 42–58% even, <= 38%
+  them; gaps skipped). Step 2: trade or keep. Step 3: a good move (within 5
+  points, of the right kind). Mix: 14 better/keep (he traded, best trade >= 8
+  points below best), 8 better/trade, 8 even/trade, 6 worse/trade (trade
+  within 3 of best, best non-trade >= 8 / 5 below). Built by
   `scripts/build_study_trades.py`; own cache `study/engine_cache_trades.json`.
+- **Standing rule for future decks:** any exercise on a materially level
+  position withholds the evaluation until after the answer.
 
 ## Limits
 
