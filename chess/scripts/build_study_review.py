@@ -269,8 +269,9 @@ def card_game(i, f):
     sub = "%s &middot; you're %s vs a %s &middot; %s" % (g["date"].replace(".", "-"), who, oppelo, g["tc"].replace("+", "+"))
     link = ["The game on Lichess", "https://lichess.org/%s%s#%d" % (g["gid"], "" if me else "/black", (k - 1) if k else f["n"])]
     intro = P("You %s on move %d. Treat this the way you'd treat a game you just finished: no engine, no evaluation bar." % (f["how"], last_fm),
-              "<b>Step 1, the gut call.</b> Before you look at a single move: what do you think lost it?")
-    steps = [{"type": "verify", "fen": chess.STARTING_FEN, "flip": not me, "text": intro,
+              "<b>Step 1, the gut call.</b> The board shows how it ended. Without stepping through the moves: what do you think lost it?",
+              "<span class=\"dim\">On these older games &ldquo;Not sure&rdquo; is a fine answer. Right after one of your own games, this is the step that pays most.</span>")
+    steps = [{"type": "verify", "fen": f["B"][-1].fen(), "last": g["moves"][-1], "flip": not me, "text": intro,
               "ask": "Your first guess (not scored, just recorded):", "options": GUESS}]
     gs = game_step(f)
     W = f["W"]
