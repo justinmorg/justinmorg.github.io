@@ -6041,6 +6041,14 @@ each deciding move).
   moves only, optional "none" button; scored like other asked steps).
   Schema and validation in `studycards.py` (SAN and FEN of every ply checked).
   Evals are never shown during the game step.
+- Review log (2026-11-26, added on request): `#/log` on chess-study, linked
+  at the top of the hub. One entry per real loss he reviews: gut call (6
+  options incl. "not sure"), turning-point kind (the 4 kinds + "no move lost
+  it"), optional move, clock, link, note, date. localStorage key
+  `study.reviewlog.v1` (test mode `study.test.log.v1`), included as
+  `reviewlog` in the hub's "Copy my results as JSON" export. Shows weekly
+  counts (Monday weeks, last 6) and gut-call hit rate ("not sure" excluded).
+  Delete is two-tap, no browser dialogs. The RVL-lichess card points to it.
 
 ## After the treatment block: plans, not tests (2026-10-26)
 

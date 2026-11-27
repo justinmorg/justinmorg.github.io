@@ -398,8 +398,8 @@ def lessons(S):
     cards.append({"k": "RVL-lichess", "t": "Doing it after your own games", "steps": [{"type": "show", "text": P(
         "After a loss on Lichess, open the game's analysis board and keep the computer evaluation switched off for steps 1 to 3. Step through with the arrows.",
         "Step 4: switch the engine on, or request a computer analysis, and jump to the move you picked. The evaluation graph is a fast way to see whether the real turning point was earlier.",
-        "Step 5: one line in a note on your phone. Once a week, count the kinds. If one kind dominates, that's what your next ten-minute windows should go to.",
-        "If an engine move makes no sense after a minute, add the position to a Lichess study chapter. Those are worth bringing to a chat, or to a video on that idea.",
+        "Step 5: write your gut call in the game's private Notes tab on Lichess before you analyse, then add the result to the Review log at the top of this page. It keeps the weekly count of mistake types and how often your gut call was right. If one kind dominates, that's what your next ten-minute windows should go to.",
+        "If an engine move makes no sense after a minute, add it to a private Lichess study (say, \"Positions I don't get\"), one chapter per position, from the analysis board menu. Those are worth bringing to a chat, or to a video on that idea.",
         "Short on time? Steps 1, 3 and 5 alone are worth doing: the gut call, the turning point, the one line.")}]})
     return cards
 

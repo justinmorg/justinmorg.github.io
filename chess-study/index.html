@@ -72,6 +72,21 @@ svg.bd{display:block;width:100%;height:auto;user-select:none;-webkit-user-select
 .cnav{display:flex;gap:.5rem;margin:1.6rem 0 0;border-top:1px solid var(--rule);padding-top:.8rem}
 .cnav .btn{flex:1;text-align:center}
 .cnav .mid{flex:2}
+.lg h2{margin-top:1.6rem}
+.lg .lab{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:1.05rem;margin:1rem 0 .35rem}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem}
+.chips .btn{flex:1 1 44%;text-align:left;font-size:1rem;padding:.55rem .7rem}
+.lg input,.lg textarea{font:inherit;font-size:1rem;width:100%;box-sizing:border-box;padding:.55rem .6rem;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:0;-webkit-appearance:none}
+.lg .two{display:flex;gap:.6rem} .lg .two>div{flex:1}
+.wk{border-top:1px solid var(--rule);padding:.7rem 0 .4rem}
+.wk h3{font-family:'Saira Condensed',sans-serif;font-size:1.15rem;margin:0 0 .4rem;display:flex;justify-content:space-between}
+.wk h3 span{font-family:'Roboto Mono',monospace;font-size:.78rem;color:var(--muted);font-weight:400}
+.bar{display:flex;align-items:center;gap:.5rem;font-size:.9rem;margin:.25rem 0}
+.bar .bl{flex:0 0 46%} .bar .bt{flex:1;background:#E6E2C8;height:1.1rem;position:relative}
+.bar .bt i{position:absolute;left:0;top:0;bottom:0} .bar .bn{flex:0 0 1.6rem;text-align:right;font-family:'Roboto Mono',monospace;font-size:.85rem}
+.ent{border-top:1px solid var(--rule);padding:.6rem 0;font-size:.95rem}
+.ent .eh{display:flex;justify-content:space-between;gap:.5rem;font-family:'Roboto Mono',monospace;font-size:.8rem;color:var(--muted)}
+.ent b{font-weight:600}
 .legend{font-size:.82rem;color:var(--muted);margin:.3rem 0 0;display:flex;gap:.9rem;flex-wrap:wrap}
 .legend span::before{content:'';display:inline-block;width:.7rem;height:.7rem;margin-right:.3rem;vertical-align:-.05rem;background:var(--c)}
 .sum{border:1px solid var(--rule);padding:.8rem;margin:1rem 0}
@@ -122,6 +137,9 @@ var GLYPH={found:'\u2713',missed:'\u2715',extra:'+'};
 // ---------------------------------------------------------------- storage
 function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){return {};} }
 function save(s){ try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){} }
+var LOGKEY=TEST?'study.test.log.v1':'study.reviewlog.v1';
+function loadLog(){ try{return JSON.parse(localStorage.getItem(LOGKEY)||'[]');}catch(e){return [];} }
+function saveLog(a){ try{localStorage.setItem(LOGKEY,JSON.stringify(a)); return true;}catch(e){ return false; } }
 function rec(k){ return load()[k]||null; }
 function put(k,fn){ var s=load(); var r=s[k]||{}; fn(r); s[k]=r; save(s); }
 
@@ -188,6 +206,8 @@ function hub(){
     h.push('<div class="mast"><p class="eyebrow">jamorgan · built '+m.built+'</p><h1>Chess study</h1>');
     h.push('<p class="lede">'+m.lede+'</p></div>');
     if(m.note) h.push('<p class="note">'+m.note+'</p>');
+    var lg=loadLog(), wk=lg.filter(function(e){ return monday(e.date)===monday(today()); }).length;
+    h.push('<a class="deck" href="#/log"><span class="dtag">LOG</span><span class="dbody"><h3>Review log</h3><p>After you review a real loss, log the turning point here. Keeps your weekly count of mistake types and how often your gut call was right.</p></span><span class="dprog">'+lg.length+' logged'+(lg.length?'<br><b>'+wk+' this week</b>':'')+'</span></a>');
     m.groups.forEach(function(g){
       h.push('<h2>'+g.title+'</h2><p class="gblurb">'+g.blurb+'</p>');
       g.decks.forEach(function(d){
@@ -201,13 +221,82 @@ function hub(){
     h.push('<p class="dim">Chess pieces: Colin M. L. Burnett, via python-chess.</p></div>');
     app.innerHTML=h.join('');
     document.getElementById('exp').onclick=function(){
-      var t=JSON.stringify({v:1,exported:new Date().toISOString(),results:load()});
+      var t=JSON.stringify({v:1,exported:new Date().toISOString(),results:load(),reviewlog:loadLog()});
       var o=document.getElementById('expout');
       o.innerHTML='<textarea class="exp" readonly></textarea>'; o.firstChild.value=t;
       if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ document.getElementById('exp').textContent='Copied'; },function(){});
     };
     window.scrollTo(0,0);
   }).catch(function(e){ app.innerHTML='<p style="padding:2rem 0">Could not load the study data ('+e.message+').</p>'; });
+}
+
+// ---------------------------------------------------------------- review log
+var LK=[['material','They could win material','#0B62B0'],['mate','They had a mating attack','#D5380B'],
+  ['missed','I missed a win of my own','#C9A227'],['position','My position just got worse','#16180F'],['none','No move lost it (clock, or resigned)','#8C8F7A']];
+var LG=[['material','I lost material'],['mate','I got mated or attacked'],['missed','I missed a win'],['position','My position slowly got worse'],['none','The clock'],['unsure','Not sure']];
+function lname(id,arr){ for(var i=0;i<arr.length;i++) if(arr[i][0]===id) return arr[i][1]; return id; }
+function today(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function monday(iso){ var p=iso.split('-'), d=new Date(+p[0],+p[1]-1,+p[2]); d.setDate(d.getDate()-((d.getDay()+6)%7)); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function esc(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function weekBlocks(log,n){
+  var by={}; log.forEach(function(e){ var w=monday(e.date); (by[w]=by[w]||[]).push(e); });
+  var weeks=Object.keys(by).sort().reverse().slice(0,n), h=[];
+  if(!weeks.length) return '<p class="dim">Nothing logged yet. Your weekly counts will appear here.</p>';
+  weeks.forEach(function(w){
+    var es=by[w], max=0, cnt={}; LK.forEach(function(k){ cnt[k[0]]=0; });
+    es.forEach(function(e){ cnt[e.kind]=(cnt[e.kind]||0)+1; });
+    LK.forEach(function(k){ if(cnt[k[0]]>max) max=cnt[k[0]]; });
+    var guessed=es.filter(function(e){ return e.gut&&e.gut!=='unsure'; }), hit=guessed.filter(function(e){ return e.gut===e.kind; }).length;
+    var p=w.split('-');
+    h.push('<div class="wk"><h3>Week of '+(+p[1])+'/'+(+p[2])+(w===monday(today())?' (this week)':'')+'<span>'+es.length+' review'+(es.length===1?'':'s')+'</span></h3>');
+    LK.forEach(function(k){ var c=cnt[k[0]]; h.push('<div class="bar"><span class="bl">'+k[1]+'</span><span class="bt">'+(c?'<i style="width:'+Math.round(100*c/max)+'%;background:'+k[2]+'"></i>':'')+'</span><span class="bn">'+c+'</span></div>'); });
+    h.push('<p class="dim" style="margin:.35rem 0 0">Gut call right: '+(guessed.length?hit+' of '+guessed.length:'no guesses yet')+'</p></div>');
+  });
+  return h.join('');
+}
+function logPage(){
+  var F={date:today(),gut:null,kind:null}, armed=null;
+  function draw(){
+    var log=loadLog(), h=[];
+    h.push('<div class="top"><a class="back" href="#/">&larr; All</a><span class="dt">Review log</span><span class="cn">'+log.length+'</span></div>');
+    h.push('<div class="lg"><p class="dim" style="margin-top:.8rem">One entry per real loss you review. Stored on this phone; it\'s included when you copy your results as JSON on the main page.</p>');
+    h.push('<h2>Add a review</h2>');
+    h.push('<p class="lab">1. Your gut call, before looking</p><div class="chips">');
+    LG.forEach(function(g){ h.push('<button class="btn'+(F.gut===g[0]?' on':'')+'" data-l="gut" data-v="'+g[0]+'">'+g[1]+'</button>'); });
+    h.push('</div><p class="lab">2. What the turning point turned out to be</p><div class="chips">');
+    LK.forEach(function(k){ h.push('<button class="btn'+(F.kind===k[0]?' on':'')+'" data-l="kind" data-v="'+k[0]+'">'+k[1]+'</button>'); });
+    h.push('</div><p class="lab">Details (all optional)</p>');
+    h.push('<div class="two"><div><input id="lmove" inputmode="numeric" placeholder="Move no." value="'+esc(F.move)+'"></div><div><input id="lclock" placeholder="Clock, e.g. 2:00" value="'+esc(F.clock)+'"></div></div>');
+    h.push('<div style="margin-top:.5rem"><input id="llink" type="url" placeholder="Lichess game link" value="'+esc(F.link)+'"></div>');
+    h.push('<div style="margin-top:.5rem"><input id="lnote" placeholder="One line: what to ask next time" value="'+esc(F.note)+'"></div>');
+    h.push('<div style="margin-top:.5rem"><input id="ldate" type="date" value="'+esc(F.date)+'"></div>');
+    h.push('<div class="row"><button class="btn pri" data-l="save"'+(F.kind?'':' disabled')+'>'+(F.kind?'Save entry':'Pick what the turning point was')+'</button></div><div id="lmsg"></div>');
+    h.push('<h2>Weekly counts</h2>'+weekBlocks(log,6));
+    h.push('<h2>Entries</h2>');
+    if(!log.length) h.push('<p class="dim">None yet.</p>');
+    log.slice().reverse().forEach(function(e){
+      var gutTxt=e.gut?(e.gut==='unsure'?'gut: not sure':'gut: '+lname(e.gut,LG)+(e.gut===e.kind?' &#x2713;':' &#x2715;')):'';
+      h.push('<div class="ent"><div class="eh"><span>'+esc(e.date)+(e.move?' &middot; move '+esc(e.move):'')+(e.clock?' &middot; '+esc(e.clock):'')+'</span><button class="btn sm ghost" data-l="del" data-v="'+e.id+'">'+(armed===e.id?'Tap again to delete':'Delete')+'</button></div>');
+      h.push('<b>'+lname(e.kind,LK)+'</b>'+(gutTxt?'<br><span class="dim">'+gutTxt+'</span>':'')+(e.note?'<br>'+esc(e.note):'')+(e.link&&/^https?:\/\//.test(e.link)?'<br><a href="'+esc(e.link)+'" target="_blank" rel="noopener">Game</a>':'')+'</div>');
+    });
+    h.push('</div>');
+    app.innerHTML=h.join('');
+    ['move','clock','link','note','date'].forEach(function(f){ var el=document.getElementById('l'+f); el.oninput=function(){ F[f]=el.value; }; });
+    Array.prototype.forEach.call(app.querySelectorAll('[data-l]'),function(b){ b.onclick=function(){
+      var a=b.getAttribute('data-l'), v=b.getAttribute('data-v');
+      if(a==='gut'){ F.gut=F.gut===v?null:v; armed=null; draw(); }
+      else if(a==='kind'){ F.kind=F.kind===v?null:v; armed=null; draw(); }
+      else if(a==='del'){ if(armed===v){ saveLog(loadLog().filter(function(e){ return e.id!==v; })); armed=null; } else armed=v; draw(); }
+      else if(a==='save'){
+        var e={id:Date.now().toString(36),date:F.date||today(),gut:F.gut,kind:F.kind};
+        ['move','clock','link','note'].forEach(function(f){ if(F[f]&&String(F[f]).trim()) e[f]=String(F[f]).trim(); });
+        var L=loadLog(); L.push(e); L.sort(function(x,y){ return x.date<y.date?-1:x.date>y.date?1:0; });
+        var ok=saveLog(L); F={date:today(),gut:null,kind:null}; armed=null; draw();
+        document.getElementById('lmsg').innerHTML=ok?'<p class="dim">Saved.</p>':'<p class="note">Could not save on this phone (storage blocked).</p>';
+      }
+    }; });
+  }
+  draw(); window.scrollTo(0,0);
 }
 
 // ---------------------------------------------------------------- test hub
@@ -481,7 +570,7 @@ function altFor(st,uci){ for(var k in st.alt){ if(k.slice(0,4)===uci) return st.
 function route(){
   var h=location.hash||'#/';
   var m=h.match(/^#\/d\/([A-Za-z0-9_-]+)(?:\/(\d+))?/);
-  if(m){ run(m[1], m[2]!=null?+m[2]:null); } else { R=null; if(TEST) testHub(); else hub(); }
+  if(m){ run(m[1], m[2]!=null?+m[2]:null); } else if(/^#\/log/.test(h)){ R=null; logPage(); } else { R=null; if(TEST) testHub(); else hub(); }
 }
 window.addEventListener('hashchange',route);
 route();
