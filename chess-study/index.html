@@ -79,6 +79,18 @@ svg.bd{display:block;width:100%;height:auto;user-select:none;-webkit-user-select
 .links a{color:var(--blue)}
 textarea.exp{width:100%;height:8rem;font-family:'Roboto Mono',monospace;font-size:.7rem}
 ul.tight{margin:.2rem 0 .6rem;padding-left:1.2rem} ul.tight li{margin:.2rem 0}
+.gbar{display:flex;gap:.4rem;margin:.5rem 0 .3rem}
+.gbar .btn{flex:1;text-align:center;padding:.55rem .2rem;font-size:1.25rem}
+.gnow{font-family:'Roboto Mono',monospace;font-size:.85rem;margin:.35rem 0 0;display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
+.gnow b{font-weight:500}
+.glist{font-family:'Roboto Mono',monospace;font-size:.8rem;line-height:1.9;max-height:9.5rem;overflow-y:auto;border:1px solid var(--rule);padding:.3rem .5rem;margin:.4rem 0}
+.glist span{padding:.1rem .25rem;cursor:pointer;white-space:nowrap}
+.glist span.mine{font-weight:500}
+.glist span.opp{color:var(--muted)}
+.glist span.cur{background:var(--ink);color:var(--paper)}
+.glist span.key{outline:2px solid var(--flag)}
+.glist span.pk{outline:2px dashed var(--ink)}
+.glist i{font-style:normal;color:var(--muted);margin-right:.15rem}
 </style>
 </head>
 <body>
@@ -265,6 +277,7 @@ function newState(st){
   if(st.type==='move') return {from:null,done:false,tries:0,msg:''};
   if(st.type==='choice'||st.type==='verify') return {pick:null,done:false};
   if(st.type==='playout') return {};
+  if(st.type==='game') return {i:0,pick:null,done:false};
   return {done:true};
 }
 function draw(){
@@ -290,6 +303,7 @@ function draw(){
   } else if(st.type==='choice'){
     if(S.done){ arrows=arrows.concat(st.rarrows||[]); marks=marks.concat(st.rmarks||[]); if(st.rfen){fen=st.rfen; last=st.rlast;} }
   }
+  if(st.type==='game'){ if(S.i>0){ var gp=st.plies[S.i-1]; fen=gp[1]; last=gp[2]; } if(S.done&&st.key&&S.i===st.key){ marks=marks.concat([[st.plies[st.key-1][2].slice(2,4),'r','!']]); } }
   if(fen) h.push('<div class="bwrap" id="bw">'+boardSvg({fen:fen,flip:(st.flip!=null?st.flip:c.flip),last:last,arrows:arrows,marks:marks,sel:sel,tap:tap})+'</div>');
   // text
   h.push('<div class="txt">');
@@ -308,6 +322,8 @@ function draw(){
   } else if(st.type==='choice'){
     h.push('<p class="ask">'+st.ask+'</p>');
     if(S.done) h.push('<p><span class="verdict '+(S.pick===st.answer?'ok':'no')+'">'+(S.pick===st.answer?'Right.':'Not quite.')+'</span> '+(st.explain||'')+'</p>');
+  } else if(st.type==='game'){
+    h.push(gameHtml(st,S));
   } else if(st.type==='playout'){
     h.push(playoutHtml(c,st));
   } else if(st.type==='verify'){
@@ -322,6 +338,10 @@ function draw(){
   } else if(st.type==='move' && !S.done){
     if(st.none) h.push('<button class="btn" data-a="movenone">'+st.none+'</button>');
     if(S.tries>0 || st.hint) h.push((st.hint&&!S.hinted?'<button class="btn ghost" data-a="hint">Hint</button>':'')+'<button class="btn ghost" data-a="showme">Show me</button>');
+  } else if(st.type==='game' && !S.done){
+    var mineNow=S.i>0&&gameMine(st,S.i);
+    h.push('<button class="btn pri" data-a="gpick"'+(mineNow?'':' disabled')+'>'+(mineNow?'This move lost it':'Step to one of your moves')+'</button>');
+    if(st.none) h.push('<button class="btn" data-a="gnone">'+st.none+'</button>');
   } else if(st.type==='choice' && !S.done){
     st.options.forEach(function(o,i){ h.push('<button class="btn" data-a="pick" data-i="'+i+'">'+o+'</button>'); });
   } else if(st.type==='verify'){
@@ -334,7 +354,7 @@ function draw(){
   if(R.si>0) h.push('<button class="btn ghost" data-a="back" style="flex:0 0 auto">&larr;</button>');
   if(canNext) h.push('<button class="btn pri" data-a="next">'+(last2?(R.ci+1<R.deck.cards.length?'Finish &middot; next card':'Finish deck'):(st.next||'Next'))+'</button>');
   h.push('</div>');
-  if((st.type==='tap'||st.type==='move'||st.type==='choice') && S.done) h.push('<div class="row"><button class="btn sm ghost" data-a="flag" style="flex:0 0 auto">'+(S.flagged?'Flagged, thanks':'I think the key is wrong')+'</button></div>');
+  if((st.type==='tap'||st.type==='move'||st.type==='choice'||st.type==='game') && S.done) h.push('<div class="row"><button class="btn sm ghost" data-a="flag" style="flex:0 0 auto">'+(S.flagged?'Flagged, thanks':'I think the key is wrong')+'</button></div>');
   // links + nav
   if(c.links){ h.push('<p class="links">'+c.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+'</a>';}).join(' &middot; ')+'</p>'); }
   h.push('<div class="cnav"><button class="btn sm ghost" data-a="prevcard"'+(R.ci===0?' disabled':'')+'>&larr; Card</button><button class="btn sm ghost mid" data-a="restart">Restart card</button><button class="btn sm ghost" data-a="nextcard"'+(R.ci+1>=R.deck.cards.length?' disabled':'')+'>Card &rarr;</button></div>');
@@ -347,6 +367,33 @@ function playoutHtml(c,st){
   if(tries.length) h+='<p class="dim">Attempts so far: '+tries.map(function(t){return t.r;}).join(', ')+'</p>';
   return h;
 }
+function gameMine(st,i){ return ((i-1)%2===0)===(st.first===st.me); }
+function gameClock(st,i,side){ // side 'w'/'b': clock after that side's latest move at or before ply i
+  for(var j=i;j>=1;j--){ var mover=((j-1)%2===0)?st.first:(st.first==='w'?'b':'w'); if(mover===side&&st.plies[j-1][3]!=null) return st.plies[j-1][3]; }
+  return st.base;
+}
+function clk(s){ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2); }
+function gameHtml(st,S){
+  var h=[], n=st.plies.length, i=S.i;
+  var nowTxt=i===0?'Start':((st.fm0+Math.floor((i-1+(st.first==='b'?1:0))/2))+(((i-1)%2===0)===(st.first==='w')?'. ':'... ')+st.plies[i-1][0]+(gameMine(st,i)?' (you)':''));
+  var opp=st.me==='w'?'b':'w';
+  h.push('<div class="gnow"><b>'+nowTxt+'</b><span>you '+clk(gameClock(st,i,st.me))+' &middot; them '+clk(gameClock(st,i,opp))+'</span></div>');
+  h.push('<div class="gbar"><button class="btn ghost" data-a="gnav" data-d="first">&#x23EE;</button><button class="btn" data-a="gnav" data-d="-1">&#x25C0;</button><button class="btn" data-a="gnav" data-d="1">&#x25B6;</button><button class="btn ghost" data-a="gnav" data-d="last">&#x23ED;</button></div>');
+  var L=[];
+  for(var j=1;j<=n;j++){
+    var white=((j-1)%2===0)===(st.first==='w'), fm=st.fm0+Math.floor((j-1+(st.first==='b'?1:0))/2);
+    var cls=[gameMine(st,j)?'mine':'opp']; if(j===i)cls.push('cur'); if(S.done&&j===st.key)cls.push('key'); if(S.done&&j===S.pick&&S.pick!==st.key)cls.push('pk');
+    L.push((white||j===1?'<i>'+fm+(white?'.':'...')+'</i>':'')+'<span class="'+cls.join(' ')+'" data-a="gto" data-i="'+j+'">'+st.plies[j-1][0]+'</span> ');
+  }
+  h.push('<div class="glist" id="glist">'+L.join('')+'</div>');
+  h.push('<p class="ask">'+st.ask+'</p>');
+  if(S.done){
+    var ok=S.pick===st.key, also=(st.also||[]).indexOf(S.pick)>=0;
+    h.push('<p><span class="verdict '+(ok?'ok':'no')+'">'+(ok?'Right, that was it.':also?'A real mistake, but not the one.':'Not that one.')+'</span> '+(ok?(st.rok||''):also?(st.ralso||''):(st.rno||''))+'</p>');
+    if(st.rtext) h.push(st.rtext);
+  }
+  return h.join('');
+}
 function finishStep(ok, extra){
   var st=step(), ms=Date.now()-R.tstep;
   R.res[R.si]={ok:ok,ms:ms};
@@ -357,7 +404,7 @@ function finishCard(){
   if(kind==='lesson'){ put(c.k,function(r){ r.read=true; r.ts=Date.now(); r.n=(r.n||0)+1; }); return; }
   if(kind==='playout'){ return; }
   var asked=0, good=0, ms=0, slow=false;
-  c.steps.forEach(function(st,i){ if(st.type==='tap'||st.type==='move'||st.type==='choice'){ asked++; var x=R.res[i]; if(x){ if(x.ok)good++; ms+=x.ms; if(x.ms>60000)slow=true; } } });
+  c.steps.forEach(function(st,i){ if(st.type==='tap'||st.type==='move'||st.type==='choice'||st.type==='game'){ asked++; var x=R.res[i]; if(x){ if(x.ok)good++; ms+=x.ms; if(x.ms>60000)slow=true; } } });
   put(c.k,function(r){ r.n=(r.n||0)+1; r.ok=(good===asked); if(r.n===1)r.ok1=r.ok; r.good=good; r.asked=asked; r.ms=ms; if(slow)r.slow=true; r.ts=Date.now();
     r.hist=(r.hist||[]).concat([[r.ts,good,asked,ms]]).slice(-10); });
 }
@@ -379,6 +426,9 @@ app.addEventListener('click',function(e){
   var a=b.getAttribute('data-a');
   if(a==='tapdone'){ var key=st.key||[]; var ok=key.length===S.sel.length&&key.every(function(k){return S.sel.indexOf(k)>=0;}); S.done=true; finishStep(ok,{sel:S.sel.slice()}); draw(); }
   else if(a==='verify'){ S.pick=b.getAttribute('data-v'); S.done=true; var si=R.si; put(R.card.k,function(r){ r.verify=r.verify||{}; r.verify[si]=S.pick; r.n=r.n||1; }); draw(); }
+  else if(a==='gnav'){ var d=b.getAttribute('data-d'), nn=st.plies.length; S.i=d==='first'?0:d==='last'?nn:Math.max(0,Math.min(nn,S.i+(+d))); draw(); scrollList(); }
+  else if(a==='gto'){ S.i=+b.getAttribute('data-i'); draw(); scrollList(); }
+  else if(a==='gpick'||a==='gnone'){ S.pick=a==='gnone'?0:S.i; S.done=true; S.i=st.key||st.plies.length; finishStep(S.pick===st.key,{pick:S.pick}); draw(); scrollList(); }
   else if(a==='pick'){ S.pick=+b.getAttribute('data-i'); S.done=true; finishStep(S.pick===st.answer,{pick:S.pick}); draw(); }
   else if(a==='movenone'){
     if(st.noneOk){ S.done=true; S.msg='<span class="verdict ok">Right.</span> '+(st.noneText||''); finishStep(S.tries===0); }
@@ -398,6 +448,7 @@ app.addEventListener('click',function(e){
   else if(a==='nextcard'){ location.hash='#/d/'+R.deck.id+'/'+(R.ci+1); }
   else if(a==='restart'){ run(R.deck.id,R.ci); }
 });
+function scrollList(){ var l=document.getElementById('glist'), c=l&&l.querySelector('.cur'); if(c){ l.scrollTop=Math.max(0,c.offsetTop-l.offsetTop-l.clientHeight/2); } }
 function reveal(prefix){
   var st=step(), S=R.state;
   if(st.noneOk){ S.msg=prefix+(st.noneText||'Nothing here.'); return; }

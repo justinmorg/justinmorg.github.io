@@ -21,6 +21,12 @@ OUT = os.path.join(HERE, "..", "..", "chess-study", "data")
 BUILT = "2026-11-16"
 
 GROUPS = [
+    {"title": "Review your own games",
+     "blurb": "The after-game habit: gut call, step through with no engine, find the turning point, name it, then check. Learned on your 30 most recent losses. From 2026-11-26.",
+     "decks": [
+         ("review_lessons", "RVL", "lesson", "How to review a game", "Five short cards: the routine, the four kinds of mistake, and what your last 30 losses say."),
+         ("review_games", "RV", "drill", "Review your losses", "Your 30 most recent losses, newest first. Step through each one, find where it turned, name it, find the better move."),
+     ]},
     {"title": "Where your games are lost",
      "blurb": "Your mistakes sorted by what you can see at the board (material, clocks, queens), then by how visible each one was. Three of your lost games for every point, with links. Exploratory, from 2026-11-25.",
      "decks": [
@@ -80,7 +86,7 @@ def main():
     if "--all" in sys.argv:
         # build_study_egtruth.py and build_study_trades.py need their analysis tables (see their docstrings) and are run on their own
         for script in ("build_study_routine.py", "build_study_endgames.py", "build_study_openings.py", "build_study_losses.py",
-                       "build_study_caro.py"):
+                       "build_study_caro.py", "build_study_review.py"):
             subprocess.check_call([sys.executable, os.path.join(HERE, script)])
     groups = []
     for g in GROUPS:

@@ -15,7 +15,12 @@ Deck JSON schema (consumed by chess-study/index.html):
     type "choice"  ask, options: [label], answer: index, explain?, rarrows?,
                    rmarks?, rfen?, rlast?
     type "playout" play: [[label, url]]
-    type "verify"  ask, options?: [label]   (test suite only: "did that work?")
+    type "verify"  ask, options?: [label]   (unscored; test suite "did that work?", review-deck gut call)
+    type "game"    step through a whole game: fen = start, first: 'w'|'b', fm0: first
+                   fullmove, me: 'w'|'b', base: start clock (s), plies: [[san, fen_after,
+                   uci, clock_after_s|None]], ask, key: 1-based ply of the deciding
+                   own move (0 = no move, "none" button is the answer), also?: [ply],
+                   none?: label, rok?/ralso?/rno?/rtext?: html
   colours: g green, r red, b blue, y gold, k ink.
 
 Card keys are stable ids: `{deck}-{gid}-{ply}` for positions from games,
@@ -132,7 +137,7 @@ def write_deck(deck):
 
 
 def validate_step(st, k):
-    assert st["type"] in ("show", "tap", "move", "choice", "playout", "verify"), k
+    assert st["type"] in ("show", "tap", "move", "choice", "playout", "verify", "game"), k
     if "fen" in st:
         chess.Board(st["fen"])                       # parses
     for a in st.get("arrows", []) + st.get("rarrows", []):
@@ -151,3 +156,14 @@ def validate_step(st, k):
             assert chess.Board(acc["fen"]).board_fen() == after(b, m).board_fen(), (k, u)
     if st["type"] == "choice":
         assert 0 <= st["answer"] < len(st["options"]), k
+    if st["type"] == "game":
+        b = chess.Board(st["fen"])
+        assert ("w" if b.turn else "b") == st["first"] and b.fullmove_number == st["fm0"], k
+        for i, (san, fen, uci, _c) in enumerate(st["plies"]):
+            m = chess.Move.from_uci(uci)
+            assert b.san(m) == san, (k, i, san)
+            b.push(m)
+            assert b.board_fen() == chess.Board(fen).board_fen(), (k, i)
+        mine = lambda j: ((j - 1) % 2 == 0) == (st["first"] == st["me"])
+        assert st["key"] == 0 and st.get("none") or (1 <= st["key"] <= len(st["plies"]) and mine(st["key"])), k
+        assert all(mine(j) and j != st["key"] for j in st.get("also", [])), k

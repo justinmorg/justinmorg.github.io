@@ -5998,6 +5998,50 @@ thread-9 panel's own Caro games as Black (15 players, 681 games).
   `study/engine_cache_caro.json`, `study/caro_moments.json`; offline rebuild
   byte-identical.
 
+## Review your own games (2026-11-26, study build, no test)
+
+Parked idea 2, picked up 2026-11-26: teach a repeatable after-game review on
+recent losses. Group "Review your own games" on chess-study, first on the hub.
+Scripts: `chess/scripts/review/` (`evaluate.py` -> `deep.py`; `keys.py`
+shared), builder `chess/scripts/build_study_review.py` (in
+`build_study.py --all`; offline rebuild byte-identical). Caches:
+`chess/study/review_pick.json` (the 30 games), `chess/study/review_engine.json`
+(SF16 depth 16 every position; depth 20 MultiPV 4 before and depth 20 after
+each deciding move).
+
+- Games: the 30 most recent F-block losses (2026-11-22 -> 11-25, all 3+2 in
+  practice) by UTCDate+UTCTime, skipping any game id used by another
+  chess-study deck. Losses only by design (post-block plan item 4).
+- Turning point (`keys.py`, fixed before reading cards): Lichess win-chance
+  curve; the first own move, from the move that left the last >= 40% position
+  onward, costing >= 15 points while >= 15% remained; fallback the costliest
+  such move. `also` = other own moves costing >= 20 (told "a real mistake,
+  but not the one"). Still >= 40% at the end -> key 0 ("No move lost it").
+- Kind (depth-20 lines, P1 N3 B3 R5 Q9): mate in the reply line; material
+  (their 6-ply line leaves him >= 2 worse than before and than his best
+  line); missed (he had mate, or his 7-ply best line wins >= 2 the played
+  line does not); else position. scanlib `delta` cause class added when the
+  reply's first move is one of its hangs.
+- Result over the 30 (descriptive, small n): 28 with a deciding move -
+  material 14, mate 6, position 6, missed 2; 1 flag loss at 90%; 1 resigned
+  at 49% (`zuLdc3S2`, after ...Re1+ with legal replies; kept as a card).
+  Turning point median move 21.5 (11-43), none in an endgame by npm <= 13;
+  clock before the move median 2:02.5, none under 0:30; spent median 7.5s
+  vs 4.0s on all own moves from move 10. 14 of 28 had been >= 70% earlier.
+  Same shape as the hang anatomy: forcing replies after his move, with time.
+- Decks: `review_lessons` (RVL, 5: why, five steps, four kinds, the 30-game
+  summary computed at build time, doing it on Lichess); `review_games` (RV,
+  30, newest first): verify (gut call, unscored, stored in `verify`) -> game
+  -> choice (kind) -> move (accepted: depth-20 MultiPV within 50cp of best,
+  >= 10 points better than the played move, never the played move) -> show
+  (best line, one-line note, the question for next time). Key-0 cards:
+  verify -> game -> show.
+- Page change: new step type `game` in `chess-study/index.html` (step
+  through a whole game, move list, both clocks, "This move lost it" on own
+  moves only, optional "none" button; scored like other asked steps).
+  Schema and validation in `studycards.py` (SAN and FEN of every ply checked).
+  Evals are never shown during the game step.
+
 ## After the treatment block: plans, not tests (2026-10-26)
 
 **Nothing here starts until the 900-game group F block is finished and
@@ -6118,7 +6162,7 @@ built or used before the block end.
   square 14%, moved piece was the defender 8%, line opened 4%, other 4%.
   Card positions are the tail and carry ~10% label error.
 
-### Parked for later (2026-11-25) — 1 done 2026-11-26, 2 not started
+### Parked for later (2026-11-25) — all three done by 2026-11-26
 
 Captured at Justin's request while the endgame truth-check / time-map /
 practice-deck work went first. No tests intended; these are study builds.
@@ -6131,7 +6175,8 @@ practice-deck work went first. No tests intended; these are study builds.
    (plans first; flag which moves don't matter), with practice pages on
    chess-study. Context: book recovery in "The opening book, recovered from
    move times"; he has no sense of how the Advance and Exchange differ.
-2. **Close read of ~30 recent losses**, aimed at teaching a repeatable
+2. **Close read of ~30 recent losses** — **DONE 2026-11-26**, see "Review
+   your own games" above. Original note: aimed at teaching a repeatable
    game-review method rather than at the 30 games themselves (fits the
    post-block plan's "rigorous habit of studying his games" and the
    Heisman-routine idea). Pick from the F block so it reflects current play.
@@ -6215,7 +6260,7 @@ needs no engine. Three first picks were swapped after reading the cards: two
 temporary dip, and one "4-15 moves" line whose loss landed at the horizon;
 the selector and builder now require the material change to persist.
 
-**702 cards in 19 decks.**
+**702 cards in 19 decks** (as of 2026-11-16; the manifest now holds 923 in 30 after the later groups).
 
 | deck | n | kind | key |
 |---|---|---|---|
